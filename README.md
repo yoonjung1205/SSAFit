@@ -1,5 +1,12 @@
 # SSAFY Bigdata project
 
+## ✔ 프로젝트 기획 및 설계
+▶ https://docs.google.com/spreadsheets/d/1DajUUoxczjtIi0OPYsWq2eqnvQW8JyVJK21xZevCUzE/edit#gid=0
+
+## ✔ 팀 노션
+
+▶  https://www.notion.so/c1f73b2a71e44dc9a17adcdf82fd8968
+
 ## How to Run
 
 ### Sub1
