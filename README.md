@@ -7,6 +7,14 @@
 
 ▶  https://www.notion.so/c1f73b2a71e44dc9a17adcdf82fd8968
 
+
+
+## ✔ 마인드맵
+
+▶  https://www.mindmeister.com/map/2198880827?t=BbTDvqBLhA
+
+
+
 ## How to Run
 
 ### Sub1
