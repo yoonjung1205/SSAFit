@@ -45,6 +45,8 @@
 
 ## ✔ 마인드맵
 
+![mindmap](./README_assets/mindmap.PNG)
+
 ▶  https://www.mindmeister.com/map/2198880827?t=BbTDvqBLhA
 
 
