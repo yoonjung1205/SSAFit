@@ -3,6 +3,8 @@
 ## ✔ 프로젝트 기획 및 설계
 ▶ https://docs.google.com/spreadsheets/d/1DajUUoxczjtIi0OPYsWq2eqnvQW8JyVJK21xZevCUzE/edit#gid=0
 
+
+
 #### 주제 : 옷 (의류) 추천
 
 - 키&몸무게 + 성별&나이 활용해서 추천 (default)
