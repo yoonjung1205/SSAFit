@@ -29,15 +29,15 @@ page = 1
 def writeCSV(list):
     list_title = ['clothId', 'largeCategory', 'largeCategoryName', 'smallCategory', 'smallCategoryName', 'colorNo', 'clothName', 'brand', 'image', 'clothPrice', 'date', 'hashtags', 'clothSexMen', 'clothSexWomen', 'clothSexCommon', 'clothRate', 'clothReviewNo', 'fit', 'feeling', 'stretch', 'visibility', 'thickness', 'seasonSpring', 'seasonSummer', 'seasonFall', 'seasonWinter']
     # ===================================================
-    if os.path.isfile("musinsa_clothes_skirt.csv"):
+    if os.path.isfile("musinsa_clothes_outer.csv"):
         pass
     else:
-        with open('musinsa_clothes_skirt.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
+        with open('musinsa_clothes_outer.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
             writer_object = writer(f_object)
             writer_object.writerow(list_title)
             f_object.close()
 
-    with open('musinsa_clothes_skirt.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
+    with open('musinsa_clothes_outer.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
         writer_object = writer(f_object)
         for data in list:
             writer_object.writerow(data)
@@ -47,7 +47,7 @@ data = []
 largeCategoryNo = [1, 2, 3, 20, 22]
 def colorList():
     color = []
-    colorUrl = "https://www.musinsa.com/category/022"
+    colorUrl = "https://www.musinsa.com/category/002"
     colorResponse = requests.get(colorUrl, headers=headers)
     colorHtml = colorResponse.text
     colorSoup = bs(colorHtml, 'html.parser')
@@ -70,7 +70,7 @@ def get_clothes(colorNo):
         #     url = "https://www.musinsa.com/category/0"+str(largeNo)+"?&brand=&rate=&page_kind=search&list_kind=small&sort=pop&sub_sort=&page="+str(pageNo)+"&display_cnt=90&sale_goods=&group_sale=&kids=N&ex_soldout=&color="+str(colorNo)+"&price1=&price2=&exclusive_yn=&shoeSizeOption=&tags=&campaign_id=&timesale_yn=&q=&includeKeywords=&measure="
         
         # ===================================================
-        url = "https://www.musinsa.com/category/022?&brand=&rate=&page_kind=search&list_kind=small&sort=pop&sub_sort=&page="+str(pageNo)+"&display_cnt=90&sale_goods=&group_sale=&kids=N&ex_soldout=&color="+colorNo+"&price1=&price2=&exclusive_yn=&shoeSizeOption=&tags=&campaign_id=&timesale_yn=&q=&includeKeywords=&measure="
+        url = "https://www.musinsa.com/category/002?&brand=&rate=&page_kind=search&list_kind=small&sort=pop&sub_sort=&page="+str(pageNo)+"&display_cnt=90&sale_goods=&group_sale=&kids=N&ex_soldout=&color="+colorNo+"&price1=&price2=&exclusive_yn=&shoeSizeOption=&tags=&campaign_id=&timesale_yn=&q=&includeKeywords=&measure="
         response = requests.get(url, headers=headers)
         html = response.text
         soup = bs(html, 'html.parser')
@@ -116,8 +116,8 @@ def crawling(soup, colorNo):
 
             # ===================================================
             # largeCategory = new_soup.select_one("#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(1)").contents[0]
-            largeCategory = 5
-            largeCategoryName = '스커트'
+            largeCategory = 2
+            largeCategoryName = '아우터'
             # 옷 작은 카테고리
             smallCategory = new_soup.select_one("#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(2)")
             smallCategoryName = smallCategory.text
