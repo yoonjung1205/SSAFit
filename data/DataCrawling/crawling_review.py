@@ -6,13 +6,13 @@ import requests
 import csv
 import ssl
 from bs4 import BeautifulSoup as bs
-import selenium
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
+# import selenium
+# from selenium import webdriver
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support import expected_conditions as EC
 import time
 from multiprocessing import Pool
 from csv import writer
@@ -21,7 +21,7 @@ import os
 
 # 크롤링에서 사용하는 변수들
 headers = { 'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36'}
-baseUrl = "https://goods.musinsa.com/api/goods/v1/review/style/list";
+baseUrl = "https://goods.musinsa.com/api/goods/v1/review/style/list"
 
 # 상품리뷰 없는거
 # goodsNo = 1911367
@@ -29,7 +29,7 @@ baseUrl = "https://goods.musinsa.com/api/goods/v1/review/style/list";
 list_data = []
 
 def writeCSV(list):
-    list_title = ['userName', 'date', 'goodsNo', 'userSex', 'userHeight', 'userWeight', 'goodsSize', 'reviewContent', 'review_img', 'size', 'bright', 'color', 'thickness', 'weightness', 'touch', 'helpNo', 'styleLikeNo']
+    list_title = ['userName', 'date', 'goodsNo', 'userSexMen', 'userSexWomen', 'userHeight', 'userWeight', 'goodsSize', 'reviewContent', 'review_img', 'size', 'bright', 'color', 'thickness', 'weightness', 'touch', 'helpNo', 'styleLikeNo']
     if os.path.isfile("musinsa_review.csv"):
         pass
     else:
@@ -86,6 +86,12 @@ def get_content(goodsNo):
 
                     # 유저 성별, 유저 키, 유저 몸무게
                     userSex, userHeight, userWeight = review.select(".review-profile__body_information")[0].text.split(',')
+                    userSexMen = 0
+                    userSexWomen = 0
+                    if userSex == '남성':
+                        userSexMen = 1
+                    elif userSex == '여성':
+                        userSexWomen = 1
                     
                     # 상품 사이즈
                     goodsSize = review.select(".review-goods-information__option")[0].text.replace(",", "").replace("\n", "").replace(" ", "")
@@ -150,7 +156,7 @@ def get_content(goodsNo):
                         helpNo = review.find_all('span', class_="review-evaluation-button__count")[0].text
                         styleLikeNo = review.find_all('span', class_="review-evaluation-button__count")[1].text
 
-                    data = [userName, date, goodsNo, userSex, userHeight, userWeight, goodsSize, reviewContent, review_img, size, bright, color, thickness, weightness, touch, helpNo, styleLikeNo]
+                    data = [userName, date, goodsNo, userSexMen, userSexWomen, userHeight, userWeight, goodsSize, reviewContent, review_img, size, bright, color, thickness, weightness, touch, helpNo, styleLikeNo]
                     total_data.append(data)
                 except:
                     # html 못찾음
