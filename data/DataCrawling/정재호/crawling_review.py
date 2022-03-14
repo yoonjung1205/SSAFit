@@ -34,16 +34,16 @@ baseUrlList = [baseStyleUrl, baseGoodsUrl, basePhotoUrl]
 list_data = []
 
 def writeCSV(list):
-    list_title = ['userName', 'date', 'goodsNo', 'userSexMen', 'userSexWomen', 'userHeight', 'userWeight', 'goodsSize', 'reviewContent', 'review_img', 'size', 'bright', 'color', 'thickness', 'weightness', 'touch', 'helpNo', 'styleLikeNo']
-    if os.path.isfile("musinsa_review_outer.csv"):
+    list_title = ['userName', 'date', 'goodsNo', 'userSexMen', 'userSexWomen', 'userHeight', 'userWeight', 'goodsSize', 'reviewContent', 'reviewImg', 'reviewStyle', 'size', 'bright', 'color', 'thickness', 'weightness', 'touch', 'helpNo', 'styleLikeNo']
+    if os.path.isfile("musinsa_review_skirt.csv"):
         pass
     else:
-        with open('musinsa_review_outer.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
+        with open('musinsa_review_skirt.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
             writer_object = writer(f_object)
             writer_object.writerow(list_title)
             f_object.close()
 
-    with open('musinsa_review_outer.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
+    with open('musinsa_review_skirt.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
         writer_object = writer(f_object)
         for data in list:
             writer_object.writerow(data)
@@ -52,7 +52,7 @@ def writeCSV(list):
 def get_goodsNo():
     global headers
     link = []
-    goodsList = pd.read_csv("C:\\Users\\SSAFY\\Desktop\\ssafy\\DA_pjt\\S06P22E202\\data\\DataCrawling\\정재호\\unique_id_outer.csv")
+    goodsList = pd.read_csv("C:\\Users\\SSAFY\\Desktop\\ssafy\\DA_pjt\\S06P22E202\\data\\DataCrawling\\정재호\\unique_id_skirt.csv")
     goodsList = list(goodsList)
     
     return goodsList
@@ -110,9 +110,15 @@ def get_content(goodsNo):
 
                         # 리뷰 사진
                         if review.find_all("li", class_="review-content-photo__item"):
-                            review_img = "https:" +  review.find_all("li", class_="review-content-photo__item")[0].find("img")['src']
+                            reviewImg = "https:" +  review.find_all("li", class_="review-content-photo__item")[0].find("img")['src']
                         else:
-                            review_img = ''
+                            reviewImg = ''
+                        
+                        # 스타일 리뷰인지 아닌지 확인
+                        if baseUrl == baseStyleUrl:
+                            reviewStyle = 1
+                        else:
+                            reviewStyle = 0
                         
                         reviewWhatHow = review.find_all("li", class_="review-evaluation__item")
                         size, bright, color, thickness, weightness, touch = 0, 0, 0, 0, 0, 0
@@ -168,17 +174,18 @@ def get_content(goodsNo):
                             helpNo = review.find_all('span', class_="review-evaluation-button__count")[0].text
                             styleLikeNo = review.find_all('span', class_="review-evaluation-button__count")[1].text
 
-                        data = [userName, reviewDate, goodsNo, userSexMen, userSexWomen, userHeight, userWeight, goodsSize, reviewContent, review_img, size, bright, color, thickness, weightness, touch, helpNo, styleLikeNo]
+                        data = [userName, reviewDate, goodsNo, userSexMen, userSexWomen, userHeight, userWeight, goodsSize, reviewContent, reviewImg, reviewStyle, size, bright, color, thickness, weightness, touch, helpNo, styleLikeNo]
                         total_data.append(data)
                     except:
                         # html 못찾음
                         pass
             except:
-                pass
+                break
             if page < lastPage:
                 page += 1
             else:
                 break
+            
     writeCSV(total_data)
 
 if __name__=='__main__':
