@@ -35,15 +35,15 @@ list_data = []
 
 def writeCSV(list):
     list_title = ['userName', 'date', 'goodsNo', 'userSexMen', 'userSexWomen', 'userHeight', 'userWeight', 'goodsSize', 'reviewContent', 'review_img', 'size', 'bright', 'color', 'thickness', 'weightness', 'touch', 'helpNo', 'styleLikeNo']
-    if os.path.isfile("musinsa_review_skirt.csv"):
+    if os.path.isfile("musinsa_review_outer.csv"):
         pass
     else:
-        with open('musinsa_review_skirt.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
+        with open('musinsa_review_outer.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
             writer_object = writer(f_object)
             writer_object.writerow(list_title)
             f_object.close()
 
-    with open('musinsa_review_skirt.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
+    with open('musinsa_review_outer.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
         writer_object = writer(f_object)
         for data in list:
             writer_object.writerow(data)
@@ -52,7 +52,7 @@ def writeCSV(list):
 def get_goodsNo():
     global headers
     link = []
-    goodsList = pd.read_csv("C:\\Users\\SSAFY\\Desktop\\ssafy\\DA_pjt\\S06P22E202\\data\\DataCrawling\\정재호\\unique_id_skirt.csv")
+    goodsList = pd.read_csv("C:\\Users\\SSAFY\\Desktop\\ssafy\\DA_pjt\\S06P22E202\\data\\DataCrawling\\정재호\\unique_id_outer.csv")
     goodsList = list(goodsList)
     
     return goodsList
@@ -62,15 +62,14 @@ def get_content(goodsNo):
     total_data = []
     for baseUrl in baseUrlList:
         page = 1
-        url = baseUrl+"?sort=new&page="+str(page)+"&goodsNo="+goodsNo
-        response = requests.get(url, headers=headers)
-        html = response.text
-        time.sleep(random.uniform(1, 2))
-        soup = bs(html, 'html.parser')
-        
-        try:
-            lastPage = int(soup.select('.box_page_msg')[0].text.replace(' ', '').replace('\n', '').split('페이지')[0])
-            while True:
+        while True:
+            url = baseUrl+"?sort=new&page="+str(page)+"&goodsNo="+goodsNo
+            response = requests.get(url, headers=headers)
+            html = response.text
+            time.sleep(random.uniform(1, 2))
+            soup = bs(html, 'html.parser')
+            try:
+                lastPage = int(soup.select('.box_page_msg')[0].text.replace(' ', '').replace('\n', '').split('페이지')[0])
                 reviewSoup = soup.find_all("div", class_="review-list")
                 # print(soup)
                 for review in reviewSoup:
@@ -94,7 +93,6 @@ def get_content(goodsNo):
                             reviewDate = str(reviewDate)[:4]+'.'+str(reviewDate)[5:7]+'.'+str(reviewDate)[8:10]
                         else:
                             reviewDate = date
-
                         # 유저 성별, 유저 키, 유저 몸무게
                         userSex, userHeight, userWeight = review.select(".review-profile__body_information")[0].text.split(',')
                         userSexMen = 0
@@ -111,7 +109,10 @@ def get_content(goodsNo):
                         reviewContent = review.find('div', class_="review-contents__text").contents
 
                         # 리뷰 사진
-                        review_img = "https:" +  review.find_all("li", class_="review-content-photo__item")[0].find("img")['src']
+                        if review.find_all("li", class_="review-content-photo__item"):
+                            review_img = "https:" +  review.find_all("li", class_="review-content-photo__item")[0].find("img")['src']
+                        else:
+                            review_img = ''
                         
                         reviewWhatHow = review.find_all("li", class_="review-evaluation__item")
                         size, bright, color, thickness, weightness, touch = 0, 0, 0, 0, 0, 0
@@ -167,20 +168,18 @@ def get_content(goodsNo):
                             helpNo = review.find_all('span', class_="review-evaluation-button__count")[0].text
                             styleLikeNo = review.find_all('span', class_="review-evaluation-button__count")[1].text
 
-                        data = [userName, date, goodsNo, userSexMen, userSexWomen, userHeight, userWeight, goodsSize, reviewContent, review_img, size, bright, color, thickness, weightness, touch, helpNo, styleLikeNo]
+                        data = [userName, reviewDate, goodsNo, userSexMen, userSexWomen, userHeight, userWeight, goodsSize, reviewContent, review_img, size, bright, color, thickness, weightness, touch, helpNo, styleLikeNo]
                         total_data.append(data)
                     except:
                         # html 못찾음
                         pass
-                if page < lastPage:
-                    page += 1
-                else:
-                    break
-        except:
-            pass
+            except:
+                pass
+            if page < lastPage:
+                page += 1
+            else:
+                break
     writeCSV(total_data)
-        
-
 
 if __name__=='__main__':
     start_time = time.time()
