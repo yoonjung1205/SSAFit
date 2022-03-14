@@ -19,6 +19,7 @@ import os
 import random
 headers = { 'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36'}
 
+'''
 colorUrl = "https://www.musinsa.com/category/001"
 colorResponse = requests.get(colorUrl, headers=headers)
 colorHtml = colorResponse.text
@@ -47,4 +48,4 @@ with open('color_top.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
     for data in total_data:
         writer_object.writerow(data)
     f_object.close()
-    
+'''
