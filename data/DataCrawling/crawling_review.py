@@ -18,6 +18,7 @@ from multiprocessing import Pool
 from csv import writer
 from datetime import datetime, timedelta
 import os
+import random
 
 # 크롤링에서 사용하는 변수들
 headers = { 'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36'}
@@ -44,130 +45,138 @@ def writeCSV(list):
             writer_object.writerow(data)
         f_object.close()
 
-
-def get_content(goodsNo):
+def get_link():
+    global headers
+    link = []
+    goodsList = [1783597, 1755603]
     page = 1
-    url = baseUrl + "?" + "page=" + str(page) + "&goodsNo=" + str(goodsNo)
-    req = requests.get(url, headers=headers)
-    html = req.text
+    for goodsNo in goodsList:
+        url = baseUrl + "?" + "page=" + str(page) + "&goodsNo=" + str(goodsNo)
+        req = requests.get(url, headers=headers)
+        html = req.text
+        soup = bs(html, 'html.parser')
+
+        try:
+            lastPage = int(soup.select('.box_page_msg')[0].text.replace(' ', '').replace('\n', '').split('페이지')[0])
+            total_data = []
+            for pages in range(1, lastPage + 1):
+                url = baseUrl + "?" + "page=" + str(pages) + "&goodsNo=" + str(goodsNo)
+                link.append(url)
+        except:
+            pass
+    return link
+
+def get_content(url):
+    global headers
+    time.sleep(random.uniform(2, 3))
+    total_data = []
+    response = requests.get(url, headers=headers)
+    html = response.text
     soup = bs(html, 'html.parser')
+    soup = soup.find_all("div", class_="review-list")
+    # print(soup)
+    for review in soup:
+        try:
+            data = []
+            # user 닉네임
+            userName = review.select(".review-profile__name")[0].text
+            # user가 리뷰쓴 날짜
+            date = review.select(".review-profile__date")[0].text
+            if date[1:] == '분 전' or date[2:] == '분 전' or date[1:] == '시간 전' or date[2:] == '시간 전':
+                today = str(datetime.now())
+                reviewDate = today[:4]+'.'+today[5:7]+'.'+today[8:10]
+                # reviewDate = time.strftime('%Y.%m.%d', today)
+            elif date[1:] == '일 전':
+                today = datetime.now()
+                reviewDate = today - timedelta(days=int(date[0]))
+                reviewDate = str(reviewDate)[:4]+'.'+str(reviewDate)[5:7]+'.'+str(reviewDate)[8:10]
+            elif date[2:] == '일 전':
+                today = datetime.now()
+                reviewDate = today - timedelta(days=int(date[:2]))
+                reviewDate = str(reviewDate)[:4]+'.'+str(reviewDate)[5:7]+'.'+str(reviewDate)[8:10]
+            else:
+                reviewDate = date
 
-    try:
-        lastPage = int(soup.select('.box_page_msg')[0].text.replace(' ', '').replace('\n', '').split('페이지')[0])
-        total_data = []
-        for pages in range(1, lastPage + 1):
-            url = baseUrl + "?" + "page=" + str(pages) + "&goodsNo=" + str(goodsNo)
-            response = requests.get(url, headers=headers)
-            html = response.text
-            soup = bs(html, 'html.parser')
-            soup = soup.find_all("div", class_="review-list")
-            # print(soup)
-            for review in soup:
-                try:
-                    data = []
-                    # user 닉네임
-                    userName = review.select(".review-profile__name")[0].text
-                    # user가 리뷰쓴 날짜
-                    date = review.select(".review-profile__date")[0].text
-                    if date[1:] == '분 전' or date[2:] == '분 전' or date[1:] == '시간 전' or date[2:] == '시간 전':
-                        today = str(datetime.now())
-                        reviewDate = today[:4]+'.'+today[5:7]+'.'+today[8:10]
-                        # reviewDate = time.strftime('%Y.%m.%d', today)
-                    elif date[1:] == '일 전':
-                        today = datetime.now()
-                        reviewDate = today - timedelta(days=int(date[0]))
-                        reviewDate = str(reviewDate)[:4]+'.'+str(reviewDate)[5:7]+'.'+str(reviewDate)[8:10]
-                    elif date[2:] == '일 전':
-                        today = datetime.now()
-                        reviewDate = today - timedelta(days=int(date[:2]))
-                        reviewDate = str(reviewDate)[:4]+'.'+str(reviewDate)[5:7]+'.'+str(reviewDate)[8:10]
+            # 유저 성별, 유저 키, 유저 몸무게
+            userSex, userHeight, userWeight = review.select(".review-profile__body_information")[0].text.split(',')
+            userSexMen = 0
+            userSexWomen = 0
+            if userSex == '남성':
+                userSexMen = 1
+            elif userSex == '여성':
+                userSexWomen = 1
+            
+            # 상품 사이즈
+            goodsSize = review.select(".review-goods-information__option")[0].text.replace(",", "").replace("\n", "").replace(" ", "")
+
+            # 리뷰 내용
+            reviewContent = review.find('div', class_="review-contents__text").contents
+
+            # 리뷰 사진
+            review_img = "https:" +  review.find_all("li", class_="review-content-photo__item")[0].find("img")['src']
+            
+            reviewWhatHow = review.find_all("li", class_="review-evaluation__item")
+            size, bright, color, thickness, weightness, touch = 0, 0, 0, 0, 0, 0
+            for whatHow in reviewWhatHow:
+                what, how = whatHow.text.split(' ')
+                if what == '사이즈':
+                    if how == '커요':
+                        size = 1
+                    elif how == '보통이에요':
+                        size = 2
                     else:
-                        reviewDate = date
+                        size = 3
+                elif what == '밝기':
+                    if how == '밝아요':
+                        bright = 1
+                    elif how == '보통이에요':
+                        bright = 2
+                    else:
+                        bright = 3
+                elif what == '색감':
+                    if how == '선명해요':
+                        color = 1
+                    elif how == '보통이에요':
+                        color = 2
+                    else:
+                        color = 3
+                elif what == '두께감':
+                    if how == '두꺼워요':
+                        thickness = 1
+                    elif how == '보통이에요':
+                        thickness = 2
+                    else:
+                        thickness = 3
+                elif what == '무게감':
+                    if how == '가벼워요':
+                        weightness = 1
+                    elif how == '적당해요':
+                        weightness = 2
+                    else:
+                        weightness = 3
+                elif what == '촉감':
+                    if how == '부드러워요':
+                        touch = 1
+                    elif how == '평범해요':
+                        touch = 2
+                    else:
+                        touch = 3
+            
+            if len(review.find_all('span', class_="review-evaluation-button__count")) == 1:
+                helpNo = review.find_all('span', class_="review-evaluation-button__count")[0].text
+                styleLikeNo = 0
+            elif len(review.find_all('span', class_="review-evaluation-button__count")) == 2:
+                helpNo = review.find_all('span', class_="review-evaluation-button__count")[0].text
+                styleLikeNo = review.find_all('span', class_="review-evaluation-button__count")[1].text
 
-                    # 유저 성별, 유저 키, 유저 몸무게
-                    userSex, userHeight, userWeight = review.select(".review-profile__body_information")[0].text.split(',')
-                    userSexMen = 0
-                    userSexWomen = 0
-                    if userSex == '남성':
-                        userSexMen = 1
-                    elif userSex == '여성':
-                        userSexWomen = 1
-                    
-                    # 상품 사이즈
-                    goodsSize = review.select(".review-goods-information__option")[0].text.replace(",", "").replace("\n", "").replace(" ", "")
-
-                    # 리뷰 내용
-                    reviewContent = review.find('div', class_="review-contents__text").contents
-
-                    # 리뷰 사진
-                    review_img = "https:" +  review.find_all("li", class_="review-content-photo__item")[0].find("img")['src']
-                    
-                    reviewWhatHow = review.find_all("li", class_="review-evaluation__item")
-                    size, bright, color, thickness, weightness, touch = 0, 0, 0, 0, 0, 0
-                    for whatHow in reviewWhatHow:
-                        what, how = whatHow.text.split(' ')
-                        if what == '사이즈':
-                            if how == '커요':
-                                size = 1
-                            elif how == '보통이에요':
-                                size = 2
-                            else:
-                                size = 3
-                        elif what == '밝기':
-                            if how == '밝아요':
-                                bright = 1
-                            elif how == '보통이에요':
-                                bright = 2
-                            else:
-                                bright = 3
-                        elif what == '색감':
-                            if how == '선명해요':
-                                color = 1
-                            elif how == '보통이에요':
-                                color = 2
-                            else:
-                                color = 3
-                        elif what == '두께감':
-                            if how == '두꺼워요':
-                                thickness = 1
-                            elif how == '보통이에요':
-                                thickness = 2
-                            else:
-                                thickness = 3
-                        elif what == '무게감':
-                            if how == '가벼워요':
-                                weightness = 1
-                            elif how == '적당해요':
-                                weightness = 2
-                            else:
-                                weightness = 3
-                        elif what == '촉감':
-                            if how == '부드러워요':
-                                touch = 1
-                            elif how == '평범해요':
-                                touch = 2
-                            else:
-                                touch = 3
-                    
-                    if len(review.find_all('span', class_="review-evaluation-button__count")) == 1:
-                        helpNo = review.find_all('span', class_="review-evaluation-button__count")[0].text
-                        styleLikeNo = 0
-                    elif len(review.find_all('span', class_="review-evaluation-button__count")) == 2:
-                        helpNo = review.find_all('span', class_="review-evaluation-button__count")[0].text
-                        styleLikeNo = review.find_all('span', class_="review-evaluation-button__count")[1].text
-
-                    data = [userName, date, goodsNo, userSexMen, userSexWomen, userHeight, userWeight, goodsSize, reviewContent, review_img, size, bright, color, thickness, weightness, touch, helpNo, styleLikeNo]
-                    total_data.append(data)
-                except:
-                    # html 못찾음
-                    pass
-        writeCSV(total_data)
+            data = [userName, date, goodsNo, userSexMen, userSexWomen, userHeight, userWeight, goodsSize, reviewContent, review_img, size, bright, color, thickness, weightness, touch, helpNo, styleLikeNo]
+            total_data.append(data)
+        except:
+            # html 못찾음
+            pass
+    writeCSV(total_data)
         
-    except:
-        # 상품 리뷰 없음
-        pass
 
-get_content(1139338)
 
 # if __name__=='__main__':
 #     start_time = time.time()
