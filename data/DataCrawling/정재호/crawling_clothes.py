@@ -28,6 +28,7 @@ page = 1
 # goodsNo = 2043036
 
 
+
 def writeCSV(list):
     list_title = ['clothId', 'largeCategory', 'largeCategoryName', 'smallCategory', 'smallCategoryName', 'colorNo', 'clothName', 'brand', 'image', 'clothPrice', 'date', 'hashtags', 'clothSexMen', 'clothSexWomen', 'clothSexCommon', 'clothRate', 'clothReviewNo', 'fit', 'feeling', 'stretch', 'visibility', 'thickness', 'seasonSpring', 'seasonSummer', 'seasonFall', 'seasonWinter']
     # ===================================================
