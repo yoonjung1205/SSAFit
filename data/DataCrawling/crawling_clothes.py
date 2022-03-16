@@ -1,4 +1,5 @@
 # 참고 사이트
+# 1949773
 # https://beomi.github.io/2017/07/05/HowToMakeWebCrawler-with-Multiprocess/
 
 from urllib import request
@@ -17,6 +18,7 @@ import time
 from multiprocessing import Pool
 from csv import writer
 import os
+import random
 # 크롤링에서 사용하는 변수들
 headers = { 'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36'}
 baseUrl = "https://goods.musinsa.com/api/goods/v1/review/style/list";
@@ -29,15 +31,15 @@ page = 1
 def writeCSV(list):
     list_title = ['clothId', 'largeCategory', 'largeCategoryName', 'smallCategory', 'smallCategoryName', 'colorNo', 'clothName', 'brand', 'image', 'clothPrice', 'date', 'hashtags', 'clothSexMen', 'clothSexWomen', 'clothSexCommon', 'clothRate', 'clothReviewNo', 'fit', 'feeling', 'stretch', 'visibility', 'thickness', 'seasonSpring', 'seasonSummer', 'seasonFall', 'seasonWinter']
     # ===================================================
-    if os.path.isfile("musinsa_clothes_skirt.csv"):
+    if os.path.isfile("musinsa_clothes_pants.csv"):
         pass
     else:
-        with open('musinsa_clothes_skirt.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
+        with open('musinsa_clothes_pants.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
             writer_object = writer(f_object)
             writer_object.writerow(list_title)
             f_object.close()
 
-    with open('musinsa_clothes_skirt.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
+    with open('musinsa_clothes_pants.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
         writer_object = writer(f_object)
         for data in list:
             writer_object.writerow(data)
@@ -45,9 +47,12 @@ def writeCSV(list):
 
 data = []
 largeCategoryNo = [1, 2, 3, 20, 22]
-def colorList():
+
+def get_clothes():
+    global headers
+
     color = []
-    colorUrl = "https://www.musinsa.com/category/022"
+    colorUrl = "https://www.musinsa.com/category/003"
     colorResponse = requests.get(colorUrl, headers=headers)
     colorHtml = colorResponse.text
     colorSoup = bs(colorHtml, 'html.parser')
@@ -55,38 +60,45 @@ def colorList():
     colorLi = colorUl.find_all('a')
     for col in colorLi:
         color.append(col['data-code'])
-    return color
+    color = color[34:]
 
 
-def get_clothes(colorNo):
-    # for largeNo in largeCategoryNo:
-    #     print(largeNo)
-    # for colorNo in colorList:
-    pageNo = 1
-    while True:
-        # if largeNo < 10:
-        #     url = "https://www.musinsa.com/category/00"+str(largeNo)+"?&brand=&rate=&page_kind=search&list_kind=small&sort=pop&sub_sort=&page="+str(pageNo)+"&display_cnt=90&sale_goods=&group_sale=&kids=N&ex_soldout=&color="+str(colorNo)+"&price1=&price2=&exclusive_yn=&shoeSizeOption=&tags=&campaign_id=&timesale_yn=&q=&includeKeywords=&measure="
-        # else:
-        #     url = "https://www.musinsa.com/category/0"+str(largeNo)+"?&brand=&rate=&page_kind=search&list_kind=small&sort=pop&sub_sort=&page="+str(pageNo)+"&display_cnt=90&sale_goods=&group_sale=&kids=N&ex_soldout=&color="+str(colorNo)+"&price1=&price2=&exclusive_yn=&shoeSizeOption=&tags=&campaign_id=&timesale_yn=&q=&includeKeywords=&measure="
-        
+    link = []
+    for colorNo in color:
+        pageNo = 1
         # ===================================================
-        url = "https://www.musinsa.com/category/022?&brand=&rate=&page_kind=search&list_kind=small&sort=pop&sub_sort=&page="+str(pageNo)+"&display_cnt=90&sale_goods=&group_sale=&kids=N&ex_soldout=&color="+colorNo+"&price1=&price2=&exclusive_yn=&shoeSizeOption=&tags=&campaign_id=&timesale_yn=&q=&includeKeywords=&measure="
+        url = "https://www.musinsa.com/category/003?&brand=&rate=&page_kind=search&list_kind=small&sort=pop&sub_sort=&page="+str(pageNo)+"&display_cnt=90&sale_goods=&group_sale=&kids=N&ex_soldout=&color="+colorNo+"&price1=&price2=&exclusive_yn=&shoeSizeOption=&tags=&campaign_id=&timesale_yn=&q=&includeKeywords=&measure="
         response = requests.get(url, headers=headers)
         html = response.text
         soup = bs(html, 'html.parser')
-        if soup.select_one('#goods_list > div.boxed-list-wrapper > div.thumbType_box.box > span.pagingNumber > span.totalPagingNum'):
-            totalpageNo = soup.select_one('#goods_list > div.boxed-list-wrapper > div.thumbType_box.box > span.pagingNumber > span.totalPagingNum').contents[0]
-            crawling(soup, colorNo)
+        if soup.find('span', class_="totalPagingNum"):
+            totalpageNo = soup.find('span', class_="totalPagingNum").text
+            totalpageNo = int(totalpageNo)
+            while True:
+                if pageNo == totalpageNo:
+                    link.append(url)
+                    break
+                else:
+                    link.append(url)
+                    pageNo += 1
+                    url = "https://www.musinsa.com/category/003?&brand=&rate=&page_kind=search&list_kind=small&sort=pop&sub_sort=&page="+str(pageNo)+"&display_cnt=90&sale_goods=&group_sale=&kids=N&ex_soldout=&color="+colorNo+"&price1=&price2=&exclusive_yn=&shoeSizeOption=&tags=&campaign_id=&timesale_yn=&q=&includeKeywords=&measure="
         else:
             break
+    print('link끝')
+    return link
 
-        if pageNo == totalpageNo:
-            break
-        else:
-            pageNo += 1
+# print(get_clothes())
 
-def crawling(soup, colorNo):
+def crawling(url):
+    global headers
+    time.sleep(random.uniform(2, 3))
+    colorNo = url.split('&')[13][6:]
     total_data = []
+    response = requests.get(url, headers=headers)
+    html = response.text
+    soup = bs(html, 'html.parser')
+    colorUl = soup.find('ul', class_="division_color")
+
     searchBox = soup.find("ul", id="searchList")
     totalClothes = searchBox.find_all("li", class_="li_box")
     for cloth in totalClothes:
@@ -94,6 +106,7 @@ def crawling(soup, colorNo):
             data = []
             # 이미지 경로(src)
             image_path = cloth.find("img")['data-original'].split('/')
+            
             # 옷 등록 년월일
             date = image_path[5]
             # 옷 고유 id
@@ -106,22 +119,24 @@ def crawling(soup, colorNo):
                 clothPrice = clothPrice[0].strip()
             elif len(clothPrice)==3:
                 clothPrice = clothPrice[2].strip()
-                    
             # 옷의 고유 디테일 페이지 url
+            
             new_url = "https://store.musinsa.com/app/goods/"+clothId
             new_response = requests.get(new_url, headers=headers)
             new_html = new_response.text
+            time.sleep(random.uniform(1, 2))
             new_soup = bs(new_html, 'html.parser')
             # 옷 큰 카테고리
 
             # ===================================================
             # largeCategory = new_soup.select_one("#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(1)").contents[0]
-            largeCategory = 5
-            largeCategoryName = '스커트'
+            largeCategory = 3
+            largeCategoryName = '바지'
             # 옷 작은 카테고리
             smallCategory = new_soup.select_one("#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(2)")
             smallCategoryName = smallCategory.text
             smallCategory = str(largeCategory) + smallCategory['href'][-2:]
+            
 
             # 옷 이름
             image = new_soup.select_one("#bigimg")["src"]
@@ -221,6 +236,6 @@ def crawling(soup, colorNo):
 if __name__=='__main__':
     start_time = time.time()
     pool = Pool(processes=16) # 8개의 프로세스를 사용합니다.
-    pool.map(get_clothes, colorList())  # 2~3초 소요 500개 기준
+    pool.map(crawling, get_clothes())  # 2~3초 소요 500개 기준
     # speed_get_content(get_links()) # 단일 프로세스 12~14초 소요 500여개 기준
     print("--- %s seconds ---" % (time.time() - start_time))
