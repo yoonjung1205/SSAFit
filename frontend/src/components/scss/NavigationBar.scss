@@ -1,0 +1,26 @@
+.navbar {
+  // background-color: azure;
+  width: 100vw;
+  height: 7vh;
+  display: flex;
+  align-items: center;
+  .menu {
+    color: #777777;
+    width: 100%;
+    list-style: none;
+    text-align: end;
+    li {
+      display: inline-block;
+      position: relative;
+      .link {
+        font-size: 1.2rem;
+        text-decoration: none;
+        margin-right: 5rem;
+        color: #777777;
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+}
