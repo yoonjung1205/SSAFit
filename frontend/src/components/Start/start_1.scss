@@ -1,0 +1,41 @@
+#start-1 {
+  background-image: url('../../../public/img/priscilla-du-preez-dlxLGIy-2VU-unsplash.jpg');
+  background-size: cover;
+  position: relative;
+}
+
+.opac-blk {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+  opacity: 0.5;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  position: inherit;
+  
+  * {
+    margin: 2rem;
+  }
+
+  h3 {
+    font-weight: normal;
+    color: white;
+  }
+
+  a {
+    font-size: 1.25rem;
+    color: white;
+  }
+}

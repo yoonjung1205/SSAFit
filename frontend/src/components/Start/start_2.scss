@@ -1,0 +1,17 @@
+// #start-2 {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: flex-start;
+//   align-items: center;
+// }
+
+.dash {
+  width: 0.125rem;
+  height: 2rem;
+}
+
+.partition {
+  justify-content: flex-start;
+  align-items: center;
+  margin: 2rem;
+}

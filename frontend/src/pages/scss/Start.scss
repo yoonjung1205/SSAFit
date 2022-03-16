@@ -1,0 +1,23 @@
+* {
+  letter-spacing: 1rem;
+}
+
+section {
+  width: 100vw;
+  height: 100vh;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: normal;
+  letter-spacing: 2rem;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
