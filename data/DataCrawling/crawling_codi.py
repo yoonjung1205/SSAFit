@@ -122,6 +122,7 @@ def get_content(url):
                 # if cloth.find
                 clothesId = clothesImg.split('/')[6]
                 clothesPrice = cloth.find("div", class_="price").contents[0].strip('\n').strip('\t')
+                clothesPrice = clothesPrice.replace(",", "")
                 clothes.append([clothesId, clothesBrand, clothesName, clothesImg, clothesPrice])
             data = [codiId, codiStyle, codiTitle, codiContents, date, viewCnt, imgSrc, hashtags, clothes]
             total_data.append(data)
