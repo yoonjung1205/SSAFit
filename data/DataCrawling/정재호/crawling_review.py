@@ -25,8 +25,7 @@ import random
 headers = { 'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36'}
 baseStyleUrl = "https://goods.musinsa.com/api/goods/v1/review/style/list"
 baseGoodsUrl = "https://goods.musinsa.com/api/goods/v1/review/goods/list"
-basePhotoUrl = "https://goods.musinsa.com/api/goods/v1/review/photo/list"
-baseUrlList = [baseStyleUrl, baseGoodsUrl, basePhotoUrl]
+baseUrlList = [baseStyleUrl, baseGoodsUrl]
 
 # 상품리뷰 없는거
 # goodsNo = 1911367
@@ -35,15 +34,15 @@ list_data = []
 
 def writeCSV(list):
     list_title = ['userName', 'date', 'goodsNo', 'userSexMen', 'userSexWomen', 'userHeight', 'userWeight', 'goodsSize', 'reviewContent', 'reviewImg', 'reviewStyle', 'size', 'bright', 'color', 'thickness', 'weightness', 'touch', 'helpNo', 'styleLikeNo']
-    if os.path.isfile("musinsa_review_skirt.csv"):
+    if os.path.isfile("musinsa_review_outer.csv"):
         pass
     else:
-        with open('musinsa_review_skirt.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
+        with open('musinsa_review_outer.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
             writer_object = writer(f_object)
             writer_object.writerow(list_title)
             f_object.close()
 
-    with open('musinsa_review_skirt.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
+    with open('musinsa_review_outer.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
         writer_object = writer(f_object)
         for data in list:
             writer_object.writerow(data)
@@ -52,7 +51,7 @@ def writeCSV(list):
 def get_goodsNo():
     global headers
     link = []
-    goodsList = pd.read_csv("C:\\Users\\SSAFY\\Desktop\\ssafy\\DA_pjt\\S06P22E202\\data\\DataCrawling\\정재호\\unique_id_skirt.csv")
+    goodsList = pd.read_csv("C:\\Users\\SSAFY\\Desktop\\ssafy\\DA_pjt\\S06P22E202\\data\\DataCrawling\\정재호\\unique_id_outer.csv")
     goodsList = list(goodsList)
     
     return goodsList
@@ -70,6 +69,7 @@ def get_content(goodsNo):
             soup = bs(html, 'html.parser')
             try:
                 lastPage = int(soup.select('.box_page_msg')[0].text.replace(' ', '').replace('\n', '').split('페이지')[0])
+                lastPage = min(lastPage, 1000)
                 reviewSoup = soup.find_all("div", class_="review-list")
                 # print(soup)
                 for review in reviewSoup:

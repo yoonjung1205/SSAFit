@@ -49,3 +49,12 @@ with open('color_top.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
         writer_object.writerow(data)
     f_object.close()
 '''
+
+url = 'https://www.musinsa.com/category/002'
+response = request(html, header=header)
+html = response.text
+time.sleep(random.uniform(1, 2))
+soup = bs.find('ul', class_="snap-article-list")
+goodsList = soup.find_all('li', class_="li_box")
+for goods in goodsList:
+    ~~~
