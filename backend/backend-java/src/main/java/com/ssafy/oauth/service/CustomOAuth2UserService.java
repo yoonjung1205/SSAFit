@@ -45,10 +45,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
+
         User savedUser = userRepository.findUserByEmail(userInfo.getEmail());
-        System.out.println("email : ###" + userInfo.getEmail());
-        System.out.println("email : ###" + userInfo.getEmail());
-        System.out.println("email : ###" + userInfo.getEmail());
+        System.out.println(userInfo.getImageUrl());
 
         System.out.println(savedUser);
         if (savedUser != null) {
