@@ -34,15 +34,15 @@ list_data = []
 
 def writeCSV(list):
     list_title = ['userName', 'date', 'goodsNo', 'userSexMen', 'userSexWomen', 'userHeight', 'userWeight', 'goodsSize', 'reviewContent', 'reviewImg', 'reviewStyle', 'size', 'bright', 'color', 'thickness', 'weightness', 'touch', 'helpNo', 'styleLikeNo']
-    if os.path.isfile("musinsa_review_outer.csv"):
+    if os.path.isfile("musinsa_review_pants.csv"):
         pass
     else:
-        with open('musinsa_review_outer.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
+        with open('musinsa_review_pants.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
             writer_object = writer(f_object)
             writer_object.writerow(list_title)
             f_object.close()
 
-    with open('musinsa_review_outer.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
+    with open('musinsa_review_pants.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
         writer_object = writer(f_object)
         for data in list:
             writer_object.writerow(data)
@@ -51,7 +51,7 @@ def writeCSV(list):
 def get_goodsNo():
     global headers
     link = []
-    goodsList = pd.read_csv("C:\\Users\\SSAFY\\Desktop\\ssafy\\DA_pjt\\S06P22E202\\data\\DataCrawling\\정재호\\unique_id_outer.csv")
+    goodsList = pd.read_csv("C:\\Users\\SSAFY\\Desktop\\ssafy\\DA_pjt\\S06P22E202\\data\\DataCrawling\\정재호\\unique_id_pants1.csv")
     goodsList = list(goodsList)
     
     return goodsList
