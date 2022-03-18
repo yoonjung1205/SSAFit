@@ -1,15 +1,15 @@
 import React from 'react';
-import Start_1 from '../components/Start/start_1'
-import Start_2 from '../components/Start/start_2'
-import Start_3 from '../components/Start/start_3'
-import scss from './scss/Start.scss'
+import Start1 from '../components/Start/start1'
+import Start2 from '../components/Start/start2'
+import Start3 from '../components/Start/start3'
+import './scss/Start.scss'
 
 const Start = () => {
   return (
     <div className='start'>
-      <Start_1 />
-      <Start_2 />
-      <Start_3 />
+      <Start1 />
+      <Start2 />
+      <Start3 />
     </div>
   );
 };

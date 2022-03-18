@@ -1,5 +1,5 @@
 import React from 'react'
-import scss from './start_2.scss'
+import './scss/start2.scss'
 import { Link } from 'react-router-dom'
 
 export default function start_2() {
@@ -11,10 +11,8 @@ export default function start_2() {
           SERVICE
         </h4>
         <img className='dash' src="img/dash.png" alt="dash" />
-        <h3>
-          나에게 맞는 옷을 찾아준다면
-        </h3>
-        <h3>
+        <h3 className='small-title'>
+          나에게 맞는 옷을 찾아준다면<br />
           얼마나 좋을까?
         </h3>
       </article>

@@ -1,0 +1,16 @@
+#start-3 {
+  .explain-container {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin: 2rem;
+
+    .explain-desc {
+      width: 65%;
+    }
+  }
+
+  p {
+    word-break: keep-all;
+  }
+}
