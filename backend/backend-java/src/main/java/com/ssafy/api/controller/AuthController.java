@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponse;
 @Api(value = "인증 API", tags = {"Auth."})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api_be/auth")
 public class AuthController {
 
 	private final UserService userService;
