@@ -1,5 +1,5 @@
 import React from 'react'
-import scss from './start_1.scss'
+import './scss/start1.scss'
 import { Link } from 'react-router-dom'
 
 export default function start_1() {

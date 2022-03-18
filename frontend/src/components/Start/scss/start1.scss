@@ -1,7 +1,10 @@
 #start-1 {
-  background-image: url('../../../public/img/priscilla-du-preez-dlxLGIy-2VU-unsplash.jpg');
+  background-image: url('../../../../public/img/priscilla-du-preez-dlxLGIy-2VU-unsplash.jpg');
   background-size: cover;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .content {
     width: 100%;
