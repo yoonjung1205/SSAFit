@@ -1,9 +1,9 @@
 import { Switch, Route } from "react-router-dom";
-import Main from "./pages/Main";
-import Profile from "./pages/Profile";
-import Recommend from "./pages/Recommend";
-import Start from "./pages/Start";
-import Tpo from "./pages/Tpo";
+import Main from "./pages/main/Main";
+import Profile from "./pages/profile/Profile";
+import Recommend from "./pages/recommend/Recommend";
+import Start from "./pages/start/Start";
+import Tpo from "./pages/tpo/Tpo";
 
 function App() {
   return (

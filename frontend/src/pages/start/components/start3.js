@@ -1,5 +1,6 @@
 import React from 'react'
-import './scss/start3.scss'
+import '../scss/start3.scss'
+import image4 from '../images/image_4.png'
 
 export default function start_3() {
   return (
@@ -29,7 +30,7 @@ export default function start_3() {
             </span>
           </button>
         </div>
-        <img src="img/image_4.png" alt="img" />
+        <img src={image4} alt="img" />
       </article>
     </section>
   )

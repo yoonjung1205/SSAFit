@@ -1,6 +1,7 @@
 import React from 'react'
-import './scss/start2.scss'
+import '../scss/start2.scss'
 import { Link } from 'react-router-dom'
+import ourService from '../images/our_service_img.png'
 
 export default function start_2() {
   return (
@@ -17,7 +18,7 @@ export default function start_2() {
         </h3>
       </article>
       <article id='intro-container' className='flex-row'>
-        <img id='intro-img' src="img/our_service_img.png" alt="service" />
+        <img id='intro-img' src={ourService} alt="service" />
         <div className='flex-col'>
           <h5>What We Do?</h5>
           <p>

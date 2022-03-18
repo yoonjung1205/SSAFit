@@ -2,9 +2,9 @@
 import React from 'react';
 // import { useHistory } from 'react-router-dom';
 import './scss/Main.scoped.scss'
-import NavigationBar from '../components/NavigationBar';
-import Footer from '../components/Footer';
-import maintop from './image/maintop.png'
+import NavigationBar from '../../components/NavigationBar';
+import Footer from '../../components/Footer';
+import maintop from './images/maintop.png'
 
 const Main = () => {
   // let history = useHistory()
