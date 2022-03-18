@@ -1,6 +1,8 @@
 package com.ssafy.api.service;
 
+import com.ssafy.db.entity.Gender;
 import com.ssafy.db.entity.User;
+import com.ssafy.oauth.entity.ProviderType;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,12 +26,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
 		User user = new User();
+		Gender gender;
 		user.setEmail(userRegisterInfo.getEmail());
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
-		user.setPassword(bCryptPasswordEncoder.encode(userRegisterInfo.getUserPassword()));
+		user.setPassword(bCryptPasswordEncoder.encode(userRegisterInfo.getPassword()));
 		user.setNickname(userRegisterInfo.getNickName());
 		user.setRole("ROLE_USER");
+		user.setProfileImageUrl(userRegisterInfo.getImgUrl());
+		user.setHeight(userRegisterInfo.getHeight());
+		user.setWeight(userRegisterInfo.getWeight());
+		user.setProviderType(ProviderType.LOCAL);
+		if(userRegisterInfo.getGender() == 0) {
+			user.setGender(Gender.FEMALE);
+		}else if(userRegisterInfo.getGender() == 1) {
+			user.setGender(Gender.MALE);
+		}
+		user.setBirthDate(userRegisterInfo.getBirthDate());
 		return userRepository.save(user);
 	}
 

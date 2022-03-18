@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -59,6 +60,14 @@ public class User extends BaseEntity {
     @NotNull
     private String role;
 
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    private Date birthDate;
+
+    private int height;
+
+    private int weight;
 
     public User(String name, String email, String imageUrl, ProviderType providerType, RoleType user) {
         this.nickname = name;
