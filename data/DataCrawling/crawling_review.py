@@ -161,6 +161,7 @@ def get_content(goodsNo):
         # 상품 리뷰 없음
         pass
 
+
 get_content(1139338)
 
 # if __name__=='__main__':
