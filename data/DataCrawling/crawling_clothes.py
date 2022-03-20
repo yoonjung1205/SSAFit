@@ -42,6 +42,7 @@ def writeCSV(list):
             writer_object.writerow(data)
         f_object.close()
 
+
 data = []
 largeCategoryNo = [1, 2, 3, 20, 22]
 def get_clothes(largeNo):
