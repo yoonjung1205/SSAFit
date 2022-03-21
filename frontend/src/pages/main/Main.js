@@ -1,23 +1,23 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
-import './scss/Main.scoped.scss'
+import { useHistory } from 'react-router-dom';
+import './scss/Main.scss'
 import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
 import maintop from './images/maintop.png'
 
 const Main = () => {
-  // let history = useHistory()
+  let history = useHistory()
   const onClickButton = (path) => {
     console.log(path, '로 이동')
-    // history.push(path)
+    history.push(path)
   }
 
   return (
     <article className='main'>
       <NavigationBar />
-      <section className='top'>
-        <div className='image'>
+      <section className='main-top'>
+        <div className='main-top-image'>
           <img src={maintop} alt="main-top" />
         </div>
         <div className='text'>
@@ -27,7 +27,7 @@ const Main = () => {
       </section>
 
 
-      <section className='tpo'>
+      <section className='main-tpo'>
         <img className='left' src="https://i.ibb.co/Qvy9XQW/tpo.png" alt="tpo-image" />
         <div className='right'>
           <h3>TPO</h3>
@@ -39,7 +39,7 @@ const Main = () => {
       </section>
 
 
-      <section className='recommend'>
+      <section className='main-recommend'>
         <div className='left'>
           <h3>Recommend</h3>
           <p className='content'>유저 정보와 아이템의 리뷰, 유저의 로그를 분석하여<br/>높은 신뢰도의 상품 추천을 제공합니다.</p>
