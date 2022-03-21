@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react'
 import GoogleLogin from './components/GoogleLogin'
 import KakaoLogin from './components/KakaoLogin'
@@ -5,16 +6,19 @@ import {Link} from 'react-router-dom'
 import axios from 'axios'
 import './scss/login.scss'
 
-const signUp = function(email, password){
+const baseUrl = 'http://ssafit.site:8971/'
+
+const signUp = function(event, email, password){
+  event.preventDefault()
   axios({
     method: 'post',
-    url: '/api_be/auth/login',
+    url: baseUrl + 'api_be/auth/login',
     data: {
       email: email,
       password: password
     }
   })
-  .then(res => {})
+  .then(res => console.log(res))
   .catch(err => console.log(err))
 }
 
@@ -30,7 +34,7 @@ export default function Login() {
       </section>
       <section className='login-body'>
         <h1>Log in</h1>
-        <form action="" onSubmit={() => signUp(email, password)}>
+        <form action="" onSubmit={(event) => signUp(event, email, password)}>
           <label htmlFor="">
             이메일
             <input type="email" name="email" id="email"
@@ -55,7 +59,7 @@ export default function Login() {
           <GoogleLogin />
         </section>
         <section className='other-act-container'>
-          <Link to=''>회원가입</Link>
+          <Link to='/signup'>회원가입</Link>
           <Link to=''>비밀번호 찾기</Link>
         </section>
       </section>
