@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import './App.scss'
 import Main from "./pages/main/Main";
@@ -8,11 +7,6 @@ import Start from "./pages/start/Start";
 import Tpo from "./pages/tpo/Tpo";
 
 function App() {
-  useEffect(cli, [])
-  const [anim, setAnim] = useState(false)
-    function cli() {
-      setAnim(!anim)
-    }
   return (
     <div className="App">
       <Switch>

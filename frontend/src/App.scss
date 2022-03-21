@@ -13,17 +13,17 @@
   margin: 0 2rem;
   height: 96vh;
   border-radius: 0 0 100px 100px;
-  animation: slider 2.5s;
+  animation: slider 1.5s;
 
   overflow-x: hidden;
   overflow-y: scroll;
   &::-webkit-scrollbar {
-    visibility: visible;
     width: 7px;
+    // display: none;
   }
   &::-webkit-scrollbar-thumb {
-    // background-color: #D8D8D8;
-    background-color: #56586C;
+    background-color: #D8D8D8;
+    // background-color: #56586C;
     border-radius: 10px;
     background-clip: padding-box;
     border: 1px solid transparent;
