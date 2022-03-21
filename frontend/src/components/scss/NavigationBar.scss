@@ -3,9 +3,13 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  .menu {
+  .ssafit-logo {
+    margin: 0 2rem;
+    height: 6vh;
+  }
+  .nav-menu {
     color: #777777;
-    width: 100%;
+    width: 90%;
     list-style: none;
     text-align: end;
     li {

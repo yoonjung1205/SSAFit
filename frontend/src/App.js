@@ -1,4 +1,5 @@
 import { Switch, Route } from "react-router-dom";
+import './App.scss'
 import Main from "./pages/main/Main";
 import Profile from "./pages/profile/Profile";
 import Recommend from "./pages/recommend/Recommend";
