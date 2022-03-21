@@ -38,9 +38,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-        if (request.getMethod().equals("OPTIONS") ) {
 
-        }
 
 		// Read the Authorization header, where the JWT Token should be
         String header = request.getHeader(JwtTokenUtil.HEADER_STRING);
@@ -53,12 +51,17 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        
+
+        // jwt 토큰이 있는데 expired 시간이 초과했는지 확인
+//        if(jwt)
+
         try {
             // If header is present, try grab user principal from database and perform authorization
             Authentication authentication = getAuthentication(request);
             // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
         } catch (Exception ex) {
             ResponseBodyWriteUtil.sendError(request, response, ex);
             return;
