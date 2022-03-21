@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppProperties appProperties;
 
     private final CustomOAuth2UserService oAuth2UserService;
-//    private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
+
     private final UserRefreshTokenRepository userRefreshTokenRepository;
 
     private SsafitUserDetailService ssafitUserDetailService;
