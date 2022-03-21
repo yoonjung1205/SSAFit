@@ -6,7 +6,22 @@
     margin: 2rem;
 
     .explain-desc {
-      width: 65%;
+      width: 40%;
+      margin-right: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .explain-desc-button-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+
+      h3 {
+        margin: 3rem 0;
+      }
     }
   }
 

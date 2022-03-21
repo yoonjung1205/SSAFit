@@ -1,6 +1,7 @@
 import { Switch, Route } from "react-router-dom";
 import './App.scss'
 import Main from "./pages/main/Main";
+import Login from './pages/login/Login'
 import Profile from "./pages/profile/Profile";
 import Recommend from "./pages/recommend/Recommend";
 import Start from "./pages/start/Start";
@@ -15,6 +16,7 @@ function App() {
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend" component={Recommend} exact />
         <Route path="/profile" component={Profile} exact />
+        <Route path="/login" component={Login} />
       </Switch>
     </div>
   );

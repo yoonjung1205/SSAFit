@@ -2,9 +2,9 @@ import React from 'react'
 import '../scss/start3.scss'
 import image4 from '../images/image_4.png'
 
-export default function start_3() {
+export default function start3() {
   return (
-    <section id='start-3'>
+    <article id='start-3'>
       <img className='dash' src="img/dash.png" alt="dash" />
       <h4>
         EXPLAIN
@@ -14,24 +14,26 @@ export default function start_3() {
         고민하는 사람들에게<br />
         "Fit"한 옷을 추천하는 SSAFit
       </h3>
-      <article className='explain-container'>
+      <section className='explain-container'>
         <div className='explain-desc'>
           <p>
             사용자 맞춤 추천으로 구매전환율을 상승시킬 수 있습니다.
             유저 로그와 리뷰 기반 머신러닝을 통해
             최적의 솔루션을 제공합니다.
           </p>
-          <h3>
-            한 번 시작해볼까요?
-          </h3>
-          <button>
-            <span>
-              GO
-            </span>
-          </button>
+          <div className='explain-desc-button-box'>
+            <h3>
+              한 번 시작해볼까요?
+            </h3>
+            <button>
+              <span>
+                GO
+              </span>
+            </button>
+          </div>
         </div>
         <img src={image4} alt="img" />
-      </article>
-    </section>
+      </section>
+    </article>
   )
 }
