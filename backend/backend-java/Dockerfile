@@ -4,7 +4,7 @@ FROM openjdk:8-jdk
 # Add Author info
 LABEL maintainer="dudrl0944@gmail.com"
 
-ARG JAR_FILE=./backend-java/build/libs/ssafy-web-project-1.0-SNAPSHOT.jar
+ARG JAR_FILE=./build/libs/ssafy-web-project-1.0-SNAPSHOT.jar
 
 # copy jar
 COPY ${JAR_FILE} app.jar
