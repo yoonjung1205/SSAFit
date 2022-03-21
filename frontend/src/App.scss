@@ -1,0 +1,60 @@
+.App {
+  @keyframes slider {
+    0% {
+      opacity: 0.3;
+      transform: translateY(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  background-color: white;
+  margin: 0 2rem;
+  height: 96vh;
+  border-radius: 0 0 100px 100px;
+  animation: slider 2.5s;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    visibility: visible;
+    width: 7px;
+  }
+  &::-webkit-scrollbar-thumb {
+    // background-color: #D8D8D8;
+    background-color: #56586C;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+  }
+
+  p {
+    font-size: 1.25rem;
+    letter-spacing: 0.5rem;
+  }
+  h1 {
+    font-size: 3rem;
+    letter-spacing: 1rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+    letter-spacing: 1rem;
+  }
+  h3 {
+    font-size: 2rem;
+    letter-spacing: 1rem;
+  }
+  h4 {
+    font-size: 1.75rem;
+    letter-spacing: 1rem;
+  }
+  h5 {
+    font-size: 1.5rem;
+    letter-spacing: 1rem;
+  }
+  h6 {
+    font-size: 1.25rem;
+    letter-spacing: 1rem;
+  }
+}
