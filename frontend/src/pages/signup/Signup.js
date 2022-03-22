@@ -77,10 +77,11 @@ export default function Signup({ history }) {
 
                 <img className='validator-helper' src={validData.email === 1 ? corr:incorr}
                   style={{display: validData.email ? 'block':'none'}} alt="helper"
-                  onMouseOver={() => setHover({...hover, email: true})}/>
+                  onMouseOver={() => setHover({...hover, email: true})}
+                  onMouseOut={() => setHover({...hover, email: false})}/>
 
                 <div className={`helper-message ${validData.email === 1 ? 'corr':'incorr'}`} 
-                  style={{display: hover.email === true ? 'block':'hidden'}}>
+                  style={{display: hover.email === true ? 'block':'none'}}>
                   <div className={`arrow ${validData.email === 1 ? 'arrow-corr':'arrow-incorr'}`} />
                   <p className="helper-message-corr" style={{display: validData.email === 1 ? 'block':'none'}}>
                     사용 가능한 이메일입니다!
