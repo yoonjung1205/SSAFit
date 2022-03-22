@@ -1,0 +1,29 @@
+.category {
+  width: 100%;
+  .cate-top {
+    width: 100%;
+    height: 35vh;
+    user-select: none;
+    background-image: url('https://i.ibb.co/6ZW1Jjp/category-top.png');
+    .cate-top-text {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+      h2 {
+        font-weight: bold;
+      }
+    }
+  }
+  .cate-clothes {
+    width: 100%;
+    height: 100vh;
+  }
+  h2 {
+    font-size: 2.5rem;
+    letter-spacing: 1rem;
+  }
+}
