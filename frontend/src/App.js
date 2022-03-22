@@ -11,6 +11,7 @@ import Start from "./pages/start/Start";
 import Tpo from "./pages/tpo/Tpo";
 import Mypage from "./pages/mypage/Mypage";
 import NotFound from "./pages/notfound/NotFound";
+import Category from "./pages/category/Category";
 
 function App() {
   const [path, setPath] = useState('/')
@@ -28,6 +29,7 @@ function App() {
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend" component={Recommend} exact />
+        <Route path="/recommend/:category" component={Category} exact />
         <Route path="/mypage" component={Mypage} exact />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
