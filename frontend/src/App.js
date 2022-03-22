@@ -1,29 +1,33 @@
-import { Switch, Route } from "react-router-dom";
-import Main from "./pages/Main";
-import Profile from "./pages/Profile";
-import Recommend from "./pages/Recommend";
-import Start from "./pages/Start";
-import Tpo from "./pages/Tpo";
+import { Switch, Route, useLocation } from "react-router-dom";
+import './App.scss'
+import Main from "./pages/main/Main";
+import Login from './pages/login/Login'
+import Signup from './pages/signup/Signup'
+import Profile from "./pages/profile/Profile";
+import Recommend from "./pages/recommend/Recommend";
+import Start from "./pages/start/Start";
+import Tpo from "./pages/tpo/Tpo";
+import { useState, useEffect } from "react";
 
 function App() {
-  const html = document.querySelector('html')
-  window.addEventListener('resize', event => {
-    const w = event.target.innerWidth;
-    const h = event.target.innerHeight;
-    
-    const rem = 16 - (16/9 - w/h)
-    html.style.fontSize = `${rem}px`
-  })
+  const [path, setPath] = useState('/')
+  const location = useLocation();
 
+  useEffect(() => {
+    console.log(location)
+    setPath(location.pathname)
+  }, [location])
 
   return (
-    <div className="App">
+    <div className="App" key={path}>
       <Switch>
         <Route path="/" component={Start} exact />
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend" component={Recommend} exact />
         <Route path="/profile" component={Profile} exact />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
       </Switch>
     </div>
   );

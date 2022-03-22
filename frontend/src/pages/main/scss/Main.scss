@@ -2,17 +2,13 @@
   user-select: none;
   h3 {
     margin: 0;
-    font-size: 2rem;
-    letter-spacing: 1rem;
   }
   p {
     margin: 0;
-    font-size: 1.25rem;
-    letter-spacing: 0.5rem;
   }
-  .top {
+  .main-top {
     position: relative;
-    .image {
+    .main-top-image {
       width: 100%;
       height: 50vh;
       vertical-align: middle;
@@ -42,7 +38,7 @@
       }
     }
   }
-  .tpo {
+  .main-tpo {
     display: flex;
     justify-content: space-around;
     width: 80vw;
@@ -58,7 +54,7 @@
       }
     }
   }
-  .recommend {
+  .main-recommend {
     display: flex;
     justify-content: space-around;
     width: 80vw;

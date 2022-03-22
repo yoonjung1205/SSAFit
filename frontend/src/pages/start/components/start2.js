@@ -1,25 +1,24 @@
 import React from 'react'
-import scss from './start_2.scss'
+import '../scss/start2.scss'
 import { Link } from 'react-router-dom'
+import ourService from '../images/our_service_img.png'
 
-export default function start_2() {
+export default function start2() {
   return (
-    <section id='start-2'>
-      <article id='intro-header'>
+    <article id='start-2'>
+      <section id='intro-header'>
         <img className='dash' src="img/dash.png" alt="dash" />
         <h4>
           SERVICE
         </h4>
         <img className='dash' src="img/dash.png" alt="dash" />
-        <h3>
-          나에게 맞는 옷을 찾아준다면
-        </h3>
-        <h3>
+        <h3 className='small-title'>
+          나에게 맞는 옷을 찾아준다면<br />
           얼마나 좋을까?
         </h3>
-      </article>
-      <article id='intro-container' className='flex-row'>
-        <img id='intro-img' src="img/our_service_img.png" alt="service" />
+      </section>
+      <section id='intro-container' className='flex-row'>
+        <img id='intro-img' src={ourService} alt="service" />
         <div className='flex-col'>
           <h5>What We Do?</h5>
           <p>
@@ -35,8 +34,8 @@ export default function start_2() {
             코디를 추천해줍니다
           </p>
         </div>
-      </article>
-      <article id='service-container' className='flex-row'>
+      </section>
+      <section id='service-container' className='flex-row'>
         <Link to='' id='link-1'>
           <div className='opac-blk' />
           <h4>체형 맞춤 옷</h4>
@@ -49,7 +48,7 @@ export default function start_2() {
           <div className='opac-blk' />
           <h4>취향 맞춤 옷</h4>
         </Link>
-      </article>
-    </section>
+      </section>
+    </article>
   )
 }
