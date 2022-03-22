@@ -67,8 +67,10 @@ public class JwtTokenUtil {
                 .build();
     }
     
-    public static String getToken(String email, String userName, String role, Long id) {
-    		Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+    public static String getToken(String email, String userName, String role, Long id, int expireTime) {
+        // refresh_token 172800000, access_token  1800000
+        Date now = new Date();
+    		Date expires = new Date(now.getTime() + expireTime);
         return JWT.create()
                 .withSubject(email)
                 .withExpiresAt(expires)
