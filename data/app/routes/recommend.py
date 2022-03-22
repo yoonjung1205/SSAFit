@@ -1,9 +1,29 @@
 from fastapi import APIRouter
+# from mongoengine import connect
+from models import Codi
+import json
+
+
 router = APIRouter()
+
+
 @router.get('/rec')
 def recommend():
     return {"hello":"recommend!!"}
 
+@router.get('/codi')
+def getdata():
+    # codis = json.loads(Codi.objects().to_json())
+    codi = Codi()
+
+    # print(Codi.objects())
+    # codi = Codi.objects.get(codiId=13743)
+    # codi_dict = {
+    #     "codiId": codi.codiId,
+    #     "codiStyle": codi.codiStyle,
+    #     "codiTitle": codi.codiTitle
+    # }
+    return codi
 '''
 만들어야할 api
 size(유저의 키,몸무게,성별) 맞춤추천
