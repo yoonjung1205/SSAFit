@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss'
 import Main from "./pages/main/Main";
 import Login from './pages/login/Login'
@@ -6,7 +8,6 @@ import Signup from './pages/signup/Signup'
 import Recommend from "./pages/recommend/Recommend";
 import Start from "./pages/start/Start";
 import Tpo from "./pages/tpo/Tpo";
-import { useState, useEffect } from "react";
 import Mypage from "./pages/mypage/Mypage";
 
 function App() {
