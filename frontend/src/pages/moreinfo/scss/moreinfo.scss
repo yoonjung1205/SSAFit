@@ -1,4 +1,4 @@
-.signup-container {
+.moreinfo-container {
   width: 100%;
   height: 100%;
   display: flex;
@@ -17,7 +17,7 @@
     }
   }
 
-  .signup-body {
+  .moreinfo-body {
     width: 60%;
     display: flex;
     flex-direction: column;
@@ -29,19 +29,46 @@
       flex-direction: column;
       align-items: center;
 
+      #gender {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
       label {
         width: 40%;
         font-size: 1.25rem;
         color: #777777;
-        margin: 0.5rem 0;
+        margin: 0.25rem 0;
         display: flex;
         flex-direction: column;
+
+        #gender-box {
+          flex-direction: row;
+          justify-content: flex-end;
+          align-items: center;
+
+          .gender-label {
+            font-size: 1rem;
+            margin: 0;
+          }
+
+          input {
+            margin: 0 0.5rem 0 1rem;
+          }
+        }
 
         .input-box {
           position: relative;
           display: flex;
           flex-direction: column;
           align-items: stretch;
+
+          .unit {
+            position: absolute;
+            top: 0;
+            right: 7.5%;
+          }
         }
 
         .validator-helper {
@@ -142,6 +169,18 @@
 
       input:focus::-webkit-input-placeholder {
         color: transparent;
+      }
+
+      #file-input {
+        width: 15%;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background-image: url(../images/corr.png);
+        background-size: cover;
+      }
+
+      input[type="file"] {
+        display: none;
       }
 
       button {

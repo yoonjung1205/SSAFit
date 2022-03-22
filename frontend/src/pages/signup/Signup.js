@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import corr from './images/corr.png'
@@ -123,6 +124,7 @@ export default function Signup({ history }) {
               </div>
             </div>
           </label>
+          {/* 비밀번호 확인 */}
           <label>
             비밀번호 확인
             <div className='input-box'>

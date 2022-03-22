@@ -3,6 +3,7 @@ import './App.scss'
 import Main from "./pages/main/Main";
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
+import Moreinfo from './pages/moreinfo/Moreinfo'
 import Recommend from "./pages/recommend/Recommend";
 import Start from "./pages/start/Start";
 import Tpo from "./pages/tpo/Tpo";
@@ -26,8 +27,9 @@ function App() {
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend" component={Recommend} exact />
         <Route path="/mypage" component={Mypage} exact />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/login" component={Login} exact />
+        <Route path="/signup" component={Signup} exact />
+        <Route path="/moreinfo" component={Moreinfo} exact />
       </Switch>
     </div>
   );
