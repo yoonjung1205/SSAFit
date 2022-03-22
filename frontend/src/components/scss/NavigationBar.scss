@@ -20,6 +20,10 @@
         text-decoration: none;
         margin-right: 5rem;
         color: #777777;
+        &#active {
+          font-weight: bold;
+          color: black;
+        }
         &:hover {
           color: black;
         }
