@@ -5,6 +5,7 @@ import './App.scss'
 import Main from "./pages/main/Main";
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
+import Moreinfo from './pages/moreinfo/Moreinfo'
 import Recommend from "./pages/recommend/Recommend";
 import Start from "./pages/start/Start";
 import Tpo from "./pages/tpo/Tpo";
@@ -30,6 +31,7 @@ function App() {
         <Route path="/mypage" component={Mypage} exact />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/moreinfo" component={Moreinfo} exact />
         <Route component={NotFound} />
       </Switch>
     </div>
