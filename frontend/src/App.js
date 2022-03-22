@@ -3,11 +3,11 @@ import './App.scss'
 import Main from "./pages/main/Main";
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
-import Profile from "./pages/profile/Profile";
 import Recommend from "./pages/recommend/Recommend";
 import Start from "./pages/start/Start";
 import Tpo from "./pages/tpo/Tpo";
 import { useState, useEffect } from "react";
+import Mypage from "./pages/mypage/Mypage";
 
 function App() {
   const [path, setPath] = useState('/')
@@ -25,7 +25,7 @@ function App() {
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend" component={Recommend} exact />
-        <Route path="/profile" component={Profile} exact />
+        <Route path="/mypage" component={Mypage} exact />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
       </Switch>
