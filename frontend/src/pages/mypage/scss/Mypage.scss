@@ -4,23 +4,28 @@
     margin-bottom: 2rem;
   }
   .hanger {
-    height: 72vh;
+    height: 60vh;
     display: flex;
     .menus {
-      padding: 0 3%;
-      width: 16%;
+      padding: 0 1% 0 2%;
+      // width: 16%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
       .menu {
         display: flex;
+        align-items: center;
         cursor: pointer;
         &#active {
           font-weight: bold;
         }
         img {
-          height: 5vh;
-          margin-right: 2rem;
+          height: 4vh;
+          margin-right: 1.5rem;
+        }
+        p {
+          margin: auto 0;
         }
       }
     }
