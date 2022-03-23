@@ -89,6 +89,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         System.out.println(token);
         // 요청 헤더에 Authorization 키값에 jwt 토큰이 포함된 경우에만, 토큰 검증 및 인증 처리 로직 실행.
         System.out.println(jwtTokenUtil.validateToken(token));
+
+        // accessToken이 NULL 이 아니고, 만료시간을 벗어나지 않았을 때,
         if (token != null && !jwtTokenUtil.validateToken(token)) {  // 범위 벗어나면 true를 반환
 
             System.out.println("3");
@@ -116,6 +118,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             }
             return null;
         }
+        // accessToken이 만료시간을 벗어났고, refreshToken이 NULL이 아닐때,
         else if(jwtTokenUtil.validateToken(token) && refreshToken != null) {     // 이것도 범위안에 있으면 false를 반환함.
             // 재발급 후, 컨텍스트에 다시 넣기
             System.out.println("4");
@@ -123,6 +126,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             boolean validateRefreshToken = jwtTokenUtil.validateToken(refreshToken);  // 범위안에 있으면 false를 반환함.
             /// 리프레시 토큰 저장소 존재유무 확인
             boolean isRefreshToken = jwtTokenUtil.existsRefreshToken(refreshToken);
+            // refreshToken이 유효하다면,
             if (!validateRefreshToken && isRefreshToken) {
                 System.out.println("6");
                 /// 리프레시 토큰으로 이메일 정보 가져오기

@@ -80,7 +80,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 RoleType.USER
         );
         user.setPassword(bCryptPasswordEncoder.encode("겟겟인데어"));
-        return userRepository.saveAndFlush(user);
+        return user;
+        //return userRepository.saveAndFlush(user);
     }
 
     private User updateUser(User user, OAuth2UserInfo userInfo) {
