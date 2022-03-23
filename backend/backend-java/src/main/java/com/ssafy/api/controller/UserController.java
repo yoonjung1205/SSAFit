@@ -64,7 +64,7 @@ public class UserController {
 	}
 
 
-	@GetMapping("/pw/find")
+	@PostMapping("/pw/find")
 	@ApiOperation(value = "회원 비밀번호 찾기", notes = "회원 본인의 비밀번호를 찾는다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -88,7 +88,7 @@ public class UserController {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(validateEmailReq.getEmail());
 		System.out.println("메일 전송!");
-		message.setSubject("[수화닥터] 새 비밀번호가 발급되었습니다.");
+		message.setSubject("[Ssafit] 새 비밀번호가 발급되었습니다.");
 
 		message.setText("회원님의 새 비밀번호는 "+ newpw + " 입니다. 이용해주셔서 감사합니다.");
 		mailSender.send(message);
