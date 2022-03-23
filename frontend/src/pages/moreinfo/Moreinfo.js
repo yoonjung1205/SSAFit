@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import _default from './images/default.png'
 import axios from 'axios'
+import {S3} from "@aws-sdk/client-s3";
 import './scss/moreinfo.scss'
 
 export default function Moreinfo() {
+  console.log(S3)
   const [credentials, setCredentials] = useState({
-    profile: _default, nickname: null, height: null, weight: null, birth: null, gender: null
+    profileImg: _default, nickname: null, height: null, weight: null, birth: null, gender: null
   })
 
   const date = new Date();
@@ -14,7 +16,7 @@ export default function Moreinfo() {
   const fileUpload = function(event){
     const file = event.target.files[0]
     const url = URL.createObjectURL(file)
-    setCredentials({...credentials, profile: url})
+    setCredentials({...credentials, profileImg: url})
   }
 
   const isValid = function(){
@@ -35,7 +37,7 @@ export default function Moreinfo() {
       if (!credentials.birth){
         invalidKeys.push('생년월일')
       }
-      if (!credentials.gender){
+      if (credentials.gender !== 0 && credentials.gender !== 1){
         invalidKeys.push('성별')
       }
       if (invalidKeys.length > 0){
@@ -51,12 +53,17 @@ export default function Moreinfo() {
     event.preventDefault();
     isValid()
     .then(() => {
-      const baseUrl = 'http://localhost:8971'
+      const baseUrl = 'https://ssafit.site/api_be'
+      const firstCredentials = JSON.parse(window.localStorage.getItem('userinfo'))
+      const userInfo = {...firstCredentials, ...credentials}
+
       axios({
         method: 'post',
         url: baseUrl + '/api_be/auth/signup',
-        data: {}
+        params: userInfo
       })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
     })
     .catch(err => {
       alert(`${err.join(', ')}를 확인해주세요!!`)
@@ -73,7 +80,7 @@ export default function Moreinfo() {
       <section className='moreinfo-body'>
         <form onSubmit={event => submit(event)}>
           {/* 프로필사진 */}
-          <label id='file-input' style={{backgroundImage: `url(${credentials.profile})`}}>
+          <label id='file-input' style={{backgroundImage: `url(${credentials.profileImg})`}}>
             <div className='input-box'>
               <input type="file" name="profile" id="profile" 
               onChange={event => fileUpload(event)} />
@@ -124,7 +131,7 @@ export default function Moreinfo() {
               onInput={() => setCredentials({...credentials, gender: 1})} />
               <label className='gender-label' htmlFor="male">남성</label>
               <input type="radio" name="male" id="female" value='여성'
-              onInput={() => setCredentials({...credentials, gender: 2})} />
+              onInput={() => setCredentials({...credentials, gender: 0})} />
               <label className='gender-label' htmlFor="female">여성</label>
             </div>
           </label>
