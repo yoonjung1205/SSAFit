@@ -1,18 +1,17 @@
 import React from 'react'
-import GoogleLogin from 'react-google-login'
-
-const clientId = '844840822516-gvf2p8l8t86ilf81e1u3ttdaqh16j320.apps.googleusercontent.com'
+import google from '../images/google_logo.png'
 
 export default function GoogleLoginBtn(){
-  const responseGoogle = (response) => {
-    console.log(response);
+  const GoogleLogin = function(){
+    window.location.replace('http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/moreinfo')
   }
 
-  return(
-    <GoogleLogin className='google-login'
-      clientId={clientId}
-      responseType={"id_token"}
-      onSuccess={responseGoogle}
-      onFailure={responseGoogle}/>
+  return (
+    <button className='social-login google-login' onClick={() => GoogleLogin()}>
+      <img src={ google } alt="kakao" />
+      <p>
+        Sign in with Google
+      </p>
+    </button>
   )
 }

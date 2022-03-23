@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
-import corr from './images/corr.png'
-import incorr from './images/incorr.png'
-import './scss/moreinfo.scss'
 import _default from './images/default.png'
+import axios from 'axios'
+import './scss/moreinfo.scss'
 
 export default function Moreinfo() {
   const [credentials, setCredentials] = useState({
@@ -18,31 +17,50 @@ export default function Moreinfo() {
     setCredentials({...credentials, profile: url})
   }
 
+  const isValid = function(){
+    // eslint-disable-next-line no-useless-escape
+    const validatorNickName = /[~!@#$%^&*()_\+\-\=\[\]{};\':",\\|.\/<>?]/
+    const invalidKeys = []
+
+    return new Promise((resolve, reject) => {
+      if (!credentials.nickname || credentials.nickname.length < 2 || validatorNickName.test(credentials.nickname)){
+        invalidKeys.push('닉네임')
+      }
+      if (!credentials.height || credentials.height < 100 || credentials.height > 210){
+        invalidKeys.push('키')
+      }
+      if (!credentials.weight || credentials.weight < 30 || credentials.weight > 160){
+        invalidKeys.push('몸무게')
+      }
+      if (!credentials.birth){
+        invalidKeys.push('생년월일')
+      }
+      if (!credentials.gender){
+        invalidKeys.push('성별')
+      }
+      if (invalidKeys.length > 0){
+        reject(invalidKeys)
+      }
+      else {
+        resolve()
+      }
+    })
+  }
+
   const submit = function(event){
     event.preventDefault();
-    const invalidKeys = []
-    const validatorNickName = /[~!@#$%^&*()_\+\-\=\[\]{};\':",\\|.\/<>?]/
-    console.log(validatorNickName.test(credentials.nickname))
-
-    if (!credentials.nickname || credentials.nickname.length < 2 || validatorNickName.test(credentials.nickname)){
-      invalidKeys.push('닉네임')
-    }
-    if (!credentials.height || credentials.height < 100 || credentials.height > 210){
-      invalidKeys.push('키')
-    }
-    if (!credentials.weight || credentials.weight < 30 || credentials.weight > 160){
-      invalidKeys.push('몸무게')
-    }
-    if (!credentials.birth){
-      invalidKeys.push('생년월일')
-    }
-    if (!credentials.gender){
-      invalidKeys.push('성별')
-    }
-
-    if (invalidKeys.length > 0){
-      alert(`${invalidKeys.join(', ')}를 확인해주세요!!`)
-    }
+    isValid()
+    .then(() => {
+      const baseUrl = 'http://localhost:8971'
+      axios({
+        method: 'post',
+        url: baseUrl + '/api_be/auth/signup',
+        data: {}
+      })
+    })
+    .catch(err => {
+      alert(`${err.join(', ')}를 확인해주세요!!`)
+    })
   }
 
   return (

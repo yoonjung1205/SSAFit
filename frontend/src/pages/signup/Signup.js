@@ -18,11 +18,26 @@ export default function Signup({ history }) {
     email: false, password: false, passwordConf: false
   })
   
+  const isValid = function(){
+    return new Promise((resolve, reject) =>{
+      for (const key in validData){
+        if (validData[key] !== 1){
+          reject('입력 정보가 유효하지 않습니다')
+        }
+      }
+      resolve()
+    })
+  } 
 
-  const signup = function(event){
+  const submit = function(event){
     event.preventDefault()
     ////////////// 회원가입  /////////////////
-    history.push('/moreinfo')
+    isValid()
+    .then(() => {
+      window.localStorage.setItem('userinfo', JSON.stringify(credentials))
+      history.push('/moreinfo')
+    })
+    .catch(err => {console.log(err);alert('입력정보를 확인하세요!!')})
   }
 
 
@@ -66,7 +81,7 @@ export default function Signup({ history }) {
       </section>
       <section className='signup-body'>
         <h1>Sign Up</h1>
-        <form onSubmit={event => signup(event)}>
+        <form onSubmit={event => submit(event)}>
           {/* 이메일 */}
           <label>
             이메일

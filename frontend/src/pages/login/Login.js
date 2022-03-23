@@ -22,7 +22,7 @@ const signUp = function(event, email, password){
   .catch(err => console.log(err))
 }
 
-export default function Login() {
+export default function Login({ history }) {
   let email = ""; let password = "";
 
   return (
@@ -55,8 +55,8 @@ export default function Login() {
           </button>
         </form>
         <section className='social-login-container'>
-          <KakaoLogin />
-          <GoogleLogin />
+          <KakaoLogin history={history} />
+          <GoogleLogin history={history} />
         </section>
         <section className='other-act-container'>
           <Link to='/signup'>회원가입</Link>
