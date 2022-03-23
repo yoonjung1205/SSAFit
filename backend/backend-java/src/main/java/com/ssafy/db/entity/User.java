@@ -63,7 +63,7 @@ public class User extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-    private Date birthDate;
+    private String birthDate;
 
     private int height;
 
