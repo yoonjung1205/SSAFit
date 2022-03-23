@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserService {
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
 		user.setPassword(bCryptPasswordEncoder.encode(userRegisterInfo.getPassword()));
-		user.setNickname(userRegisterInfo.getNickName());
+		user.setNickname(userRegisterInfo.getNickname());
 		user.setRole("ROLE_USER");
-		user.setProfileImageUrl(userRegisterInfo.getImgUrl());
+		user.setProfileImageUrl(userRegisterInfo.getProfileImg());
 		user.setHeight(userRegisterInfo.getHeight());
 		user.setWeight(userRegisterInfo.getWeight());
 		user.setProviderType(ProviderType.LOCAL);
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 		}else if(userRegisterInfo.getGender() == 1) {
 			user.setGender(Gender.MALE);
 		}
-		user.setBirthDate(userRegisterInfo.getBirthDate());
+		user.setBirthDate(userRegisterInfo.getBirth());
 		return userRepository.saveAndFlush(user);
 	}
 
