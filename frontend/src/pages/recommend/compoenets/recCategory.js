@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useHistory } from "react-router-dom";
-import '../scss/category.scss'
+import '../scss/recCategory.scss'
 
-const category = ({cate}) => {
+const recCategory = ({cate}) => {
   let history = useHistory()
 
   return (
@@ -77,4 +77,4 @@ const category = ({cate}) => {
   );
 };
 
-export default category;
+export default recCategory;

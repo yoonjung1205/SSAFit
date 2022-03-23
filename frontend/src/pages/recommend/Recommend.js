@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Footer from '../../components/Footer';
 import NavigationBar from '../../components/NavigationBar';
-import RecCategory from './compoenets/category'
+import RecCategory from './compoenets/recCategory'
 import './scss/Recommend.scss'
 
 const Recommend = () => {
