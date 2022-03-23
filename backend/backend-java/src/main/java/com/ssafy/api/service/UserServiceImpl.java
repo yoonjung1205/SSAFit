@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.ValidateEmailReq;
 import com.ssafy.db.entity.Gender;
 import com.ssafy.db.entity.User;
 import com.ssafy.oauth.entity.ProviderType;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.repository.UserRepository;
 import com.ssafy.db.repository.UserRepositorySupport;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
 			user.setGender(Gender.MALE);
 		}
 		user.setBirthDate(userRegisterInfo.getBirthDate());
-		return userRepository.save(user);
+		return userRepository.saveAndFlush(user);
 	}
 
 
@@ -61,5 +63,22 @@ public class UserServiceImpl implements UserService {
 		return userEntity;
 	}
 
+	@Override
+	public boolean verifyEmail(ValidateEmailReq validateEmailReq) {
 
+		if (! userRepository.existsByEmail(validateEmailReq.getEmail())) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	@Transactional
+	public void setUserPasswordByEmail(String email, String pw) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+		userRepository.updatePassword(email,bCryptPasswordEncoder.encode(pw));
+
+
+	}
 }
