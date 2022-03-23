@@ -11,18 +11,14 @@ router = APIRouter()
 def recommend():
     return {"hello":"recommend!!"}
 
-@router.get('/codi')
-def getdata():
+@router.get('/codi/{codiId}')
+def getdata(codiId):
     # codis = json.loads(Codi.objects().to_json())
-    codi = Codi()
+    
 
     # print(Codi.objects())
-    # codi = Codi.objects.get(codiId=13743)
-    # codi_dict = {
-    #     "codiId": codi.codiId,
-    #     "codiStyle": codi.codiStyle,
-    #     "codiTitle": codi.codiTitle
-    # }
+    codi = Codi.objects.get(codiId=codiId)
+    
     return codi
 '''
 만들어야할 api

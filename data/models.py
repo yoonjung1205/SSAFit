@@ -25,4 +25,4 @@ class Codi(Document):
     imgSrc = StringField()
     hashtag = ListField()
     clothes = ListField()
-    # meta = {'collection':'codi'}
+    meta = {'collection':'codi'}

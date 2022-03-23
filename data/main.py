@@ -9,7 +9,8 @@ from app.routes import recommend
 from mongoengine import connect
 
 
-connect(host="mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false")
+# connect(host="mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false")
+connect(db="ssafit", host="ssafit.site", port=8975, username="admin", password="ssafit")
 def create_app():
     """
     앱 함수 실행
