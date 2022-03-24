@@ -21,62 +21,43 @@
 
   .cate-middle {
     width: 100%;
-    padding: 2rem 5rem;
-    .cate-middle-clothes {
-      display: flex;
-      flex-flow: wrap;
-      width: 85vw;
-      height: 100%;
-      margin: 0 auto;
-      .cloth-card {
-        box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
-        padding: 0.7rem;
-        margin: 3rem 1.4rem;
-        width: 14vw;
-        height: 44vh;
-        &:hover {
-          transform: translateY(-0.5rem);
-          transition: 0.4s;
-        }
-        .card-image {
-          height: 65%;
-          width: 100%;
-          img {
-            height: 100%;
-            width: 100%;
+    padding: 5rem 10rem;
+    .cate-card {
+      cursor: pointer;
+      position: relative;
+      height: 44vh;
+      &:hover {
+        transform: translateY(-0.5rem);
+        transition: 0.45s;
+      }
+      img {
+        height: 65%;
+        width: 100%;
+      }
+      .cate-card-text {
+        margin: 0;
+        &.one-line {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-weight: bold;
+          margin-top: 0.5rem;
+          &.last {
+            position: absolute;
+            bottom: 0.5rem;
           }
         }
-        .card-text {
-          width: 100%;
-          height: 35%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          .cate-text-top,
-          .cate-text-bottom {
-            margin: 0;
-            margin-top: 1rem;
-            font-weight: bold;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-          .cate-text-middle {
-            margin: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-          }
-          .cate-text-bottom {
-
-          }
+        &.two-line {
+          margin-top: 0.5rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
         }
       }
     }
   }
-
   h2 {
     font-size: 2.5rem;
     letter-spacing: 1rem;

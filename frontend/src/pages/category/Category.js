@@ -1,6 +1,7 @@
 import './scss/Category.scss'
 import NavigationBar from '../../components/NavigationBar'
 import Footer from '../../components/Footer'
+import { Card, Col, Row } from 'react-bootstrap';
 
 const Category = ({match}) => {
   const path = match.params.category
@@ -23,8 +24,8 @@ const Category = ({match}) => {
     },
     {
       clothId: 123450,
-      clothBrand: 'JIPSYJIPSYJIPSYJIPSYJIPSYJIPSYJIPSY',
-      clothName: 'Trousselier MA-1 STANDARD / OVER FIT.Trousselier MA-1 STANDARD / OVER FIT.Trousselier MA-1 STANDARD / OVER FIT.Trousselier MA-1 STANDARD / OVER FIT.',
+      clothBrand: 'JIPSYJIPSYJIPSYJIPSYJIPSYJIPSYJIPSYJIPSY',
+      clothName: 'Trousselier MA-1 STANDARD / OVER FIT.Trousselier MA-1 STANDARD / OVER FIT.Trousselier MA-1 STANDARD / OVER FIT.',
       clothPrice: 99000,
       clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
     },
@@ -49,13 +50,13 @@ const Category = ({match}) => {
       clothPrice: 99000,
       clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
     },
-    {
-      clothId: 123450,
-      clothBrand: 'JIPSY',
-      clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
-      clothPrice: 99000,
-      clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    },
+    // {
+    //   clothId: 123450,
+    //   clothBrand: 'JIPSY',
+    //   clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
+    //   clothPrice: 99000,
+    //   clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
+    // },
     // {
     //   clothId: 123450,
     //   clothBrand: 'JIPSY',
@@ -80,37 +81,31 @@ const Category = ({match}) => {
   ]
 
   return (
-    <div className='category'>
+    <>
       <NavigationBar boldPath='RECOMMEND' />
-      <section className='cate-top'>
-        <div className='cate-top-text'>
-          <h2>{topText}</h2>
-        </div>
-      </section>
-      <section className='cate-middle'>
-
-
-        <div className='cate-middle-clothes'>
-        {clothes.map((cloth, idx) => (
-          <div className='cloth-card' key={idx}>
-            <div className='card-image'>
-              <img src={cloth.clothImg} alt='cloth' />
-            </div>
-            <div className='card-text'>
-              <div>
-                <p className='cate-text-top'>{cloth.clothBrand}</p>
-                <p className='cate-text-middle'>{cloth.clothName}</p>
-              </div>
-              <p className='cate-text-bottom'>{cloth.clothPrice}원</p>
-            </div>
+      <div className='category'>
+        <section className='cate-top'>
+          <div className='cate-top-text'>
+            <h2>{topText}</h2>
           </div>
-        ))}
-        </div>
-
-
-      </section>
+        </section>
+        <section className='cate-middle'>
+          <Row md={5} className='g-5'>
+          {clothes.map((cloth, idx) => (
+            <Col key={idx}>
+              <div className='cate-card' onClick={() => console.log('go to cloth detail')} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
+                <Card.Img src={cloth.clothImg} alt='cloth' />
+                <p className='cate-card-text one-line'>{cloth.clothBrand}</p>
+                <p className='cate-card-text two-line'>{cloth.clothName}</p>
+                <p className='cate-card-text one-line last'>{cloth.clothPrice}원</p>
+              </div>
+            </Col>
+          ))}
+          </Row>
+        </section>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
