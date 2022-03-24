@@ -2,83 +2,33 @@ import './scss/Category.scss'
 import NavigationBar from '../../components/NavigationBar'
 import Footer from '../../components/Footer'
 import { Card, Col, Row } from 'react-bootstrap';
+import { cateClothes } from './data';
+import { useEffect, useState } from 'react';
 
 const Category = ({match}) => {
   const path = match.params.category
   const topText = path[0].toUpperCase() + path.slice(1)
+  const [clothes, setClothes] = useState([])
+  const [page, setPage] = useState(1)
 
-  const clothes = [
-    {
-      clothId: 123450,
-      clothBrand: 'JIPSY',
-      clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
-      clothPrice: 99000,
-      clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    },
-    {
-      clothId: 123450,
-      clothBrand: 'JIPSY',
-      clothName: 'Trousselier MA-1',
-      clothPrice: 99000,
-      clothImg: '//image.msscdn.net/images/goods_img/20210825/2085156/2085156_1_125.jpg'
-    },
-    {
-      clothId: 123450,
-      clothBrand: 'JIPSYJIPSYJIPSYJIPSYJIPSYJIPSYJIPSYJIPSY',
-      clothName: 'Trousselier MA-1 STANDARD / OVER FIT.Trousselier MA-1 STANDARD / OVER FIT.Trousselier MA-1 STANDARD / OVER FIT.',
-      clothPrice: 99000,
-      clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    },
-    {
-      clothId: 123450,
-      clothBrand: 'JIPSY',
-      clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
-      clothPrice: 99000,
-      clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    },
-    {
-      clothId: 123450,
-      clothBrand: 'JIPSY',
-      clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
-      clothPrice: 99000,
-      clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    },
-    {
-      clothId: 123450,
-      clothBrand: 'JIPSY',
-      clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
-      clothPrice: 99000,
-      clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    },
-    // {
-    //   clothId: 123450,
-    //   clothBrand: 'JIPSY',
-    //   clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
-    //   clothPrice: 99000,
-    //   clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    // },
-    // {
-    //   clothId: 123450,
-    //   clothBrand: 'JIPSY',
-    //   clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
-    //   clothPrice: 99000,
-    //   clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    // },
-    // {
-    //   clothId: 123450,
-    //   clothBrand: 'JIPSY',
-    //   clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
-    //   clothPrice: 99000,
-    //   clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    // },
-    // {
-    //   clothId: 123450,
-    //   clothBrand: 'JIPSY',
-    //   clothName: 'Trousselier MA-1 STANDARD / OVER FIT.',
-    //   clothPrice: 99000,
-    //   clothImg: '//image.msscdn.net/images/goods_img/20140919/123450/123450_7_500.jpg'
-    // }
-  ]
+  function changePage (num) {
+    let newPage = page + num
+    if (newPage < 1) {
+      alert('첫번째 페이지 입니다.')
+    } else if (newPage > 5) {
+      alert('마지막 페이지 입니다.')
+    } else {
+      setPage(newPage)
+    }
+  }
+
+  useEffect(() => {
+    setClothes(cateClothes)
+  }, [])
+
+  useEffect(() => {
+    console.log('change pagenation', page)
+  }, [page])
 
   return (
     <>
@@ -102,6 +52,15 @@ const Category = ({match}) => {
             </Col>
           ))}
           </Row>
+        </section>
+        <section className='cate-bottom'>
+          <div className='pagenation'>
+            <div onClick={() => {changePage(-1)}}><p>&lt;</p></div>
+            {[1, 2, 3, 4, 5].map(num => (
+              <div className={page === num ? 'active': ''} key={num} onClick={() => setPage(num)}><p>{num}</p></div>
+            ))}
+            <div onClick={() => {changePage(-1)}}><p>&gt;</p></div>
+          </div>
         </section>
       </div>
       <Footer />
