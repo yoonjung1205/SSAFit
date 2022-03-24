@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import corr from './images/corr.png'
 import incorr from './images/incorr.png'
+import axios from 'axios'
 import './scss/signup.scss'
 
 
@@ -18,6 +19,8 @@ export default function Signup({ history }) {
     email: false, password: false, passwordConf: false
   })
   
+  const baseUrl = 'https://ssafit.site/api_be'
+
   const isValid = function(){
     return new Promise((resolve, reject) =>{
       for (const key in validData){
@@ -34,7 +37,7 @@ export default function Signup({ history }) {
     ////////////// 회원가입  /////////////////
     isValid()
     .then(() => {
-      window.localStorage.setItem('userinfo', JSON.stringify(credentials))
+      window.localStorage.setItem('userInfo', JSON.stringify(credentials))
       history.push('/moreinfo')
     })
     .catch(err => {console.log(err);alert('입력정보를 확인하세요!!')})
@@ -44,6 +47,13 @@ export default function Signup({ history }) {
   const validator = function(target){
     if (target === 'email'){
       /////////////// 이메일 중복검사 //////////////////
+      axios({
+        method: 'post',
+        url: baseUrl + '/auth/email/confirms',
+        body: credentials.email
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
     }
     else if (target ==='password'){
       const passValidator = /[0-9a-zA-Z~!@#$%^&*()_+-=[\]{};\':",\\|.\/<>?]{8,16}/
