@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import like from './images/like.png'
 import dislike from './images/dislike.png'
@@ -18,22 +18,37 @@ const getCodi = function(){
   //   url: baseUrl + '',
   //   body: {}
   // })
-  return dummy
+  return new Promise(resolve => {
+    setTimeout(() => resolve(dummy), 1000);
+  })
 }
 
 export default function RecommendCodi({ location }) {
   const tpo = location.pathname.replace('/recommend_codi/', '')
-  const [codi, setCodi] = useState({})
+  const [codi, setCodi] = useState(null)
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setCodi(getCodi())
+    getCodi().then((codiData) => {
+      setCodi(codiData);
+      setItems(codiData.codi1.items)
+    }).finally(() => {
+      setLoading(false)
+    })
   }, [])
+
+  if (loading) {
+    return <>Loading</>;
+  }
+
+  console.log('나는야', items)
 
   return (
     <article className='page'>
       <NavigationBar boldPath="TPO" />
       <article className='codi-container'>
-        <section className='img-box' style={{backgroundImage: Object.keys(codi).length > 0 ? codi.codi1.imageUrl:''}}/>
+        <section className='img-box' style={{backgroundImage: codi ? `url(${codi.codi1.imageUrl})`:''}}/>
         <section className='codi-body'>
           <span className='codi-title'>
             <h1>
@@ -41,7 +56,7 @@ export default function RecommendCodi({ location }) {
             </h1>
               에<br /> 맞는 코디를 추천해드릴게요
           </span>
-          <ItemBox />
+          <ItemBox items={items} setItems={setItems} />
           <div className='button-box'>
             <button className='like-btn'>
               <img src={like} alt="like" />

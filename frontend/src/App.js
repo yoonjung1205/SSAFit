@@ -15,11 +15,20 @@ import NotFound from "./pages/notfound/NotFound";
 import Category from "./pages/category/Category";
 
 function App() {
-  const [path, setPath] = useState('/')
   const location = useLocation();
-
+  const [path, setPath] = useState('/')
+  // const app = window.document.getElementsByClassName('App')[0]
+  
   useEffect(() => {
-    console.log(location)
+    // const transition = function(){
+    //   app.classList.remove('transition')
+    //   setTimeout(() => {
+    //     app.classList.add('transition')
+    //   }, 1)
+    // }
+    // if (app){
+    //   transition()
+    // }
     setPath(location.pathname)
   }, [location])
 

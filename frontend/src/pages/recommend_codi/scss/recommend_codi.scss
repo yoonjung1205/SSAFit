@@ -17,6 +17,7 @@
 
     .codi-body {
       width: 60%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       padding: 2rem;
@@ -30,6 +31,7 @@
       
       .button-box {
         display: flex;
+        margin: 2rem 0;
       }
       
       button {
@@ -44,7 +46,7 @@
         cursor: pointer;
         overflow: hidden;
         z-index: 1;
-        margin: 2rem;
+        margin: 2rem 1rem 0;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -121,60 +123,75 @@
       letter-spacing: 1rem;
     }
 
-    .social-login-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 40%;
-      margin: 1rem;
+    .item-box {
+      width: 90%;
+      height: 70%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      padding: 1rem;
+      gap: 1rem;
+      overflow: auto;
 
-      .social-login {
-        width: 220px;
-        height: 50px;
-        border-radius: 12px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        margin-right: 1rem;
+      .item-card {
+        width: 100%;
+        box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
         cursor: pointer;
-      }
-      
-      img {
-        width: 18px;
-        aspect-ratio: 1/1;
-        margin: 0.5rem;
-      }
 
-      p {
-        font-size: 0.9rem;
-        letter-spacing: 0;
-        color: rgba(0, 0, 0, 0.85);
-        padding: 10px;
-        margin: 0;
-        line-height: 0.9rem;
-      }
-
-      .kakao-login {
-        background-color: #FEE500;
-
-      }
-
-      .google-login {
-        background-color: white;
-        box-shadow: 0.5px 1px 3px rgba(0, 0, 0, 0.25);
+        .item-img {
+          width: 100%;
+          aspect-ratio: 1/1.1;
+        }
 
         p {
-          font-family: 'Roboto', sans-serif;
+          font-size: 1rem;
+          letter-spacing: 0.125rem;
+          margin: 0.5rem;
+          word-break: keep-all;
+        }
+
+        &:hover {
+          transform: translateY(-0.5rem);
+          transition: 0.45s;
+        }
+
+        .item-content {
+          position: relative;
+
+          span {
+            width: 2rem;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            background-color: rgba(119, 119, 119, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: -10%;
+            right: 10%;
+            cursor: pointer;
+          }
+          
+          .liked {
+            background-color: rgba(255, 100, 100, 0.5);
+          }
+
+          img {
+            width: 50%;
+            aspect-ratio: 1/1;
+          }
         }
       }
-    }
 
-    .other-act-container {
-      margin: 1rem;
-
-      a {
-        margin: 0.5rem;
+      &::-webkit-scrollbar {
+        width: 10px;
+        // display: none;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #D8D8D8;
+        // background-color: #56586C;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 1px solid transparent;
       }
     }
   }

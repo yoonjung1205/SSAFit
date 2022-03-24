@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NavigationBar from '../../components/NavigationBar'
 import date from './images/date.jpg'
 import daily from './images/daily.jpg'
@@ -23,10 +23,8 @@ const Tpo = ({ history }) => {
   const TpoList = function({target}){
     return (
       <div className='tpo' style={{backgroundImage: `url(${tpoObject[target][1]})`}} id={tpoObject[target][0]}
-      onMouseOver={event => event.target.children[0].style.display = 'flex'}
-      onClick={event => history.push(`/recommend_codi/${event.target.id}`)}>
-        <span className='opac-blk' style={{display:'none'}} id={tpoObject[target][0]}
-          onMouseLeave={event => event.target.style.display = 'none'}>
+      onClick={() => history.push('/recommend_codi/' + tpoObject[target][0])}>
+        <span className='opac-blk'>
           <h3 className='tpo-title'>{tpoObject[target][0]}</h3>
         </span>
       </div>
