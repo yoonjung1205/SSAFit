@@ -1,65 +1,50 @@
 .mypage-recent,
 .mypage-like,
 .mypage-codi {
-  display: flex;
-  justify-content: space-between;
-  height: 100%;
-  margin-top: 1rem;
-  padding: 3%;
-  .recent-cloth,
-  .like-cloth,
-  .like-codi {
-    width: 20%;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0.5rem 1rem;
-    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
-    // margin: 3rem 2rem;
-    .cloth-image,
-    .codi-image {
-      height: 55%;
-      img {
-        width: 100%;
-        height: 100%;
-      }
+  margin: 0rem 3rem;
+  .cloth-card,
+  .codi-card {
+    height: 40vh;
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-0.5rem);
+      transition: 0.4s;
     }
-    .cloth-p,
-    .codi-p {
-      width: 100%;
-      .p-top {
-        font-weight: bold;
+
+    .card-img {
+      height: 65%;
+    }
+
+    .text {
+      margin: 0;
+      &.one-line {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        font-weight: bold;
+        margin-top: 0.5rem;
       }
-      .p-center {
-        margin: 0.5rem 0;
+      &.two-line {
+        margin-top: 0.5rem;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
       }
-      .p-bottom {
-        font-weight: bold;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
     }
-    .cloth-like,
-    .codi-like {
-      height: 4vh;
+
+    .card-heart {
       text-align: end;
       img {
-        height: 100%;
+        position: absolute;
+        right: 1rem;
+        bottom: 38%;
+        width: 2rem;
+        height: 2rem;
       }
-    }
-    &:hover {
-      transform: translateY(-0.5rem);
-      transition: 0.4s;
     }
   }
 }
