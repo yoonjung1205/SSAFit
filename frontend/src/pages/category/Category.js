@@ -59,7 +59,7 @@ const Category = ({match}) => {
             {[1, 2, 3, 4, 5].map(num => (
               <div className={page === num ? 'active': ''} key={num} onClick={() => setPage(num)}><p>{num}</p></div>
             ))}
-            <div onClick={() => {changePage(-1)}}><p>&gt;</p></div>
+            <div onClick={() => {changePage(1)}}><p>&gt;</p></div>
           </div>
         </section>
       </div>
