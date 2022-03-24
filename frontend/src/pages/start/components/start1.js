@@ -12,7 +12,7 @@ export default function start1() {
         </h3>
         <img src="img/logo_w.png" alt="logo" />
         <Link to='login'>
-          <h4>Sign In</h4>
+          <h4>Log In</h4>
         </Link>
       </section>
     </article>

@@ -33,7 +33,7 @@ export default function Login({ history }) {
         </Link>
       </section>
       <section className='login-body'>
-        <h1>Log in</h1>
+        <h1>Log In</h1>
         <form action="" onSubmit={(event) => signUp(event, email, password)}>
           <label htmlFor="">
             이메일

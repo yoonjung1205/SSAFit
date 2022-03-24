@@ -14,6 +14,11 @@ export default function Moreinfo() {
   const date = new Date();
 
   const fileUpload = function(event){
+    // const client = new S3({region: ''})
+    // const bucketParams = {
+    //   bucket: ''
+    // }
+    // client.createBucket
     const file = event.target.files[0]
     const url = URL.createObjectURL(file)
     setCredentials({...credentials, profileImg: url})
@@ -54,7 +59,7 @@ export default function Moreinfo() {
     isValid()
     .then(() => {
       const baseUrl = 'https://ssafit.site/api_be'
-      const firstCredentials = JSON.parse(window.localStorage.getItem('userinfo'))
+      const firstCredentials = JSON.parse(window.localStorage.getItem('userInfo'))
       const userInfo = {...firstCredentials, ...credentials}
 
       axios({
