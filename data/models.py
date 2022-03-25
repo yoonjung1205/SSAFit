@@ -19,10 +19,11 @@ class Codi(Document):
     codiBusiness = IntField()
     codiInterview = IntField()
     codiHip = IntField()
+    codiSports = IntField()
     codiGolf = IntField()
     codiOther = IntField()
     viewCnt = IntField()
     imgSrc = StringField()
-    hashtag = ListField()
+    hashtags = ListField()
     clothes = ListField()
     meta = {'collection':'codi'}
