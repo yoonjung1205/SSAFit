@@ -4,7 +4,7 @@ import defaultImage from './images/default.png'
 import axios from 'axios'
 import './scss/moreinfo.scss'
 
-export default function Moreinfo() {
+export default function Moreinfo({ history }) {
   const [credentials, setCredentials] = useState({
     imageUrl:defaultImage, nickname: null, height: null, weight: null, birth: null, gender: null
   })
@@ -79,7 +79,13 @@ export default function Moreinfo() {
         data: userInfo
       })
     })
-    .then(res => {console.log('이거 마자?', res)})
+    .then(res => {
+      console.log('이거 마자?', res)
+      window.localStorage.removeItem('userInfo')
+      if (!alert('가입이 완료되었습니다!')){
+        history.push('/login')
+      }
+    })
     .catch(err => {
       console.log(err)
       if (typeof(err) !== Array){

@@ -23,8 +23,17 @@ export default function Login({ history }) {
         password: credentials.password
       }
     })
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+    .then(res => {
+      console.log(res)
+
+      if (!alert('로그인 되었습니다!')){
+        history.push('/main')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      alert('입력정보를 확인해주세요!!')
+    })
   }
 
   return (
