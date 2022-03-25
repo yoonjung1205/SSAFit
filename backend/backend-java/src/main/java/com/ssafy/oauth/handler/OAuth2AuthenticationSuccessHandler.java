@@ -143,7 +143,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 
 
-            return UriComponentsBuilder.fromUriString("http://localhost:3000/")
+            return UriComponentsBuilder.fromUriString("https://ssafit.site/")
                     .build().toUriString();
         }
 
