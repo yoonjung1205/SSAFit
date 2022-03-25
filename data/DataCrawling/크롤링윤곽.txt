@@ -1,0 +1,57 @@
+https://www.musinsa.com/category/001011 (largecategory+smallcategory)
+?d_cat_cd=001011
+&brand=&rate=&page_kind=search&list_kind=small&sort=pop
+&sub_sort=&page=1(페이지넘버)
+&display_cnt=90(상품수 : 100개 마지막)
+&sale_goods=&group_sale=&kids=N&ex_soldout=&
+color=(색넘버 100밑까지 돌리기)
+&price1=&price2=&exclusive_yn=&shoeSizeOption=&tags=&
+campaign_id=&timesale_yn=&q=&includeKeywords=&measure=
+
+largeCategory에서 smallCategory(가장큰수: 25)순으로
+color를 기준으로
+각 페이지별 옷을 들고오기
+
+
+
+### 저장할것
+- 전체에서 조회
+- color : 숫자로 저장[colorNo](done)
+- img 저장[image_path](done)
+- 그 옷의 가격[clothPrice](done)
+
+- 각 옷의 url 확인 및 저장 => 그 옷의 상품번호를 id로 저장[clothId](done)
+
+- 그 옷의 해시태그들[hashtags](done)
+- 그 옷의 등록 년월일[date](done)
+- 그 id를 사용한 url로 이동(done)
+- 그 옷의 큰 카테고리, 작은카테고리 들고오기[largeCategory, smallCategory](done)
+- 그 옷의 이름[clothName](done)
+- 그 옷의 브랜드[brand](done)
+- 그 옷의 좋아요 횟수 (X)
+- 그 옷의 조회수 (X)
+- 그 옷의 누적판매수 (X)
+- 그 옷의 성별[clothSex](done)
+- 그 옷의 평점[clothRate](done)
+- 그 옷의 리뷰수[clothReviewNo](done)
+- Size Info(X)
+- Guide에서 active인 요소의 index 저장
+[fit, feeling, stretch, visibility, thickness, season](고민)
+- Purchase Status에서 연령과 성별 정보 저장(X)
+- View count Status에서 연령과 성별 정보 저장(X)
+- 상품정보 제공고시 (제품 소재, 색상, 치수, 제조사, 제조국)(table로 저장)
+
+
+없을때 넘어가는 기준을 정해야지
+
+#goods_list > div.boxed-list-wrapper > div.list-box.box > div > p
+document.querySelector("#goods_list > div.boxed-list-wrapper > div.list-box.box > div")
+
+
+
+
+
+
+
+
+
