@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "인증 API", tags = {"Auth."})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api_be/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
 	@Autowired

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "OAuth 인증 API", tags = {"OAuth."})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api_be/oauth")
+@RequestMapping("/oauth")
 public class OAuthController {
 
     @Autowired

@@ -46,7 +46,7 @@ import java.security.NoSuchAlgorithmException;
 @Api(value = "유저 API", tags = {"User"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api_be/auth")
+@RequestMapping("/auth")
 public class UserController {
 
 	@Autowired
