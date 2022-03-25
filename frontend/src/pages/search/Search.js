@@ -1,13 +1,17 @@
 import NavigationBar from '../../components/NavigationBar'
 import Footer from '../../components/Footer'
-import { Card, Col, Row } from 'react-bootstrap';
-import { searchClothes } from './data';
 import './scss/Search.scss'
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Card, Col, Row } from 'react-bootstrap';
+import { searchClothes } from './data';
+import { parse } from 'query-string';
+import { useLocation } from 'react-router-dom';
 
 
-const Search = ({match}) => {
-  const {word} = match.params
+const Search = () => {
+  let { word } = parse(useLocation().search)
+
   const [clothes, setClothes] = useState([])
   const [page, setPage] = useState(1)
 
@@ -40,7 +44,6 @@ const Search = ({match}) => {
         {clothes.length === 0 ? 
         <>
           <div className='no-search'>
-            {/* <h3>"{word}"에 대한 결과가 없습니다</h3> */}
             <h4>"{word}"에 대한 결과가 없습니다</h4>
           </div>
         </>
