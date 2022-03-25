@@ -1,0 +1,128 @@
+.serach {
+  width: 100%;
+
+  .search-top {
+    width: 100%;
+    height: 35vh;
+    background-image: url('https://i.ibb.co/mDDyZbQ/search-Top.png');
+    div {
+      color: white;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        display: inline-block;
+        height: 2.5rem;
+        &.left {
+          transform: translate(-35%, -30%);
+        }
+        &.right {
+          transform: translate(0, 30%);
+        }
+      }
+    }
+  }
+
+  .search-middle {
+    width: 100%;
+    padding: 5rem 10rem;
+    .search-card {
+      cursor: pointer;
+      position: relative;
+      height: 44vh;
+      &:hover {
+        transform: translateY(-0.5rem);
+        transition: 0.45s;
+      }
+      img {
+        height: 65%;
+        width: 100%;
+      }
+      .search-card-text {
+        margin: 0;
+        &.one-line {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-weight: bold;
+          margin-top: 0.5rem;
+          &.last {
+            position: absolute;
+            bottom: 0.7rem;
+          }
+        }
+        &.two-line {
+          margin-top: 0.5rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+  }
+
+  .search-bottom {
+    height: 10vh;
+    .pagenation {
+      margin: 0 auto;
+      border: 1px solid #56586C;
+      border-radius: 4px;
+      width: 20%;
+      height: 50%;
+      display: flex;
+      div {
+        height: 100%;
+        width: 15%;
+        cursor: pointer;
+        position: relative;
+        &:first-child,
+        &:last-child {
+          width: 12.5%;
+        }
+        &.active {
+          font-weight: bold;
+          background-color: #f3f3f3;
+        }
+        &:hover {
+          background-color: #f3f3f3;
+          transition: ease-in 0.2s;
+          p {
+            font-weight: bold;
+          }
+        }
+        p {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+
+  .no-search {
+    height: 30vh;
+    background-color: #f3f3f3;
+    position: relative;
+    h4 {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  h2 {
+    display: inline-block;
+    font-size: 2.5rem;
+    letter-spacing: 1rem;
+  }
+  h4 {
+    font-size: 1.75rem;
+    letter-spacing: 1rem;
+  }
+}

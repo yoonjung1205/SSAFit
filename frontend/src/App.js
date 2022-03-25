@@ -12,6 +12,7 @@ import Tpo from "./pages/tpo/Tpo";
 import RecommendCodi from './pages/recommend_codi/RecommendCodi'
 import Mypage from "./pages/mypage/Mypage";
 import NotFound from "./pages/notfound/NotFound";
+import Search from "./pages/search/Search";
 import Category from "./pages/category/Category";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
     <div className="App" key={path}>
       <Switch>
         <Route path="/" component={Start} exact />
+        <Route path="/search/:word" component={Search} />
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
