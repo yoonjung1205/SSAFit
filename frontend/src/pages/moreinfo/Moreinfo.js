@@ -65,11 +65,8 @@ export default function Moreinfo({ history }) {
     event.preventDefault();
     isValid()
     .then(() => {
+      console.log('설마?')
       const userInfo = makeCredential()
-
-      for (let t in userInfo.entries()){
-        console.log('나야나야나야 나라고', t)
-      }
 
       return axios({
         method: 'post',
@@ -80,14 +77,13 @@ export default function Moreinfo({ history }) {
       })
     })
     .then(res => {
-      console.log('이거 마자?', res)
       window.localStorage.removeItem('userInfo')
       if (!alert('가입이 완료되었습니다!')){
         history.push('/login')
       }
     })
     .catch(err => {
-      console.log(err)
+      console.log(err, typeof(err))
       if (typeof(err) !== Array){
         console.log('여기걸림?')
         return alert('잘못된 요청입니다.')
@@ -125,7 +121,7 @@ export default function Moreinfo({ history }) {
           <label>
             키
             <div className='input-box'>
-              <input type="number" name="height" id="height" max='250' placeholder='키를 입력하세요'
+              <input type="number" name="height" id="height" min={100} max={210} placeholder='키를 입력하세요'
               onInput={event => setCredentials({...credentials, height: event.target.value})} />
               <p className='unit'>cm</p>
             </div>
@@ -134,7 +130,7 @@ export default function Moreinfo({ history }) {
           <label>
             몸무게
             <div className='input-box'>
-              <input type="number" name="weight" id="weight" placeholder='몸무게를 입력하세요'
+              <input type="number" name="weight" id="weight" min={30} max={160} placeholder='몸무게를 입력하세요'
               onInput={event => setCredentials({...credentials, weight: event.target.value})} />
               <p className='unit'>kg</p>
             </div>

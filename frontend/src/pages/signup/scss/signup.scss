@@ -63,7 +63,7 @@
           display: flex;
           justify-content: flex-start;
           align-items: center;
-          z-index: 9;
+          z-index: 2;
           
           .arrow {
             position: absolute;
@@ -143,6 +143,13 @@
 
       input:focus::-webkit-input-placeholder {
         color: transparent;
+      }
+
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover, 
+      input:-webkit-autofill:focus, 
+      input:-webkit-autofill:active{
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
       }
 
       button {

@@ -98,7 +98,7 @@ export default function Signup({ history }) {
               <div className='input-box'>
                 <input type="email" name="email" id="email"
                 placeholder='이메일을 입력하세요'
-                onInput={event => {credentials.email = event.target.value}} />
+                onInput={event => {setCredentials({...credentials, email: event.target.value}); setValidData({...validData, email: null})}} />
 
                 <img className='validator-helper' src={validData.email === 1 ? corr:incorr}
                   style={{display: validData.email ? 'block':'none'}} alt="helper"
