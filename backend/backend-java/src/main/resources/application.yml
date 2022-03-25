@@ -20,6 +20,8 @@ server:
     enabled: 'true'
     mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
 
+
+
 # 변수
 naver:
   serviceid: ncp:sms:kr:279856955477:integproject
@@ -52,8 +54,25 @@ springfox:
     swagger:
       use-model-v3: 'false'
 
+#
+#cloud:
+#  aws:
+#    s3:
+#      bucket: ssafit-01
+#    region:
+#      static: ap-northeast-2
+#    stack:
+#      auto: false
+#    credentials:
+#      accessKey: AKIAZM2UBXT2Y6AEKMKF
+#      secretKey: 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
+#      instanceProfile: true
 
 spring:
+#  profiles:
+#    include:
+#      -aws
+#      -credentials
   security:
     oauth2.client:
       registration:
