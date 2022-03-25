@@ -2,9 +2,10 @@
 .mypage-like,
 .mypage-codi {
   margin: 0rem 3rem;
+  padding: 5rem 0;
   .cloth-card,
   .codi-card {
-    height: 40vh;
+    height: 44vh;
     position: relative;
     cursor: pointer;
 
@@ -25,6 +26,11 @@
         white-space: nowrap;
         font-weight: bold;
         margin-top: 0.5rem;
+        &.price {
+          position: absolute;
+          bottom: 0.7rem;
+          right: 0.7rem;
+        }
       }
       &.two-line {
         margin-top: 0.5rem;
