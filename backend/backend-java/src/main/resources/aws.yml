@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAZM2UBXT27P5Z2PGL
+      secretKey: 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
+    s3:
+      bucket: ssafit-01-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
