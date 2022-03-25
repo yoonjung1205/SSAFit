@@ -5,10 +5,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 
+import com.auth0.jwt.exceptions.InvalidClaimException;
+import com.ssafy.db.repository.UserRefreshTokenRepository;
 import com.ssafy.db.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -31,15 +32,27 @@ public class JwtTokenUtil {
 
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
+    public static final String REFRESH_STRING = "Refresh";
     public static final String ISSUER = "ssafy.com";
-    
+
+    @Autowired
+    UserRefreshTokenRepository tokenRepository;
+
     @Autowired
 	public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime) {
 		this.secretKey = secretKey;
 		this.expirationTime = expirationTime;
 	}
 
+    // RefreshToken 존재유무 확인
+    public boolean existsRefreshToken(String refreshToken) {
+        return tokenRepository.existsByRefreshToken(refreshToken);
+    }
 
+    // 토큰에서 회원 정보 추출
+    public String getUserEmail(String token) {
+        return Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token).getBody().getSubject();
+    }
     
 	public void setExpirationTime() {
     		//JwtTokenUtil.expirationTime = Integer.parseInt(expirationTime);
@@ -48,15 +61,20 @@ public class JwtTokenUtil {
 
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
 
-            if (claims.getBody().getExpiration().before(new Date())) {
+            System.out.println("ddddddddddddddddddddddddddddddd");
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token);
+
+
+            if (!claims.getBody().getExpiration().before(new Date())) {
                 return false;
             }
 
             return true;
-        } catch (IllegalArgumentException e) {
-            throw new IllegalStateException("Expired or invalid JWT token");
+        } catch (ExpiredJwtException e) {
+            System.out.println("sssssssssssssssssssssssssssssss");
+            return true;
+
         }
     }
 
@@ -67,8 +85,10 @@ public class JwtTokenUtil {
                 .build();
     }
     
-    public static String getToken(String email, String userName, String role, Long id) {
-    		Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+    public static String getToken(String email, String userName, String role, Long id, int expireTime) {
+        // refresh_token 172800000, access_token  1800000
+        Date now = new Date();
+    		Date expires = new Date(now.getTime() + expireTime);
         return JWT.create()
                 .withSubject(email)
                 .withExpiresAt(expires)

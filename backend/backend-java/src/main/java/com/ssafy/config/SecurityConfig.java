@@ -3,6 +3,7 @@ package com.ssafy.config;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.JwtAuthenticationFilter;
 import com.ssafy.common.auth.SsafitUserDetailService;
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.config.properties.AppProperties;
 import com.ssafy.db.repository.UserRefreshTokenRepository;
 import com.ssafy.oauth.handler.OAuth2AuthenticationFailureHandler;
@@ -41,6 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserService userService;
 
+    private JwtTokenUtil jwtTokenUtil;
+
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -72,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService, jwtTokenUtil)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/user/**")
@@ -85,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .oauth2Login()
                 .authorizationEndpoint()
-                .baseUri("/oauth2/authorization")
+                .baseUri("/api_be/oauth2/authorization")
                 .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
                 .and()
                 .redirectionEndpoint()

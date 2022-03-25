@@ -20,6 +20,8 @@ server:
     enabled: 'true'
     mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
 
+
+
 # 변수
 naver:
   serviceid: ncp:sms:kr:279856955477:integproject
@@ -52,8 +54,25 @@ springfox:
     swagger:
       use-model-v3: 'false'
 
+#
+#cloud:
+#  aws:
+#    s3:
+#      bucket: ssafit-01
+#    region:
+#      static: ap-northeast-2
+#    stack:
+#      auto: false
+#    credentials:
+#      accessKey: AKIAZM2UBXT2Y6AEKMKF
+#      secretKey: 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
+#      instanceProfile: true
 
 spring:
+#  profiles:
+#    include:
+#      -aws
+#      -credentials
   security:
     oauth2.client:
       registration:
@@ -108,7 +127,7 @@ spring:
     host : smtp.gmail.com
     port : 587
     username : 'sky6min@gmail.com'
-    password : '@2sotkfkd'
+    password : 'qtqmxmcjchrrmdpy'
     properties :
       mail :
         smtp :
@@ -155,7 +174,7 @@ spring:
 # jwt
 # unit is ms. 15 * 24 * 60 * 60 * 1000 = 15days
 jwt:
-  secret: dyAeHubOOc8KaOfYB6XEQoEj1QzRlVgtjNL8PYs1A1tymZvvqkcEU7L1imkKHeDa
+  secret: MDUsNz9lRE8pSikrKX1HN2wvK2wlVD47Yzw=OV94LVpkTGdfXU9nNV05ZHs=QDtLdE12O1hcanZsSXpueVU4QG8oUiFCP1gwQiFQ
   expiration: '1296000000'
 #logging
 logging:

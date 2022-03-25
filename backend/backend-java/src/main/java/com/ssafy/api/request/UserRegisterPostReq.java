@@ -17,14 +17,14 @@ public class UserRegisterPostReq {
 	@ApiModelProperty(name="유저 email", example="ssafy_web")
 	String email;
 
-	String nickName;
+	String nickname;
 	@ApiModelProperty(name="유저 Password", example="your_password")
 	String password;
 
 	int height;
 	int weight;
 	int gender;
-	Date birthDate;
-	String imgUrl;
+	String birth;
+	String profileImg;
 
 }
