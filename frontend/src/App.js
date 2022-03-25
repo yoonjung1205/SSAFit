@@ -37,7 +37,7 @@ function App() {
     <div className="App" key={path}>
       <Switch>
         <Route path="/" component={Start} exact />
-        <Route path="/search/:word" component={Search} />
+        <Route path="/search" component={Search} />
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
