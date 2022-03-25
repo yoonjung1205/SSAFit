@@ -7,6 +7,7 @@ import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
 import Moreinfo from './pages/moreinfo/Moreinfo'
 import Recommend from "./pages/recommend/Recommend";
+import ItemDetail from './pages/itemdetail/ItemDetail'
 import Start from "./pages/start/Start";
 import Tpo from "./pages/tpo/Tpo";
 import RecommendCodi from './pages/recommend_codi/RecommendCodi'
@@ -42,6 +43,7 @@ function App() {
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
         <Route path="/recommend" component={Recommend} exact />
+        <Route path="/item/:id" component={ItemDetail} exact />
         <Route path="/recommend/:category" component={Category} exact />
         <Route path="/mypage" component={Mypage} exact />
         <Route path="/login" component={Login} />

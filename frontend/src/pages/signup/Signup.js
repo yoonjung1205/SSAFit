@@ -18,8 +18,6 @@ export default function Signup({ history }) {
   const [hover, setHover] = useState({
     email: false, password: false, passwordConf: false
   })
-  
-  const baseUrl = 'https://ssafit.site/api_be'
 
   const isValid = function(){
     return new Promise((resolve, reject) =>{
@@ -49,11 +47,12 @@ export default function Signup({ history }) {
       /////////////// 이메일 중복검사 //////////////////
       axios({
         method: 'post',
-        url: baseUrl + '/auth/email/confirms',
-        body: credentials.email
+        baseURL: 'https://ssafit.site/api_be',
+        url: '/auth/email/confirms',
+        data: {email: credentials.email}
       })
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
+      .then(() => setValidData({...validData, email: 1}))
+      .catch(() => setValidData({...validData, email: -1}))
     }
     else if (target ==='password'){
       const passValidator = /[0-9a-zA-Z~!@#$%^&*()_+-=[\]{};\':",\\|.\/<>?]{8,16}/
@@ -99,7 +98,7 @@ export default function Signup({ history }) {
               <div className='input-box'>
                 <input type="email" name="email" id="email"
                 placeholder='이메일을 입력하세요'
-                onInput={event => {credentials.email = event.target.value}} />
+                onInput={event => {setCredentials({...credentials, email: event.target.value}); setValidData({...validData, email: null})}} />
 
                 <img className='validator-helper' src={validData.email === 1 ? corr:incorr}
                   style={{display: validData.email ? 'block':'none'}} alt="helper"
@@ -117,7 +116,7 @@ export default function Signup({ history }) {
                   </p>
                 </div>
               </div>
-              <button className='eamil-validator' onClick={() => {validator('email')}} >
+              <button className='eamil-validator' onClick={event => {event.preventDefault(); validator('email')}} >
                 <span />
                 <p>확인</p>
               </button>
