@@ -34,15 +34,15 @@ list_data = []
 
 def writeCSV(list):
     list_title = ['userName', 'date', 'goodsNo', 'userSexMen', 'userSexWomen', 'userHeight', 'userWeight', 'goodsSize', 'reviewContent', 'reviewImg', 'reviewStyle', 'size', 'bright', 'color', 'thickness', 'weightness', 'touch', 'helpNo', 'styleLikeNo']
-    if os.path.isfile("musinsa_review_outer_2.csv"):
+    if os.path.isfile("musinsa_review_top1_3.csv"):
         pass
     else:
-        with open('musinsa_review_outer_2.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
+        with open('musinsa_review_top1_3.csv', 'w', newline='', encoding='utf-8-sig') as f_object:
             writer_object = writer(f_object)
             writer_object.writerow(list_title)
             f_object.close()
 
-    with open('musinsa_review_outer_2.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
+    with open('musinsa_review_top1_3.csv', 'a', newline='', encoding='utf-8-sig') as f_object:
         writer_object = writer(f_object)
         for data in list:
             writer_object.writerow(data)
@@ -51,7 +51,7 @@ def writeCSV(list):
 def get_goodsNo():
     global headers
     link = []
-    goodsList = pd.read_csv("./unique_id_outer1.csv")
+    goodsList = pd.read_csv("./unique_id_top1_3.csv")
     goodsList = list(goodsList)
     
     return goodsList

@@ -1,0 +1,32 @@
+#start-1 {
+  background-image: url(../images/start_main.jpg);
+  background-size: cover;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    position: inherit;
+    
+    * {
+      margin: 2rem;
+    }
+  
+    h3 {
+      font-weight: normal;
+      color: white;
+    }
+  
+    a {
+      color: white;
+    }
+  }
+}

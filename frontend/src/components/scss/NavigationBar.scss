@@ -3,9 +3,14 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  .menu {
+  .ssafit-logo {
+    margin: 0 2rem;
+    height: 5vh;
+    cursor: pointer;
+  }
+  .nav-menu {
     color: #777777;
-    width: 100%;
+    width: 90%;
     list-style: none;
     text-align: end;
     li {
@@ -16,6 +21,10 @@
         text-decoration: none;
         margin-right: 5rem;
         color: #777777;
+        &#active {
+          font-weight: bold;
+          color: black;
+        }
         &:hover {
           color: black;
         }

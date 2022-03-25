@@ -1,0 +1,122 @@
+.start{
+  
+  button {
+    padding: 1.5rem 2rem;
+    width: 15rem;
+    text-align: center;
+    background-color: #56586C;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    transition: all 0.5s;
+    cursor: pointer;
+    span {
+      display: inline-block;
+      position: relative;
+      transition: 0.5s;
+      &::after {
+        content: '>>';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+      }
+    }
+    &:hover {
+      box-shadow: inset 15rem 0 0 0 #3c3d47;
+      span {
+        padding-right: 25px;
+        &::after {
+          opacity: 1;
+          right: 0;
+        }
+      }
+    }
+  }
+  
+  * {
+    word-break: keep-all;
+  }
+  
+  p {
+    font-size: 1.25rem;
+    letter-spacing: 0.5rem;
+    margin: 0.5rem;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    letter-spacing: 1rem;
+    margin: 0.5rem;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+    letter-spacing: 1rem;
+    margin: 0.5rem;
+  }
+  
+  h3 {
+    font-size: 2rem;
+    letter-spacing: 1rem;
+    margin: 1rem;
+  }
+  
+  h4 {
+    font-size: 1.75rem;
+    font-weight: normal;
+    letter-spacing: 1rem;
+    margin: 1rem;
+  }
+  
+  h5 {
+    font-size: 1.5rem;
+    letter-spacing: 1rem;
+    margin: 0.5rem;
+  }
+  
+  h6 {
+    font-size: 1.5rem;
+    letter-spacing: 1rem;
+    margin: 0.5rem;
+  }
+  
+  article {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .flex-row {
+    display: flex;
+  }
+  
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .opac-blk {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    opacity: 0.5;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .dash {
+    width: 0.125rem;
+    height: 2rem;
+  }
+
+  .small-title {
+    text-align: center;
+    line-height: 200%;
+  }
+}

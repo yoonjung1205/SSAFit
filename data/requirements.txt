@@ -1,0 +1,16 @@
+anyio==3.5.0
+asgiref==3.5.0
+click==8.0.4
+colorama==0.4.4
+fastapi==0.75.0
+h11==0.13.0
+idna==3.3
+importlib-metadata==4.11.3
+mongoengine==0.24.1
+pydantic==1.9.0
+pymongo==4.0.2
+sniffio==1.2.0
+starlette==0.17.1
+typing-extensions==4.1.1
+uvicorn==0.17.6
+zipp==3.7.0
