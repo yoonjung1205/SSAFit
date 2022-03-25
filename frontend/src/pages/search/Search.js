@@ -2,11 +2,10 @@ import NavigationBar from '../../components/NavigationBar'
 import Footer from '../../components/Footer'
 import './scss/Search.scss'
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { Card, Col, Row } from 'react-bootstrap';
-import { searchClothes } from './data';
 import { parse } from 'query-string';
 import { useLocation } from 'react-router-dom';
+import { searchClothes } from './data';
 
 
 const Search = () => {
@@ -28,7 +27,8 @@ const Search = () => {
 
   useEffect(() => {
     setClothes(searchClothes)
-  }, [])
+    console.log('search result!')
+  }, [word])
 
   return (
     <>

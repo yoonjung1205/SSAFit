@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Col, FormControl, InputGroup, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { Link, useHistory } from 'react-router-dom';
 import './scss/NavigationBar.scss'
 
@@ -15,9 +16,15 @@ const NavigationBar = ({boldPath}) => {
   }
 
   function search() {
-    let path = '/search?word=' + inputText
+    const text = inputText.trim()
     setInputText('')
-    history.push(path)
+    if (text.length === 0) {
+      alert('검색어를 입력하세요')
+    } else {
+      let path = '/search?word=' + text
+      setShowSearchBar(false)
+      history.push(path)
+    }
   }
 
   const onClickLogo = () => {
