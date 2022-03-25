@@ -21,7 +21,7 @@
         text-decoration: none;
         margin-right: 5rem;
         color: #777777;
-        &#active {
+        &.active {
           font-weight: bold;
           color: black;
         }
