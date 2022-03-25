@@ -49,10 +49,10 @@ export default function Signup({ history }) {
         method: 'post',
         baseURL: 'https://ssafit.site/api_be',
         url: '/auth/email/confirms',
-        data: credentials.email
+        data: {email: credentials.email}
       })
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
+      .then(() => setValidData({...validData, email: 1}))
+      .catch(() => setValidData({...validData, email: -1}))
     }
     else if (target ==='password'){
       const passValidator = /[0-9a-zA-Z~!@#$%^&*()_+-=[\]{};\':",\\|.\/<>?]{8,16}/
@@ -116,7 +116,7 @@ export default function Signup({ history }) {
                   </p>
                 </div>
               </div>
-              <button className='eamil-validator' onClick={() => {validator('email')}} >
+              <button className='eamil-validator' onClick={event => {event.preventDefault(); validator('email')}} >
                 <span />
                 <p>확인</p>
               </button>

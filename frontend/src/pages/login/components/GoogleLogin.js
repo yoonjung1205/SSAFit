@@ -1,9 +1,9 @@
 import React from 'react'
 import google from '../images/google_logo.png'
 
-export default function GoogleLoginBtn(){
+export default function GoogleLoginBtn({ history }){
   const GoogleLogin = function(){
-    window.location.replace('https://ssafit.site/api_be/oauth2/authorization/google?redirect_uri=http://localhost:3000/moreinfo')
+    window.location.replace('https://ssafit.site/api_be/oauth2/authorization/google?redirect_uri=https://ssafit.site/moreinfo')
   }
 
   return (

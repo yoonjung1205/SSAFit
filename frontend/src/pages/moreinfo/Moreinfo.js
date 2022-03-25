@@ -67,6 +67,10 @@ export default function Moreinfo() {
     .then(() => {
       const userInfo = makeCredential()
 
+      for (let t in userInfo.entries()){
+        console.log('나야나야나야 나라고', t)
+      }
+
       return axios({
         method: 'post',
         baseURL: 'https://ssafit.site',
