@@ -6,13 +6,13 @@ import {Link} from 'react-router-dom'
 import axios from 'axios'
 import './scss/login.scss'
 
-const baseUrl = 'http://ssafit.site:8971/'
 
-const signUp = function(event, email, password){
+const signIn = function(event, email, password){
   event.preventDefault()
   axios({
     method: 'post',
-    url: baseUrl + 'api_be/auth/login',
+    baseURL: 'http://ssafit.site/api_be',
+    url: '/auth/login',
     data: {
       email: email,
       password: password
@@ -34,7 +34,7 @@ export default function Login({ history }) {
       </section>
       <section className='login-body'>
         <h1>Log In</h1>
-        <form action="" onSubmit={(event) => signUp(event, email, password)}>
+        <form action="" onSubmit={(event) => signIn(event, email, password)}>
           <label htmlFor="">
             이메일
             <input type="email" name="email" id="email"

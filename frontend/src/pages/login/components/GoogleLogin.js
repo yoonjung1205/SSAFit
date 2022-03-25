@@ -3,7 +3,7 @@ import google from '../images/google_logo.png'
 
 export default function GoogleLoginBtn(){
   const GoogleLogin = function(){
-    window.location.replace('http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/moreinfo')
+    window.location.replace('https://ssafit.site/api_be/oauth2/authorization/google?redirect_uri=http://localhost:3000/moreinfo')
   }
 
   return (

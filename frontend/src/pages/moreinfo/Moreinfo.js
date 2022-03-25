@@ -1,27 +1,21 @@
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
-import _default from './images/default.png'
+import defaultImage from './images/default.png'
 import axios from 'axios'
-import {S3} from "@aws-sdk/client-s3";
 import './scss/moreinfo.scss'
 
 export default function Moreinfo() {
-  console.log(S3)
   const [credentials, setCredentials] = useState({
-    profileImg: _default, nickname: null, height: null, weight: null, birth: null, gender: null
+    imageUrl:defaultImage, nickname: null, height: null, weight: null, birth: null, gender: null
   })
+  const [profileImage, setProfileImage] = useState(null)
 
   const date = new Date();
 
   const fileUpload = function(event){
-    // const client = new S3({region: ''})
-    // const bucketParams = {
-    //   bucket: ''
-    // }
-    // client.createBucket
     const file = event.target.files[0]
-    const url = URL.createObjectURL(file)
-    setCredentials({...credentials, profileImg: url})
+    setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
+    setProfileImage(file)
   }
 
   const isValid = function(){
@@ -54,23 +48,40 @@ export default function Moreinfo() {
     })
   }
 
+  const makeCredential = () => {
+    const firstCredentials = JSON.parse(window.localStorage.getItem('userInfo'))
+    const userInfo = {...firstCredentials, ...credentials}
+    delete userInfo.imageUrl; userInfo.profileImage = profileImage;
+    const formdata = new FormData()
+    for (const key in userInfo){
+      console.log(key, userInfo[key])
+      formdata.append(key, userInfo[key])
+    }
+
+    return formdata
+  }
+
   const submit = function(event){
     event.preventDefault();
     isValid()
     .then(() => {
-      const baseUrl = 'https://ssafit.site/api_be'
-      const firstCredentials = JSON.parse(window.localStorage.getItem('userInfo'))
-      const userInfo = {...firstCredentials, ...credentials}
+      const userInfo = makeCredential()
 
-      axios({
+      return axios({
         method: 'post',
-        url: baseUrl + '/api_be/auth/signup',
-        params: userInfo
+        baseURL: 'https://ssafit.site',
+        url: '/api_be/auth/signup',
+        headers: {'Content-Type': 'multipart/form-data'},
+        data: userInfo
       })
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
     })
+    .then(res => {console.log('이거 마자?', res)})
     .catch(err => {
+      console.log(err)
+      if (typeof(err) !== Array){
+        console.log('여기걸림?')
+        return alert('잘못된 요청입니다.')
+      }
       alert(`${err.join(', ')}를 확인해주세요!!`)
     })
   }
@@ -85,7 +96,7 @@ export default function Moreinfo() {
       <section className='moreinfo-body'>
         <form onSubmit={event => submit(event)}>
           {/* 프로필사진 */}
-          <label id='file-input' style={{backgroundImage: `url(${credentials.profileImg})`}}>
+          <label id='file-input' style={{backgroundImage: `url(${credentials.imageUrl})`}}>
             <div className='input-box'>
               <input type="file" name="profile" id="profile" 
               onChange={event => fileUpload(event)} />
@@ -97,7 +108,7 @@ export default function Moreinfo() {
             <div className='input-box'>
               <input type="text" name="nickname" id="nickname"
               placeholder='닉네임을 입력하세요' maxLength='10'
-              onInput={event => {credentials.nickname = event.target.value}} />
+              onInput={event => setCredentials({...credentials, nickname: event.target.value})} />
             </div>
           </label>
           {/* 키 */}

@@ -18,8 +18,6 @@ export default function Signup({ history }) {
   const [hover, setHover] = useState({
     email: false, password: false, passwordConf: false
   })
-  
-  const baseUrl = 'https://ssafit.site/api_be'
 
   const isValid = function(){
     return new Promise((resolve, reject) =>{
@@ -49,8 +47,9 @@ export default function Signup({ history }) {
       /////////////// 이메일 중복검사 //////////////////
       axios({
         method: 'post',
-        url: baseUrl + '/auth/email/confirms',
-        body: credentials.email
+        baseURL: 'https://ssafit.site/api_be',
+        url: '/auth/email/confirms',
+        data: credentials.email
       })
       .then(res => console.log(res))
       .catch(err => console.log(err))
