@@ -1,0 +1,65 @@
+#start-2{
+  
+  #intro-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
+  
+    h3, h4 {
+      margin: 1rem;
+    }
+  }
+  
+  #intro-container {
+    justify-content: center;
+    align-items: center;
+  
+    > * {
+      margin: 1rem;
+    }
+  
+    img {
+      width: 30%;
+      aspect-ratio: 1/0.8;
+    }
+  }
+  
+  #service-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin: 5rem 0 2rem 0;
+    width: 100%;
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      color: black;
+      aspect-ratio: 1/0.6;
+      position: relative;
+  
+      h4 {
+        z-index: 1;
+        color: white;
+      }
+    }
+    
+    #link-1 {
+      background-image: url(../images/image_1.png);
+      background-size: cover;
+    }
+    
+    #link-2 {
+      background-image: url(../images/image_2.png);
+      background-size: cover;
+    }
+    
+    #link-3 {
+      background-image: url(../images/image_3.png);
+      background-size: cover;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.mypage {
+  .mypage-myinfo {
+    height: 30vh;
+    margin-bottom: 2rem;
+  }
+  .hanger {
+    padding: 3rem;
+    display: flex;
+    .menus {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      .menu {
+        margin-left: 2rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        &#active {
+          font-weight: bold;
+        }
+        img {
+          height: 4vh;
+          margin-right: 1.5rem;
+        }
+        p {
+          margin: auto 0;
+        }
+      }
+    }
+  }
+}
