@@ -25,7 +25,7 @@ const recent = () => {
             <Card.Img src={cloth.clothImage} alt='recent-cloth' />
             <p className='text one-line'>{cloth.brand}</p>
             <p className='text two-line'>{cloth.clothName}</p>
-            <p className='text one-line'>{cloth.clothPrice}원</p>
+            <p className='text one-line price'>{cloth.clothPrice}원</p>
             <div onClick={() => chnageLike(cloth)} className='card-heart'>
               {cloth.like ? 
               <img src={fillLike} alt='heart' />
