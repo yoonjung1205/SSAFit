@@ -79,6 +79,7 @@ spring:
         google:
           clientId: '1090279015530-bn2drlnfrf78o748fji32ebfivlfgoik.apps.googleusercontent.com'
           clientSecret: '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'
+          redirectUri: "https://ssafit.site/api_be/login/oauth2/code/google"
           scope:
             - email
             - profile
