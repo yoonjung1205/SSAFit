@@ -74,9 +74,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Optional<String> redirectUri = CookieUtil.getCookie(request, OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
-        if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-            throw new IllegalArgumentException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
-        }
+//        if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
+//            throw new IllegalArgumentException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
+//        }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 

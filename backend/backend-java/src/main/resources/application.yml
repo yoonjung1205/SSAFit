@@ -35,7 +35,7 @@ app:
     refreshTokenExpiry: 604800000
   oauth2:
     authorizedRedirectUris:
-      - http://localhost:3000/oauth/redirect
+      - https://ssafit.site/api_be/oauth/redirect
   wfileupload:
     uploadDir: upload
     uploadPath: C:\\Users\\dlrjs\\Desktop\\sixman\\backend-java\\src\\main\\resources\\static
@@ -79,7 +79,7 @@ spring:
         google:
           clientId: '1090279015530-7h88g8sugkhar11j8enjo87d351i7g4v.apps.googleusercontent.com'
           clientSecret: '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'
-          redirectUri: "http://ssafit.site:8971/login/oauth2/code/google"
+          redirectUri: "https://ssafit.site/api_be/login/oauth2/code/google"
           scope:
             - email
             - profile
