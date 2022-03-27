@@ -22,7 +22,7 @@ public class DownloadS3 {
 
     private final AmazonS3 amazonS3;
 
-    @Value("${aws.s3.bucket}")
+    @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     public ResponseEntity<byte[]> getObject(String storedFileName) throws  IOException {
