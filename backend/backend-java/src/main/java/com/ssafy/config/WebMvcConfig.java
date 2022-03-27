@@ -13,16 +13,19 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
 
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowCredentials(false)
+                .allowedOrigins("https://ssafit.site")
+                .allowCredentials(true)
                 .allowedHeaders("*")
                 .allowedMethods("*")
                 .exposedHeaders(JwtTokenUtil.HEADER_STRING)
