@@ -104,7 +104,7 @@ spring:
           clientSecret: '2Gkh9SWv9Aey1rpcNWalc0gbeRwUjvQh'
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "http://ssafit.site:8971/login/oauth2/code/kakao"
+          redirectUri: "https://ssafit.site/api_be/login/oauth2/code/kakao"
           scope:
             - profile_nickname
             - profile_image
