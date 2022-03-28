@@ -112,7 +112,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             response.setHeader("email", userInfo.getEmail());
             response.setHeader("password", bCryptPasswordEncoder.encode("겟겟인데어"));
 
-            return UriComponentsBuilder.fromUriString(targetUrl)
+            return UriComponentsBuilder.fromUriString(targetUrl).queryParam("email", userInfo.getEmail())
                     .build().toUriString();
 
             // 회원가입이 된 경우.
