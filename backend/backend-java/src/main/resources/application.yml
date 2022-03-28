@@ -165,6 +165,13 @@ spring:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   data:
+    mongodb:
+      host: ssafit.site
+      port: 8975
+      authentication-database: admin
+      username: admin
+      password: ssafit
+      database: ssafit
     web:
       pageable:
         one-indexed-parameters: 'true'
@@ -206,3 +213,4 @@ management:
       enabled: 'true'
   servlet:
     context-path: /manage
+

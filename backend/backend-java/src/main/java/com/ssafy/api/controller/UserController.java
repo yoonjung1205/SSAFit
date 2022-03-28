@@ -1,6 +1,8 @@
 package com.ssafy.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ssafy.api.request.UserChangePutReq;
+import com.ssafy.api.request.UserChangePwReq;
 import com.ssafy.api.request.ValidateEmailReq;
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.RefreshTokenServiceImpl;
@@ -17,11 +19,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.service.UserService;
@@ -83,9 +81,18 @@ public class UserController {
 
 		MultipartFile file = request.getFile("files");
 
-		String fileUrl = s3Uploader.upload(file,"user");
+		System.out.println("file size : " + file.getSize());
+		String fileUrl = "";
+		if(file.getSize() == 0) {
+			System.out.println("파일이름이 엄서용~!");
+		}else{
+			fileUrl = s3Uploader.upload(file,"user");
+		}
+
+
 		System.out.println("fileUrl : " + fileUrl);
 		System.out.println("fileUrl : " + fileUrl);
+
 
 
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
@@ -167,4 +174,53 @@ public class UserController {
 		return ResponseEntity.status(400).body(BaseResponseBody.of(400, "failed"));
 	}
 
+	//유저 정보 변경
+	@PutMapping("/user")
+	@ApiOperation(value = "사용자 정보 변경", notes = "사용자 정보를 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> ChangeUserInfo(@ApiParam(value="사용자 변경 정보", required = true) UserChangePutReq userChangePutReq, HttpServletResponse response, MultipartHttpServletRequest request) throws IOException {
+
+		MultipartFile file = request.getFile("files");
+
+		System.out.println("file size : " + file.getSize());
+		String fileUrl = "";
+		String accessToken = "";
+		if(file.getSize() == 0) {
+			System.out.println("파일이름이 엄서용~!");
+			User user = userService.updateUser(userChangePutReq);
+			accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),1800000);
+		}else{
+			fileUrl = s3Uploader.upload(file,"user");
+			User user = userService.updateUser(userChangePutReq,fileUrl);
+			accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),1800000);
+		}
+
+
+		response.setHeader("authorization",accessToken);
+
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+
+	}
+
+	//유저 비밀번호 변경
+	@PutMapping("/user/pw")
+	@ApiOperation(value = "사용자 비밀번호 변경", notes = "사용자 비밀번호를 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> ChangeUserPw(@RequestBody @ApiParam(value="사용자 비밀번호 정보", required = true) UserChangePwReq userChangePwReq) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
+
+		userService.updateUserPw(userChangePwReq);
+
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+
+	}
 }

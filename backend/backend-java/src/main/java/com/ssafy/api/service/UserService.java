@@ -1,5 +1,7 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserChangePutReq;
+import com.ssafy.api.request.UserChangePwReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.request.ValidateEmailReq;
 import com.ssafy.db.entity.User;
@@ -13,4 +15,10 @@ public interface UserService {
 	User saveUser(User user);
 	public boolean verifyEmail(ValidateEmailReq validateEmailReq);
 	void setUserPasswordByEmail(String email,String pw);
+
+	User updateUser(UserChangePutReq userChangePutReq,String fileUrl);
+
+	User updateUser(UserChangePutReq userChangePutReq);
+
+	void updateUserPw(UserChangePwReq userChangePwReq);
 }
