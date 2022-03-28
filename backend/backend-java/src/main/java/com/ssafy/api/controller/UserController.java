@@ -79,7 +79,7 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo, HttpServletResponse response, MultipartHttpServletRequest request) throws IOException {
 
-		MultipartFile file = request.getFile("file");
+		MultipartFile file = request.getFile("profileImage");
 
 		System.out.println("file size : " + file.getSize());
 		String fileUrl = "";
