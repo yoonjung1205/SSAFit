@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import defaultImage from './images/default.png'
 import axios from 'axios'
@@ -65,7 +65,6 @@ export default function Moreinfo({ history }) {
     event.preventDefault();
     isValid()
     .then(() => {
-      console.log('설마?')
       const userInfo = makeCredential()
 
       return axios({
@@ -76,7 +75,7 @@ export default function Moreinfo({ history }) {
         data: userInfo
       })
     })
-    .then(res => {
+    .then(() => {
       window.localStorage.removeItem('userInfo')
       if (!alert('가입이 완료되었습니다!')){
         history.push('/login')

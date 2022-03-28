@@ -3,6 +3,7 @@ import google from '../images/google_logo.png'
 
 export default function GoogleLoginBtn({ history }){
   const GoogleLogin = function(){
+    window.history.pushState({}, '', 'http://localhost:3000/login')
     window.location.replace('https://ssafit.site/api_be/oauth2/authorization/google?redirect_uri=https://ssafit.site/moreinfo')
   }
 
