@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-# from mongoengine import connect
 from ..database.database import *
 from ..models.user_meta import *
 from fastapi.responses import JSONResponse
@@ -43,18 +42,18 @@ def get_size_real_user(users_meta, user_info):
         real_user.append(sub_user.iloc[i].userId)
     return real_user
 
-@router.get('/rec/size/{userId}')
+@router.get('/recommend/size/{userId}', tags=["Recommend"])
 async def rec_size(userId: int):
     start = time.time()
     gender = await get_user_gender(userId)
     if gender == 1:
-        to_do = list(range(1, 4))
+        to_do = 4
     else:
-        to_do = list(range(1, 6))
+        to_do = 6
     name_list = ['top', 'outer', 'pants', 'onepiece', 'skirt']
     model_list = ['model_size_top.pickle', 'model_size_outer.pickle', 'model_size_pants.pickle', 'model_size_onepiece.pickle', 'model_size_skirt.pickle']
     context = dict()
-    for i in to_do:
+    for i in range(1,to_do):
         users = pd.DataFrame(await retrieve_users(i))
         clothes = pd.DataFrame(await retrieve_clothes(i))
         user_info = await retrieve_user(userId, i)
@@ -72,23 +71,6 @@ async def rec_size(userId: int):
 # pants : 13초
 # onepiece : 9초
 # skirt : 10초
-
-# @router.get('/codi/category/{codiCategory}')
-# def getcodi_by_category(codiCategory):
-#     codis = json.loads(Codi.objects(codiStyle=codiCategory).to_json())
-#     cate_cnt = Codi.objects(codiStyle=codiCategory).count()
-#     return cate_cnt
-
-# @router.get('/codi/{codiId}')
-# def getdata(codiId: int):
-#     codis = json.loads(Codi.objects(codiId=codiId).to_json())
-#     codi_cnt = Codi.objects.get(codiId=codiId)
-#     print(codi_cnt)
-
-#     # print(Codi.objects())
-#     # codi = json.loads(Codi.objects.get(codiId=codiId).to_json())
-    
-#     return codis
 '''
 만들어야할 api
 size(유저의 키,몸무게,성별) 맞춤추천

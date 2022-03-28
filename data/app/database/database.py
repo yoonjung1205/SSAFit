@@ -31,11 +31,16 @@ async def retrieve_user(userId, largecategory):
 
 async def get_cloth(idList):
     clothes = []
-    for cloth_id in idList:
-        cloth = await cloth_collection.find_one({'newClothId': int(cloth_id)})
-        clothes.append(cloth_helper(cloth))
+    if type(idList) == int:
+        cloth = await cloth_collection.find_one({'newClothId': int(idList)})
+        clothes.append(cloth_detail_helper(cloth))
+    else:
+        for cloth_id in idList:
+            cloth = await cloth_collection.find_one({'newClothId': int(cloth_id)})
+            clothes.append(cloth_helper(cloth))
     return clothes
     
 async def get_user_gender(userId):
     user = await user_ssafit_collection.find_one({'userId': int(userId)})
+    print(user_ssafit_helper(user))
     return user_ssafit_helper(user)['userMale']

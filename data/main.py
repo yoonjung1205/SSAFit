@@ -5,13 +5,10 @@ from starlette.middleware.cors import CORSMiddleware
 # from app.database.conn import db
 # from app.common.config import conf
 # from app.routes import data, recommend
-from app.routes import recommend
-from mongoengine import connect
+from app.routes import recommend, cloth
 import motor.motor_asyncio
 from bson import ObjectId
 
-# connect(host="mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false")
-# connect(db="ssafit", host="ssafit.site", port=8975, username="admin", password="ssafit")
 
 def create_app():
     """
@@ -32,8 +29,8 @@ def create_app():
         allow_headers=["*"],
     )
     # 라우터 정의
-    # app.include_router(data.router)
     app.include_router(recommend.router)
+    app.include_router(cloth.router)
     return app
 
 

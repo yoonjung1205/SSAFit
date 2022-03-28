@@ -55,6 +55,7 @@ def cloth_helper(cloth):
     }
     return context
 
+# detail페이지로 보내줄 cloth
 def cloth_detail_helper(cloth):
     context = {
         "_id": str(cloth['_id']),
@@ -62,32 +63,7 @@ def cloth_detail_helper(cloth):
         'clothId': cloth['clothId'],
         'largeCategory': cloth['largeCategory'],
         'largeCategoryName': cloth['largeCategoryName'],
-        'smallCategoryHalfshort': cloth['smallCategoryHalfshort'],
-        'smallCategoryShirt': cloth['smallCategoryShirt'],
-        'smallCategoryCollar': cloth['smallCategoryCollar'],
-        'smallCategoryHoody': cloth['smallCategoryHoody'],
-        'smallCategorySweatshirt': cloth['smallCategorySweatshirt'],
-        'smallCategoryKnit': cloth['smallCategoryKnit'],
-        'smallCategoryLong': cloth['smallCategoryLong'],
-        'smallCategoryShort': cloth['smallCategoryShort'],
-        'smallCategoryOthers': cloth['smallCategoryOthers'],
         'smallCategoryName': cloth['smallCategoryName'],
-        'colorWhite': cloth['colorWhite'],
-        'colorGrey': cloth['colorGrey'],
-        'colorBlack': cloth['colorBlack'],
-        'colorRed': cloth['colorRed'],
-        'colorPink': cloth['colorPink'],
-        'colorOrange': cloth['colorOrange'],
-        'colorIvory': cloth['colorIvory'],
-        'colorYellow': cloth['colorYellow'],
-        'colorGreen': cloth['colorGreen'],
-        'colorBlue': cloth['colorBlue'],
-        'colorPurple': cloth['colorPurple'],
-        'colorBrown': cloth['colorBrown'],
-        'colorBeige': cloth['colorBeige'],
-        'colorJean': cloth['colorJean'],
-        'colorPattern': cloth['colorPattern'],
-        'colorOthers': cloth['colorOthers'],
         'colorName': cloth['colorName'],
         'clothName': cloth['clothName'],
         'brand': cloth['brand'],
@@ -128,3 +104,34 @@ def cloth_detail_helper(cloth):
         'month12': cloth['month12'],
     }
     return context
+
+
+# def codi_helper(codi):
+#     context = {
+#         "_id": str(codi['_id']),
+#         "codiId": int(cloth_meta['newClothId']),
+#         "codiStyle" = StringField(max_length=100)
+#         "codiTitle" = StringField()
+#         "codiContents" = StringField()
+#         "date" = StringField()
+#         "dateYear" = IntField()
+#         "dateMonth" = IntField()
+#         "dateDay" = IntField()
+#         "codiDate" = IntField()
+#         "codiDaily" = IntField()
+#         "codiCampus" = IntField()
+#         "codiParty" = IntField()
+#         "codiTravel" = IntField()
+#         "codiWedding" = IntField()
+#         "codiBusiness" = IntField()
+#         "codiInterview" = IntField()
+#         "codiHip" = IntField()
+#         "codiSports" = IntField()
+#         "codiGolf" = IntField()
+#         "codiOther" = IntField()
+#         "viewCnt" = IntField()
+#         "imgSrc" = StringField()
+#         "hashtags" = ListField()
+#         "clothes" = ListField()
+#     }
+#     return context
