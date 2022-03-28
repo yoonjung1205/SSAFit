@@ -24,7 +24,6 @@ export default function Login({ history }) {
       }
     })
     .then(res => {
-      console.log(res)
       const session = window.sessionStorage
 
       session.setItem('access-token-jwt', res.headers.authorization)

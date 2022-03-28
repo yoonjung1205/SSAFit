@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import NavigationBar from '../../components/NavigationBar'
 import RealFit from './components/RealFit'
+import Analysis from './components/Analysis'
 
 export default function ItemDetail({ history, location }) {
   const itemId = location.pathname.replace('/item/', '')
@@ -58,6 +59,7 @@ export default function ItemDetail({ history, location }) {
       </section>
       <div className='anchor'></div>
       <RealFit/>
+      <Analysis/>
       <section className='detail-footer'>
       </section>
     </article>
