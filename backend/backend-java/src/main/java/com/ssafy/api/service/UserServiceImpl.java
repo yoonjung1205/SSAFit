@@ -1,9 +1,12 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserChangePutReq;
+import com.ssafy.api.request.UserChangePwReq;
 import com.ssafy.api.request.ValidateEmailReq;
 import com.ssafy.db.entity.Gender;
 import com.ssafy.db.entity.User;
 import com.ssafy.oauth.entity.ProviderType;
+import com.sun.tools.javac.jvm.Gen;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -82,5 +85,42 @@ public class UserServiceImpl implements UserService {
 		userRepository.updatePassword(email,bCryptPasswordEncoder.encode(pw));
 
 
+	}
+
+	@Override
+	public User updateUser(UserChangePutReq userChangePutReq,String fileUrl) {
+
+		if(userChangePutReq.getGender() == 0) {
+
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, fileUrl, userChangePutReq.getEmail());
+		}else if(userChangePutReq.getGender() == 1) {
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.MALE, fileUrl, userChangePutReq.getEmail());
+		}
+
+
+		User user = userRepository.findUserByEmail(userChangePutReq.getEmail());
+		return user;
+	}
+
+	@Override
+	public User updateUser(UserChangePutReq userChangePutReq) {
+
+		if(userChangePutReq.getGender() == 0) {
+
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, userChangePutReq.getEmail());
+		}else if(userChangePutReq.getGender() == 1) {
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.MALE, userChangePutReq.getEmail());
+		}
+
+
+		User user = userRepository.findUserByEmail(userChangePutReq.getEmail());
+		return user;
+	}
+
+	@Override
+	public void updateUserPw(UserChangePwReq userChangePwReq) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+
+		userRepository.updatePassword(userChangePwReq.getEmail(),bCryptPasswordEncoder.encode(userChangePwReq.getPassword()));
 	}
 }
