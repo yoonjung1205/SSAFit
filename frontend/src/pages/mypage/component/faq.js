@@ -1,8 +1,8 @@
 import { Accordion } from 'react-bootstrap';
-import '../scss/faq.scss'
+import '../scss/Faq.scss'
 import { faqs } from '../data';
 
-const faq = () => {
+const Faq = () => {
 
   return (
     <div className='mypage-faq'>
@@ -19,4 +19,4 @@ const faq = () => {
   );
 };
 
-export default faq;
+export default Faq;

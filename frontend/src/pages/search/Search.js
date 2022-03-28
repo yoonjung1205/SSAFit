@@ -26,8 +26,8 @@ const Search = () => {
   }
 
   useEffect(() => {
+    console.log(word, 'search result!')
     setClothes(searchClothes)
-    console.log('search result!')
   }, [word])
 
   return (

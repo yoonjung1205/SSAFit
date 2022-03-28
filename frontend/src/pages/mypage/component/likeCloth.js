@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { likeClothes } from '../data';
 
-const likeCloth = () => {
+const LikeCloth = () => {
   const [clothes, setClothes] = useState([])
   const fillLike = 'https://i.ibb.co/RDV7jPR/heart-free-icon-font.png'
   const lineLike = 'https://i.ibb.co/Nr77tWK/heart-free-icon-font-1.png'
@@ -40,4 +40,4 @@ const likeCloth = () => {
   );
 };
 
-export default likeCloth;
+export default LikeCloth;

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import Footer from '../../components/Footer';
 import NavigationBar from '../../components/NavigationBar';
-import Myinfo from './component/myinfo'
-import Recent from './component/recent'
-import LikeCloth from './component/likeCloth'
-import LikeCodi from './component/likeCodi'
-import Faq from './component/faq'
+import MyInfo from './component/MyInfo'
+import Recent from './component/Recent'
+import LikeCloth from './component/LikeCloth'
+import LikeCodi from './component/LikeCodi'
+import Faq from './component/Faq'
 import './scss/Mypage.scss'
 import { user } from './data';
 import { Col, Row } from 'react-bootstrap';
@@ -25,7 +25,7 @@ const Mypage = () => {
       <NavigationBar boldPath="MYPAGE" />
       <article className='mypage'>
         <section className='mypage-myinfo'>
-          <Myinfo info={myinfo} />
+          <MyInfo info={myinfo} />
         </section>
         <hr style={{margin: 0}}/>
         <section className='hanger'>
