@@ -12,6 +12,7 @@ cloth_collection = database.get_collection('cloth')
 user_meta_collection = database.get_collection('user_meta')
 cloth_meta_collection = database.get_collection('cloth_meta')
 user_ssafit_collection = database.get_collection('user_ssafiit')
+codi_collection = database.get_collection('codi')
 
 async def retrieve_users(what_id):
     users = []
@@ -42,5 +43,11 @@ async def get_cloth(idList):
     
 async def get_user_gender(userId):
     user = await user_ssafit_collection.find_one({'userId': int(userId)})
-    print(user_ssafit_helper(user))
     return user_ssafit_helper(user)['userMale']
+
+async def get_codi(codiTPO):
+    codis = []
+    async for codi in codi_collection.find({f'{codiTPO}': int(1)}):
+        codis.append(codi_helper(codi))
+    
+    return codis

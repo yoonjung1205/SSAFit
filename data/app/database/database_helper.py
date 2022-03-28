@@ -106,32 +106,32 @@ def cloth_detail_helper(cloth):
     return context
 
 
-# def codi_helper(codi):
-#     context = {
-#         "_id": str(codi['_id']),
-#         "codiId": int(cloth_meta['newClothId']),
-#         "codiStyle" = StringField(max_length=100)
-#         "codiTitle" = StringField()
-#         "codiContents" = StringField()
-#         "date" = StringField()
-#         "dateYear" = IntField()
-#         "dateMonth" = IntField()
-#         "dateDay" = IntField()
-#         "codiDate" = IntField()
-#         "codiDaily" = IntField()
-#         "codiCampus" = IntField()
-#         "codiParty" = IntField()
-#         "codiTravel" = IntField()
-#         "codiWedding" = IntField()
-#         "codiBusiness" = IntField()
-#         "codiInterview" = IntField()
-#         "codiHip" = IntField()
-#         "codiSports" = IntField()
-#         "codiGolf" = IntField()
-#         "codiOther" = IntField()
-#         "viewCnt" = IntField()
-#         "imgSrc" = StringField()
-#         "hashtags" = ListField()
-#         "clothes" = ListField()
-#     }
-#     return context
+def codi_helper(codi):
+    context = {
+        "_id": str(codi['_id']),
+        "codiId": int(codi['codiId']),
+        "codiStyle": str(codi['codiStyle']),
+        "codiTitle": str(codi['codiTitle']),
+        "codiContents": str(codi['codiContents']),
+        "date": str(codi['date']),
+        "dateYear": int(codi['dateYear']),
+        "dateMonth": int(codi['dateMonth']),
+        "dateDay": int(codi['dateDay']),
+        "codiDate": int(codi['codiDate']),
+        "codiDaily": int(codi['codiDaily']),
+        "codiCampus": int(codi['codiCampus']),
+        "codiParty": int(codi['codiParty']),
+        "codiTravel": int(codi['codiTravel']),
+        "codiWedding": int(codi['codiWedding']),
+        "codiBusiness": int(codi['codiBusiness']),
+        "codiInterview": int(codi['codiInterview']),
+        "codiHip": int(codi['codiHip']),
+        "codiSports": int(codi['codiSports']),
+        "codiGolf": int(codi['codiGolf']),
+        "codiOther": int(codi['codiOther']),
+        "viewCnt": int(codi['viewCnt']),
+        "imgSrc": str(codi['imgSrc']),
+        "hashtags": list(codi['hashtags']),
+        "clothes": list(codi['clothes']),
+    }
+    return context
