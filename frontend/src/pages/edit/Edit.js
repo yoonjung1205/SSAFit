@@ -4,8 +4,11 @@ import Footer from "../../components/Footer";
 import defaultImage from './images/default.png'
 import './scss/Edit.scss'
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const Edit = () => {
+  let history = useHistory()
+
   const [credentials, setCredentials] = useState(
     {
       imageUrl: defaultImage,
@@ -97,7 +100,8 @@ const Edit = () => {
         <section className="left">
           <form onSubmit={(e) => submit(e)}>
             {/* 프로필 사진 */}
-            <label className="profile" htmlFor="profile" style={{backgroundImage: `url(${credentials.imageUrl})`}}>
+            <label className="profile" htmlFor="profile"
+              style={{backgroundImage: `url(${credentials.imageUrl})`}}>
               <input type="file" id="profile" accept="image/jpg, image/png, image/jpeg"
                 onChange={e => fileUpload(e)} />
             </label>
@@ -105,7 +109,8 @@ const Edit = () => {
             <label className="input-form" htmlFor="nickname">
               <div className="label-text">닉네임</div>
               <div className="input-box">
-                <input type="text" id="nickname" placeholder="특수문제를 제외한 2~10자로 입력하세요" maxLength="10"
+                <input type="text" id="nickname"
+                  placeholder="특수문제를 제외한 2~10자로 입력하세요" maxLength="10"
                   value={credentials.nickname}
                   onChange={(e) => setCredentials({...credentials, nickname: e.target.value})}/>
               </div>
@@ -114,7 +119,8 @@ const Edit = () => {
             <label htmlFor="height" className="input-form">
               <div className="label-text">키</div>
               <div className="input-box">
-                <input type="number" id="height" placeholder="100이상 210이하의 숫자를 입력하세요" min={100} max={210}
+                <input type="number" id="height"
+                  placeholder="100이상 210이하의 숫자를 입력하세요" min={100} max={210}
                   value={credentials.height}
                   onChange={(e) => setCredentials({...credentials, height: e.target.value})}/>
                 <p className="unit"> cm</p>
@@ -124,7 +130,8 @@ const Edit = () => {
             <label htmlFor="weight" className="input-form">
               <div className="label-text">몸무게</div>
               <div className="input-box">
-                <input type="number" id="weight" placeholder="30이상 160이하의 숫자를 입력하세요" min={30} max={160}
+                <input type="number" id="weight"
+                  placeholder="30이상 160이하의 숫자를 입력하세요" min={30} max={160}
                   value={credentials.weight}
                   onChange={(e) => setCredentials({...credentials, weight: e.target.value})}/>
                 <p className="unit"> kg</p>
@@ -144,13 +151,12 @@ const Edit = () => {
             </div>
           </form>
           <div className="buttons">
-            <button className="left-btn"><span /><p>비밀번호 변경</p></button>
-            <button className="right-btn" onClick={(e) => submit(e)}><span /><p>수정</p></button>
+            <button className="left-btn" onClick={() => history.push('/edit-password')}
+            ><span /><p>비밀번호 변경</p></button>
+            <button className="right-btn" onClick={(e) => submit(e)}
+            ><span /><p>수정</p></button>
           </div>
         </section>
-
-
-
         <section className="right">
         </section>
       </article>
