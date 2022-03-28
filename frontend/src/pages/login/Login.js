@@ -25,7 +25,11 @@ export default function Login({ history }) {
     })
     .then(res => {
       console.log(res)
+      const session = window.sessionStorage
 
+      session.setItem('access-token-jwt', res.headers.authorization)
+      session.setItem('refresh-token-jwt', res.headers.refreshtoken)
+      
       if (!alert('로그인 되었습니다!')){
         history.push('/main')
       }

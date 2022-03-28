@@ -65,7 +65,6 @@ export default function Moreinfo({ history }) {
     event.preventDefault();
     isValid()
     .then(() => {
-      console.log('설마?')
       const userInfo = makeCredential()
 
       return axios({

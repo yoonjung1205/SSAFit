@@ -1,0 +1,82 @@
+.realfit-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 35vh;
+
+  .carousel-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+
+    .carousel-view {
+      width: 80%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+
+      .carousel {
+        width: 100vw;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        gap: 2rem;
+        position: absolute;
+        top: 0;
+        left: -15%;
+  
+        .carousel-card {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+  
+          .carousel-image {
+            width: 100%;
+            height: 100%;
+          }
+  
+          .carousel-desc {
+            text-align: end;
+          }
+        }
+      }
+    }
+
+    .carousel-btn {
+      width: 2%;
+      opacity: 50%;
+      aspect-ratio: 1/1;
+      cursor: pointer;
+      margin: 2rem;
+    }
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+
+  }
+  @keyframes slide-out {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  .slide-left {
+    animation: slide-in 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  .slide-right {
+    animation: slide-out 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+}
