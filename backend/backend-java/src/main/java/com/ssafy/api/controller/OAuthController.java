@@ -49,8 +49,10 @@ public class OAuthController {
     public ResponseEntity<? extends BaseResponseBody> register(
             @RequestBody @ApiParam(value = "회원가입 정보", required = true) UserRegisterPostReq registerInfo, HttpServletResponse response) {
 
+
+
         //임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
-        User u = userService.createUser(registerInfo);
+        User u = userService.createUser(registerInfo, "sss");
 
         String userEmail = registerInfo.getEmail();
         String password = registerInfo.getPassword();

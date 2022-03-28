@@ -26,16 +26,18 @@ public class UserServiceImpl implements UserService {
 
 	
 	@Override
-	public User createUser(UserRegisterPostReq userRegisterInfo) {
+	public User createUser(UserRegisterPostReq userRegisterInfo,String url) {
 		User user = new User();
 		Gender gender;
 		user.setEmail(userRegisterInfo.getEmail());
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
+		System.out.println("createUser : " + url);
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+		user.setProfileImageUrl(url);
 		user.setPassword(bCryptPasswordEncoder.encode(userRegisterInfo.getPassword()));
 		user.setNickname(userRegisterInfo.getNickname());
 		user.setRole("ROLE_USER");
-		user.setProfileImageUrl(userRegisterInfo.getProfileImg());
+
 		user.setHeight(userRegisterInfo.getHeight());
 		user.setWeight(userRegisterInfo.getWeight());
 		user.setProviderType(ProviderType.LOCAL);
