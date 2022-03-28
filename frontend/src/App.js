@@ -15,6 +15,7 @@ import Mypage from "./pages/mypage/Mypage";
 import NotFound from "./pages/notfound/NotFound";
 import Search from "./pages/search/Search";
 import Category from "./pages/category/Category";
+import Edit from "./pages/edit/Edit";
 
 function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
       <Switch>
         <Route path="/" component={Start} exact />
         <Route path="/search" component={Search} />
+        <Route path="/edit-mypage" component={Edit} />
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />

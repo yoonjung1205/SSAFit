@@ -1,6 +1,8 @@
-import '../scss/myinfo.scss'
+import { useHistory } from 'react-router-dom';
+import '../scss/MyInfo.scss'
 
-const myinfo = ({info}) => {
+const MyInfo = ({info}) => {
+  let history = useHistory()
 
   return (
     <article className='myinfo'>
@@ -32,11 +34,11 @@ const myinfo = ({info}) => {
           <p>{info.weight} kg</p>
         </div>
         <div className='myinfo-btn-div'>
-          <button>편집</button>
+          <button onClick={() => history.push('/edit-mypage')}>편집</button>
         </div>
       </section>
     </article>
   );
 };
 
-export default myinfo;
+export default MyInfo;
