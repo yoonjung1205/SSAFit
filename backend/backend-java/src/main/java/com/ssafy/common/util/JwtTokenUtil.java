@@ -100,6 +100,22 @@ public class JwtTokenUtil {
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
 
+    public static String getToken(String email, String userName, String role, Long id, String url, int expireTime) {
+        // refresh_token 172800000, access_token  1800000
+        Date now = new Date();
+        Date expires = new Date(now.getTime() + expireTime);
+        return JWT.create()
+                .withSubject(email)
+                .withExpiresAt(expires)
+                .withIssuer(ISSUER)
+                .withClaim("name",userName)
+                .withClaim("role",role)
+                .withClaim("id",id)
+                .withClaim("profileImg",url)
+                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                .sign(Algorithm.HMAC512(secretKey.getBytes()));
+    }
+
     public static String getToken(Instant expires, String email) {
         return JWT.create()
                 .withSubject(email)

@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.service.RefreshTokenServiceImpl;
+import com.ssafy.common.S3.S3Uploader;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserRefreshToken;
 import com.ssafy.db.repository.UserRefreshTokenRepository;
@@ -45,6 +46,9 @@ public class AuthController {
 	private final UserRefreshTokenRepository userRefreshTokenRepository;
 
 	@Autowired
+	S3Uploader s3Uploader;
+
+	@Autowired
 	RefreshTokenServiceImpl refreshTokenService;
 
 	@PostMapping("/login")
@@ -64,8 +68,8 @@ public class AuthController {
 		if(bCryptPasswordEncoder.matches(password, user.getPassword())) {
 
 			UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
-
-			String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(userEmail,user.getNickname(),user.getRole(),user.getId(),1800000);
+			String url = s3Uploader.getS3(user.getProfileImageUrl());
+			String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(userEmail,user.getNickname(),user.getRole(),user.getId(),url,1800000);
 			String refreshToken = JwtTokenUtil.getToken(userEmail,user.getNickname(),user.getRole(),user.getId(),172800000);
 			if(userRefreshToken == null || jwtTokenUtil.validateToken(userRefreshToken.getRefreshToken())) {  // 범위안에 있으면 false를 반환함. 범위안에 없으면 true
 				System.out.println(userEmail);

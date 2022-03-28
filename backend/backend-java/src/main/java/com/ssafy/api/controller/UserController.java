@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.api.request.ValidateEmailReq;
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.RefreshTokenServiceImpl;
+import com.ssafy.common.S3.S3Uploader;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserRefreshToken;
@@ -32,10 +33,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
@@ -62,6 +65,9 @@ public class UserController {
 	private final UserRefreshTokenRepository userRefreshTokenRepository;
 
 	@Autowired
+	S3Uploader s3Uploader;
+
+	@Autowired
 	RefreshTokenServiceImpl refreshTokenService;
 
 	@PostMapping("/signup")
@@ -73,11 +79,17 @@ public class UserController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<? extends BaseResponseBody> register(
-			@ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo, HttpServletResponse response, MultipartHttpServletRequest request) {
+			@ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo, HttpServletResponse response, MultipartHttpServletRequest request) throws IOException {
+
+		MultipartFile file = request.getFile("files");
+
+		String fileUrl = s3Uploader.upload(file,"user");
+		System.out.println("fileUrl : " + fileUrl);
+		System.out.println("fileUrl : " + fileUrl);
 
 
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
-		User u = userService.createUser(registerInfo);
+		User u = userService.createUser(registerInfo,fileUrl);
 
 		String userEmail = registerInfo.getEmail();
 
@@ -85,7 +97,7 @@ public class UserController {
 
 			UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
 
-			String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(userEmail,user.getNickname(),user.getRole(),user.getId(),1800000);
+			String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(userEmail,user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),1800000);
 			String refreshToken = JwtTokenUtil.getToken(userEmail,user.getNickname(),user.getRole(),user.getId(),172800000);
 			if(userRefreshToken == null || jwtTokenUtil.validateToken(userRefreshToken.getRefreshToken())) {  // 범위안에 있으면 false를 반환함. 범위안에 없으면 true
 				System.out.println(userEmail);

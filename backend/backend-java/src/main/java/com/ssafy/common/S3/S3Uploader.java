@@ -26,8 +26,9 @@ public class S3Uploader {
     public String bucket;  // S3 버킷 이름
 
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
-                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail")); // 파일 변환할 수 없으면 에러
+        convert(multipartFile);
+        File uploadFile = new File(multipartFile.getOriginalFilename());  // 파일 변환할 수 없으면 에러
+
 
         return upload(uploadFile, dirName);
     }
@@ -43,6 +44,11 @@ public class S3Uploader {
     // S3로 업로드
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3Client.getUrl(bucket, fileName).toString();
+    }
+
+    // S3에서 링크 다운로드
+    public String getS3(String fileName) {
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
