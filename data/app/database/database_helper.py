@@ -2,6 +2,15 @@ def user_ssafit_helper(user_ssafit):
     context = {
         "_id": str(user_ssafit['_id']),
         "userId": int(user_ssafit['userId']),
+        "userMale": user_ssafit['userMale'],
+        "userFemale": user_ssafit['userFemale'],
+    }
+    return context
+
+def user_ssafit_size_helper(user_ssafit):
+    context = {
+        "_id": str(user_ssafit['_id']),
+        "userId": int(user_ssafit['userId']),
         "largecategory": user_ssafit['largecategory'],
         "userMale": user_ssafit['userMale'],
         "userFemale": user_ssafit['userFemale'],
@@ -10,8 +19,116 @@ def user_ssafit_helper(user_ssafit):
     }
     return context
 
+def user_ssafit_color_helper(user_ssafit):
+    context = {
+        "_id": str(user_ssafit['_id']),
+        "userId": int(user_ssafit['userId']),
+        "largecategory": user_ssafit['largecategory'],
+        "colorWhite": user_ssafit['colorWhite'],
+        "colorGrey": user_ssafit['colorGrey'],
+        "colorBlack": user_ssafit['colorBlack'],
+        "colorRed": user_ssafit['colorRed'],
+        "colorPink": user_ssafit['colorPink'],
+        "colorOrange": user_ssafit['colorOrange'],
+        "colorIvory": user_ssafit['colorIvory'],
+        "colorYellow": user_ssafit['colorYellow'],
+        "colorGreen": user_ssafit['colorGreen'],
+        "colorBlue": user_ssafit['colorBlue'],
+        "colorBrown": user_ssafit['colorBrown'],
+        "colorBeige": user_ssafit['colorBeige'],
+        "colorJean": user_ssafit['colorJean'],
+        "colorPattern": user_ssafit['colorPattern'],
+        "colorOthers": user_ssafit['colorOthers']
+    }
+    return context
 
-def user_meta_helper(user_meta):
+def user_ssafit_style_helper(user_ssafit):
+    context = {
+        "_id": str(user_ssafit['_id']),
+        "userId": int(user_ssafit['userId']),
+        "largecategory": user_ssafit['largecategory'],
+        "size": user_ssafit['size'],
+        "bright": user_ssafit['bright'],
+        "color": user_ssafit['color'],
+        "thickness": user_ssafit['thickness']
+    }
+    return context
+
+def user_ssafit_category_top_helper(user_ssafit):
+    context = {
+        "_id": str(user_ssafit['_id']),
+        "userId": int(user_ssafit['userId']),
+        "largecategory": user_ssafit['largecategory'],
+        "smallCategoryHalfshort": user_ssafit['smallCategoryHalfshort'],
+        "smallCategoryShirt": user_ssafit['smallCategoryShirt'],
+        "smallCategoryCollar": user_ssafit['smallCategoryCollar'],
+        "smallCategoryHoody": user_ssafit['smallCategoryHoody'],
+        "smallCategorySweatshirt": user_ssafit['smallCategorySweatshirt'],
+        "smallCategoryKnit": user_ssafit['smallCategoryKnit'],
+        "smallCategoryLong": user_ssafit['smallCategoryLong'],
+        "smallCategoryShort": user_ssafit['smallCategoryShort'],
+        "smallCategoryOthers": user_ssafit['smallCategoryOthers'],
+    }
+    return context
+
+def user_ssafit_category_outer_helper(user_ssafit):
+    context = {
+        "_id": str(user_ssafit['_id']),
+        "userId": int(user_ssafit['userId']),
+        "largecategory": user_ssafit['largecategory'],
+        "smallCategoryHoodie": user_ssafit['smallCategoryHoodie'],
+        "smallCategoryBlouson": user_ssafit['smallCategoryBlouson'],
+        "smallCategoryRiders": user_ssafit['smallCategoryRiders'],
+        "smallCategoryMustang": user_ssafit['smallCategoryMustang'],
+        "smallCategoryCardigan": user_ssafit['smallCategoryCardigan'],
+        "smallCategoryFleece": user_ssafit['smallCategoryFleece'],
+        "smallCategoryCoat": user_ssafit['smallCategoryCoat'],
+        "smallCategoryPaddedcoat": user_ssafit['smallCategoryPaddedcoat'],
+        "smallCategoryVest": user_ssafit['smallCategoryVest'],
+        "smallCategoryJacket": user_ssafit['smallCategoryJacket'],
+        "smallCategoryOthers": user_ssafit['smallCategoryOthers'],
+    }
+    return context
+
+def user_ssafit_category_pants_helper(user_ssafit):
+    context = {
+        "_id": str(user_ssafit['_id']),
+        "userId": int(user_ssafit['userId']),
+        "largecategory": user_ssafit['largecategory'],
+        "smallCategoryDenimpants": user_ssafit['smallCategoryDenimpants'],
+        "smallCategoryCottonpants": user_ssafit['smallCategoryCottonpants'],
+        "smallCategorySlacks": user_ssafit['smallCategorySlacks'],
+        "smallCategoryJoggerpants": user_ssafit['smallCategoryJoggerpants'],
+        "smallCategoryShortpants": user_ssafit['smallCategoryShortpants'],
+        "smallCategoryLeggings": user_ssafit['smallCategoryLeggings'],
+        "smallCategoryJumpsuit": user_ssafit['smallCategoryJumpsuit'],
+        "smallCategoryOthers": user_ssafit['smallCategoryOthers'],
+    }
+    return context
+
+def user_ssafit_category_onepiece_helper(user_ssafit):
+    context = {
+        "_id": str(user_ssafit['_id']),
+        "userId": int(user_ssafit['userId']),
+        "largecategory": user_ssafit['largecategory'],
+        "smallCategoryMinidress": user_ssafit['smallCategoryMinidress'],
+        "smallCategoryMidi": user_ssafit['smallCategoryMidi'],
+        "smallCategoryMaxidress": user_ssafit['smallCategoryMaxidress'],
+    }
+    return context
+
+def user_ssafit_category_skirt_helper(user_ssafit):
+    context = {
+        "_id": str(user_ssafit['_id']),
+        "userId": int(user_ssafit['userId']),
+        "largecategory": user_ssafit['largecategory'],
+        "smallCategoryMiniskirt": user_ssafit['smallCategoryMiniskirt'],
+        "smallCategoryMidi": user_ssafit['smallCategoryMidi'],
+        "smallCategoryLongskirt": user_ssafit['smallCategoryLongskirt'],
+    }
+    return context
+
+def user_meta_size_helper(user_meta):
     context = {
         "_id": str(user_meta['_id']),
         "userId": int(user_meta['userId']),
@@ -23,6 +140,113 @@ def user_meta_helper(user_meta):
     }
     return context
 
+def user_meta_color_helper(user_meta):
+    context = {
+        "_id": str(user_meta['_id']),
+        "userId": int(user_meta['userId']),
+        "colorWhite": user_meta['colorWhite'],
+        "colorGrey": user_meta['colorGrey'],
+        "colorBlack": user_meta['colorBlack'],
+        "colorRed": user_meta['colorRed'],
+        "colorPink": user_meta['colorPink'],
+        "colorOrange": user_meta['colorOrange'],
+        "colorIvory": user_meta['colorIvory'],
+        "colorYellow": user_meta['colorYellow'],
+        "colorGreen": user_meta['colorGreen'],
+        "colorBlue": user_meta['colorBlue'],
+        "colorBrown": user_meta['colorBrown'],
+        "colorBeige": user_meta['colorBeige'],
+        "colorJean": user_meta['colorJean'],
+        "colorPattern": user_meta['colorPattern'],
+        "colorOthers": user_meta['colorOthers']
+    }
+    return context
+
+def user_meta_style_helper(user_meta):
+    context = {
+        "_id": str(user_meta['_id']),
+        "userId": int(user_meta['userId']),
+        "size": user_meta['size'],
+        "bright": user_meta['bright'],
+        "color": user_meta['color'],
+        "thickness": user_meta['thickness'],
+        "what": user_meta['what']
+    }
+    return context
+
+def user_meta_category_top_helper(user_meta):
+    context = {
+        "_id": str(user_meta['_id']),
+        "userId": int(user_meta['userId']),
+        "smallCategoryHalfshort": user_meta['smallCategoryHalfshort'],
+        "smallCategoryShirt": user_meta['smallCategoryShirt'],
+        "smallCategoryCollar": user_meta['smallCategoryCollar'],
+        "smallCategoryHoody": user_meta['smallCategoryHoody'],
+        "smallCategorySweatshirt": user_meta['smallCategorySweatshirt'],
+        "smallCategoryKnit": user_meta['smallCategoryKnit'],
+        "smallCategoryLong": user_meta['smallCategoryLong'],
+        "smallCategoryShort": user_meta['smallCategoryShort'],
+        "smallCategoryOthers": user_meta['smallCategoryOthers'],
+        "what": user_meta['what']
+    }
+    return context
+
+def user_meta_category_outer_helper(user_meta):
+    context = {
+        "_id": str(user_meta['_id']),
+        "userId": int(user_meta['userId']),
+        "smallCategoryHoodie": user_meta['smallCategoryHoodie'],
+        "smallCategoryBlouson": user_meta['smallCategoryBlouson'],
+        "smallCategoryRiders": user_meta['smallCategoryRiders'],
+        "smallCategoryMustang": user_meta['smallCategoryMustang'],
+        "smallCategoryCardigan": user_meta['smallCategoryCardigan'],
+        "smallCategoryFleece": user_meta['smallCategoryFleece'],
+        "smallCategoryCoat": user_meta['smallCategoryCoat'],
+        "smallCategoryPaddedcoat": user_meta['smallCategoryPaddedcoat'],
+        "smallCategoryVest": user_meta['smallCategoryVest'],
+        "smallCategoryJacket": user_meta['smallCategoryJacket'],
+        "smallCategoryOthers": user_meta['smallCategoryOthers'],
+        "what": user_meta['what']
+    }
+    return context
+
+def user_meta_category_pants_helper(user_meta):
+    context = {
+        "_id": str(user_meta['_id']),
+        "userId": int(user_meta['userId']),
+        "smallCategoryDenimpants": user_meta['smallCategoryDenimpants'],
+        "smallCategoryCottonpants": user_meta['smallCategoryCottonpants'],
+        "smallCategorySlacks": user_meta['smallCategorySlacks'],
+        "smallCategoryJoggerpants": user_meta['smallCategoryJoggerpants'],
+        "smallCategoryShortpants": user_meta['smallCategoryShortpants'],
+        "smallCategoryLeggings": user_meta['smallCategoryLeggings'],
+        "smallCategoryJumpsuit": user_meta['smallCategoryJumpsuit'],
+        "smallCategoryOthers": user_meta['smallCategoryOthers'],
+        "what": user_meta['what']
+    }
+    return context
+
+def user_meta_category_onepiece_helper(user_meta):
+    context = {
+        "_id": str(user_meta['_id']),
+        "userId": int(user_meta['userId']),
+        "smallCategoryMinidress": user_meta['smallCategoryMinidress'],
+        "smallCategoryMidi": user_meta['smallCategoryMidi'],
+        "smallCategoryMaxidress": user_meta['smallCategoryMaxidress'],
+        "what": user_meta['what']
+    }
+    return context
+
+def user_meta_category_skirt_helper(user_meta):
+    context = {
+        "_id": str(user_meta['_id']),
+        "userId": int(user_meta['userId']),
+        "smallCategoryMiniskirt": user_meta['smallCategoryMiniskirt'],
+        "smallCategoryMidi": user_meta['smallCategoryMidi'],
+        "smallCategoryLongskirt": user_meta['smallCategoryLongskirt'],
+        "what": user_meta['what']
+    }
+    return context
 
 def cloth_meta_helper(cloth_meta):
     context = {
