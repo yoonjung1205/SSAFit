@@ -7,10 +7,12 @@ from starlette.middleware.cors import CORSMiddleware
 # from app.routes import data, recommend
 from app.routes import recommend
 from mongoengine import connect
-
+import motor.motor_asyncio
+from bson import ObjectId
 
 # connect(host="mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false")
-connect(db="ssafit", host="ssafit.site", port=8975, username="admin", password="ssafit")
+# connect(db="ssafit", host="ssafit.site", port=8975, username="admin", password="ssafit")
+
 def create_app():
     """
     앱 함수 실행
@@ -36,6 +38,7 @@ def create_app():
 
 
 app = create_app()
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8970, reload=True)

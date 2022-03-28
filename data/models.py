@@ -1,4 +1,4 @@
-from mongoengine import Document,StringField,IntField,ListField
+from mongoengine import *
 
 # mongodb documents 이름이랑 같아야한다.
 class Codi(Document):
@@ -27,3 +27,83 @@ class Codi(Document):
     hashtags = ListField()
     clothes = ListField()
     meta = {'collection':'codi'}
+    
+class ClothMeta(DynamicDocument):
+    what = IntField()
+    meta = {'collection': 'cloth_meta'}
+
+class UserMeta(DynamicDocument):
+    what = IntField()
+    meta = {'collection': 'user_meta'}
+
+'''
+class ClothTop(DynamicDocument):
+    newClothId
+    clothId
+    # largeCategory
+    largeCategoryName
+    # smallCategoryHalfshort
+    # smallCategoryShirt
+    # smallCategoryCollar
+    # smallCategoryHoody
+    # smallCategorySweatshirt
+    # smallCategoryKnit
+    # smallCategoryLong
+    # smallCategoryShort
+    # smallCategoryOthers
+    smallCategoryName
+    # colorWhite
+    # colorGrey
+    # colorBlack
+    # colorRed
+    # colorPink
+    # colorOrange
+    # colorIvory
+    # colorYellow
+    # colorGreen
+    # colorBlue
+    # colorPurple
+    # colorBrown
+    # colorBeige
+    # colorJean
+    # colorPattern
+    # colorOthers
+    colorName
+    clothName
+    brand
+    clothImg
+    clothPrice
+    date
+    clothHashtags
+    clothMale
+    clothFemale
+    clothRate
+    clothReviewCnt
+    fit
+    feeling
+    stretch
+    visibility
+    thickness
+    seasonSpring
+    seasonSummer
+    seasonFall
+    seasonWinter
+    goodsSize
+    reviewNoun
+    userHeight
+    userWeight
+    userMale
+    userFemale
+    month1
+    month2
+    month3
+    month4
+    month5
+    month6
+    month7
+    month8
+    month9
+    month10
+    month11
+    month12
+'''
