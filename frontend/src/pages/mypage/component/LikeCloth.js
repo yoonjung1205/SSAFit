@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import '../scss/cards.scss'
+import '../scss/Cards.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { likeClothes } from '../data';
