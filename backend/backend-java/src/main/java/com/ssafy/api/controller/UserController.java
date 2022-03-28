@@ -11,6 +11,7 @@ import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserRefreshToken;
 import com.ssafy.db.repository.UserRefreshTokenRepository;
+import com.ssafy.oauth.exception.OAuthProviderMissMatchException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,7 @@ public class UserController {
 		System.out.println("fileUrl : " + fileUrl);
 		System.out.println("fileUrl : " + fileUrl);
 
+		// 회원가입이 되어있는가?
 
 
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
