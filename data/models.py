@@ -27,7 +27,16 @@ class Codi(Document):
     hashtags = ListField()
     clothes = ListField()
     meta = {'collection':'codi'}
+    
+class ClothMeta(DynamicDocument):
+    what = IntField()
+    meta = {'collection': 'cloth_meta'}
 
+class UserMeta(DynamicDocument):
+    what = IntField()
+    meta = {'collection': 'user_meta'}
+
+'''
 class ClothTop(DynamicDocument):
     newClothId
     clothId
@@ -97,3 +106,4 @@ class ClothTop(DynamicDocument):
     month10
     month11
     month12
+'''

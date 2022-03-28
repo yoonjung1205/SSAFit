@@ -1,51 +1,109 @@
-userId : 858063 (최댓값 : 1416948)
-userName : "! . !" (기입된 내용)
-largecategory : 6 (default)
+
+
+userId : 858063 (최댓값 : 1416948  /  Type : Integer)
+userName : "! . !" (기입된 내용  /  Type : String)
+
+------------------------------------------------------------------------------------
+변경할 부분 시작
+------------------------------------------------------------------------------------
+
+### Top (type : Integer)
+largecategory : 1
+
+### Outer (type : Integer)
+largecategory : 2
+
+### Pants (type : Integer)
+largecategory : 3
+
+### Onepiece (type : Integer)
+largecategory : 4
+
+### Skirt (type : Integer)
+largecategory : 5
+
+------------------------------------------------------------------------------------
+변경할 부분 끝
+------------------------------------------------------------------------------------
+
+###  (전부 default는 0 / Type : Integer)
 userMale : 1 (남자는 1 / 여자는 0)
 userFemale : 1 (여자는 1 / 남자는 0)
 userHeight : 158 (기입된 내용)
 userWeight : 50 (기입된 내용)
-size : 0 (default)
-bright : 0 (default)
-color : 0 (default)
-thickness : 0 (default)
-weightness : 0 (default)
-touch : 0 (default)
-smallCategoryHalfshort : 0 (default)
-smallCategoryShirt : 0 (default)
-smallCategoryCollar : 0 (default)
-smallCategoryHoody : 0 (default)
-smallCategorySweatshirt : 0 (default)
-smallCategoryKnit : 0 (default)
-smallCategoryLong : 0 (default)
-smallCategoryShort : 0 (default)
-smallCategoryOthers : 0 (default)
-colorWhite : 0 (default)
-colorGrey : 0 (default)
-colorBlack : 0 (default)
-colorRed : 0 (default)
-colorPink : 0 (default)
-colorOrange : 0 (default)
-colorIvory : 0 (default)
-colorYellow : 0 (default)
-colorGreen : 0 (default)
-colorBlue : 0 (default)
-colorPurple : 0 (default)
-colorBrown : 0 (default)
-colorBeige : 0 (default)
-colorJean : 0 (default)
-colorPattern : 0 (default)
-colorOthers : 0 (default)
-month1 : 0 (default)
-month2 : 0 (default)
-month3 : 0 (default)
-month4 : 0 (default)
-month5 : 0 (default)
-month6 : 0 (default)
-month7 : 0 (default)
-month8 : 0 (default)
-month9 : 0 (default)
-month10 : 0 (default)
-month11 : 0 (default)
-month12 : 0 (default)
-clothCnt : 0 (default)
+
+###  (전부 default는 0 / Type : Integer)
+size
+bright
+color
+thickness
+weightness
+touch
+
+------------------------------------------------------------------------------------
+변경할 부분 시작
+------------------------------------------------------------------------------------
+### Top (전부 default는 0 / Type : Integer)
+smallCategoryHalfshort
+smallCategoryShirt
+smallCategoryCollar
+smallCategoryHoody
+smallCategorySweatshirt
+smallCategoryKnit
+smallCategoryLong
+smallCategoryShort
+smallCategoryOthers
+
+### Outer (전부 default는 0 / Type : Integer)
+smallCategoryHoodie
+smallCategoryBlouson
+smallCategoryRiders
+smallCategoryMustang
+smallCategoryCardigan
+smallCategoryFleece
+smallCategoryCoat
+smallCategoryPaddedcoat
+smallCategoryVest
+smallCategoryJacket
+smallCategoryOthers
+
+### Pants (전부 default는 0 / Type : Integer)
+smallCategoryDenimpants
+smallCategoryCottonpants
+smallCategorySlacks
+smallCategoryJoggerpants
+smallCategoryShortpants
+smallCategoryLeggings
+smallCategoryJumpsuit
+smallCategoryOthers
+
+### Onepiece (전부 default는 0 / Type : Integer)
+smallCategoryMinidress
+smallCategoryMidi
+smallCategoryMaxidress
+
+### Skirt (전부 default는 0 / Type : Integer)
+smallCategoryMiniskirt
+smallCategoryMidi
+smallCategoryLongskirt
+
+------------------------------------------------------------------------------------
+변경할 부분 끝
+------------------------------------------------------------------------------------
+###  (전부 default는 0 / Type : Integer)
+colorWhite
+colorGrey
+colorBlack
+colorRed
+colorPink
+colorOrange
+colorIvory
+colorYellow
+colorGreen
+colorBlue
+colorPurple
+colorBrown
+colorBeige
+colorJean
+colorPattern
+colorOthers
