@@ -112,7 +112,7 @@ export default function Moreinfo({ history }) {
             닉네임
             <div className='input-box'>
               <input type="text" name="nickname" id="nickname"
-              placeholder='닉네임을 입력하세요' maxLength='10'
+              placeholder='특수문제를 제외한 2~10자로 입력하세요' maxLength='10'
               onInput={event => setCredentials({...credentials, nickname: event.target.value})} />
             </div>
           </label>
@@ -120,7 +120,7 @@ export default function Moreinfo({ history }) {
           <label>
             키
             <div className='input-box'>
-              <input type="number" name="height" id="height" min={100} max={210} placeholder='키를 입력하세요'
+              <input type="number" name="height" id="height" min={100} max={210} placeholder='100이상 210이하의 숫자를 입력하세요'
               onInput={event => setCredentials({...credentials, height: event.target.value})} />
               <p className='unit'>cm</p>
             </div>
@@ -129,7 +129,7 @@ export default function Moreinfo({ history }) {
           <label>
             몸무게
             <div className='input-box'>
-              <input type="number" name="weight" id="weight" min={30} max={160} placeholder='몸무게를 입력하세요'
+              <input type="number" name="weight" id="weight" min={30} max={160} placeholder='30이상 160이하의 숫자를 입력하세요'
               onInput={event => setCredentials({...credentials, weight: event.target.value})} />
               <p className='unit'>kg</p>
             </div>
