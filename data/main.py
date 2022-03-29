@@ -5,7 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 # from app.database.conn import db
 # from app.common.config import conf
 # from app.routes import data, recommend
-from app.routes import recommend, cloth
+from app.routes import recommend, cloth, codi
 import motor.motor_asyncio
 from bson import ObjectId
 
@@ -35,6 +35,7 @@ def create_app():
     # 라우터 정의
     app.include_router(recommend.router)
     app.include_router(cloth.router)
+    app.include_router(codi.router)
     return app
 
 
