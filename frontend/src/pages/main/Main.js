@@ -5,7 +5,6 @@ import './scss/Main.scss'
 import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
 import maintop from './images/maintop.png'
-import jwtDecode from 'jwt-decode'
 
 const Main = () => {
   let history = useHistory()
@@ -28,10 +27,6 @@ const Main = () => {
 
     if (!session.getItem('access-token-jwt')){
       history.push('/login')
-    }
-    else if (!session.getItem('userInfo')){
-      const token = session.getItem('access-token-jwt')
-      session.setItem('userInfo', JSON.stringify(jwtDecode(token)))
     }
   })
 

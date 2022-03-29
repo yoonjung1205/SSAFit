@@ -17,11 +17,40 @@ import Search from "./pages/search/Search";
 import Category from "./pages/category/Category";
 import Edit from "./pages/edit/Edit";
 import EditPassword from "./pages/edit/EditPassword";
+import axios from "axios";
+import { DA_URL } from './Request'
+import jwtDecode from 'jwt-decode'
 
 function App() {
   const location = useLocation();
   const [path, setPath] = useState('/')
-  // const app = window.document.getElementsByClassName('App')[0]
+  const [rcm, setRcm] = useState({})
+  
+  const session = window.sessionStorage
+  let userInfo;
+  try {
+    const token = session.getItem('access-token-jwt')
+    session.setItem('userInfo', JSON.stringify(jwtDecode(token)))
+    userInfo = jwtDecode(token)
+    console.log(userInfo)
+  }
+  catch {
+    console.log('사용자 인증 정보가 없습니다.')
+  }
+
+  const getRCM = function(){
+    axios({
+      method: 'get',
+      baseURL: DA_URL,
+      url: `/recommend/size/${userInfo.id}`
+    })
+    .then(res => setRcm(res.data))
+    .catch(err => console.log(err))
+  }
+
+  if (userInfo){
+    getRCM()
+  }
   
   useEffect(() => {
     // const transition = function(){
@@ -36,6 +65,7 @@ function App() {
     setPath(location.pathname)
   }, [location])
 
+
   return (
     <div className="App" key={path}>
       <Switch>
@@ -46,7 +76,9 @@ function App() {
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
-        <Route path="/recommend" component={Recommend} exact />
+        <Route path="/recommend" exact>
+          <Recommend recommend={rcm}/>
+        </Route>
         <Route path="/item/:id" component={ItemDetail} exact />
         <Route path="/recommend/:category" component={Category} exact />
         <Route path="/mypage" component={Mypage} exact />

@@ -1,44 +1,29 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import axios from 'axios';
-import { DA_URL } from '../../Request';
 import { useEffect, useState } from 'react';
 import Footer from '../../components/Footer';
 import NavigationBar from '../../components/NavigationBar';
 import RecCategory from './compoenets/recCategory'
+import Loading from '../../components/Loading'
 import './scss/Recommend.scss'
 
-const Recommend = () => {
+const Recommend = ({ recommend }) => {
   const [loading, setLoading] = useState(true)
   const [standard, setStandard] = useState('clothSize')
-  const [recommendItems, setRecommendItems] = useState({})
-
-  const getSizeRecommend = async () => {
-    setLoading(true)
-    try {
-      const userId = '85806312'
-      const url = `${DA_URL}/recommend/size/${userId}`
-
-      const res = await axios({
-        method: 'GET',
-        url: url,
-      })
-      setRecommendItems(res.data)
-      console.log(res.data)
-    } catch (err) {
-      console.log(err, typeof(err))
-    }
-    setLoading(false)
-  }
-
+  
   useEffect(() => {
-    setRecommendItems(getSizeRecommend())
-  }, [])
+    if (Object.keys(recommend).length > 0){
+      setLoading(false)
+    }
+  }, [recommend])
 
+  if (loading){
+    return (<Loading/>)
+  }
 
   return (
     <article className='recommend'>
       <NavigationBar boldPath='RECOMMEND' />
-      <button onClick={() => getSizeRecommend()}>흠</button>
+      {/* <button onClick={() => getSizeRecommend()}>흠</button> */}
       <section className='rec-top'>
         <div className='rec-top-text'>
           <h3>Make sure your style</h3>
@@ -53,9 +38,11 @@ const Recommend = () => {
       {loading ? <>Loading...</> :
       <>
         <section className='rec-clothes'>
-          <RecCategory cate='Outer' clothes={recommendItems.outer} />
-          <RecCategory cate='Top' clothes={recommendItems.top} />
-          <RecCategory cate='Pants' clothes={recommendItems.pants} />
+          <RecCategory cate='Outer' clothes={recommend.outer} />
+          <RecCategory cate='Top' clothes={recommend.top} />
+          <RecCategory cate='Pants' clothes={recommend.pants} />
+          <RecCategory cate='Onepiece' clothes={recommend.onepiece} />
+          <RecCategory cate='Skirt' clothes={recommend.skirt} />
         </section>
       </>
       }
