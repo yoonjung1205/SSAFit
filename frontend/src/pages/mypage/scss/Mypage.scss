@@ -4,19 +4,21 @@
     margin-bottom: 2rem;
   }
   .hanger {
-    padding: 3rem;
     display: flex;
+    width: 98vw;
+    height: 60vh;
     .menus {
-      height: 100%;
+      padding: 0;
+      width: 15vw;
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
       .menu {
-        margin-left: 2rem;
+        margin-left: 3rem;
         display: flex;
         align-items: center;
         cursor: pointer;
-        &#active {
+        &.active {
           font-weight: bold;
         }
         img {
@@ -27,6 +29,9 @@
           margin: auto 0;
         }
       }
+    }
+    .content {
+      width: 81vw;
     }
   }
 }

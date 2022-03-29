@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.service.RefreshTokenServiceImpl;
+import com.ssafy.common.S3.S3Uploader;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserRefreshToken;
 import com.ssafy.db.repository.UserRefreshTokenRepository;
@@ -34,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "인증 API", tags = {"Auth."})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api_be/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
 	@Autowired
@@ -43,6 +44,9 @@ public class AuthController {
 	private final UserService userService;
 
 	private final UserRefreshTokenRepository userRefreshTokenRepository;
+
+	@Autowired
+	S3Uploader s3Uploader;
 
 	@Autowired
 	RefreshTokenServiceImpl refreshTokenService;
@@ -57,15 +61,15 @@ public class AuthController {
     })
 	public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo, HttpServletResponse response) {
 		String userEmail = loginInfo.getEmail();
-		String password = loginInfo.getPassword();
+		String password =  loginInfo.getPassword();
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
 		User user = userService.getUserByEmail(userEmail);
 		// 로그인 요청한 유저로부터 입력된 패스워드와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		if(bCryptPasswordEncoder.matches(password, user.getPassword())) {
 
 			UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
-
-			String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(userEmail,user.getNickname(),user.getRole(),user.getId(),1800000);
+			String url = s3Uploader.getS3(user.getProfileImageUrl());
+			String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getAuthToken(userEmail,user.getNickname(),user.getRole(),user.getId(),url,user.getHeight(),user.getWeight(),user.getGender().name(),1800000);
 			String refreshToken = JwtTokenUtil.getToken(userEmail,user.getNickname(),user.getRole(),user.getId(),172800000);
 			if(userRefreshToken == null || jwtTokenUtil.validateToken(userRefreshToken.getRefreshToken())) {  // 범위안에 있으면 false를 반환함. 범위안에 없으면 true
 				System.out.println(userEmail);

@@ -7,12 +7,16 @@ import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
 import Moreinfo from './pages/moreinfo/Moreinfo'
 import Recommend from "./pages/recommend/Recommend";
+import ItemDetail from './pages/itemdetail/ItemDetail'
 import Start from "./pages/start/Start";
 import Tpo from "./pages/tpo/Tpo";
 import RecommendCodi from './pages/recommend_codi/RecommendCodi'
 import Mypage from "./pages/mypage/Mypage";
 import NotFound from "./pages/notfound/NotFound";
+import Search from "./pages/search/Search";
 import Category from "./pages/category/Category";
+import Edit from "./pages/edit/Edit";
+import EditPassword from "./pages/edit/EditPassword";
 
 function App() {
   const location = useLocation();
@@ -36,10 +40,14 @@ function App() {
     <div className="App" key={path}>
       <Switch>
         <Route path="/" component={Start} exact />
+        <Route path="/search" component={Search} />
+        <Route path="/edit-mypage" component={Edit} />
+        <Route path="/edit-password" component={EditPassword} />
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
         <Route path="/recommend" component={Recommend} exact />
+        <Route path="/item/:id" component={ItemDetail} exact />
         <Route path="/recommend/:category" component={Category} exact />
         <Route path="/mypage" component={Mypage} exact />
         <Route path="/login" component={Login} />

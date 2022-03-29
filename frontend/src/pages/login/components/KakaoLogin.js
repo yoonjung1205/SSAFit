@@ -1,9 +1,10 @@
 import React from 'react'
 import kakao from '../images/kakao_logo.png'
 
-export default function KakaoLogin() {
+export default function KakaoLogin({ history }) {
   const KakaoLogin = function(){
-    window.location.replace('http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/moreinfo')
+    window.history.pushState({}, '', 'https://ssafit.site/login')
+    window.location.replace('https://ssafit.site/api_be/oauth2/authorization/kakao?redirect_uri=https://ssafit.site/moreinfo')
   }
 
   return (

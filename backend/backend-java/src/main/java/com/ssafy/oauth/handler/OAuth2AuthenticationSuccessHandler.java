@@ -74,9 +74,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Optional<String> redirectUri = CookieUtil.getCookie(request, OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
-        if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-            throw new IllegalArgumentException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
-        }
+//        if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
+//            throw new IllegalArgumentException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
+//        }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
@@ -112,7 +112,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             response.setHeader("email", userInfo.getEmail());
             response.setHeader("password", bCryptPasswordEncoder.encode("겟겟인데어"));
 
-            return UriComponentsBuilder.fromUriString(targetUrl)
+            return UriComponentsBuilder.fromUriString(targetUrl).queryParam("email", userInfo.getEmail())
                     .build().toUriString();
 
             // 회원가입이 된 경우.
@@ -125,7 +125,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
 
-            String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(userEmail,user2.getNickname(),user2.getRole(),user2.getId(),1800000);
+            String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getOAuthToken(userEmail,user2.getNickname(),user2.getRole(),user2.getId(),user2.getProfileImageUrl(),user2.getHeight(),user2.getWeight(),user2.getGender().name(),1800000);
             String refreshToken = JwtTokenUtil.getToken(userEmail,user2.getNickname(),user2.getRole(),user2.getId(),172800000);
             if(userRefreshToken == null || jwtTokenUtil.validateToken(userRefreshToken.getRefreshToken())) {  // 범위안에 있으면 false를 반환함. 범위안에 없으면 true
                 System.out.println(userEmail);
@@ -141,9 +141,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             response.setHeader("authorization",accessToken);
 
+        // jsp response.header (일체형)
 
-
-            return UriComponentsBuilder.fromUriString("http://localhost:3000/")
+            // jwt를 parameter에서-> 들키잖아요 jwt ㅁㅁ
+           return UriComponentsBuilder.fromUriString("https://ssafit.site/main")
+                    .queryParam("access-token-jwt",accessToken)
+                    .queryParam("refresh-token-jwt",refreshToken)
                     .build().toUriString();
         }
 

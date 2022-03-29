@@ -5,12 +5,16 @@ from starlette.middleware.cors import CORSMiddleware
 # from app.database.conn import db
 # from app.common.config import conf
 # from app.routes import data, recommend
-from app.routes import recommend
-from mongoengine import connect
+from app.routes import recommend, cloth, codi
+import motor.motor_asyncio
+from bson import ObjectId
+from fastapi_pagination import add_pagination
 
+origins = ["http://ssafit.site",
+    "https://ssafit.site",
+    "http://localhost",
+    "http://localhost:3000",]
 
-# connect(host="mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false")
-connect(db="ssafit", host="ssafit.site", port=8975, username="admin", password="ssafit")
 def create_app():
     """
     앱 함수 실행
@@ -24,18 +28,20 @@ def create_app():
     # 미들웨어 정의
     app.add_middleware(
         CORSMiddleware,
-        # allow_origins=conf().ALLOW_SITE,
+        allow_origins=origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
     # 라우터 정의
-    # app.include_router(data.router)
     app.include_router(recommend.router)
+    app.include_router(cloth.router)
+    app.include_router(codi.router)
     return app
 
 
 app = create_app()
+add_pagination(app)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8970, reload=True)

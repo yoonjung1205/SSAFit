@@ -6,6 +6,7 @@ import com.ssafy.oauth.token.AuthTokenProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,8 +26,15 @@ import java.nio.charset.StandardCharsets;
 })
 public class GroupCallApplication {
 	public static void main(String[] args) {
-        SpringApplication.run(GroupCallApplication.class, args);
+
+        new SpringApplicationBuilder(GroupCallApplication.class)
+                .properties(APPLICATION_LOCATIONS)
+                .run(args);
     }
+
+    public static final String APPLICATION_LOCATIONS = "spring.config.location="
+            + "classpath:application.yml,"
+            + "classpath:aws.yml";
 
     @Bean
     public HttpMessageConverter<String> responseBodyConverter() {

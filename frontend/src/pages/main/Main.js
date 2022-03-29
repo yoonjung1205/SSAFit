@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './scss/Main.scss'
 import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
 import maintop from './images/maintop.png'
+import jwtDecode from 'jwt-decode'
 
 const Main = () => {
   let history = useHistory()
@@ -12,6 +13,27 @@ const Main = () => {
     console.log(path, '로 이동')
     history.push(path)
   }
+
+  useEffect(() => {
+    const session = window.sessionStorage
+    if (history.location.search){
+      const authorize = history.location.search.replace('?', '').split('&')
+
+      authorize.forEach(token => {
+        const temp = token.split('=')
+        session.setItem(temp[0], temp[1])
+      })
+      history.push('/main')
+    }
+
+    if (!session.getItem('access-token-jwt')){
+      history.push('/login')
+    }
+    else if (!session.getItem('userInfo')){
+      const token = session.getItem('access-token-jwt')
+      session.setItem('userInfo', JSON.stringify(jwtDecode(token)))
+    }
+  })
 
   return (
     <article className='main'>

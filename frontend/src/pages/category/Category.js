@@ -4,10 +4,11 @@ import Footer from '../../components/Footer'
 import { Card, Col, Row } from 'react-bootstrap';
 import { cateClothes } from './data';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-const Category = ({match}) => {
-  const path = match.params.category
-  const topText = path[0].toUpperCase() + path.slice(1)
+const Category = () => {
+  const params = useParams()
+  const path = params.category
   const [clothes, setClothes] = useState([])
   const [page, setPage] = useState(1)
 
@@ -36,7 +37,7 @@ const Category = ({match}) => {
       <div className='category'>
         <section className='cate-top'>
           <div className='cate-top-text'>
-            <h2>{topText}</h2>
+            <h2>{path}</h2>
           </div>
         </section>
         <section className='cate-middle'>
