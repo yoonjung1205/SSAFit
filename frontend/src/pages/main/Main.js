@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './scss/Main.scss'
 import NavigationBar from '../../components/NavigationBar';
@@ -12,6 +12,19 @@ const Main = () => {
     console.log(path, '로 이동')
     history.push(path)
   }
+
+  useEffect(() => {
+    if (history.location.search){
+      const temp = history.location.search.replace('?', '').split('&')
+      const session = window.sessionStorage
+
+      temp.forEach(token => {
+        session.setItem('a', token.split('=')[1])
+      })
+
+      history.push('/main')
+    }
+  })
 
   return (
     <article className='main'>
