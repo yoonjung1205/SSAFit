@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import defaultImage from './images/default.png'
 import axios from 'axios'
@@ -17,6 +17,7 @@ export default function Moreinfo({ history }) {
     setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
     setProfileImage(file)
   }
+  const q = history.location.search.replace('?email=', '')
 
   const isValid = function(){
     // eslint-disable-next-line no-useless-escape
@@ -50,7 +51,13 @@ export default function Moreinfo({ history }) {
 
   const makeCredential = () => {
     const firstCredentials = JSON.parse(window.localStorage.getItem('userInfo'))
-    const userInfo = {...firstCredentials, ...credentials}
+    let userInfo = null
+    if (q){
+      userInfo = {email: q, password: 1234, ...credentials}
+    }
+    else {
+      userInfo = {...firstCredentials, ...credentials}
+    }
     delete userInfo.imageUrl; userInfo.profileImage = profileImage;
     const formdata = new FormData()
     for (const key in userInfo){
