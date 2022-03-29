@@ -8,6 +8,7 @@ from starlette.middleware.cors import CORSMiddleware
 from app.routes import recommend, cloth, codi
 import motor.motor_asyncio
 from bson import ObjectId
+from fastapi_pagination import add_pagination
 
 origins = ["http://ssafit.site",
     "https://ssafit.site",
@@ -40,7 +41,7 @@ def create_app():
 
 
 app = create_app()
-
+add_pagination(app)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8970, reload=True)

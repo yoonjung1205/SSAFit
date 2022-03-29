@@ -32,7 +32,7 @@ userFemale : 1 (여자는 1 / 남자는 0)
 userHeight : 158 (기입된 내용)
 userWeight : 50 (기입된 내용)
 
-###  (전부 default는 0 / Type : Integer)
+###  (전부 default는 0 / Type : Float)
 size
 bright
 color
@@ -43,7 +43,7 @@ touch
 ------------------------------------------------------------------------------------
 변경할 부분 시작
 ------------------------------------------------------------------------------------
-### Top (전부 default는 0 / Type : Integer)
+### Top (전부 default는 0 / Type : Float)
 smallCategoryHalfshort
 smallCategoryShirt
 smallCategoryCollar
@@ -54,7 +54,7 @@ smallCategoryLong
 smallCategoryShort
 smallCategoryOthers
 
-### Outer (전부 default는 0 / Type : Integer)
+### Outer (전부 default는 0 / Type : Float)
 smallCategoryHoodie
 smallCategoryBlouson
 smallCategoryRiders
@@ -67,7 +67,7 @@ smallCategoryVest
 smallCategoryJacket
 smallCategoryOthers
 
-### Pants (전부 default는 0 / Type : Integer)
+### Pants (전부 default는 0 / Type : Float)
 smallCategoryDenimpants
 smallCategoryCottonpants
 smallCategorySlacks
@@ -77,12 +77,12 @@ smallCategoryLeggings
 smallCategoryJumpsuit
 smallCategoryOthers
 
-### Onepiece (전부 default는 0 / Type : Integer)
+### Onepiece (전부 default는 0 / Type : Float)
 smallCategoryMinidress
 smallCategoryMidi
 smallCategoryMaxidress
 
-### Skirt (전부 default는 0 / Type : Integer)
+### Skirt (전부 default는 0 / Type : Float)
 smallCategoryMiniskirt
 smallCategoryMidi
 smallCategoryLongskirt
@@ -90,7 +90,7 @@ smallCategoryLongskirt
 ------------------------------------------------------------------------------------
 변경할 부분 끝
 ------------------------------------------------------------------------------------
-###  (전부 default는 0 / Type : Integer)
+###  (전부 default는 0 / Type : Float)
 colorWhite
 colorGrey
 colorBlack
