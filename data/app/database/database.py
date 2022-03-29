@@ -105,7 +105,7 @@ async def get_user_gender(userId):
 
 async def get_codi(codiTPO):
     codis = []
-    async for codi in codi_collection.find({f'{codiTPO}': int(1)}):
+    # async for codi in codi_collection.find({f'{codiTPO}': int(1)}):
+    async for codi in codi_collection.aggregate([{'$match':{f'{codiTPO}': int(1)}},{'$sample': {'size':20}}]):
         codis.append(codi_helper(codi))
-    
     return codis
