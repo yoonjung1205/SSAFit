@@ -207,7 +207,7 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> EmailVerification(@RequestBody @ApiParam(value="이메일 정보", required = true) ValidateEmailReq validateEmailReq) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
+	public ResponseEntity<? extends BaseResponseBody> emailVerification(@RequestBody @ApiParam(value="이메일 정보", required = true) ValidateEmailReq validateEmailReq) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
 		if(userService.verifyEmail(validateEmailReq)) {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 		}
@@ -223,7 +223,7 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> ChangeUserInfo(@ApiParam(value="사용자 변경 정보", required = true) UserChangePutReq userChangePutReq, HttpServletResponse response, MultipartHttpServletRequest request) throws IOException {
+	public ResponseEntity<? extends BaseResponseBody> changeUserInfo(@ApiParam(value="사용자 변경 정보", required = true) UserChangePutReq userChangePutReq, HttpServletResponse response, MultipartHttpServletRequest request) throws IOException {
 
 		MultipartFile file = request.getFile("files");
 
@@ -256,7 +256,7 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> ChangeUserPw(@RequestBody @ApiParam(value="사용자 비밀번호 정보", required = true) UserChangePwReq userChangePwReq) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
+	public ResponseEntity<? extends BaseResponseBody> changeUserPw(@RequestBody @ApiParam(value="사용자 비밀번호 정보", required = true) UserChangePwReq userChangePwReq) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
 
 		userService.updateUserPw(userChangePwReq);
 
@@ -273,7 +273,7 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> ConfirmUserPw(@RequestBody @ApiParam(value="사용자 비밀번호 정보", required = true) UserChangePwReq userChangePwReq) {
+	public ResponseEntity<? extends BaseResponseBody> confirmUserPw(@RequestBody @ApiParam(value="사용자 비밀번호 정보", required = true) UserChangePwReq userChangePwReq) {
 
 		String userEmail = userChangePwReq.getEmail();
 		String password =  userChangePwReq.getPassword();

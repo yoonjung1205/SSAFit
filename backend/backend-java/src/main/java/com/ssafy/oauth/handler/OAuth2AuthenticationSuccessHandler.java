@@ -141,11 +141,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             response.setHeader("authorization",accessToken);
 
+        // jsp response.header (일체형)
 
-
-            return UriComponentsBuilder.fromUriString("https://ssafit.site/main")
-                    .queryParam("a",accessToken)
-                    .queryParam("r",refreshToken)
+            // jwt를 parameter에서-> 들키잖아요 jwt ㅁㅁ
+           return UriComponentsBuilder.fromUriString("https://ssafit.site/main")
+                    .queryParam("access-token-jwt",accessToken)
+                    .queryParam("refresh-token-jwt",refreshToken)
                     .build().toUriString();
         }
 
