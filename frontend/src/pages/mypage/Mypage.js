@@ -15,9 +15,10 @@ const Mypage = () => {
   const [menu, setMenu] = useState('recent')
   const colorHanger = 'https://i.ibb.co/cTB977h/free-icon-clothes-hanger-3100599.png'
   const whiteHanger = 'https://i.ibb.co/18ktfCy/free-icon-clothes-hanger-3100575.png'
+  const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
 
   useEffect(() => {
-    setMyinfo(user)
+    setMyinfo(userInfo)
   }, [])
 
   return (

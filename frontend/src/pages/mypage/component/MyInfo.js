@@ -13,13 +13,13 @@ const MyInfo = ({info}) => {
   return (
     <article className='myinfo'>
       <section className='left'>
-        <img src={info.imgUrl} alt='profileImage' />
+        <img src={info.profileImg} alt='profileImage' />
       </section>
       <section className='center'>
         <div>
           <p className='title'>닉네임</p>
           <hr />
-          <p>{info.nickname}</p>
+          <p>{info.name}</p>
         </div>
         <div>
           <p className='title'>성별</p>
