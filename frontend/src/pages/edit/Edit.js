@@ -2,11 +2,10 @@
 import { useEffect, useState } from "react";
 import NavigationBar from "../../components/NavigationBar";
 import Footer from "../../components/Footer";
-import defaultImage from './images/default.png'
 import './scss/Edit.scss'
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { BE_URL } from "../../Request";
+import { BE_URL, accessToken, refreshToken } from "../../Request";
 
 const Edit = () => {
   let history = useHistory()
@@ -34,8 +33,8 @@ const Edit = () => {
 
   function fileUpload(e) {
     const file = e.target.files[0]
-    setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
     setProfileImage(file)
+    setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
   }
 
   const makeCredential = () => {
@@ -83,8 +82,6 @@ const Edit = () => {
     isValid()
     .then(() => {
       const userInfo = makeCredential()
-      const accessToken = window.localStorage.getItem('access-token-jwt') || ''
-      // const refreshToken = window.localStorage.getItem('refresh-token-jwt') || ''
       axios({
         method: 'put',
         url: `${BE_URL}/auth/user`,
@@ -98,10 +95,11 @@ const Edit = () => {
     })
     .then(() => {
       // 🎨🎨원래 저장해둔 userData에 update된 userData 씌우기🎨🎨
+      // ⭕❌ 혹시 수정 성공하면 이미지, 이름, 키, 몸무게, 성별 보내줄 수 있는가?
       // mypage로 보내기
       let current = userInfo
       const tmp = {
-        profileImg: credentials.imageUrl,
+        profileImg: profileImage,
         name: credentials.nickname,
         height: credentials.height,
         weight: credentials.weight,
