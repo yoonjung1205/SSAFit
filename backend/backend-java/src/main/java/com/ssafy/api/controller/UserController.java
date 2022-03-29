@@ -225,7 +225,7 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> changeUserInfo(@ApiParam(value="사용자 변경 정보", required = true) UserChangePutReq userChangePutReq, HttpServletResponse response, MultipartHttpServletRequest request) throws IOException {
 
-		MultipartFile file = request.getFile("files");
+		MultipartFile file = request.getFile("profileImage");
 
 		System.out.println("file size : " + file.getSize());
 		String fileUrl = "";
