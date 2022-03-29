@@ -11,7 +11,7 @@ database = client.ssafit
 cloth_collection = database.get_collection('cloth')
 user_meta_collection = database.get_collection('user_meta')
 cloth_meta_collection = database.get_collection('cloth_meta')
-user_ssafit_collection = database.get_collection('user_ssafiit')
+user_ssafit_collection = database.get_collection('user_ssafit')
 codi_collection = database.get_collection('codi')
 
 async def get_cloth_meta(what_id):
