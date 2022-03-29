@@ -53,12 +53,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (savedUser != null) {
             System.out.println("providerType : " + providerType);
             System.out.println("디비 providerType" +savedUser.getProviderType());
-            if (providerType != savedUser.getProviderType()) {
-                throw new OAuthProviderMissMatchException(
-                        "Looks like you're signed up with " + providerType +
-                        " account. Please use your " + savedUser.getProviderType() + " account to login."
-                );
-            }
+//            if (providerType != savedUser.getProviderType()) {
+//                throw new OAuthProviderMissMatchException(
+//                        "Looks like you're signed up with " + providerType +
+//                        " account. Please use your " + savedUser.getProviderType() + " account to login."
+//                );
+//            }
             updateUser(savedUser, userInfo);
         } else {
             savedUser = createUser(userInfo, providerType);
