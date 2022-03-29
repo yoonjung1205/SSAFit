@@ -81,10 +81,14 @@ export default function Moreinfo({ history }) {
         data: userInfo
       })
     })
-    .then(() => {
-      window.localStorage.removeItem('userInfo')
+    .then(res => {
+      const session = window.sessionStorage
+
       if (!alert('가입이 완료되었습니다!')){
-        history.push('/login')
+        session.setItem('access-token-jwt', res.headers.authorization)
+        session.setItem('refresh-token-jwt', res.headers.refreshtoken)
+
+        history.push('/main')
       }
     })
     .catch(err => {
