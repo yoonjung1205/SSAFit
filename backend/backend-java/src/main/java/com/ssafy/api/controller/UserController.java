@@ -230,7 +230,7 @@ public class UserController {
 		System.out.println("file size : " + file.getSize());
 		String fileUrl = "";
 		String accessToken = "";
-		if(file.getSize() == 0) {
+		if(file == null) {
 			System.out.println("파일이름이 엄서용~!");
 			User user = userService.updateUser(userChangePutReq);
 			accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().name(),1800000);
