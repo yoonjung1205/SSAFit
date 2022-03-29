@@ -1,24 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavigationBar from "../../components/NavigationBar";
 import Footer from "../../components/Footer";
 import defaultImage from './images/default.png'
 import './scss/Edit.scss'
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { BE_URL } from "../../Request";
 
 const Edit = () => {
   let history = useHistory()
+  const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
 
-  const [credentials, setCredentials] = useState(
-    {
-      imageUrl: defaultImage,
-      nickname: '',
-      height: 1,
-      weight: 1,
-      gender: 1
-    }
-  )
+  const [credentials, setCredentials] = useState({})
   const [profileImage, setProfileImage] = useState(null)
+
+  useEffect(() => {
+    const tmp = {
+      imageUrl: userInfo.profileImg,
+      nickname: userInfo.name,
+      height: userInfo.height,
+      weight: userInfo.weight,
+      gender: userInfo.gender
+    }
+    setCredentials(tmp)
+  }, [])
 
   function fileUpload(e) {
     const file = e.target.files[0]
@@ -66,16 +71,22 @@ const Edit = () => {
     })
   }
 
-  function submit(e) {
+  const submit = e => {
     e.preventDefault()
     isValid()
     .then(() => {
       const userInfo = makeCredential()
+      const accessToken = window.localStorage.getItem('access-token-jwt') || ''
+      const refreshToken = window.localStorage.getItem('refresh-token-jwt') || ''
       // 🎨🎨토큰 같이 보내야하는데 그건 서버에 올려야 가능한가?🎨🎨
       axios({
         method: 'put',
-        baseURL: 'https://ssafit.site',
-        headers: {'Content-Type': 'multipart/form-data'},
+        url: `${BE_URL}/auth/user`,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': accessToken,
+          'Refresh': refreshToken
+        },
         data: userInfo
       })
     })
@@ -141,19 +152,19 @@ const Edit = () => {
             <div className="input-form">
               <div className="label-text">성별</div>
               <div className="input-box">
-                <input type="radio" id="male" checked={credentials.gender === 1}
-                  onChange={() => setCredentials({...credentials, gender: 1})}
+                <input type="radio" id="male" checked={credentials.gender === 'MALE'}
+                  onChange={() => setCredentials({...credentials, gender: 'MALE'})}
                 /><label className="gender-label" htmlFor="male">남성</label>
-                <input type="radio" id="female" checked={credentials.gender === 0}
-                  onChange={() => setCredentials({...credentials, gender: 0})}
+                <input type="radio" id="female" checked={credentials.gender === 'FEMALE'}
+                  onChange={() => setCredentials({...credentials, gender: 'FEMALE'})}
                 /><label className="gender-label" htmlFor="female">여성</label>
               </div>
             </div>
           </form>
           <div className="buttons">
-            <button className="left-btn" onClick={() => history.push('/edit-password')}
+            <button className={`left-btn ${userInfo.oauth === 1 ? 'oauth' : ''}`} onClick={() => history.push('/edit-password')}
             ><span /><p>비밀번호 변경</p></button>
-            <button className="right-btn" onClick={(e) => submit(e)}
+            <button className={`right-btn ${userInfo.oauth === 1 ? 'oauth' : ''}`} onClick={(e) => submit(e)}
             ><span /><p>수정</p></button>
           </div>
         </section>
