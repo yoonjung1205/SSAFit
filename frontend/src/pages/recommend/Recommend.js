@@ -6,30 +6,20 @@ import RecCategory from './compoenets/recCategory'
 import Loading from '../../components/Loading'
 import './scss/Recommend.scss'
 
-const Recommend = ({ size, color, style, category }) => {
+const Recommend = ({ rec }) => {
   const [loading, setLoading] = useState(true)
-  const [standard, setStandard] = useState('clothSize')
+  const [standard, setStandard] = useState('size')
   const [recommend, setRecommend] = useState({})
+  const [tab, setTab] = useState(false)
 
-  let tab = false
+  // let tab = false
 
   useEffect(() => {
-    if (Object.keys(recommend).length > 0){
+    if (Object.keys(rec).length > 0){
       setLoading(false)
+      setRecommend(rec)
     }
-  }, [recommend])
-
-  useEffect(() => {
-    if (standard === 'color'){
-      setRecommend(color)
-    }
-    else if (standard === 'style'){
-      setRecommend(style)
-    }
-    else {
-      setRecommend(category)
-    }
-  }, [standard, color, style, category])
+  }, [rec])
 
   if (loading){
     return (<Loading/>)
@@ -48,14 +38,14 @@ const Recommend = ({ size, color, style, category }) => {
       <section className='rec-choice'>
         <div className={`choice ${standard === 'size' ? 'rec-active' : ''}`} onClick={() => setStandard('size')}><h5>사이즈</h5></div>
         <div className='choice-line'></div>
-        <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onClick={() => tab = true}><h5>취향</h5></div>
-        <div className='tab-container' style={{display: `${tab? 'block':'none'}`}} onClick={() => tab = false}>
+        <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onClick={() => setTab(true)}><h5>취향</h5></div>
+        <div className='tab-container' style={{display: `${tab? 'block':'none'}`}} onClick={() => setTab(false)}>
           <div className='tab-box'>
             <h4>Recommend By</h4>
             <div className='tabs'>
-              <h5 className='tab' onClick={() => {setStandard('color'); tab = false}}>Color</h5>
-              <h5 className='tab' onClick={() => {setStandard('style'); tab = false}}>Style</h5>
-              <h5 className='tab' onClick={() => {setStandard('category'); tab = false}}>Category</h5>
+              <h5 className='tab' onClick={() => {setStandard('color'); setTab(false)}}>Color</h5>
+              <h5 className='tab' onClick={() => {setStandard('style'); setTab(false)}}>Style</h5>
+              <h5 className='tab' onClick={() => {setStandard('category'); setTab(false)}}>Category</h5>
             </div>
           </div>
         </div>
