@@ -144,6 +144,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 
             return UriComponentsBuilder.fromUriString("https://ssafit.site/main")
+                    .queryParam("a",accessToken)
+                    .queryParam("r",refreshToken)
                     .build().toUriString();
         }
 
