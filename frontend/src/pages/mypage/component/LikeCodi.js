@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import '../scss/cards.scss'
+import '../scss/Cards.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { likeCodies } from '../data';
 
-const likeCodi = () => {
+const LikeCodi = () => {
   const [codies, setCodies] = useState([])
   const fillLike = 'https://i.ibb.co/RDV7jPR/heart-free-icon-font.png'
   const lineLike = 'https://i.ibb.co/Nr77tWK/heart-free-icon-font-1.png'
@@ -43,4 +42,4 @@ const likeCodi = () => {
   );
 };
 
-export default likeCodi;
+export default LikeCodi;

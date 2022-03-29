@@ -1,29 +1,43 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from 'react'
+import React, { useState } from 'react'
 import GoogleLogin from './components/GoogleLogin'
 import KakaoLogin from './components/KakaoLogin'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import './scss/login.scss'
 
-const baseUrl = 'http://ssafit.site:8971/'
 
-const signUp = function(event, email, password){
-  event.preventDefault()
-  axios({
-    method: 'post',
-    url: baseUrl + 'api_be/auth/login',
-    data: {
-      email: email,
-      password: password
-    }
-  })
-  .then(res => console.log(res))
-  .catch(err => console.log(err))
-}
 
 export default function Login({ history }) {
-  let email = ""; let password = "";
+  const [credentials, setCredentials] = useState({
+    email: null, password: null
+  })
+
+  const signIn = function(){
+    axios({
+      method: 'post',
+      baseURL: 'https://ssafit.site/api_be',
+      url: '/auth/login',
+      data: {
+        email: credentials.email,
+        password: credentials.password
+      }
+    })
+    .then(res => {
+      const session = window.sessionStorage
+
+      session.setItem('access-token-jwt', res.headers.authorization)
+      session.setItem('refresh-token-jwt', res.headers.refreshtoken)
+      
+      if (!alert('로그인 되었습니다!')){
+        history.push('/main')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      alert('입력정보를 확인해주세요!!')
+    })
+  }
 
   return (
     <article className='login-container'>
@@ -34,18 +48,18 @@ export default function Login({ history }) {
       </section>
       <section className='login-body'>
         <h1>Log In</h1>
-        <form action="" onSubmit={(event) => signUp(event, email, password)}>
+        <form action="" onSubmit={event => {event.preventDefault(); signIn()}}>
           <label htmlFor="">
             이메일
             <input type="email" name="email" id="email"
              placeholder='이메일을 입력하세요'
-             onInput={event => {email = event.target.value}} />
+             onInput={event => setCredentials({...credentials, email: event.target.value})} />
           </label>
           <label htmlFor="">
             비밀번호
             <input type="password" name="password" id="password"
              placeholder='비밀번호를 입력하세요'
-             onInput={event => {password = event.target.value}} />
+             onInput={event => setCredentials({...credentials, password: event.target.value})} />
           </label>
           <button>
             <span/>
