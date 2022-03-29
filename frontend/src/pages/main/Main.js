@@ -23,8 +23,9 @@ const Main = () => {
         const temp = token.split('=')
         session.setItem(temp[0], temp[1])
       })
-
-      history.push('/main')
+      window.location.search = null
+      history.location.search = null
+      // history.push('/main')
     }
   })
 
