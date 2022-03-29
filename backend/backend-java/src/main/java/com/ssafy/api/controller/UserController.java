@@ -263,4 +263,26 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 
 	}
+
+	//유저 비밀번호 확인
+	@PostMapping("/user/pw")
+	@ApiOperation(value = "사용자 비밀번호 확인", notes = "사용자 비밀번호를 확인한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> ConfirmUserPw(@RequestBody @ApiParam(value="사용자 비밀번호 정보", required = true) UserChangePwReq userChangePwReq) {
+
+		String userEmail = userChangePwReq.getEmail();
+		String password =  userChangePwReq.getPassword();
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+		User user = userService.getUserByEmail(userEmail);
+		// 로그인 요청한 유저로부터 입력된 패스워드와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
+		if(bCryptPasswordEncoder.matches(password, user.getPassword())) {
+			return ResponseEntity.ok(UserLoginPostRes.ofs(200, "Success"));
+		}
+		return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
+	}
 }
