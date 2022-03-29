@@ -17,53 +17,12 @@ import Search from "./pages/search/Search";
 import Category from "./pages/category/Category";
 import Edit from "./pages/edit/Edit";
 import EditPassword from "./pages/edit/EditPassword";
-import axios from "axios";
-import { DA_URL } from './Request'
-import jwtDecode from 'jwt-decode'
 
 function App() {
   const location = useLocation();
-  const [path, setPath] = useState('/')
-  const [rec, setRec] = useState({})
-  
-  const session = window.sessionStorage
-  let userInfo;
-  try {
-    const token = session.getItem('access-token-jwt')
-    session.setItem('userInfo', JSON.stringify(jwtDecode(token)))
-    userInfo = jwtDecode(token)
-    console.log(userInfo)
-  }
-  catch {
-    console.log('사용자 인증 정보가 없습니다.')
-  }
-
-  if (userInfo){
-    axios({
-      method: 'get',
-      baseURL: DA_URL,
-      url: `/recommend/size/${userInfo.id}`
-    })
-    .then(res => setRec(res.data))
-    .catch(err => console.log(err))
-  }
-  
-  useEffect(() => {
-    // const transition = function(){
-    //   app.classList.remove('transition')
-    //   setTimeout(() => {
-    //     app.classList.add('transition')
-    //   }, 1)
-    // }
-    // if (app){
-    //   transition()
-    // }
-    setPath(location.pathname)
-  }, [location])
-
 
   return (
-    <div className="App" key={path}>
+    <div className="App" key={location.pathname}>
       <Switch>
         <Route path="/" component={Start} exact />
         <Route path="/search" component={Search} />
@@ -72,9 +31,7 @@ function App() {
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
-        <Route path="/recommend" exact>
-          <Recommend rec={rec} />
-        </Route>
+        <Route path="/recommend" component={Recommend} exact />
         <Route path="/item/:id" component={ItemDetail} exact />
         <Route path="/recommend/:category" component={Category} exact />
         <Route path="/mypage" component={Mypage} exact />
