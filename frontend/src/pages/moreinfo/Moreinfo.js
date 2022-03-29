@@ -17,7 +17,15 @@ export default function Moreinfo({ history }) {
     setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
     setProfileImage(file)
   }
-  const q = history.location.search.replace('?email=', '')
+  const q = history.location.search.replace('?', '').split('&')
+  const firstCredentials = {}
+  q.forEach(query => {
+    let temp = query.split('=')
+    firstCredentials[temp[0]] = temp[1]
+  })
+
+  console.log(window.XMLHTTPRequest)
+  console.log(navigator)
 
   const isValid = function(){
     // eslint-disable-next-line no-useless-escape
@@ -50,21 +58,12 @@ export default function Moreinfo({ history }) {
   }
 
   const makeCredential = () => {
-    const firstCredentials = JSON.parse(window.localStorage.getItem('userInfo'))
-    let userInfo = null
-    if (q){
-      userInfo = {email: q, password: 1234, ...credentials}
-    }
-    else {
-      userInfo = {...firstCredentials, ...credentials}
-    }
+    let userInfo = {...firstCredentials, ...credentials}
     delete userInfo.imageUrl; userInfo.profileImage = profileImage;
     const formdata = new FormData()
     for (const key in userInfo){
-      console.log(key, userInfo[key])
       formdata.append(key, userInfo[key])
     }
-
     return formdata
   }
 
