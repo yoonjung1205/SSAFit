@@ -94,15 +94,43 @@ public class UserController {
 		System.out.println("fileUrl : " + fileUrl);
 		System.out.println("fileUrl : " + fileUrl);
 
-		// 회원가입이 되어있는가?
+		// oauth 로그인 시.
+		if(registerInfo.getPassword().length() == 0) {
+			//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
+			User u = userService.OAuthcreateUser(registerInfo,fileUrl);
+
+			String userEmail = registerInfo.getEmail();
+
+			User user = userService.getUserByEmail(userEmail);
+
+			UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
+
+			String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getOAuthToken(userEmail,user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),1800000);
+			String refreshToken = JwtTokenUtil.getToken(userEmail,user.getNickname(),user.getRole(),user.getId(),172800000);
+			if(userRefreshToken == null || jwtTokenUtil.validateToken(userRefreshToken.getRefreshToken())) {  // 범위안에 있으면 false를 반환함. 범위안에 없으면 true
+				System.out.println(userEmail);
+				System.out.println(refreshToken);
+				UserRefreshToken userRefreshToken2 = new UserRefreshToken(userEmail, refreshToken);
+				System.out.println("로그인 : " + userRefreshToken);
+
+				refreshTokenService.deleteAndSave(userRefreshToken,userRefreshToken2);
+				response.setHeader("refreshToken", userRefreshToken2.getRefreshToken());
+			}else {
+				response.setHeader("refreshToken", userRefreshToken.getRefreshToken());
+			}
+
+			response.setHeader("authorization",accessToken);
+			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
+			return ResponseEntity.ok(UserLoginPostRes.ofs(200, "Success"));
 
 
-		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
-		User u = userService.createUser(registerInfo,fileUrl);
+		}else {  // 일반 로그인 시.
+			//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
+			User u = userService.AuthcreateUser(registerInfo,fileUrl);
 
-		String userEmail = registerInfo.getEmail();
+			String userEmail = registerInfo.getEmail();
 
-		User user = userService.getUserByEmail(userEmail);
+			User user = userService.getUserByEmail(userEmail);
 
 			UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
 
@@ -123,6 +151,16 @@ public class UserController {
 			response.setHeader("authorization",accessToken);
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
 			return ResponseEntity.ok(UserLoginPostRes.ofs(200, "Success"));
+		}
+
+		// oauth 패스워드 없이 저한테 주시고, 제가 랜덤값을 password에 넣어놓을게요
+
+		// oauth 형한테 jwt안에 oauth인지 아닌지 정보를 담아서 드릴께요.
+
+		// 형이 받아서 oauth 유무 판별하면 되지 않을까.
+
+
+
 
 
 	}
