@@ -92,7 +92,7 @@ export default function Moreinfo({ history }) {
       }
     })
     .catch(err => {
-      console.log(err, typeof(err))
+      console.log(err)
       if (typeof(err) !== Array){
         console.log('여기걸림?')
         return alert('잘못된 요청입니다.')
@@ -113,7 +113,7 @@ export default function Moreinfo({ history }) {
           {/* 프로필사진 */}
           <label id='file-input' style={{backgroundImage: `url(${credentials.imageUrl})`}}>
             <div className='input-box'>
-              <input type="file" name="profile" id="profile" 
+              <input type="file" name="profile" id="profile" accept='image/*'
               onChange={event => fileUpload(event)} />
             </div>
           </label>
