@@ -14,7 +14,6 @@ const Main = () => {
   }
 
   useEffect(() => {
-
     if (history.location.search){
       const authorize = history.location.search.replace('?', '').split('&')
       const session = window.sessionStorage
@@ -23,9 +22,7 @@ const Main = () => {
         const temp = token.split('=')
         session.setItem(temp[0], temp[1])
       })
-      window.location.search = null
-      history.location.search = null
-      // history.push('/main')
+      history.push('/main')
     }
   })
 
