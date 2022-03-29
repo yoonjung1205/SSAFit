@@ -5,6 +5,7 @@ import './scss/Main.scss'
 import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
 import maintop from './images/maintop.png'
+import jwtDecode from 'jwt-decode'
 
 const Main = () => {
   let history = useHistory()
@@ -14,15 +15,23 @@ const Main = () => {
   }
 
   useEffect(() => {
+    const session = window.sessionStorage
     if (history.location.search){
       const authorize = history.location.search.replace('?', '').split('&')
-      const session = window.sessionStorage
 
       authorize.forEach(token => {
         const temp = token.split('=')
         session.setItem(temp[0], temp[1])
       })
       history.push('/main')
+    }
+
+    if (!session.getItem('access-token-jwt')){
+      history.push('/login')
+    }
+    else if (!session.getItem('userInfo')){
+      const token = session.getItem('access-token-jwt')
+      session.setItem('userInfo', JSON.stringify(jwtDecode(token)))
     }
   })
 
