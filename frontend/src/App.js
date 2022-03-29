@@ -24,7 +24,10 @@ import jwtDecode from 'jwt-decode'
 function App() {
   const location = useLocation();
   const [path, setPath] = useState('/')
-  const [rcm, setRcm] = useState({})
+  const [sizeRcm, setSizeRcm] = useState({})
+  const [colorRcm, setcolorRcm] = useState({})
+  const [styleRcm, setStyleRcm] = useState({})
+  const [categoryRcm, setCategoryRcm] = useState({})
   
   const session = window.sessionStorage
   let userInfo;
@@ -38,18 +41,21 @@ function App() {
     console.log('사용자 인증 정보가 없습니다.')
   }
 
-  const getRCM = function(){
+  const getRCM = function(path, setter){
     axios({
       method: 'get',
       baseURL: DA_URL,
-      url: `/recommend/size/${userInfo.id}`
+      url: `/recommend/${path}/${userInfo.id}`
     })
-    .then(res => setRcm(res.data))
+    .then(res => setter(res.data))
     .catch(err => console.log(err))
   }
 
   if (userInfo){
-    getRCM()
+    getRCM('size', setSizeRcm)
+    getRCM('color', setcolorRcm)
+    getRCM('style', setStyleRcm)
+    getRCM('category', setCategoryRcm)
   }
   
   useEffect(() => {
@@ -77,7 +83,7 @@ function App() {
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
         <Route path="/recommend" exact>
-          <Recommend recommend={rcm}/>
+          <Recommend size={sizeRcm} color={colorRcm} style={styleRcm} category={categoryRcm} />
         </Route>
         <Route path="/item/:id" component={ItemDetail} exact />
         <Route path="/recommend/:category" component={Category} exact />

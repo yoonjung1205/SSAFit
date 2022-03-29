@@ -42,6 +42,38 @@
       border: 1px solid #56586C;
       margin: 0.5rem 0;
     }
+
+    .tab-container {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+
+      .tab-box {
+        width: 40%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .tabs {
+          display: flex;
+          justify-content: space-between;
+
+          .tab {
+            color: white;
+            background-color: #56586C;
+            width: 20%;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+
+            &:hover {
+              background-color: #4e505f;
+            }
+          }
+        }
+      }
+    }
   }
   .rec-clothes {
     width: 100%;
