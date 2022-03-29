@@ -9,6 +9,9 @@ from app.routes import recommend, cloth
 import motor.motor_asyncio
 from bson import ObjectId
 
+origins = ["http://ssafit.site",
+    "http://localhost",
+    "http://localhost:3000",]
 
 def create_app():
     """
@@ -23,7 +26,7 @@ def create_app():
     # 미들웨어 정의
     app.add_middleware(
         CORSMiddleware,
-        # allow_origins=conf().ALLOW_SITE,
+        allow_origins=origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
