@@ -10,6 +10,7 @@ import motor.motor_asyncio
 from bson import ObjectId
 
 origins = ["http://ssafit.site",
+    "https://ssafit.site",
     "http://localhost",
     "http://localhost:3000",]
 
