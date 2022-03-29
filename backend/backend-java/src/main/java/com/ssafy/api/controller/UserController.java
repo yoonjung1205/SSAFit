@@ -227,7 +227,6 @@ public class UserController {
 
 		MultipartFile file = request.getFile("profileImage");
 
-		System.out.println("file size : " + file.getSize());
 		String fileUrl = "";
 		String accessToken = "";
 		if(file == null) {
