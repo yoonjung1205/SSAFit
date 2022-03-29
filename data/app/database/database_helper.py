@@ -4,6 +4,8 @@ def user_ssafit_helper(user_ssafit):
         "userId": int(user_ssafit['userId']),
         "userMale": user_ssafit['userMale'],
         "userFemale": user_ssafit['userFemale'],
+        "userHeight": user_ssafit['userHeight'],
+        "userWeight": user_ssafit['userWeight'],
     }
     return context
 
@@ -348,5 +350,41 @@ def codi_helper(codi):
         "imgSrc": str(codi['imgSrc']),
         "hashtags": list(codi['hashtags']),
         "clothes": list(codi['clothes']),
+    }
+    return context
+
+def review_helper(review):
+    context = {
+        "_id": str(review['_id']),
+        "userName": str(review['userName']),
+        "date": str(review['date']),
+        "goodsNo": int(review['goodsNo']),
+        "userSexMen": int(review['userSexMen']),
+        "userSexWomen": int(review['userSexWomen']),
+        "userHeight": int(review['userHeight']),
+        "userWeight": int(review['userWeight']),
+        "goodsSize": str(review['goodsSize']),
+        "reviewContent": list(review['reviewContent']),
+        "reviewImg": str(review['reviewImg']),
+        "reviewStyle": int(review['reviewStyle']),
+        "size": int(review['size']),
+        "bright": int(review['bright']),
+        "color": int(review['color']),
+        "newGoodsNo": int(review['newGoodsNo']),
+    }
+    return context
+
+def review_img_helper(review):
+    context = {
+        "_id": str(review['_id']),
+        "userName": str(review['userName']),
+        "goodsNo": int(review['goodsNo']),
+        "userSexMen": int(review['userSexMen']),
+        "userSexWomen": int(review['userSexWomen']),
+        "userHeight": int(review['userHeight']),
+        "userWeight": int(review['userWeight']),
+        "goodsSize": str(review['goodsSize']),
+        "reviewImg": str(review['reviewImg']),
+        "newGoodsNo": int(review['newGoodsNo']),
     }
     return context
