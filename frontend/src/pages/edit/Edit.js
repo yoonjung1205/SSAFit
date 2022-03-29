@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import NavigationBar from "../../components/NavigationBar";
 import Footer from "../../components/Footer";
@@ -9,21 +10,27 @@ import { BE_URL } from "../../Request";
 
 const Edit = () => {
   let history = useHistory()
-  const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-
+  const [userInfo, setUserInfo] = useState({})
   const [credentials, setCredentials] = useState({})
-  const [profileImage, setProfileImage] = useState(null)
-
+  const [profileImage, setProfileImage] = useState('')
+  
+  useEffect(() => {
+    const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+    setUserInfo(userInfo)
+  }, [])
+  
   useEffect(() => {
     const tmp = {
+      email: userInfo.sub,
       imageUrl: userInfo.profileImg,
       nickname: userInfo.name,
       height: userInfo.height,
       weight: userInfo.weight,
-      gender: userInfo.gender
+      gender: userInfo.gender === 'MALE' ? 1 : 0
     }
     setCredentials(tmp)
-  }, [])
+    setProfileImage(userInfo.imageUrl)
+  }, [userInfo])
 
   function fileUpload(e) {
     const file = e.target.files[0]
@@ -33,10 +40,10 @@ const Edit = () => {
 
   const makeCredential = () => {
     // 🎨🎨이메일을 어디서 가져오지? 로그인 했을때 local or session에 userData를 가지고 있어야 하는가? 아니면 react store에 따로 가지고 있어야 하는가?🎨🎨
-    const userInfo = {...credentials, email: 'aaa@aaa.com'}
+    const userInfo = {...credentials}
     delete userInfo.imageUrl
     userInfo.profileImage = profileImage
-    console.log(userInfo)
+    // console.log(userInfo)
     const formdata = new FormData()
     for (const key in userInfo){
       formdata.append(key, userInfo[key])
@@ -77,30 +84,40 @@ const Edit = () => {
     .then(() => {
       const userInfo = makeCredential()
       const accessToken = window.localStorage.getItem('access-token-jwt') || ''
-      const refreshToken = window.localStorage.getItem('refresh-token-jwt') || ''
-      // 🎨🎨토큰 같이 보내야하는데 그건 서버에 올려야 가능한가?🎨🎨
+      // const refreshToken = window.localStorage.getItem('refresh-token-jwt') || ''
       axios({
         method: 'put',
         url: `${BE_URL}/auth/user`,
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': accessToken,
-          'Refresh': refreshToken
+          // 'Refresh': refreshToken
         },
         data: userInfo
       })
     })
-    .then(res => {
+    .then(() => {
       // 🎨🎨원래 저장해둔 userData에 update된 userData 씌우기🎨🎨
       // mypage로 보내기
-      console.log(res)
+      let current = userInfo
+      const tmp = {
+        profileImg: credentials.imageUrl,
+        name: credentials.nickname,
+        height: credentials.height,
+        weight: credentials.weight,
+        gender: credentials.gender === 1 ? 'MALE' : 'FEMALE'
+      }
+      Object.assign(current, tmp)
+      // console.log(current)
+      window.sessionStorage.setItem('userInfo', JSON.stringify(current))
+      history.push('/mypage')
     })
     .catch(err => {
-      console.log(err, typeof(err))
-      if (typeof(err) !== Array) {
-        return alert('잘못된 요청입니다.')
+      // console.log(err, typeof(err))
+      if (typeof(err) !== Object) {
+        return alert(`${err.join(', ')}를 확인해주세요!`)
       }
-      alert(`${err.join(', ')}를 확인해주세요!`)
+      alert('잘못된 요청입니다.')
     })
   }
 
@@ -152,11 +169,11 @@ const Edit = () => {
             <div className="input-form">
               <div className="label-text">성별</div>
               <div className="input-box">
-                <input type="radio" id="male" checked={credentials.gender === 'MALE'}
-                  onChange={() => setCredentials({...credentials, gender: 'MALE'})}
+                <input type="radio" id="male" checked={credentials.gender === 1}
+                  onChange={() => setCredentials({...credentials, gender: 1})}
                 /><label className="gender-label" htmlFor="male">남성</label>
-                <input type="radio" id="female" checked={credentials.gender === 'FEMALE'}
-                  onChange={() => setCredentials({...credentials, gender: 'FEMALE'})}
+                <input type="radio" id="female" checked={credentials.gender === 0}
+                  onChange={() => setCredentials({...credentials, gender: 0})}
                 /><label className="gender-label" htmlFor="female">여성</label>
               </div>
             </div>
