@@ -6,7 +6,7 @@ import RecCategory from './compoenets/recCategory'
 import Loading from '../../components/Loading'
 import './scss/Recommend.scss'
 
-const Recommend = ({ rec }) => {
+const Recommend = ({ size, color, style, category }) => {
   const [loading, setLoading] = useState(true)
   const [standard, setStandard] = useState('size')
   const [recommend, setRecommend] = useState({})
@@ -15,11 +15,25 @@ const Recommend = ({ rec }) => {
   // let tab = false
 
   useEffect(() => {
-    if (Object.keys(rec).length > 0){
+    if (Object.keys(recommend).length > 0){
       setLoading(false)
-      setRecommend(rec)
     }
-  }, [rec])
+  }, [recommend])
+
+  useEffect(() => {
+    if (standard === 'color'){
+      setRecommend(color)
+    }
+    else if (standard === 'style'){
+      setRecommend(style)
+    }
+    else if (standard === 'category') {
+      setRecommend(category)
+    }
+    else {
+      setRecommend(size)
+    }
+  }, [standard, size, color, style, category])
 
   if (loading){
     return (<Loading/>)
