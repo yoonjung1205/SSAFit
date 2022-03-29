@@ -14,12 +14,14 @@ const Main = () => {
   }
 
   useEffect(() => {
+
     if (history.location.search){
-      const temp = history.location.search.replace('?', '').split('&')
+      const authorize = history.location.search.replace('?', '').split('&')
       const session = window.sessionStorage
 
-      temp.forEach(token => {
-        session.setItem('a', token.split('=')[1])
+      authorize.forEach(token => {
+        const temp = token.split('=')
+        session.setItem(temp[0], temp[1])
       })
 
       history.push('/main')
