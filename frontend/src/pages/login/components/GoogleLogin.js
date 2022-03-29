@@ -4,7 +4,8 @@ import google from '../images/google_logo.png'
 export default function GoogleLoginBtn({ history }){
   const GoogleLogin = function(){
     window.history.pushState({}, '', 'https://ssafit.site/login')
-    window.location.replace('https://ssafit.site/api_be/oauth2/authorization/google?redirect_uri=https://ssafit.site/moreinfo')
+    const res = window.location.replace('https://ssafit.site/api_be/oauth2/authorization/google?redirect_uri=https://ssafit.site/moreinfo')
+    console.log(res)
   }
 
   return (

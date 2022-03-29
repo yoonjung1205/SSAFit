@@ -35,8 +35,7 @@ export default function Signup({ history }) {
     ////////////// 회원가입  /////////////////
     isValid()
     .then(() => {
-      window.localStorage.setItem('userInfo', JSON.stringify(credentials))
-      history.push('/moreinfo')
+      history.push(`/moreinfo?email=${credentials.email}&password=${credentials.password}`)
     })
     .catch(err => {console.log(err);alert('입력정보를 확인하세요!!')})
   }
