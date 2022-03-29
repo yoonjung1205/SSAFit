@@ -4,6 +4,7 @@ import './scss/EditPassword.scss'
 import { useState } from "react";
 
 const EditPassword = () => {
+  const [checked, setChecked] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
   const [credentials, setCredentials] = useState({
     password: '',
@@ -14,6 +15,9 @@ const EditPassword = () => {
     e.preventDefault()
     // 🎨🎨현재 비밀번호가 맞는지 요청은 get?🎨🎨
     console.log('currentPassword:', currentPassword)
+    // 맞으면 setChecked(true)
+    setChecked(true)
+    // 틀리면 alert('비밀번호를 틀렸습니다')
   }
 
   function changePassword(e) {
@@ -43,7 +47,7 @@ const EditPassword = () => {
             <label className="input-form" htmlFor="password">
               <div className="label-text">변경할 비밀번호</div>
               <div className="input-box">
-                <input type="password" id="password" value={credentials.password}
+                <input type="password" id="password" value={credentials.password} disabled={!checked}
                   placeholder="비밀번호는 8 ~ 16글자, 특수문자, 영어, 숫자 1개 이상 포함해야 합니다"
                   onChange={(e) => setCredentials({...credentials, password: e.target.value})} />
               </div>
@@ -52,7 +56,7 @@ const EditPassword = () => {
               <div className="label-text">변경할 비밀번호 확인</div>
               <div className="input-box">
                 <input type="password" id="passwordConf" value={credentials.passwordConf}
-                  placeholder="비밀번호를 다시 입력하세요"
+                  placeholder="비밀번호를 다시 입력하세요" disabled={!checked}
                   onChange={(e) => setCredentials({...credentials, passwordConf: e.target.value})} />
               </div>
             </label>
