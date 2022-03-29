@@ -35,7 +35,7 @@ app:
     refreshTokenExpiry: 604800000
   oauth2:
     authorizedRedirectUris:
-      - http://localhost:3000/oauth/redirect
+      - https://ssafit.site/api_be/oauth/redirect
   wfileupload:
     uploadDir: upload
     uploadPath: C:\\Users\\dlrjs\\Desktop\\sixman\\backend-java\\src\\main\\resources\\static
@@ -77,8 +77,9 @@ spring:
     oauth2.client:
       registration:
         google:
-          clientId: '1090279015530-bn2drlnfrf78o748fji32ebfivlfgoik.apps.googleusercontent.com'
-          clientSecret: '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'
+          clientId: '1090279015530-7h88g8sugkhar11j8enjo87d351i7g4v.apps.googleusercontent.com'
+          clientSecret: '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'
+          redirectUri: "https://ssafit.site/api_be/login/oauth2/code/google"
           scope:
             - email
             - profile
@@ -104,7 +105,7 @@ spring:
           clientSecret: '2Gkh9SWv9Aey1rpcNWalc0gbeRwUjvQh'
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "http://localhost:8080/login/oauth2/code/kakao"
+          redirectUri: "https://ssafit.site/api_be/login/oauth2/code/kakao"
           scope:
             - profile_nickname
             - profile_image
@@ -164,6 +165,13 @@ spring:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   data:
+    mongodb:
+      host: ssafit.site
+      port: 8975
+      authentication-database: admin
+      username: admin
+      password: ssafit
+      database: ssafit
     web:
       pageable:
         one-indexed-parameters: 'true'
@@ -205,3 +213,4 @@ management:
       enabled: 'true'
   servlet:
     context-path: /manage
+
