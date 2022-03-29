@@ -260,21 +260,12 @@ def cloth_meta_helper(cloth_meta):
 # 추천 알고리즘 거쳐 나온 옷 리스트들
 def cloth_helper(cloth):
     context = {
-        "_id": str(cloth['_id']),
         'newClothId': int(cloth['newClothId']),
         'clothId': cloth['clothId'],
-        'largeCategoryName': cloth['largeCategoryName'],
-        'smallCategoryName': cloth['smallCategoryName'],
-        'colorName': cloth['colorName'],
         'clothName': cloth['clothName'],
         'brand': cloth['brand'],
         'clothImg': cloth['clothImg'],
         'clothPrice': cloth['clothPrice'],
-        'date': cloth['date'],
-        'clothMale': cloth['clothMale'],
-        'clothFemale': cloth['clothFemale'],
-        'clothRate': cloth['clothRate'],
-        'clothReviewCnt': cloth['clothReviewCnt'],
         'goodsSize': cloth['goodsSize'],
     }
     return context
