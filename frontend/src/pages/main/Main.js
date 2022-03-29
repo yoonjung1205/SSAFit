@@ -5,9 +5,8 @@ import './scss/Main.scss'
 import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
 import maintop from './images/maintop.png'
-import jwtDecode from 'jwt-decode'
 
-const Main = () => {
+const Main = ({ rec, setRec }) => {
   let history = useHistory()
   const onClickButton = (path) => {
     console.log(path, '로 이동')
@@ -29,11 +28,7 @@ const Main = () => {
     if (!session.getItem('access-token-jwt')){
       history.push('/login')
     }
-    else if (!session.getItem('userInfo')){
-      const token = session.getItem('access-token-jwt')
-      session.setItem('userInfo', JSON.stringify(jwtDecode(token)))
-    }
-  })
+  }, [])
 
   return (
     <article className='main'>

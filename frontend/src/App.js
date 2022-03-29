@@ -20,24 +20,9 @@ import EditPassword from "./pages/edit/EditPassword";
 
 function App() {
   const location = useLocation();
-  const [path, setPath] = useState('/')
-  // const app = window.document.getElementsByClassName('App')[0]
-  
-  useEffect(() => {
-    // const transition = function(){
-    //   app.classList.remove('transition')
-    //   setTimeout(() => {
-    //     app.classList.add('transition')
-    //   }, 1)
-    // }
-    // if (app){
-    //   transition()
-    // }
-    setPath(location.pathname)
-  }, [location])
 
   return (
-    <div className="App" key={path}>
+    <div className="App" key={location.pathname}>
       <Switch>
         <Route path="/" component={Start} exact />
         <Route path="/search" component={Search} />
