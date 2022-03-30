@@ -174,7 +174,7 @@ def get_category_real_user(users_meta, user_info):
     return real_user
 
 @router.get('/recommend/category/{userId}', tags=["Recommend"])
-async def rec_style(userId: int):
+async def rec_category(userId: int):
     start = time.time()
     gender = await get_user_gender(userId)
     if gender == 1:
