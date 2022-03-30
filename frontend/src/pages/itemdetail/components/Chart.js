@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { ResponsiveLine } from '@nivo/line';
+// import { ResponsiveLine } from '@nivo/line'
 import '../scss/chart.scss'
 
 const Chart = ({ male, female, month }) => {
@@ -46,6 +46,11 @@ const Chart = ({ male, female, month }) => {
 
       <div className='month'>
         <h3 className='chart-title'>Month</h3>
+
+
+
+
+
 
 
         <div className='chart-box'></div>
