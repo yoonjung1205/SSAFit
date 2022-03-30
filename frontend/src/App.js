@@ -60,7 +60,11 @@ function App() {
     if (!Object.keys(size).length){
       console.log('사이즈?')
       if (!local.getItem('size-rec')){
-        local.setItem('size-rec', JSON.stringify(await getRec('size')))
+        try {
+          let res = await getRec('category')
+          local.setItem('size-rec', JSON.stringify(res))
+        }
+        catch{}
       }
       setSize(JSON.parse(local.getItem('size-rec')))
     }
