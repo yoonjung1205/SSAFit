@@ -130,15 +130,14 @@ def user_ssafit_category_skirt_helper(user_ssafit):
     }
     return context
 
-def user_meta_size_helper(user_meta):
+def user_size_helper(user_meta):
     context = {
         "_id": str(user_meta['_id']),
         "userId": int(user_meta['userId']),
         "userMale": user_meta['userMale'],
         "userFemale": user_meta['userFemale'],
         "userHeight": user_meta['userHeight'],
-        "userWeight": user_meta['userWeight'],
-        "what": user_meta['what']
+        "userWeight": user_meta['userWeight']
     }
     return context
 
