@@ -4,7 +4,7 @@ import left from '../images/arrow-left.png'
 import right from '../images/arrow-right.png'
 import '../scss/realfit.scss'
 
-export default function RealFit() {
+export default function RealFit({ review }) {
   const [page, setPage] = useState(9)
   const [direc, setDirec] = useState(true)
 
