@@ -86,9 +86,9 @@ public class UserController {
 
 		MultipartFile file = request.getFile("profileImage");
 
-		System.out.println("file size : " + file.getSize());
+
 		String fileUrl = "";
-		if(file.getSize() == 0) {
+		if(file == null) {
 			System.out.println("파일이름이 엄서용~!");
 		}else{
 			fileUrl = s3Uploader.upload(file,"user");
