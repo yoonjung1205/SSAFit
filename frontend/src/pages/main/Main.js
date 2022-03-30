@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './scss/Main.scss'
 import NavigationBar from '../../components/NavigationBar';
@@ -12,6 +12,23 @@ const Main = () => {
     console.log(path, '로 이동')
     history.push(path)
   }
+
+  useEffect(() => {
+    const session = window.sessionStorage
+    if (history.location.search){
+      const authorize = history.location.search.replace('?', '').split('&')
+
+      authorize.forEach(token => {
+        const temp = token.split('=')
+        session.setItem(temp[0], temp[1])
+      })
+      history.push('/main')
+    }
+
+    if (!session.getItem('access-token-jwt')){
+      history.push('/login')
+    }
+  })
 
   return (
     <article className='main'>

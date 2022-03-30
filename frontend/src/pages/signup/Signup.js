@@ -1,7 +1,9 @@
+/* eslint-disable no-useless-escape */
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import corr from './images/corr.png'
 import incorr from './images/incorr.png'
+import axios from 'axios'
 import './scss/signup.scss'
 
 
@@ -16,18 +18,40 @@ export default function Signup({ history }) {
   const [hover, setHover] = useState({
     email: false, password: false, passwordConf: false
   })
-  
 
-  const signup = function(event){
+  const isValid = function(){
+    return new Promise((resolve, reject) =>{
+      for (const key in validData){
+        if (validData[key] !== 1){
+          reject('입력 정보가 유효하지 않습니다')
+        }
+      }
+      resolve()
+    })
+  } 
+
+  const submit = function(event){
     event.preventDefault()
     ////////////// 회원가입  /////////////////
-    history.push('/moreinfo')
+    isValid()
+    .then(() => {
+      history.push(`/moreinfo?email=${credentials.email}&password=${credentials.password}`)
+    })
+    .catch(err => {console.log(err);alert('입력정보를 확인하세요!!')})
   }
 
 
   const validator = function(target){
     if (target === 'email'){
       /////////////// 이메일 중복검사 //////////////////
+      axios({
+        method: 'post',
+        baseURL: 'https://ssafit.site/api_be',
+        url: '/auth/email/confirms',
+        data: {email: credentials.email}
+      })
+      .then(() => setValidData({...validData, email: 1}))
+      .catch(() => setValidData({...validData, email: -1}))
     }
     else if (target ==='password'){
       const passValidator = /[0-9a-zA-Z~!@#$%^&*()_+-=[\]{};\':",\\|.\/<>?]{8,16}/
@@ -65,7 +89,7 @@ export default function Signup({ history }) {
       </section>
       <section className='signup-body'>
         <h1>Sign Up</h1>
-        <form onSubmit={event => signup(event)}>
+        <form onSubmit={event => submit(event)}>
           {/* 이메일 */}
           <label>
             이메일
@@ -73,7 +97,7 @@ export default function Signup({ history }) {
               <div className='input-box'>
                 <input type="email" name="email" id="email"
                 placeholder='이메일을 입력하세요'
-                onInput={event => {credentials.email = event.target.value}} />
+                onInput={event => {setCredentials({...credentials, email: event.target.value}); setValidData({...validData, email: null})}} />
 
                 <img className='validator-helper' src={validData.email === 1 ? corr:incorr}
                   style={{display: validData.email ? 'block':'none'}} alt="helper"
@@ -91,7 +115,7 @@ export default function Signup({ history }) {
                   </p>
                 </div>
               </div>
-              <button className='eamil-validator' onClick={() => {validator('email')}} >
+              <button className='eamil-validator' onClick={event => {event.preventDefault(); validator('email')}} >
                 <span />
                 <p>확인</p>
               </button>
@@ -123,6 +147,7 @@ export default function Signup({ history }) {
               </div>
             </div>
           </label>
+          {/* 비밀번호 확인 */}
           <label>
             비밀번호 확인
             <div className='input-box'>

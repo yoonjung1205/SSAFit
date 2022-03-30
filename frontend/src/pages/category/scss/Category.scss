@@ -1,0 +1,103 @@
+.category {
+  width: 100%;
+  .cate-top {
+    width: 100%;
+    height: 35vh;
+    user-select: none;
+    background-image: url('https://i.ibb.co/6ZW1Jjp/category-top.png');
+    .cate-top-text {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+      h2 {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .cate-middle {
+    width: 100%;
+    padding: 5rem 10rem;
+    .cate-card {
+      cursor: pointer;
+      position: relative;
+      height: 44vh;
+      &:hover {
+        transform: translateY(-0.5rem);
+        transition: 0.45s;
+      }
+      img {
+        height: 65%;
+        width: 100%;
+      }
+      .cate-card-text {
+        margin: 0;
+        &.one-line {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-weight: bold;
+          margin-top: 0.5rem;
+          &.last {
+            position: absolute;
+            bottom: 0.7rem;
+          }
+        }
+        &.two-line {
+          margin-top: 0.5rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+  }
+  .cate-bottom {
+    height: 10vh;
+    .pagenation {
+      margin: 0 auto;
+      border: 1px solid #56586C;
+      border-radius: 4px;
+      width: 20%;
+      height: 50%;
+      display: flex;
+      div {
+        height: 100%;
+        width: 15%;
+        cursor: pointer;
+        position: relative;
+        &:first-child,
+        &:last-child {
+          width: 12.5%;
+        }
+        &.active {
+          font-weight: bold;
+          background-color: #f3f3f3;
+        }
+        &:hover {
+          background-color: #f3f3f3;
+          transition: ease-in 0.2s;
+          p {
+            font-weight: bold;
+          }
+        }
+        p {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+  h2 {
+    font-size: 2.5rem;
+    letter-spacing: 1rem;
+  }
+}

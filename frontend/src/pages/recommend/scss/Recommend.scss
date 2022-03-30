@@ -1,0 +1,91 @@
+.recommend {
+  width: 100%;
+  .rec-top {
+    width: 100%;
+    height: 35vh;
+    user-select: none;
+    background-image: url('https://i.ibb.co/64hDCwW/recommend-top.png');
+    .rec-top-text {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+  }
+  .rec-choice {
+    display: flex;
+    justify-content: center;
+    .choice {
+      width: 11rem;
+      padding: 1rem;
+      h5 {
+        cursor: pointer;
+        color: #56586C;
+      }
+      &.rec-active {
+        h5 {
+          font-weight: bold;
+          color: black;
+        }
+      }
+      &:first-child {
+        text-align: right;
+      }
+      &:last-child {
+        padding-left: 2rem;
+      }
+    }
+    .choice-line {
+      border: 1px solid #56586C;
+      margin: 0.5rem 0;
+    }
+
+    .tab-container {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+
+      .tab-box {
+        width: 40%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .tabs {
+          display: flex;
+          justify-content: space-between;
+
+          .tab {
+            color: white;
+            background-color: #56586C;
+            width: 20%;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+
+            &:hover {
+              background-color: #4e505f;
+            }
+          }
+        }
+      }
+    }
+  }
+  .rec-clothes {
+    width: 100%;
+    padding: 0 10rem;
+  }
+  h3 {
+    font-size: 2rem;
+    letter-spacing: 1rem;
+  }
+  h5 {
+    font-size: 1.5rem;
+    letter-spacing: 1rem;
+    margin: 0;
+  }
+}

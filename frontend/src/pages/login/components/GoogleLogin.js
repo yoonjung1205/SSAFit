@@ -1,18 +1,19 @@
 import React from 'react'
-import GoogleLogin from 'react-google-login'
+import google from '../images/google_logo.png'
 
-const clientId = '844840822516-gvf2p8l8t86ilf81e1u3ttdaqh16j320.apps.googleusercontent.com'
-
-export default function GoogleLoginBtn(){
-  const responseGoogle = (response) => {
-    console.log(response);
+export default function GoogleLoginBtn({ history }){
+  const GoogleLogin = function(){
+    window.history.pushState({}, '', 'https://ssafit.site/login')
+    const res = window.location.replace('https://ssafit.site/api_be/oauth2/authorization/google?redirect_uri=https://ssafit.site/moreinfo')
+    console.log(res)
   }
 
-  return(
-    <GoogleLogin className='google-login'
-      clientId={clientId}
-      responseType={"id_token"}
-      onSuccess={responseGoogle}
-      onFailure={responseGoogle}/>
+  return (
+    <button className='social-login google-login' onClick={() => GoogleLogin()}>
+      <img src={ google } alt="kakao" />
+      <p>
+        Sign in with Google
+      </p>
+    </button>
   )
 }

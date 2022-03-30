@@ -11,7 +11,7 @@
     background-size: cover;
 
     .logo {
-      width: 15%;
+      height: 5vh;
       margin: 1rem;
       cursor: pointer;
     }
@@ -53,6 +53,13 @@
 
       input:focus::-webkit-input-placeholder {
         color: transparent;
+      }
+
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover, 
+      input:-webkit-autofill:focus, 
+      input:-webkit-autofill:active{
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
       }
 
       button {
@@ -104,6 +111,7 @@
   h1 {
     font-size: 3rem;
     letter-spacing: 1rem;
+    margin-bottom: 3rem;
   }
   
   h2 {
@@ -133,38 +141,49 @@
 
   .social-login-container {
     display: flex;
-    // flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     width: 40%;
     margin: 1rem;
 
-    button {
+    .social-login {
       width: 220px;
       height: 50px;
-      border-radius: 12px !important;
-    }
-
-    .kakao-login {
+      border-radius: 12px;
       display: flex;
       justify-content: center;
       align-items: center;
       border: none;
-      background-color: #FEE500;
       margin-right: 1rem;
       cursor: pointer;
+    }
+    
+    img {
+      width: 18px;
+      aspect-ratio: 1/1;
+      margin: 0.5rem;
+    }
 
-      img {
-        width: 18px;
-        aspect-ratio: 1/1;
-        margin: 0.5rem;
-      }
+    p {
+      font-size: 0.9rem;
+      letter-spacing: 0;
+      color: rgba(0, 0, 0, 0.85);
+      padding: 10px;
+      margin: 0;
+      line-height: 0.9rem;
+    }
+
+    .kakao-login {
+      background-color: #FEE500;
+
+    }
+
+    .google-login {
+      background-color: white;
+      box-shadow: 0.5px 1px 3px rgba(0, 0, 0, 0.25);
 
       p {
-        font-size: 0.9rem;
-        letter-spacing: 0;
-        color: rgba(0, 0, 0, 0.85);
-        padding: 1rem
+        font-family: 'Roboto', sans-serif;
       }
     }
   }

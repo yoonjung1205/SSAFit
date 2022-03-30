@@ -10,11 +10,11 @@
     }
   }
   background-color: white;
-  margin: 0 2rem;
+  margin: 0 2vw;
   height: 96vh;
   border-radius: 0 0 100px 100px;
   animation: slider 1.5s;
-
+  
   overflow-x: hidden;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -29,3 +29,7 @@
     border: 1px solid transparent;
   }
 }
+
+// .transition {
+//   animation: slider 1.5s;
+// }

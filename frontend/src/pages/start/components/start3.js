@@ -1,6 +1,7 @@
 import React from 'react'
-import '../scss/start3.scss'
+import {Link} from 'react-router-dom'
 import image4 from '../images/image_4.png'
+import '../scss/start3.scss'
 
 export default function start3() {
   return (
@@ -25,11 +26,13 @@ export default function start3() {
             <h3>
               한 번 시작해볼까요?
             </h3>
-            <button>
-              <span>
-                GO
-              </span>
-            </button>
+            <Link to={'/login'}>
+              <button>
+                <span>
+                  GO
+                </span>
+              </button>
+            </Link>
           </div>
         </div>
         <img src={image4} alt="img" />

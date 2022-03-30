@@ -1,0 +1,23 @@
+#rate-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 1rem 0;
+
+  #rate-view {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+  }
+
+  .star {
+    width: 290px;
+    height: 50px;
+  }
+
+  h4 {
+    font-size: 1.75rem;
+    letter-spacing: 1rem;
+    margin: 0 2rem;
+  }
+}
