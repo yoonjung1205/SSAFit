@@ -5,9 +5,6 @@ import Footer from '../../components/Footer';
 import NavigationBar from '../../components/NavigationBar';
 import RecCategory from './compoenets/recCategory'
 import Loading from '../../components/Loading'
-import jwtDecode from 'jwt-decode'
-import axios from 'axios'
-import {DA_URL} from '../../Request'
 import './scss/Recommend.scss'
 
 const Recommend = ({ recommend, setter, getter }) => {
@@ -21,21 +18,33 @@ const Recommend = ({ recommend, setter, getter }) => {
     if (standard === 'color'){
       console.log('색깔?')
       if (!local.getItem('color-rec')){
-        local.setItem('color-rec', JSON.stringify(await getter('color')))
+        try {
+          let res = await getter('color')
+          local.setItem('color-rec', JSON.stringify(res))
+        }
+        catch{}
       }
       setter.color(JSON.parse(local.getItem('color-rec')))
     }
     if (standard === 'style'){
       console.log('스타일?')
       if (!local.getItem('style-rec')){
-        local.setItem('style-rec', JSON.stringify(await getter('style')))
+        try {
+          let res = await getter('style')
+          local.setItem('style-rec', JSON.stringify(res))
+        }
+        catch{}
       }
       setter.style(JSON.parse(local.getItem('style-rec')))
     }
     if (standard === 'category'){
       console.log('카테고리?')
       if (!local.getItem('category-rec')){
-        local.setItem('category-rec', JSON.stringify(await getter('category')))
+        try {
+          let res = await getter('category')
+          local.setItem('category-rec', JSON.stringify(res))
+        }
+        catch{}
       }
       setter.category(JSON.parse(local.getItem('category-rec')))
     }

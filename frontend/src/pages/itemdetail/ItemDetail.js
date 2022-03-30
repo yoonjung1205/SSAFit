@@ -26,14 +26,13 @@ export default function ItemDetail({ history, location }) {
   // const [reviews, setReviews] = useState([])
 
   
-  
   useEffect(() => {
     const getCloth = async () => {
       await axios({
         method: 'get',
         url: `${DA_URL}/cloth/${newClothId}`,
       })
-      .then(res => setItem(res.data[0]))
+      .then(res => setItem(res.data))
       // .then(res => console.log('cloth data:', res.data[0]))
       .catch(err => console.log(err, typeof(err)))
     }
@@ -42,7 +41,7 @@ export default function ItemDetail({ history, location }) {
       const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
       await axios({
         method: 'get',
-        url: `${DA_URL}/cloth/reviews/${newClothId}/${userId}/`,
+        url: `${DA_URL}/cloth/reviews/${newClothId}/${userId}`,
       })
       .then(res => setRealFit(res.data))
       // .then(res => console.log('realFit data:', res.data))
@@ -72,7 +71,7 @@ export default function ItemDetail({ history, location }) {
   //   setRealFit(item.realFit);
   //   setReviews(item.reviews)
   // }, [item])
-
+  // if ()
 
 
   return (
