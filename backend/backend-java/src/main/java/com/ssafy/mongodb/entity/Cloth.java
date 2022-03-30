@@ -1,6 +1,7 @@
 package com.ssafy.mongodb.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 
 @Document("cloth")
 @AllArgsConstructor
+@Data
 public class Cloth {
 
     @Id

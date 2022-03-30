@@ -20,6 +20,8 @@ public class GoodsServiceImpl implements GoodsService {
 
         List<Cloth> list = clothRepository.findAllByClothNameRegex(keywords + ".*");
         goodsListRes.setGoodsList(list);
+        System.out.println(list.get(0).getClothName());
+        System.out.println(list.get(1).getClothName());
 
         return goodsListRes;
     }
