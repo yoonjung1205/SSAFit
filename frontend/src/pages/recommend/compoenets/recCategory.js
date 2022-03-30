@@ -14,6 +14,10 @@ const recCategory = ({cate, clothes}) => {
     history.push(`/recommend/${cate}`)
   }
 
+  if (!clothes){
+    return false
+  }
+
   return (
     <div className='rec-category'>
       <div className='rec-cate-text'>
