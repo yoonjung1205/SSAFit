@@ -159,7 +159,7 @@ def get_img_reviews(newClothId: int, userId: int):
     user = db.user_ssafit.find_one({'userId': userId}, {'_id': 0})
     exist = False
     for i in range(30):
-        for review in db.review.aggregate([{'$match': {'newGoodsNo': int(newClothId), 'userHeight': {'$in': list(range(user['userHeight']-i, user['userHeight']+i))}, 'userWeight': {'$in': list(range(user['userWeight']-i, user['userWeight']+i))}}}]):
+        for review in db.review.aggregate([{'$match': {'newGoodsNo': int(newClothId), 'reviewStyle': 1, 'userHeight': {'$in': list(range(user['userHeight']-i, user['userHeight']+i))}, 'userWeight': {'$in': list(range(user['userWeight']-i, user['userWeight']+i))}}}]):
             review_list.add(review['_id'])
             if len(review_list) == 10:
                 exist = True
