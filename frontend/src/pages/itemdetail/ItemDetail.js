@@ -53,25 +53,52 @@ export default function ItemDetail({ history, location }) {
   }, [newClothId])
   
   
-  // useEffect(() => {
-  //   axios({
-  //     method: 'get',
-  //     baseURL: DA_URL,
-  //     url: `/cloth/${newClothId}`,
-  //   })
-  //   .then(res => {
-  //     setItem(res.data[0])
-  //   })
-  //   .catch(err => console.log(err, typeof(err)))
-  // }, [newClothId])
-
-
-
-  // useEffect(() => {
-  //   setRealFit(item.realFit);
-  //   setReviews(item.reviews)
-  // }, [item])
-  // if ()
+  // const temp = [{
+  //   reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
+  //   userHeight: 178,
+  //   userSexMen: 1,
+  //   userWeight: 75},
+  //   {
+  //     reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
+  //     userHeight: 178,
+  //     userSexMen: 1,
+  //     userWeight: 75},
+  //     {
+  //       reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
+  //       userHeight: 178,
+  //       userSexMen: 1,
+  //       userWeight: 75},
+  //       {
+  //         reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
+  //         userHeight: 178,
+  //         userSexMen: 1,
+  //         userWeight: 75},
+  //         {
+  //           reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
+  //           userHeight: 178,
+  //           userSexMen: 1,
+  //           userWeight: 75},
+  //           {
+  //             reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
+  //             userHeight: 178,
+  //             userSexMen: 1,
+  //             userWeight: 75},
+  //             {
+  //               reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
+  //               userHeight: 178,
+  //               userSexMen: 1,
+  //               userWeight: 75},
+  //               {
+  //                 reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
+  //                 userHeight: 178,
+  //                 userSexMen: 1,
+  //                 userWeight: 75},
+  //                 {
+  //                   reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
+  //                   userHeight: 178,
+  //                   userSexMen: 1,
+  //                   userWeight: 75},]
+              
 
 
   return (
