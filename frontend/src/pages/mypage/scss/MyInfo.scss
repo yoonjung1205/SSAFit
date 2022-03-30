@@ -40,7 +40,6 @@
     text-align: end;
     button {
       padding: 0.5rem;
-      width: 3rem;
       text-align: center;
       background-color: #56586C;
       color: white;
@@ -48,16 +47,23 @@
       border: none;
       transition: 0.5s;
       cursor: pointer;
+      &.edit {
+        width: 3rem;
+        &:hover {
+          box-shadow: inset 3rem 0 0 0 #3c3d47;
+        }
+      }
+      &.logout {
+        width: 6rem;
+        margin-left: 0.5rem;
+        &:hover {
+          box-shadow: inset 6rem 0 0 0 #3c3d47;
+        }
+      }
       span {
         display: inline-block;
         position: relative;
         transition: 0.5s;
-      }
-      &:hover {
-        box-shadow: inset 3rem 0 0 0 #3c3d47;
-        span {
-          padding-right: 25px;
-        }
       }
     }
   }

@@ -17,9 +17,9 @@ import Search from "./pages/search/Search";
 import Category from "./pages/category/Category";
 import Edit from "./pages/edit/Edit";
 import EditPassword from "./pages/edit/EditPassword";
-import axios from "axios";
-import { DA_URL } from './Request'
-import jwtDecode from 'jwt-decode'
+import jwtDecode from "jwt-decode";
+import axios from 'axios'
+import {DA_URL} from './Request'
 
 function App() {
   console.log('나 재 랜더링되는 중')

@@ -1,37 +1,48 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import NavigationBar from "../../components/NavigationBar";
 import Footer from "../../components/Footer";
-import defaultImage from './images/default.png'
 import './scss/Edit.scss'
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { BE_URL, accessToken, refreshToken } from "../../Request";
 
 const Edit = () => {
   let history = useHistory()
-
-  const [credentials, setCredentials] = useState(
-    {
-      imageUrl: defaultImage,
-      nickname: '',
-      height: 1,
-      weight: 1,
-      gender: 1
+  const [userInfo, setUserInfo] = useState({})
+  const [credentials, setCredentials] = useState({})
+  const [profileImage, setProfileImage] = useState('')
+  
+  useEffect(() => {
+    const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+    setUserInfo(userInfo)
+  }, [])
+  
+  useEffect(() => {
+    const tmp = {
+      email: userInfo.sub,
+      imageUrl: userInfo.profileImg,
+      nickname: userInfo.name,
+      height: userInfo.height,
+      weight: userInfo.weight,
+      gender: userInfo.gender === 'MALE' ? 1 : 0
     }
-  )
-  const [profileImage, setProfileImage] = useState(null)
+    setCredentials(tmp)
+    setProfileImage(userInfo.imageUrl)
+  }, [userInfo])
 
   function fileUpload(e) {
     const file = e.target.files[0]
-    setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
     setProfileImage(file)
+    setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
   }
 
   const makeCredential = () => {
     // 🎨🎨이메일을 어디서 가져오지? 로그인 했을때 local or session에 userData를 가지고 있어야 하는가? 아니면 react store에 따로 가지고 있어야 하는가?🎨🎨
-    const userInfo = {...credentials, email: 'aaa@aaa.com'}
+    const userInfo = {...credentials}
     delete userInfo.imageUrl
     userInfo.profileImage = profileImage
-    console.log(userInfo)
+    // console.log(userInfo)
     const formdata = new FormData()
     for (const key in userInfo){
       formdata.append(key, userInfo[key])
@@ -66,30 +77,45 @@ const Edit = () => {
     })
   }
 
-  function submit(e) {
+  const submit = e => {
     e.preventDefault()
     isValid()
     .then(() => {
       const userInfo = makeCredential()
-      // 🎨🎨토큰 같이 보내야하는데 그건 서버에 올려야 가능한가?🎨🎨
       axios({
         method: 'put',
-        baseURL: 'https://ssafit.site',
-        headers: {'Content-Type': 'multipart/form-data'},
+        url: `${BE_URL}/auth/user`,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': accessToken,
+          // 'Refresh': refreshToken
+        },
         data: userInfo
       })
     })
-    .then(res => {
+    .then(() => {
       // 🎨🎨원래 저장해둔 userData에 update된 userData 씌우기🎨🎨
+      // ⭕❌ 혹시 수정 성공하면 이미지, 이름, 키, 몸무게, 성별 보내줄 수 있는가?
       // mypage로 보내기
-      console.log(res)
+      let current = userInfo
+      const tmp = {
+        profileImg: profileImage,
+        name: credentials.nickname,
+        height: credentials.height,
+        weight: credentials.weight,
+        gender: credentials.gender === 1 ? 'MALE' : 'FEMALE'
+      }
+      Object.assign(current, tmp)
+      // console.log(current)
+      window.sessionStorage.setItem('userInfo', JSON.stringify(current))
+      history.push('/mypage')
     })
     .catch(err => {
-      console.log(err, typeof(err))
-      if (typeof(err) !== Array) {
-        return alert('잘못된 요청입니다.')
+      // console.log(err, typeof(err))
+      if (typeof(err) !== Object) {
+        return alert(`${err.join(', ')}를 확인해주세요!`)
       }
-      alert(`${err.join(', ')}를 확인해주세요!`)
+      alert('잘못된 요청입니다.')
     })
   }
 
@@ -151,9 +177,9 @@ const Edit = () => {
             </div>
           </form>
           <div className="buttons">
-            <button className="left-btn" onClick={() => history.push('/edit-password')}
+            <button className={`left-btn ${userInfo.oauth === 1 ? 'oauth' : ''}`} onClick={() => history.push('/edit-password')}
             ><span /><p>비밀번호 변경</p></button>
-            <button className="right-btn" onClick={(e) => submit(e)}
+            <button className={`right-btn ${userInfo.oauth === 1 ? 'oauth' : ''}`} onClick={(e) => submit(e)}
             ><span /><p>수정</p></button>
           </div>
         </section>
