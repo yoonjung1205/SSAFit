@@ -49,3 +49,8 @@ def getBrandClothes(newClothId: int, userId: int):
 def getSimilarClothes(newClothId: int, userId: int):
     result = get_similar_clothes(newClothId, userId)
     return result
+
+@router.get('/cloth/isSSAFIT/{clothId}', tags=["Cloth"])
+def getNewClothId(clothId: int, userId: int):
+    result = get_cloth_by_user_info(clothId, userId)
+    return result

@@ -209,3 +209,19 @@ def get_similar_clothes(newClothId, userId):
     for i in similar_list:
         similar_clothes.append(db.cloth.find_one({"_id": i}, {"_id": 0}))
     return similar_clothes
+
+
+def get_cloth_by_user_info(clothId, userId):
+    user = db.user_ssafit.find_one({'userId':int(userId)})
+    newClothId = ''
+    exist = False
+    
+    for i in range(30):
+        for cloth in db.cloth.aggregate([{'$project': {"_id": 0}},{'$match': {'clothId': int(clothId), 'userHeight': {'$in': list(range(user['userHeight']-i, user['userHeight']+i))}, 'userWeight': {'$in': list(range(user['userWeight']-i, user['userWeight']+i))}}}]):
+            newClothId = cloth['newClothId']
+            if newClothId:
+                exist = True
+                break
+        if exist:
+            break
+    return newClothId
