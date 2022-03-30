@@ -6,7 +6,7 @@ import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
 import maintop from './images/maintop.png'
 
-const Main = () => {
+const Main = ({ rec, setRec }) => {
   let history = useHistory()
   const onClickButton = (path) => {
     console.log(path, '로 이동')
@@ -28,7 +28,7 @@ const Main = () => {
     if (!session.getItem('access-token-jwt')){
       history.push('/login')
     }
-  })
+  }, [])
 
   return (
     <article className='main'>

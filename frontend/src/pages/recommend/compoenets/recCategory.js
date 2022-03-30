@@ -14,6 +14,7 @@ const recCategory = ({cate, clothes}) => {
     history.push(`/recommend/${cate}`)
   }
 
+  console.log(clothes)
   if (!clothes){
     return false
   }
@@ -26,7 +27,7 @@ const recCategory = ({cate, clothes}) => {
       </div>
       <div className='rec-cate-cloth'>
 
-      {clothes.slice(0, 5).map((cloth, idx) => (
+      { clothes.slice(0, 5).map((cloth, idx) => (
         <div className='card' onClick={() => goToDetail()} key={idx}>
           <div className='card-image'>
             <img src={cloth.clothImg} alt='cloth' />

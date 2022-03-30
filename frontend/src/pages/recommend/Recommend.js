@@ -1,9 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import { useEffect, useState } from 'react';
 import Footer from '../../components/Footer';
 import NavigationBar from '../../components/NavigationBar';
 import RecCategory from './compoenets/recCategory'
 import Loading from '../../components/Loading'
+import jwtDecode from 'jwt-decode'
+import axios from 'axios'
+import {DA_URL} from '../../Request'
 import './scss/Recommend.scss'
 
 const Recommend = ({ recommend, setter, getter }) => {
@@ -66,7 +70,7 @@ const Recommend = ({ recommend, setter, getter }) => {
       </section>
       <br />
       <section className='rec-choice'>
-        <div className={`choice ${standard === 'size' ? 'rec-active' : ''}`} onClick={() => setStandard('size')}><h5>사이즈</h5></div>
+        <div className={`choice ${tab === 'size' ? 'rec-active' : ''}`} onClick={() => setTab('size')}><h5>사이즈</h5></div>
         <div className='choice-line'></div>
         <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onClick={() => setTab(true)}><h5>취향</h5></div>
         <div className='tab-container' style={{display: `${tab? 'block':'none'}`}} onClick={e => {if (e.target.className === 'tab-container'){setTab(false)}}}>
