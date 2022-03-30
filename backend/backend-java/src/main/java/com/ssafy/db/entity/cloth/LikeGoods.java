@@ -15,4 +15,6 @@ public class LikeGoods {
 
     @EmbeddedId
     private UserGoods userGoods;
+
+
 }
