@@ -41,9 +41,16 @@ def get_color_user_info(userId, largecategory):
     users = set()
     user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': largecategory})
     color_list = []
+    color_exist = False
     for idx, col in enumerate(user):
-        if 23<=idx<=38:
+        if col=='colorWhite':
             color_list.append([col, user[col]])
+            color_exist = True
+        elif color_exist and col!='colorOthers':
+            color_list.append([col, user[col]])
+        elif col=='colorOthers':
+            color_list.append([col, user[col]])
+            break
     color_list = sorted(color_list, key=lambda x: x[1], reverse=True)
     color_li = []
     for i in range(0, 3):
