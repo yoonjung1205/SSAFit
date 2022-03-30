@@ -5,6 +5,7 @@ import com.ssafy.api.request.UserChangePutReq;
 import com.ssafy.api.request.UserChangePwReq;
 import com.ssafy.api.request.ValidateEmailReq;
 import com.ssafy.api.response.UserLoginPostRes;
+import com.ssafy.api.service.MongoUserService;
 import com.ssafy.api.service.RefreshTokenServiceImpl;
 import com.ssafy.common.S3.S3Uploader;
 import com.ssafy.common.util.JwtTokenUtil;
@@ -69,6 +70,9 @@ public class UserController {
 	@Autowired
 	RefreshTokenServiceImpl refreshTokenService;
 
+	@Autowired
+	MongoUserService mongoUserService;
+
 	@PostMapping("/signup")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
     @ApiResponses({
@@ -103,6 +107,9 @@ public class UserController {
 
 			User user = userService.getUserByEmail(userEmail);
 
+			// MongoDB에 저장.
+			mongoUserService.createUser(user);
+
 			UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
 
 			String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getOAuthToken(userEmail,user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().name(),1800000);
@@ -131,6 +138,9 @@ public class UserController {
 			String userEmail = registerInfo.getEmail();
 
 			User user = userService.getUserByEmail(userEmail);
+
+			// MongoDB에 저장.
+			mongoUserService.createUser(user);
 
 			UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
 
