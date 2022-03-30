@@ -31,22 +31,25 @@ const Edit = () => {
     setProfileImage(userInfo.imageUrl)
   }, [userInfo])
 
-  function fileUpload(e) {
+  const fileUpload = e => {
     const file = e.target.files[0]
-    setProfileImage(file)
     setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
+    setProfileImage(file)
   }
 
   const makeCredential = () => {
     // 🎨🎨이메일을 어디서 가져오지? 로그인 했을때 local or session에 userData를 가지고 있어야 하는가? 아니면 react store에 따로 가지고 있어야 하는가?🎨🎨
-    const userInfo = {...credentials}
-    delete userInfo.imageUrl
-    userInfo.profileImage = profileImage
-    // console.log(userInfo)
+    let user = {...credentials}
+    delete user.imageUrl
+    // console.log('delete:', user)
+    user.profileImage = profileImage
+    // console.log('update:', user)
+    // console.log(user)
     const formdata = new FormData()
-    for (const key in userInfo){
-      formdata.append(key, userInfo[key])
+    for (const key in user){
+      formdata.append(key, user[key])
     }
+    // console.log('last:', user)
     return formdata
   }
 
@@ -99,7 +102,7 @@ const Edit = () => {
       // mypage로 보내기
       let current = userInfo
       const tmp = {
-        profileImg: profileImage,
+        profileImg: credentials.imageUrl,
         name: credentials.nickname,
         height: credentials.height,
         weight: credentials.weight,
