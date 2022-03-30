@@ -70,10 +70,10 @@ const Recommend = ({ recommend, setter, getter }) => {
       </section>
       <br />
       <section className='rec-choice'>
-        <div className={`choice ${tab === 'size' ? 'rec-active' : ''}`} onClick={() => setTab('size')}><h5>사이즈</h5></div>
+        <div className={`choice ${standard === 'size' ? 'rec-active' : ''}`} onClick={() => setStandard('size')}><h5>사이즈</h5></div>
         <div className='choice-line'></div>
         <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onClick={() => setTab(true)}><h5>취향</h5></div>
-        <div className='tab-container' style={{display: `${tab? 'block':'none'}`}} onClick={e => {if (e.target.className === 'tab-container'){setTab(false)}}}>
+        <div className='tab-container' style={{display: `${tab? 'flex':'none'}`}} onClick={e => {if (e.target.className === 'tab-container'){setTab(false)}}}>
           <div className='tab-box'>
             <h4>Recommend By</h4>
             <div className='tabs'>
