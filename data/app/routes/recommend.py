@@ -46,6 +46,7 @@ def get_size_real_user(users_meta, user_info):
 @router.get('/recommend/size/{userId}', tags=["Recommend"])
 async def rec_size(userId: int):
     start = time.time()
+    check = [start]
     gender = await get_user_gender(userId)
     if gender == 1:
         to_do = 4
@@ -54,16 +55,25 @@ async def rec_size(userId: int):
     name_list = ['top', 'outer', 'pants', 'onepiece', 'skirt']
     model_list = ['model_size_top.pickle', 'model_size_outer.pickle', 'model_size_pants.pickle', 'model_size_onepiece.pickle', 'model_size_skirt.pickle']
     context = dict()
+    check.append(time.time())
     for i in range(1,to_do):
         users = pd.DataFrame(await get_size_user_meta(i))
+        check.append(time.time())
         clothes = pd.DataFrame(await get_cloth_meta(i))
+        check.append(time.time())
         user_info = await get_size_user_info(userId, i)
+        check.append(time.time())
         real_user = get_size_real_user(users, user_info)
+        check.append(time.time())
         model = pickle.load(open('./app/models/'+model_list[i-1], 'rb'))
         rec_size = sample_recommendation(model, clothes, users, real_user)
+        check.append(time.time())
         result = await get_cloth(rec_size)
+        check.append(time.time())
         context[name_list[i-1]] = result
+        check.append("끝")
     finish = time.time()
+    print(check)
     print(finish - start)
     return context
 
@@ -91,6 +101,7 @@ def get_color_real_user(users_meta, user_info):
 @router.get('/recommend/color/{userId}', tags=["Recommend"])
 async def rec_color(userId: int):
     start = time.time()
+    check = [start]
     gender = await get_user_gender(userId)
     if gender == 1:
         to_do = 4
@@ -99,16 +110,25 @@ async def rec_color(userId: int):
     name_list = ['top', 'outer', 'pants', 'onepiece', 'skirt']
     model_list = ['model_color_top.pickle', 'model_color_outer.pickle', 'model_color_pants.pickle', 'model_color_onepiece.pickle', 'model_color_skirt.pickle']
     context = dict()
+    check.append(time.time())
     for i in range(1,to_do):
         users = pd.DataFrame(await get_color_user_meta(i+5))
+        check.append(time.time())
         clothes = pd.DataFrame(await get_cloth_meta(i+5))
+        check.append(time.time())
         user_info = await get_color_user_info(userId, i)
+        check.append(time.time())
         real_user = get_color_real_user(users, user_info)
+        check.append(time.time())
         model = pickle.load(open('./app/models/'+model_list[i-1], 'rb'))
         rec_color = sample_recommendation(model, clothes, users, real_user)
+        check.append(time.time())
         result = await get_cloth(rec_color)
+        check.append(time.time())
         context[name_list[i-1]] = result
+        check.append("끝")
     finish = time.time()
+    print(check)
     print(finish - start)
     return context
 
@@ -174,7 +194,7 @@ def get_category_real_user(users_meta, user_info):
     return real_user
 
 @router.get('/recommend/category/{userId}', tags=["Recommend"])
-async def rec_style(userId: int):
+async def rec_category(userId: int):
     start = time.time()
     gender = await get_user_gender(userId)
     if gender == 1:

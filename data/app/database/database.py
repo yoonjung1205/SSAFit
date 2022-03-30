@@ -2,6 +2,7 @@ import motor.motor_asyncio
 import asyncio
 from bson import ObjectId
 from .database_helper import *
+import time
 
 mongo_url = "mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
 client = motor.motor_asyncio.AsyncIOMotorClient(mongo_url)
@@ -10,6 +11,7 @@ database = client.ssafit
 
 cloth_collection = database.get_collection('cloth')
 user_meta_collection = database.get_collection('user_meta')
+# user_meta_color_collection = database.get_collection('user_meta_color')
 cloth_meta_collection = database.get_collection('cloth_meta')
 user_ssafit_collection = database.get_collection('user_ssafit')
 codi_collection = database.get_collection('codi')
@@ -21,9 +23,9 @@ async def get_cloth_meta(what_id):
         clothes.append(cloth_meta_helper(cloth))
     return clothes
 
-async def get_size_user_meta(what_id):
+async def get_size_user_meta(what_id: int):
     users = []
-    async for user in user_meta_collection.find({'what': int(what_id)}):
+    async for user in user_meta_collection.find({'what': what_id}):
         users.append(user_meta_size_helper(user))
     return users
 
@@ -144,8 +146,9 @@ async def get_brand_clothes(newClothId, userId):
     check.append(cloth['clothId'])
     cnt = 0
     exist = False
+    print(time.time())
     for i in range(20):
-        async for brand in cloth_collection.aggregate([{'$match': {'brand': cloth['brand'], 'userHeight': {'$in': list(range(users['userHeight']-i, users['userHeight']+i))}, 'userWeight': {'$in': list(range(users['userWeight']-i, users['userWeight']+i))}}}, {'$sort': {'clothReviewCnt': -1}},{'$sample': {'size':1}}]):
+        async for brand in cloth_collection.aggregate([{'$match': {'brand': cloth['brand'], 'userHeight': {'$in': list(range(users['userHeight']-i, users['userHeight']+i))}, 'userWeight': {'$in': list(range(users['userWeight']-i, users['userWeight']+i))}}},{'$sample': {'size':1}}]):
             if brand:
                 brand = cloth_helper(brand)
                 if brand['clothId'] not in check:
@@ -157,6 +160,7 @@ async def get_brand_clothes(newClothId, userId):
                 break
         if exist:
             break
+    print(time.time())
     return brands
 
 
