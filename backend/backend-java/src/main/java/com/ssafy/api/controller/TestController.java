@@ -41,7 +41,7 @@ public class TestController {
     @PostMapping("/hello/mongo")
     public String testMongo(@RequestBody Department department) {
 
-        mongoUserService.createUser(department);
+//        mongoUserService.createUser(department);
 
         return "hello post";
     }

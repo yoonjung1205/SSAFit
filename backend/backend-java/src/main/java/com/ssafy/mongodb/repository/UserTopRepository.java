@@ -1,9 +1,8 @@
 package com.ssafy.mongodb.repository;
 
-
-import com.ssafy.mongodb.entity.UserOuter;
+import com.ssafy.mongodb.entity.UserTop;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface UserOuterRepository  extends MongoRepository<UserOuter, ObjectId> {
+public interface UserTopRepository extends MongoRepository<UserTop, ObjectId> {
 }
