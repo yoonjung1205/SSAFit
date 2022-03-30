@@ -1,7 +1,10 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import NavigationBar from '../../components/NavigationBar'
+import Footer from '../../components/Footer'
+import { DA_URL } from '../../Request'
 import Rate from './components/Rate'
 import RealFit from './components/RealFit'
 import Analysis from './components/Analysis'
@@ -9,73 +12,107 @@ import heart from './images/heart.png'
 import './scss/Item.scss'
 
 export default function ItemDetail({ history, location }) {
-  const itemId = location.pathname.replace('/item/', '')
-  console.log(itemId)
-
+  const newClothId = useLocation().pathname.replace('/item/', '')
+  const [userInfo, setUserInfo] = useState({})
   const [liked, setLiked] = useState(false)
-  const tags = ["티셔츠","반팔","반팔티","로고티셔츠","반팔티셔츠","그래픽티셔츠","오와이"]
+
+  // if (userInfo === {}) {
+  //   setUserInfo(JSON.parse(window.sessionStorage.getItem('userInfo')))
+  // }
 
   //////////////////// DA 연결 부분 ////////////////////////
-  // const [item, setItem] = useState({})
-  // const [realFit, setRealFit] = useState([])
-  // const [analysis, setAnalysis] = useState({})
+  const [item, setItem] = useState({})
+  const [realFit, setRealFit] = useState([])
   // const [reviews, setReviews] = useState([])
 
+  
+  
+  useEffect(() => {
+    const getCloth = async () => {
+      await axios({
+        method: 'get',
+        url: `${DA_URL}/cloth/${newClothId}`,
+      })
+      .then(res => setItem(res.data[0]))
+      // .then(res => console.log('cloth data:', res.data[0]))
+      .catch(err => console.log(err, typeof(err)))
+    }
+
+    const getRealFit = async () => {
+      const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
+      await axios({
+        method: 'get',
+        url: `${DA_URL}/cloth/reviews/${newClothId}/${userId}/`,
+      })
+      .then(res => setRealFit(res.data))
+      // .then(res => console.log('realFit data:', res.data))
+      .catch(err => console.log(err, typeof(err)))
+    }
+
+    getCloth()
+    .then(getRealFit())
+  }, [newClothId])
+  
+  
   // useEffect(() => {
   //   axios({
   //     method: 'get',
-  //     baseURL: 'https://ssafit.site/api_da',
-  //     url: `/${itemId}`,
-  //     headers: {} /// 토큰 or 유저 정보      
+  //     baseURL: DA_URL,
+  //     url: `/cloth/${newClothId}`,
   //   })
-  //   .then(res => setItem(res))
-  // })
+  //   .then(res => {
+  //     setItem(res.data[0])
+  //   })
+  //   .catch(err => console.log(err, typeof(err)))
+  // }, [newClothId])
+
+
 
   // useEffect(() => {
   //   setRealFit(item.realFit);
-  //   setAnalysis(item.analysis);
   //   setReviews(item.reviews)
   // }, [item])
 
 
+
   return (
-    <article className='detail-container'>
+    <>
       <NavigationBar boldPath='RECOMMEND' />
-      <section className='detail-header'>
-
-        <h3 className='item-category'>아우터 &gt; 후드 집업</h3> {/* 해당 아이템의 카테고리 */}
-        <div className='item-box'>
-          <div className='image-box'>
-            <img src="https://image.msscdn.net/images/goods_img/20210204/1778404/1778404_1_500.jpg" alt="image" />{/* 해당 아이템의 이미지 */}
-            <span className={liked ? 'liked':''} onClick={() => setLiked(!liked)}>
-              <img src={heart} alt="like" />
-            </span>{/* 좋아요 버튼 */}
+      <article className='detail-container'>
+        <section className='detail-header'>
+          <h3 className='item-category'>{item.largeCategoryName} &gt; {item.smallCategoryName}</h3>
+          <div className='item-box'>
+            <div className='image-box'>
+              <img src={item.clothImg} alt="image" />
+              <span className={liked ? 'liked':''} onClick={() => setLiked(!liked)}>
+                <img src={heart} alt="like" />
+              </span>
+            </div>
+            <div className='item-info'>
+              <h2 className='brand'>{item.brand}</h2>
+              <h3 className='name'>{item.clothName}</h3>
+              <Rate rate={item.clothRate}/>
+              <h3 className='price'>{item.clothPrice}원</h3>
+              <h6 className='tags'>
+                {item.clothHashtags && item.clothHashtags.map((hashtag, idx) => 
+                <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
+                )}
+              </h6>
+              <button><span/>구매하러 가기</button>
+            </div>
           </div>
-
-          <div className='item-info'>
-            <h2 className='brand'>TOFFEE</h2>{/* 해당 아이템의 브랜드 */}
-            <h3 className='name'>2WAY 스웻 후드 집업 (MELANGE GREY)</h3>{/* 해당 아이템의 이름 */}
-            {/* <span className='rate'><h4>4.8</h4></span>해당 아이템의 평점 */}
-            <Rate rate={4.8}/>
-            <h3 className='price'>42,500원</h3>{/* 해당 아이템의 가격 */}
-            <h6 className='tags'>{'#' + tags.join('#')}</h6>{/* 해당 아이템의 태그들 */}
-            <button>
-              구매하러 가기
-              <span/>
-            </button>
-          </div>
+        </section>
+        <div className='anchor'>
+          <a href="">상품정보</a>
+          <a href="">추천상품</a>
+          <a href="">사용후기</a>
         </div>
-
-      </section>
-      <div className='anchor'>
-        <a href="">상품정보</a>
-        <a href="">추천상품</a>
-        <a href="">사용후기</a>
-      </div>
-      <RealFit/>
-      <Analysis/>
-      <section className='detail-footer'>
-      </section>
-    </article>
+        { realFit.length && <RealFit review={realFit} /> }
+        { item.reviewNoun &&  <Analysis words={item.reviewNoun} /> }
+        <section className='detail-footer'>
+        </section>
+      </article>
+      <Footer />
+    </>
   )
 }
