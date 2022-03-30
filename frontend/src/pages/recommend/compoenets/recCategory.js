@@ -14,7 +14,6 @@ const recCategory = ({cate, clothes}) => {
     history.push(`/recommend/${cate}`)
   }
 
-  console.log(clothes)
   if (!clothes){
     return false
   }

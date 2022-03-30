@@ -10,61 +10,50 @@ import axios from 'axios'
 import {DA_URL} from '../../Request'
 import './scss/Recommend.scss'
 
-const Recommend = () => {
-  const [loading, setLoading] = useState(false)
-  const [user, setUser] = useState({})
-  const [size, setSize] = useState({})
-  const [color, setColor] = useState({})
-  const [style, setStyle] = useState({})
-  const [category, setCategory] = useState({})
-  const [tab, setTab] = useState('size')
-  const [act, setAct] = useState(false)
-  const recommend = {
-    size: size, color: color, style: style, category: category
+const Recommend = ({ recommend, setter, getter }) => {
+  const [loading, setLoading] = useState(true)
+  const [standard, setStandard] = useState('size')
+  const [tab, setTab] = useState(false)
+
+  const getRecAll = async function(){
+    const local = window.localStorage
+
+    if (standard === 'color'){
+      console.log('색깔?')
+      if (!local.getItem('color-rec')){
+        local.setItem('color-rec', JSON.stringify(await getter('color')))
+      }
+      setter.color(JSON.parse(local.getItem('color-rec')))
+    }
+    if (standard === 'style'){
+      console.log('스타일?')
+      if (!local.getItem('style-rec')){
+        local.setItem('style-rec', JSON.stringify(await getter('style')))
+      }
+      setter.style(JSON.parse(local.getItem('style-rec')))
+    }
+    if (standard === 'category'){
+      console.log('카테고리?')
+      if (!local.getItem('category-rec')){
+        local.setItem('category-rec', JSON.stringify(await getter('category')))
+      }
+      setter.category(JSON.parse(local.getItem('category-rec')))
+    }
   }
 
-  console.log('나 불렀어?')
-  // let tab = false
-  const session = window.sessionStorage
-
   useEffect(() => {
-    if (!Object.keys(user).length){
-      const token = session.getItem('access-token-jwt')
-      session.setItem('userInfo', JSON.stringify(jwtDecode(token)))
-      setUser(jwtDecode(token))
-    }   
-  }, [])
+    setLoading(true)
+    if (Object.keys(recommend[standard]).length){
+      console.log(standard)
+      setLoading(false)
+    }
+    else {
+      getRecAll()
+    }
+  }, [recommend, standard])
 
-  useEffect(() => {
-    if (Object.keys(size).length){return}
-    setLoading(true);
-    axios({
-      method: 'get',
-      baseURL: DA_URL,
-      url: `/recommend/size/${user.id}`
-    })
-    .then(res => setSize(res.data))
-    .then(() => setLoading(false))
-    .catch(err => console.log(err))
-  }, [user])
 
-  useEffect(() => {
-    let setter;
-    if (act === true){return}
-    if (tab === 'size'){setter = setSize; if(Object.keys(size).length){return}}
-    if (tab === 'color'){setter = setColor ;if(Object.keys(color).length){return}}
-    if (tab === 'style'){setter = setStyle ;if(Object.keys(style).length){return}}
-    if (tab === 'category'){setter = setCategory ;if(Object.keys(category).length){return}}
-    setLoading(true);
-    axios({
-      method: 'get',
-      baseURL: DA_URL,
-      url: `/recommend/${tab}/${user.id}`
-    })
-    .then(res => setter(res.data))
-    .then(() => setLoading(false))
-    .catch(err => console.log(err))
-  }, [tab])
+  
 
   if (loading){
     return (<Loading/>)
@@ -83,24 +72,24 @@ const Recommend = () => {
       <section className='rec-choice'>
         <div className={`choice ${tab === 'size' ? 'rec-active' : ''}`} onClick={() => setTab('size')}><h5>사이즈</h5></div>
         <div className='choice-line'></div>
-        <div className={`choice ${tab === 'size' ? '' : 'rec-active'}`} onClick={() => setAct(true)}><h5>취향</h5></div>
-        <div className='tab-container' style={{display: `${act ? 'block':'none'}`}} onClick={e => {if(e.target.className === 'tab-container'){setAct(false)}}}>
+        <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onClick={() => setTab(true)}><h5>취향</h5></div>
+        <div className='tab-container' style={{display: `${tab? 'block':'none'}`}} onClick={e => {if (e.target.className === 'tab-container'){setTab(false)}}}>
           <div className='tab-box'>
             <h4>Recommend By</h4>
             <div className='tabs'>
-              <h5 className='tab' onClick={() => {setTab('color'); setAct(false)}}>Color</h5>
-              <h5 className='tab' onClick={() => {setTab('style'); setAct(false)}}>Style</h5>
-              <h5 className='tab' onClick={() => {setTab('category'); setAct(false)}}>Category</h5>
+              <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}><h6>Color</h6></span>
+              <span className='tab' onClick={() => {setStandard('style'); setTab(false)}}><h6>Style</h6></span>
+              <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}><h6>Category</h6></span>
             </div>
           </div>
         </div>
       </section>
       <section className='rec-clothes'>
-        <RecCategory cate='Outer' clothes={recommend[tab].outer} />
-        <RecCategory cate='Top' clothes={recommend[tab].top} />
-        <RecCategory cate='Pants' clothes={recommend[tab].pants} />
-        <RecCategory cate='Onepiece' clothes={recommend[tab].onepiece} />
-        <RecCategory cate='Skirt' clothes={recommend[tab].skirt} />
+        <RecCategory cate='Outer' clothes={recommend[standard].outer} />
+        <RecCategory cate='Top' clothes={recommend[standard].top} />
+        <RecCategory cate='Pants' clothes={recommend[standard].pants} />
+        <RecCategory cate='Onepiece' clothes={recommend[standard].onepiece} />
+        <RecCategory cate='Skirt' clothes={recommend[standard].skirt} />
       </section>
       <Footer />
     </article>

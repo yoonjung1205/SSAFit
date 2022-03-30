@@ -47,7 +47,7 @@ function App() {
       baseURL: DA_URL,
       url: `/recommend/${path}/${user.id}`
     })
-    .then(res => response = res)
+    .then(res => response = res.data)
     .catch(err => console.log(err))
 
     return response
@@ -55,10 +55,15 @@ function App() {
 
 
   const getRecAll = async () => {
-    if (!Object.keys(size).length){setSize(await getRec('size'))}
-    if (!Object.keys(color).length){setColor(await getRec('color'))}
-    if (!Object.keys(style).length){setStyle(await getRec('style'))}
-    if (!Object.keys(category).length){setCategory(await getRec('category'))}
+    const local = window.localStorage
+
+    if (!Object.keys(size).length){
+      console.log('사이즈?')
+      if (!local.getItem('size-rec')){
+        local.setItem('size-rec', JSON.stringify(await getRec('size')))
+      }
+      setSize(JSON.parse(local.getItem('size-rec')))
+    }
   }
   
 
@@ -80,7 +85,7 @@ function App() {
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
         <Route path="/recommend" exact>
-          <Recommend size={size} color={color} style={style} category={category} />
+          <Recommend recommend={{size: size, color: color, style: style, category: category}} setter={{color: setColor, style: setStyle, category: setCategory}} getter={getRec} />
         </Route>
         <Route path="/item/:id" component={ItemDetail} exact />
         <Route path="/recommend/:category" component={Category} exact />
