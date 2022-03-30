@@ -1,3 +1,45 @@
 .chart {
-  
+  display: flex;
+  .gender {
+    width: 50%;
+    .chart-box {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      .bar-chart {
+        text-align: center;
+        .blank {
+          position: relative;
+          height: 30vh;
+          aspect-ratio: 1/2;
+          .bar {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+          }
+          &.female {
+            background: url(../images/female.png) center bottom no-repeat;
+            background-size: cover;
+            .bar {
+              background: url(../images/female_on.png) center bottom no-repeat;
+              background-size: cover;
+            }
+          }
+          &.male {
+            background: url(../images/male.png) center bottom no-repeat;
+            background-size: cover;
+            .bar {
+              background: url(../images/male_on.png) center bottom no-repeat;
+              background-size: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  .month {
+    background-color: azure;
+    width: 50%;
+  }
 }
