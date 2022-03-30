@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import '../scss/MyInfo.scss'
 
-const MyInfo = ({info}) => {
+const MyInfo = ({ info }) => {
   let history = useHistory()
 
   const logout = () => {
@@ -13,7 +13,7 @@ const MyInfo = ({info}) => {
   return (
     <article className='myinfo'>
       <section className='left'>
-        <img src={info.profileImg} alt='profileImage' />
+        <img src={info.profileImg ? info.profileImg : 'https://i.ibb.co/17HCkM1/default.png'} alt='profileImage' />
       </section>
       <section className='center'>
         <div>
