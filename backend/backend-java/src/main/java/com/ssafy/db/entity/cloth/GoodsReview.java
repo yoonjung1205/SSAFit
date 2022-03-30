@@ -1,5 +1,6 @@
 package com.ssafy.db.entity.cloth;
 
+import com.ssafy.db.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +15,16 @@ import javax.persistence.*;
 @Entity
 public class GoodsReview {
 
-    @EmbeddedId
-    private UserGoods userGoods;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String reviewId;
+
+    @ManyToOne
+    private User user;
 
     private String comment;
 
-    private int klass;
-
-    private int orders;
-
-    private int groupNum;
 
 }

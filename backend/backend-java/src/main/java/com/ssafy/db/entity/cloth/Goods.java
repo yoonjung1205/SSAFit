@@ -1,5 +1,6 @@
 package com.ssafy.db.entity.cloth;
 
+import com.ssafy.db.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,15 @@ public class Goods {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    User user;
+
+    String name;
+
+    String price;
+
+    String brand;
+
+    String goodsImg;
 
 }
