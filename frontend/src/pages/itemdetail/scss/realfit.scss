@@ -2,40 +2,44 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 35vh;
+  padding: 4rem;
 
   .carousel-box {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
 
 
     .carousel-view {
-      width: 80%;
-      height: 100%;
+      width: 60vw;
+      min-width: 300px;
+      height: calc(96vw * 0.275);
       overflow: hidden;
       position: relative;
 
       .carousel {
-        width: 100vw;
-        height: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        gap: 2rem;
+        width: 96vw;
+        min-width: 480px;
+        display: flex;
+        justify-content: center;
         position: absolute;
-        top: 0;
-        left: -15%;
+        left: -30%;
   
         .carousel-card {
           display: flex;
           flex-direction: column;
           justify-content: center;
+          width: 25%;
+          max-width: 250px;
+          margin: 2rem;
   
           .carousel-image {
             width: 100%;
-            height: 100%;
+            aspect-ratio: 1/1.75;
+            background-size: cover;
+            background-position: center;
+
           }
   
           .carousel-desc {
@@ -46,7 +50,7 @@
     }
 
     .carousel-btn {
-      width: 2%;
+      width: 35px;
       opacity: 50%;
       aspect-ratio: 1/1;
       cursor: pointer;
