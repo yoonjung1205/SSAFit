@@ -6,6 +6,7 @@ import './scss/Edit.scss'
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { BE_URL, accessToken, refreshToken } from "../../Request";
+import jwtDecode from "jwt-decode";
 
 const Edit = () => {
   let history = useHistory()
@@ -14,21 +15,20 @@ const Edit = () => {
   const [profileImage, setProfileImage] = useState('')
   
   useEffect(() => {
-    const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-    setUserInfo(userInfo)
+    setUserInfo(JSON.parse(window.sessionStorage.getItem('userInfo')))
   }, [])
   
   useEffect(() => {
     const tmp = {
       email: userInfo.sub,
-      imageUrl: userInfo.profileImg,
+      imageUrl: userInfo.profileImg ? userInfo.profileImage : 'https://i.ibb.co/17HCkM1/default.png',
       nickname: userInfo.name,
       height: userInfo.height,
       weight: userInfo.weight,
       gender: userInfo.gender === 'MALE' ? 1 : 0
     }
     setCredentials(tmp)
-    setProfileImage(userInfo.imageUrl)
+    setProfileImage(tmp.imageUrl)
   }, [userInfo])
 
   const fileUpload = e => {
@@ -82,9 +82,10 @@ const Edit = () => {
 
   const submit = e => {
     e.preventDefault()
+
     isValid()
     .then(() => {
-      const userInfo = makeCredential()
+      const data = makeCredential()
       axios({
         method: 'put',
         url: `${BE_URL}/auth/user`,
@@ -93,25 +94,19 @@ const Edit = () => {
           'Authorization': accessToken,
           // 'Refresh': refreshToken
         },
-        data: userInfo
+        data: data
       })
-    })
-    .then(() => {
-      // 🎨🎨원래 저장해둔 userData에 update된 userData 씌우기🎨🎨
-      // ⭕❌ 혹시 수정 성공하면 이미지, 이름, 키, 몸무게, 성별 보내줄 수 있는가?
-      // mypage로 보내기
-      let current = userInfo
-      const tmp = {
-        profileImg: credentials.imageUrl,
-        name: credentials.nickname,
-        height: credentials.height,
-        weight: credentials.weight,
-        gender: credentials.gender === 1 ? 'MALE' : 'FEMALE'
-      }
-      Object.assign(current, tmp)
-      // console.log(current)
-      window.sessionStorage.setItem('userInfo', JSON.stringify(current))
-      history.push('/mypage')
+      .then(res => {
+        const session = window.sessionStorage
+        const accessToken = res.headers.authorization
+        const refreshToken = res.headers.refreshtoken
+        session.setItem('access-token-jwt', accessToken)
+        session.setItem('refresh-token-jwt', refreshToken)
+        session.setItem('userInfo', JSON.stringify(jwtDecode(accessToken)))
+      })
+      .then(() => {
+        history.push('/mypage')
+      })
     })
     .catch(err => {
       // console.log(err, typeof(err))

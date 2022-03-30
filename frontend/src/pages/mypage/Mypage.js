@@ -16,9 +16,7 @@ const Mypage = () => {
   const whiteHanger = 'https://i.ibb.co/18ktfCy/free-icon-clothes-hanger-3100575.png'
   
   useEffect(() => {
-    let tmp = window.sessionStorage.getItem('userInfo')
-    tmp = JSON.parse(tmp)
-    setMyinfo(tmp)
+    setMyinfo(JSON.parse(window.sessionStorage.getItem('userInfo')))
   }, [])
 
   return (

@@ -4,11 +4,14 @@ import './scss/Search.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { parse } from 'query-string';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { searchClothes } from './data';
+import axios from 'axios';
+import { accessToken, BE_URL, refreshToken } from '../../Request';
 
 
 const Search = () => {
+  let history = useHistory()
   let { word } = parse(useLocation().search)
 
   const [clothes, setClothes] = useState([])
@@ -26,8 +29,23 @@ const Search = () => {
   }
 
   useEffect(() => {
-    console.log(word, 'search result!')
-    setClothes(searchClothes)
+    const getSearchResult = async () => {
+      console.log(word)
+      await axios({
+        method: 'get',
+        url: `${BE_URL}/goods/search?keyword=${word}`,
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": accessToken,
+          // "Refresh" : refreshToken
+        },
+        withCredentials: true,
+      })
+      // .then(res => setClothes(res.data.goodsList))
+      .then(res => {console.log(res.data.goodsList[0]); setClothes(res.data.goodsList)})
+      .catch(err => console.log(err, typeof(err)))
+    }
+    getSearchResult()
   }, [word])
 
   return (
@@ -53,7 +71,7 @@ const Search = () => {
             <Row md={5} className='g-5'>
             {clothes.map((cloth, idx) => (
               <Col key={idx}>
-                <div className='search-card' onClick={() => console.log('go to cloth detail')} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
+                <div className='search-card' onClick={() => history.push(`/item/${cloth.newClothId}`)} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
                   <Card.Img src={cloth.clothImg} alt='cloth' />
                   <p className='search-card-text one-line'>{cloth.clothBrand}</p>
                   <p className='search-card-text two-line'>{cloth.clothName}</p>
@@ -63,6 +81,7 @@ const Search = () => {
             ))}
             </Row>
           </section>
+          {/* 인피니티 스크롤 할거면 없애도 됨 */}
           <section className='search-bottom'>
             <div className='pagenation'>
               <div onClick={() => {changePage(-1)}}><p>&lt;</p></div>
