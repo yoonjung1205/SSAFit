@@ -138,7 +138,9 @@ export default function ItemDetail({ history, location }) {
         { item.reviewNoun &&  <Analysis words={item.reviewNoun} /> }
         <Chart male={item.userMale === 1 && item.userFemale === 1 ? 0.5 : item.userMale}
           female={item.userMale === 1 && item.userFemale === 1 ? 0.5 : item.userFemale}
-          month={[item.month1, item.month2, item.month3, item.month4, item.month5, item.month6, item.month7, item.month8, item.month9, item.month10, item.month11, item.month12]} />
+          month={[item.month1, item.month2, item.month3, item.month4, item.month5, item.month6, item.month7, item.month8, item.month9, item.month10, item.month11, item.month12]}
+          sum={item.month1 + item.month2 + item.month3 + item.month4 + item.month5 + item.month6 + item.month7 + item.month8 + item.month9 + item.month10 + item.month11 + item.month12}
+          />
         <section className='detail-footer'>
         </section>
       </article>
