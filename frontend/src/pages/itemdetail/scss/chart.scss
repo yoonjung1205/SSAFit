@@ -1,5 +1,6 @@
 .chart {
   display: flex;
+  height: 45vh;
   .gender {
     width: 50%;
     .chart-box {
@@ -39,7 +40,6 @@
     }
   }
   .month {
-    background-color: azure;
     width: 50%;
   }
 }
