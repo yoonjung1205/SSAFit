@@ -24,57 +24,53 @@ import jwtDecode from 'jwt-decode'
 function App() {
   console.log('나 재 랜더링되는 중')
   const location = useLocation();
-  const [path, setPath] = useState('/')
-  const [sizeRcm, setSizeRcm] = useState({})
-  const [colorRcm, setcolorRcm] = useState({})
-  const [styleRcm, setStyleRcm] = useState({})
-  const [categoryRcm, setCategoryRcm] = useState({})
+  const [user, setUser] = useState({})
+  const [size, setSize] = useState({})
+  const [color, setColor] = useState({})
+  const [style, setStyle] = useState({})
+  const [category, setCategory] = useState({})
   
   const session = window.sessionStorage
-  let userInfo;
   try {
     const token = session.getItem('access-token-jwt')
     session.setItem('userInfo', JSON.stringify(jwtDecode(token)))
-    userInfo = jwtDecode(token)
-    console.log(userInfo)
+    if (!Object.keys(user).length){setUser(jwtDecode(token))}
   }
   catch {
     console.log('사용자 인증 정보가 없습니다.')
   }
 
-  const getRCM = async function(path, setter){
+  const getRec = async function(path){
+    let response;
     await axios({
       method: 'get',
       baseURL: DA_URL,
-      url: `/recommend/${path}/${userInfo.id}`
+      url: `/recommend/${path}/${user.id}`
     })
-    .then(res => setter(res.data))
+    .then(res => response = res)
     .catch(err => console.log(err))
+
+    return response
   }
 
-  if (userInfo){
-    getRCM('size', setSizeRcm)
-    getRCM('color', setcolorRcm)
-    getRCM('style', setStyleRcm)
-    getRCM('category', setCategoryRcm)
+
+  const getRecAll = async () => {
+    if (!Object.keys(size).length){setSize(await getRec('size'))}
+    if (!Object.keys(color).length){setColor(await getRec('color'))}
+    if (!Object.keys(style).length){setStyle(await getRec('style'))}
+    if (!Object.keys(category).length){setCategory(await getRec('category'))}
   }
   
+
   useEffect(() => {
-    // const transition = function(){
-    //   app.classList.remove('transition')
-    //   setTimeout(() => {
-    //     app.classList.add('transition')
-    //   }, 1)
-    // }
-    // if (app){
-    //   transition()
-    // }
-    setPath(location.pathname)
-  }, [location])
+    if (Object.keys(user).length){
+      getRecAll()
+    }
+  }, [])
 
 
   return (
-    <div className="App" key={path}>
+    <div className="App" key={location.pathname}>
       <Switch>
         <Route path="/" component={Start} exact />
         <Route path="/search" component={Search} />
@@ -84,7 +80,7 @@ function App() {
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
         <Route path="/recommend" exact>
-          <Recommend size={sizeRcm} color={colorRcm} style={styleRcm} category={categoryRcm} />
+          <Recommend size={size} color={color} style={style} category={category} />
         </Route>
         <Route path="/item/:id" component={ItemDetail} exact />
         <Route path="/recommend/:category" component={Category} exact />
