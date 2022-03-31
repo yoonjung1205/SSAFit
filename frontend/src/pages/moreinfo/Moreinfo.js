@@ -24,9 +24,6 @@ export default function Moreinfo({ history }) {
     firstCredentials[temp[0]] = temp[1]
   })
 
-  console.log(window.XMLHTTPRequest)
-  console.log(navigator)
-
   const isValid = function(){
     // eslint-disable-next-line no-useless-escape
     const validatorNickName = /[~!@#$%^&*()_\+\-\=\[\]{};\':",\\|.\/<>?]/

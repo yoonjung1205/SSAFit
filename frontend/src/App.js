@@ -37,6 +37,7 @@ function App() {
     if (!Object.keys(user).length){setUser(jwtDecode(token))}
   }
   catch {
+    if (Object.keys(user).length){setUser({});setSize({})}
     console.log('사용자 인증 정보가 없습니다.')
   }
 
@@ -52,16 +53,15 @@ function App() {
 
     return response
   }
-
-
-  const getRecAll = async () => {
+  
+  const getRecAll = async function(){
     const local = window.localStorage
-
+  
     if (!Object.keys(size).length){
       console.log('사이즈?')
       if (!local.getItem('size-rec')){
         try {
-          let res = await getRec('category')
+          const res = await getRec('size')
           local.setItem('size-rec', JSON.stringify(res))
         }
         catch{}
@@ -69,13 +69,14 @@ function App() {
       setSize(JSON.parse(local.getItem('size-rec')))
     }
   }
-  
+
 
   useEffect(() => {
+    console.log('나라구')
     if (Object.keys(user).length){
       getRecAll()
     }
-  }, [])
+  })
 
 
   return (
