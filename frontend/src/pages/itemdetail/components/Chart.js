@@ -7,9 +7,9 @@ const Chart = ({ male, female, month, sum }) => {
     <section className='chart'>
 
       <div className='gender'>
-        <h3 className='chart-title'>Gender</h3>
+        <p className='chart-title'>Gender</p>
         <div className='chart-box'>
-          <div className='bar-chart'>
+          <div className='bar-chart left'>
             <div className='female blank'>
               <div className='bar' style={{height: `${female*100}%`}} />
             </div>
@@ -25,7 +25,7 @@ const Chart = ({ male, female, month, sum }) => {
       </div>
 
       <div className='month'>
-        <h3 className='chart-title'>Month</h3>
+        <p className='chart-title'>Month</p>
         <MonthChart month={month} sum={sum}/>
         <div className='chart-box'></div>
       </div>

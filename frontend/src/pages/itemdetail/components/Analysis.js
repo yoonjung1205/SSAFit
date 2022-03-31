@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactWordcloud from 'react-wordcloud'
-
+import '../scss/analysis.scss'
 export default function Analysis({ words }) {
 
 
