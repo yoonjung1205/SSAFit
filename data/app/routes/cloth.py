@@ -8,6 +8,7 @@ import pandas as pd
 router = APIRouter()
 
 class Review(BaseModel):
+    reviewId: int
     userName: str
     date: str
     goodsNo: int
@@ -45,10 +46,11 @@ def getBrandClothes(newClothId: int, userId: int):
     result = get_brand_clothes(newClothId, userId)
     return result
 
-@router.get('/cloth/similar/{newClothId}/{userId}', tags=["Cloth"])
-def getSimilarClothes(newClothId: int, userId: int):
-    result = get_similar_clothes(newClothId, userId)
+@router.get('/cloth/similar/{newClothId}', tags=["Cloth"])
+def getSimilarClothes(newClothId: int):
+    result = get_similar_clothes(newClothId)
     return result
+
 
 @router.get('/cloth/isSSAFIT/{clothId}', tags=["Cloth"])
 def getNewClothId(clothId: int, userId: int):
