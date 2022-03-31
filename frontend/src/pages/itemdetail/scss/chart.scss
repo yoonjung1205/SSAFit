@@ -1,11 +1,13 @@
 .chart {
   display: flex;
+  justify-content: center;
   height: 45vh;
   padding: 0 5rem;
   .gender {
-    width: 50%;
+    margin: 0 6rem;
     .chart-box {
       width: 100%;
+      padding-left: 2rem;
       display: flex;
       justify-content: center;
       .bar-chart {
@@ -45,5 +47,6 @@
   }
   .month {
     width: 50%;
+    margin: 0 6rem;
   }
 }
