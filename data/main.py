@@ -5,7 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 # from app.database.conn import db
 # from app.common.config import conf
 # from app.routes import data, recommend
-from app.routes import recommend, cloth, codi
+from app.routes import recommend, cloth, codi, user
 import motor.motor_asyncio
 from bson import ObjectId
 from fastapi_pagination import add_pagination
@@ -37,6 +37,7 @@ def create_app():
     app.include_router(recommend.router)
     app.include_router(cloth.router)
     app.include_router(codi.router)
+    app.include_router(user.router)
     return app
 
 
