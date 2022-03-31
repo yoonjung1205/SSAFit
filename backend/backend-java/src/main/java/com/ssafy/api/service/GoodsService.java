@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.GoodReq;
 import com.ssafy.api.request.UserCommentReq;
 import com.ssafy.api.response.GoodsListRes;
 import com.ssafy.api.response.UserCommentRes;
@@ -9,6 +10,8 @@ import com.ssafy.mongodb.entity.Cloth;
 import java.util.List;
 
 public interface GoodsService {
+
+    public void goodInsert(GoodReq goodReq);
 
     public GoodsListRes goodsListSearchWord(String keywords);
 

@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.GoodReq;
 import com.ssafy.api.request.UserChangePwReq;
 import com.ssafy.api.request.UserCommentReq;
 import com.ssafy.api.response.GoodsListRes;
@@ -7,6 +8,7 @@ import com.ssafy.api.response.UserCommentRes;
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.GoodsService;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
 import com.ssafy.mongodb.entity.Cloth;
 import io.swagger.annotations.*;
@@ -29,6 +31,26 @@ public class GoodsController {
 
     @Autowired
     GoodsService goodsService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+
+    @PostMapping("/like")
+    public void likeGood(@RequestBody @ApiParam(value="좋아요 등록", required = true) GoodReq goodReq, HttpServletRequest request){
+//        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+//        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+//
+//        int userId = jwtTokenUtil.getUserId(token);
+//        System.out.println("userId : " + userId);
+
+        // 옷정보 저장 service
+
+        // like 등록, service
+        System.out.print(goodReq.getClothId());
+        goodsService.goodInsert(goodReq);
+
+    }
 
     @GetMapping("/search")
     @ApiOperation(value = "옷 정보 검색", notes = "옷 정보를 검색한다.")

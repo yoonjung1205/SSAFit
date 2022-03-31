@@ -1,11 +1,13 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.GoodReq;
 import com.ssafy.api.request.UserCommentReq;
 import com.ssafy.api.response.GoodsListRes;
 import com.ssafy.api.response.UserCommentRes;
 import com.ssafy.common.vo.SearchCloth;
 import com.ssafy.db.entity.cloth.Goods;
 import com.ssafy.db.entity.cloth.GoodsReview;
+import com.ssafy.db.repository.GoodsRepository;
 import com.ssafy.db.repository.GoodsReviewRepository;
 import com.ssafy.db.repository.UserRepository;
 import com.ssafy.mongodb.entity.Cloth;
@@ -26,6 +28,32 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    GoodsRepository goodsRepository;
+
+    @Override
+    public void goodInsert(GoodReq goodReq) {
+        if(goodsRepository.existsByGOODS_ID(goodReq.getClothId()) == 1) {
+            System.out.println("존재함");
+        }else{
+            System.out.println("없음");
+            Goods goods = Goods.builder()
+                    .id(goodReq.getClothId())
+                    .brand(goodReq.getBrand())
+                    .name(goodReq.getClothName())
+                    .price(goodReq.getClothPrice())
+                    .goodsImg(goodReq.getClothImg())
+                    .build();
+            System.out.println(goods.toString());
+
+//            goodsRepository.SaveAndFlush(goods);
+
+        }
+
+
+
+    }
 
     @Override
     public GoodsListRes goodsListSearchWord(String keywords) {
