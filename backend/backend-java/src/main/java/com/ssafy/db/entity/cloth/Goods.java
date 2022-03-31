@@ -24,7 +24,7 @@ public class Goods {
 
     String name;
 
-    String price;
+    Long price;
 
     String brand;
 
