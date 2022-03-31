@@ -1,14 +1,18 @@
 .chart {
   display: flex;
   height: 45vh;
+  padding: 0 5rem;
   .gender {
     width: 50%;
     .chart-box {
       width: 100%;
       display: flex;
-      justify-content: space-evenly;
+      justify-content: center;
       .bar-chart {
         text-align: center;
+        &.left {
+          margin-right: 5rem;
+        }
         .blank {
           position: relative;
           height: 30vh;
