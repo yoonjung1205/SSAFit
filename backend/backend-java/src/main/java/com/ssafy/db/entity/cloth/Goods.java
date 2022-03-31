@@ -20,8 +20,7 @@ public class Goods {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    User user;
+    int GOODS_ID;
 
     String name;
 

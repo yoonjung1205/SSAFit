@@ -53,7 +53,12 @@ public class JwtTokenUtil {
     public String getUserEmail(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token).getBody().getSubject();
     }
-    
+
+    // 토큰에서 회원 정보 추출
+    public int getUserId(String token) {
+        return (int) Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token).getBody().get("id");
+    }
+
 	public void setExpirationTime() {
     		//JwtTokenUtil.expirationTime = Integer.parseInt(expirationTime);
     		JwtTokenUtil.expirationTime = expirationTime;
