@@ -5,7 +5,10 @@ import json
 from bson import ObjectId, json_util
 from fastapi.encoders import jsonable_encoder
 import numpy as np
+import pandas as pd
 import time
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.decomposition import TruncatedSVD
 
 mongo_url = "mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
 
@@ -155,60 +158,76 @@ def get_reviews(newClothId):
     return reviews
 
 def get_img_reviews(newClothId: int, userId: int):
-    review_list = set()
+    review_list = []
     user = db.user_ssafit.find_one({'userId': userId}, {'_id': 0})
-    exist = False
-    for i in range(30):
-        for review in db.review.aggregate([{'$match': {'newGoodsNo': int(newClothId), 'reviewStyle': 1, 'userHeight': {'$in': list(range(user['userHeight']-i, user['userHeight']+i))}, 'userWeight': {'$in': list(range(user['userWeight']-i, user['userWeight']+i))}}}]):
-            review_list.add(review['_id'])
-            if len(review_list) == 10:
-                exist = True
-                break
-        if exist:
+    for review in db.review.aggregate([{'$match': {'newGoodsNo': int(newClothId), 'reviewStyle': 1}}]):
+        review_list.append([review['userHeight'], review['userWeight'], review['reviewId']])
+    for i in range(len(review_list)):
+        review_list[i][0] = review_list[i][0] - user['userHeight']
+        review_list[i][1] = review_list[i][1] - user['userWeight']
+    review_list = sorted(review_list, key=lambda x: x[0]+x[1])
+    re_list = []
+    for j in range(len(review_list)):
+        if j == 10:
             break
+        re_list.append(review_list[j][2])
     reviews = []
-    for i in review_list:
-        reviews.append(db.review.find_one({"_id": i}, {"_id": 0}))
+    for i in re_list:
+        reviews.append(db.review.find_one({"reviewId": i}, {"_id": 0}))
     return reviews
 
 def get_brand_clothes(newClothId, userId):
     cloth = db.cloth.find_one({'newClothId': newClothId})
     user = db.user_ssafit.find_one({'userId': int(userId)})
-    brand_list = set()
-    exist = False
-    for i in range(30):
-        for brand in db.cloth.aggregate([{'$match': {'brand': cloth['brand'], 'userHeight': {'$in': list(range(user['userHeight']-i, user['userHeight']+i))}, 'userWeight': {'$in': list(range(user['userWeight']-i, user['userWeight']+i))}}}, {'$sort': {'clothReviewCnt': -1}}]):
-            if brand['_id'] != cloth['_id']:
-                brand_list.add(brand['_id'])
-            if len(brand_list) == 6:
-                exist = True
-                break
-        if exist:
+    brand_list = []
+    goods_id = set()
+    for brand in db.cloth.aggregate([{'$match': {'brand': cloth['brand']}}]):
+        if brand['clothId'] not in goods_id:
+            brand_list.append([brand['userHeight'], brand['userWeight'], brand['clothReviewCnt'], brand['newClothId']])
+            goods_id.add(brand['clothId'])
+    for i in range(len(brand_list)):
+        brand_list[i][0] = brand_list[i][0] - user['userHeight']
+        brand_list[i][1] = brand_list[i][1] - user['userWeight']
+    brand_list = sorted(brand_list, key=lambda x: (x[0]+x[1], x[2]))
+    br_list = []
+    for j in range(len(brand_list)):
+        if j == 6:
             break
+        br_list.append(brand_list[j][3])
     brands = []
-    for i in brand_list:
-        brands.append(db.cloth.find_one({"_id": i}, {"_id": 0}))
+    for i in br_list:
+        brands.append(db.cloth.find_one({"newClothId": i}, {"_id": 0}))
     return brands
 
-
-def get_similar_clothes(newClothId, userId):
+def get_similar_clothes(newClothId: int):
     cloth = db.cloth.find_one({'newClothId': newClothId})
-    user = db.user_ssafit.find_one({'userId': int(userId)})
-    similar_list = set()
-    exist = False
-    for i in range(30):
-        for similar in db.cloth.aggregate([{'$match': {'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName'], 'userHeight': {'$in': list(range(user['userHeight']-i, user['userHeight']+i))}, 'userWeight': {'$in': list(range(user['userWeight']-i, user['userWeight']+i))}}}, {'$sort': {'clothReviewCnt': -1}}]):
-            if similar['_id'] != cloth['_id']:
-                similar_list.add(similar['_id'])
-            if len(similar_list) == 6:
-                exist = True
-                break
-        if exist:
+    transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName']}, {'_id': 0, 'largecategory': 0})
+    transaction = list(transaction)
+    transaction = pd.DataFrame(transaction)
+    trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
+    trans.fillna(0, inplace=True)
+    SVD = TruncatedSVD(n_components=10)
+    SVD_matrix = SVD.fit_transform(trans)
+    corr = np.corrcoef(SVD_matrix)
+    corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
+    corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[1:50].index
+    result = []
+    sub = set()
+    cnt = 0
+    for clothId in corr_list:
+        sub_cloth = db.cloth.find_one({'newClothId': clothId}, {'_id': 0})
+        if cnt == 0:
+            result.append(sub_cloth)
+            sub.add(sub_cloth['clothId'])
+            cnt += 1
+        else:
+            if sub_cloth['clothId'] not in sub:
+                result.append(sub_cloth)
+                sub.add(sub_cloth['clothId'])
+                cnt += 1
+        if cnt == 6:
             break
-    similar_clothes = []
-    for i in similar_list:
-        similar_clothes.append(db.cloth.find_one({"_id": i}, {"_id": 0}))
-    return similar_clothes
+    return result
 
 
 def get_cloth_by_user_info(clothId, userId):
@@ -225,3 +244,4 @@ def get_cloth_by_user_info(clothId, userId):
         if exist:
             break
     return newClothId
+
