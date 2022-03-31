@@ -46,7 +46,7 @@ export default function RecommendCodi({ history, location }) {
   }
 
   useEffect(() => {
-    console.log('나는 코디', codi)
+    // console.log('나는 코디', codi)
     if (!Object.keys(codi).length){
       getCodi()
     }
