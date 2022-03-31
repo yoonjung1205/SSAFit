@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import NavigationBar from '../../components/NavigationBar'
 import Footer from '../../components/Footer'
 import { DA_URL } from '../../Request'
@@ -13,6 +13,7 @@ import heart from './images/heart.png'
 import dash from './images/dash.png'
 import './scss/Item.scss'
 import Recommedation from './components/Recommedation';
+import Reviews from './components/Reviews';
 
 export default function ItemDetail() {
   const newClothId = useLocation().pathname.replace('/item/', '')
@@ -84,7 +85,7 @@ export default function ItemDetail() {
               <Rate rate={item.clothRate}/>
               <h3 className='price'>{comma(String(item.clothPrice))}원</h3>
               <h6 className='tags'>
-                {item.clothHashtags && item.clothHashtags.map((hashtag, idx) => 
+                {item.clothHashtags && item.clothHashtags[0] !== "[]" && item.clothHashtags.map((hashtag, idx) => 
                 <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
                 )}
               </h6>
@@ -96,11 +97,11 @@ export default function ItemDetail() {
           </div>
         </section>
         <div className='anchor'>
-          <a href="#info">상품정보</a>
+          <Link to="#info">상품정보</Link>
           <img src={dash} alt="" />
-          <a href="">추천상품</a>
+          <Link to="#">추천상품</Link>
           <img src={dash} alt="" />
-          <a href="">사용후기</a>
+          <Link to="#">사용후기</Link>
         </div>
         <RealFit review={realFit} />
         { item.reviewNoun &&  <Analysis words={item.reviewNoun} /> }
@@ -110,6 +111,7 @@ export default function ItemDetail() {
           sum={item.month1 + item.month2 + item.month3 + item.month4 + item.month5 + item.month6 + item.month7 + item.month8 + item.month9 + item.month10 + item.month11 + item.month12}
           />
         <Recommedation brand={item.brand} newClothId={newClothId} />
+        <Reviews newClothId={newClothId} />
         <section className='detail-footer'>
         </section>
       </article>
