@@ -1,10 +1,7 @@
 package com.ssafy.db.entity.cloth;
 
 import com.ssafy.db.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Goods {
 
     @Id
@@ -20,7 +18,7 @@ public class Goods {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    int GOODS_ID;
+    long GOODS_ID;
 
     String name;
 
