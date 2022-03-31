@@ -1,4 +1,11 @@
+@font-face {
+  font-family: 'GangwonEdu_OTFBoldA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 .App {
+  font-family: 'GangwonEdu_OTFBoldA';
   @keyframes slider {
     0% {
       opacity: 0.3;
@@ -10,8 +17,10 @@
     }
   }
   background-color: white;
-  margin: 0 2vw;
-  height: 96vh;
+  // margin: 0 2vw;
+  // height: 96vh;
+  margin: 0 3vw;
+  height: 94vh;
   border-radius: 0 0 100px 100px;
   animation: slider 1.5s;
   position: relative;

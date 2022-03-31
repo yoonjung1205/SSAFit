@@ -16,7 +16,7 @@ const Recommedation = ({ brand, newClothId }) => {
     const getSimilarClothes = async () => {
       await axios({
         method: 'get',
-        url: `${DA_URL}/cloth/similar/${newClothId}/${userId}`
+        url: `${DA_URL}/cloth/similar/${newClothId}`
       })
       .then(res => {
         setSimilarClothes(res.data)
