@@ -27,6 +27,7 @@ export default function itembox({ items }) {
 
   const getNewClothId = async (clothId) => {
     const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
+    
     await axios({
       method: 'get',
       url: `${DA_URL}/cloth/isSSAFIT/${clothId}?userId=${userId}`

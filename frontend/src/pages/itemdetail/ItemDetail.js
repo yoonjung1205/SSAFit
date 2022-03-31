@@ -10,23 +10,36 @@ import RealFit from './components/RealFit'
 import Analysis from './components/Analysis'
 import Chart from './components/Chart'
 import heart from './images/heart.png'
+import dash from './images/dash.png'
 import './scss/Item.scss'
 
 export default function ItemDetail({ history, location }) {
   const newClothId = useLocation().pathname.replace('/item/', '')
-  const [userInfo, setUserInfo] = useState({})
   const [liked, setLiked] = useState(false)
-
-  // if (userInfo === {}) {
-  //   setUserInfo(JSON.parse(window.sessionStorage.getItem('userInfo')))
-  // }
-
-  //////////////////// DA 연결 부분 ////////////////////////
   const [item, setItem] = useState({})
   const [realFit, setRealFit] = useState([])
-  // const [reviews, setReviews] = useState([])
 
   
+  const comma = function(tar){
+    let result = ''
+    if (tar){
+      for (let i = tar.length - 1; i >= 0; i--){
+        if (i !== tar.length - 1 && (tar.length - i - 1) % 3 === 0){
+          result = ',' + result
+        }
+        result = tar[i] + result
+      }
+    }
+
+    return result
+  }
+
+  const goToShop = function(){
+    if (Object.keys(item).length){
+      window.open(`https://store.musinsa.com/app/goods/${item.clothId}`)
+    }
+  }
+
   useEffect(() => {
     const getCloth = async () => {
       await axios({
@@ -34,7 +47,6 @@ export default function ItemDetail({ history, location }) {
         url: `${DA_URL}/cloth/${newClothId}`,
       })
       .then(res => setItem(res.data))
-      // .then(res => console.log('cloth data:', res.data[0]))
       .catch(err => console.log(err, typeof(err)))
     }
 
@@ -45,61 +57,11 @@ export default function ItemDetail({ history, location }) {
         url: `${DA_URL}/cloth/reviews/${newClothId}/${userId}`,
       })
       .then(res => setRealFit(res.data))
-      // .then(res => console.log('realFit data:', res.data))
       .catch(err => console.log(err, typeof(err)))
     }
-
     getCloth()
     .then(getRealFit())
   }, [newClothId])
-  
-  
-  // const temp = [{
-  //   reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
-  //   userHeight: 178,
-  //   userSexMen: 1,
-  //   userWeight: 75},
-  //   {
-  //     reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
-  //     userHeight: 178,
-  //     userSexMen: 1,
-  //     userWeight: 75},
-  //     {
-  //       reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
-  //       userHeight: 178,
-  //       userSexMen: 1,
-  //       userWeight: 75},
-  //       {
-  //         reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
-  //         userHeight: 178,
-  //         userSexMen: 1,
-  //         userWeight: 75},
-  //         {
-  //           reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
-  //           userHeight: 178,
-  //           userSexMen: 1,
-  //           userWeight: 75},
-  //           {
-  //             reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
-  //             userHeight: 178,
-  //             userSexMen: 1,
-  //             userWeight: 75},
-  //             {
-  //               reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
-  //               userHeight: 178,
-  //               userSexMen: 1,
-  //               userWeight: 75},
-  //               {
-  //                 reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
-  //                 userHeight: 178,
-  //                 userSexMen: 1,
-  //                 userWeight: 75},
-  //                 {
-  //                   reviewImg: "https://image.msscdn.net/data/estimate/1931904_0/gallery_610c813eeb851.jpg.view",
-  //                   userHeight: 178,
-  //                   userSexMen: 1,
-  //                   userWeight: 75},]
-              
 
 
   return (
@@ -119,22 +81,27 @@ export default function ItemDetail({ history, location }) {
               <h2 className='brand'>{item.brand}</h2>
               <h3 className='name'>{item.clothName}</h3>
               <Rate rate={item.clothRate}/>
-              <h3 className='price'>{item.clothPrice}원</h3>
+              <h3 className='price'>{comma(String(item.clothPrice))}원</h3>
               <h6 className='tags'>
                 {item.clothHashtags && item.clothHashtags.map((hashtag, idx) => 
                 <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
                 )}
               </h6>
-              <button><span/>구매하러 가기</button>
+              <button onClick={() => goToShop()}>
+                <span/>
+                구매하러 가기
+              </button>
             </div>
           </div>
         </section>
         <div className='anchor'>
-          <a href="">상품정보</a>
+          <a href="#info">상품정보</a>
+          <img src={dash} alt="" />
           <a href="">추천상품</a>
+          <img src={dash} alt="" />
           <a href="">사용후기</a>
         </div>
-        { realFit.length && <RealFit review={realFit} /> }
+        <RealFit review={realFit} />
         { item.reviewNoun &&  <Analysis words={item.reviewNoun} /> }
         <Chart male={item.userMale === 1 && item.userFemale === 1 ? 0.5 : item.userMale}
           female={item.userMale === 1 && item.userFemale === 1 ? 0.5 : item.userFemale}
