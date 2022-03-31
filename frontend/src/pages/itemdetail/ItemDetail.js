@@ -11,6 +11,7 @@ import Analysis from './components/Analysis'
 import Chart from './components/Chart'
 import heart from './images/heart.png'
 import './scss/Item.scss'
+import Recommedation from './components/Recommedation';
 
 export default function ItemDetail({ history, location }) {
   const newClothId = useLocation().pathname.replace('/item/', '')
@@ -141,6 +142,7 @@ export default function ItemDetail({ history, location }) {
           month={[item.month1, item.month2, item.month3, item.month4, item.month5, item.month6, item.month7, item.month8, item.month9, item.month10, item.month11, item.month12]}
           sum={item.month1 + item.month2 + item.month3 + item.month4 + item.month5 + item.month6 + item.month7 + item.month8 + item.month9 + item.month10 + item.month11 + item.month12}
           />
+        <Recommedation />
         <section className='detail-footer'>
         </section>
       </article>
