@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../scss/recommedation.scss'
 import { DA_URL } from '../../../Request';
+import { useHistory } from 'react-router-dom';
 
 
 const Recommedation = ({ brand, newClothId }) => {
+  let history = useHistory()
 
   const [similarClothes, setSimilarClothes] = useState([])
   const [brandClothes, setBrandClothes] = useState([])
@@ -43,25 +45,45 @@ const Recommedation = ({ brand, newClothId }) => {
         <h3>Recommendation</h3>
         <p>유사한 상품과, 같은 브랜드의 인기상품을 추천합니다.</p>
       </div>
-
+      <br />
       <div className='recom-body'>
         <p>유사한 상품 추천</p>
         <div className='recom-cards'>
           {similarClothes.map((cloth, idx) => (
-            <div className='card' key={idx}>
+            <div className='card' key={idx} onClick={() => history.push(`/item/${cloth.newClothId}`)} title={`${cloth.clothName}`}>
               <div className='card-image'>
                 <img src={cloth.clothImg} alt='cloth' />
               </div>
               <div className='card-text'>
                 <p className='one-line'>{cloth.brand}</p>
                 <p className='two-line'>{cloth.clothName}</p>
-                <p className='one-line'>Price: {cloth.clothPrice}원</p>
-                <p className='one-line'>Size: {cloth.goodsSize}</p>
+                <div>
+                  <p className='one-line'>Price: {cloth.clothPrice}원</p>
+                  <p className='one-line'>Size: {cloth.goodsSize}</p>
+                </div>
               </div>
             </div>
           ))}
         </div>
+        <br /><br />
         <p>{brand}의 인기 상품</p>
+        <div className='recom-cards'>
+          {brandClothes.map((cloth, idx) => (
+            <div className='card' key={idx} onClick={() => history.push(`/item/${cloth.newClothId}`)} title={`${cloth.clothName}`}>
+              <div className='card-image'>
+                <img src={cloth.clothImg} alt='cloth' />
+              </div>
+              <div className='card-text'>
+                <p className='one-line'>{cloth.brand}</p>
+                <p className='two-line'>{cloth.clothName}</p>
+                <div>
+                  <p className='one-line'>Price: {cloth.clothPrice}원</p>
+                  <p className='one-line'>Size: {cloth.goodsSize}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
         <div></div>
       </div>
     </section>
