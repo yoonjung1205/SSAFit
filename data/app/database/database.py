@@ -248,18 +248,18 @@ def get_cloth_by_user_info(clothId, userId):
 def change_user_info(userId, newClothId, num):
     cloth = get_cloth(newClothId)
     largecategory = cloth['largeCategory']
-    smallcategory = ''
+    smallCategorySelect = ''
     # style = []
-    color = ''
+    colorSelect = ''
     for idx, col in enumerate(cloth):
         if 'smallCategory' in col and cloth[col] == 1:
-            smallcategory = col
+            smallCategorySelect = col
         # if col == 'color' or col=='size' or col=='bright' or col=='thickness':
         #     style.append(col)
         elif 'color' in col and cloth[col] == 1:
-            color = col
-    
-    col_list = ['size','bright','color','thickness','colorWhite', 
+            colorSelect = col
+    # 'size','bright','color','thickness',
+    col_list = ['colorWhite', 
         'colorGrey', 'colorBlack', 'colorRed', 'colorPink', 'colorOrange', 'colorIvory', 'colorYellow',
         'colorGreen', 'colorBlue', 'colorPurple', 'colorBrown', 'colorBeige', 'colorJean', 'colorPattern', 'colorOthers', 
         'smallCategoryHalfshort', 'smallCategoryShirt', 'smallCategoryCollar',
@@ -279,13 +279,13 @@ def change_user_info(userId, newClothId, num):
             # 모든 성분 * viewCnt
             if cat in col_list:
                 user[cat] *= user['viewCnt']
-                if cat == smallcategory:
+                if cat == smallCategorySelect:
                     user[cat] += 1
-                elif cat == color:
+                elif cat == colorSelect:
                     user[cat] += 1
                 # style
                 # elif :
-                db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'viewCnt': user['viewCnt'], f'{cat}': user[cat]}})
+                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
             
         # viewCnt += 1
         user['viewCnt'] += 1
@@ -294,7 +294,7 @@ def change_user_info(userId, newClothId, num):
             # 모든 성분 / viewCnt
             if cat in col_list:
                 user[cat] /= user['viewCnt']
-                db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'viewCnt': user['viewCnt'], f'{cat}': user[cat]}})
+                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
     
     # 좋아요 취소
     elif num == 2:
@@ -302,19 +302,21 @@ def change_user_info(userId, newClothId, num):
             # 모든 성분 * viewCnt
             if cat in col_list:
                 user[cat] *= user['viewCnt']
-                if cat == smallcategory:
+                if cat == smallCategorySelect and user[cat] >= 1:
                     user[cat] -= 1
                     
-                elif cat == color:
+                elif cat == colorSelect and user[cat] >= 1:
                     user[cat] -= 1
                 # style
                 # elif :
                 
-                db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'viewCnt': user['viewCnt'], f'{cat}': user[cat]}})
+                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
 
+        user['viewCnt'] -= 1
+        
         for idx, cat in enumerate(user):
             # 모든 성분 / viewCnt
             if cat in col_list:
                 user[cat] /= user['viewCnt']
-                db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'viewCnt': user['viewCnt'], f'{cat}': user[cat]}})
+                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
     return
