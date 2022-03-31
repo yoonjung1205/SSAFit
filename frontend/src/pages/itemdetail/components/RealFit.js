@@ -30,7 +30,6 @@ export default function RealFit({ review }) {
     return temp
   }
 
-  console.log(review)
 
   const CarouselItems = function({ele}){
     return (

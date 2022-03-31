@@ -17,7 +17,7 @@ const Edit = () => {
   useEffect(() => {
     setUserInfo(JSON.parse(window.sessionStorage.getItem('userInfo')))
   }, [])
-  
+
   useEffect(() => {
     const tmp = {
       email: userInfo.sub,
@@ -38,7 +38,6 @@ const Edit = () => {
   }
 
   const makeCredential = () => {
-    // 🎨🎨이메일을 어디서 가져오지? 로그인 했을때 local or session에 userData를 가지고 있어야 하는가? 아니면 react store에 따로 가지고 있어야 하는가?🎨🎨
     let user = {...credentials}
     delete user.imageUrl
     // console.log('delete:', user)
