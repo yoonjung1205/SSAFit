@@ -24,6 +24,7 @@ import com.ssafy.db.repository.UserRepository;
 import com.ssafy.mongodb.entity.Cloth;
 import com.ssafy.mongodb.repository.ClothRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -98,12 +99,12 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public MyLikeGoodsRes getMyGoodsList(int userId) {
+    public MyLikeGoodsRes getMyGoodsList(int userId, Pageable pageable) {
 
         MyLikeGoodsRes goodsListRes = new MyLikeGoodsRes();
 
         List<Integer> goodsIdList =  likeGoodsRepository.findGoodsIDByUserId(userId);
-        List<Goods> goodsList = goodsRepository.findByGOODSList(goodsIdList);
+        List<Goods> goodsList = goodsRepository.findByGOODSList(goodsIdList, pageable);
 
 
 

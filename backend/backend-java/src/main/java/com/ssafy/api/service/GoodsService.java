@@ -9,6 +9,7 @@ import com.ssafy.api.response.MyLikeGoodsRes;
 import com.ssafy.api.response.UserCommentRes;
 import com.ssafy.db.entity.User;
 import com.ssafy.mongodb.entity.Cloth;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface GoodsService {
 
     public void goodsCommentDelete(long commentSeq);
 
-    public MyLikeGoodsRes getMyGoodsList(int userId);
+    public MyLikeGoodsRes getMyGoodsList(int userId, Pageable pageable);
 
     public void likeGoods(Long userId, GoodReq goodReq);
 }
