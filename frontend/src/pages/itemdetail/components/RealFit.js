@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import left from '../images/arrow-left.png'
 import right from '../images/arrow-right.png'
+import Loading from '../../../components/Loading'
 import '../scss/realfit.scss'
 
 export default function RealFit({ review }) {
   const [page, setPage] = useState(0)
+  const [loading, setLoading] = useState(true)
   const [direc, setDirec] = useState(true)
 
   const realfit = []
@@ -39,8 +41,15 @@ export default function RealFit({ review }) {
     )
   }
 
+  useEffect(() => {
+    if (review.length > 0){
+      setLoading(false)
+    }
+  }, [review])
+
+
   return (
-    <section className='realfit-container'>
+    <section className='realfit-container' id='info'>
       <div className='realfit-header'>
         <h3 className='title'>Real Fit</h3>
         <p className='desc'>
@@ -49,7 +58,14 @@ export default function RealFit({ review }) {
           상품의 정보를 제공합니다.
         </p>
       </div>
-      <div className='carousel-box'>
+      {loading ? 
+      (<div className='no-items'>
+        {/* <img src="" alt="" /> */}
+        <h1>🤔</h1>
+        <h6>아직 사용자와 비슷한 리뷰가 없어요</h6>
+      </div>)
+      :
+      (<div className='carousel-box'>
         <img src={left} className='carousel-btn' style={{display: realfit.length > 4 ? 'block':'none'}}
           onClick={() => {setPage(page > 0 ? page-1 : realfit.length-1); setDirec(true)}}/>
         <div className='carousel-view'>
@@ -59,7 +75,7 @@ export default function RealFit({ review }) {
         </div>
         <img src={right} className='carousel-btn' style={{display: realfit.length > 4 ? 'block':'none'}}
           onClick={() => {setPage(page >= realfit.length-1 ? 0 : page+1); setDirec(false)}}/>
-      </div>
+      </div>)}
     </section>
   )
 }

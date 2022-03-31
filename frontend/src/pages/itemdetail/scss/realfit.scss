@@ -83,4 +83,19 @@
   .slide-right {
     animation: slide-out 1s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
+
+  .no-items {
+    display: flex;
+    flex-direction: column;
+    height: 30vh;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem;
+
+    h6 {
+      font-size: 1rem;
+      letter-spacing: 0.25px;
+      color: #777777;
+    }
+  }
 }
