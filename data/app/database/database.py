@@ -320,3 +320,38 @@ def change_user_info(userId, newClothId, num):
                 user[cat] /= user['viewCnt']
                 db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
     return
+
+def get_recent_items(userId):
+    user = db.user_ssafit.find_one({'userId':int(userId)})
+    try:
+        result = user['recentItems']
+        return result
+    except:
+        return '최근 본 상품이 없습니다.'
+    # if user['recentItems']:
+    #     return user['recentItems']
+    # else:
+    #     return
+
+
+def change_recent_item(userId, newClothId):
+    cloth = get_cloth(newClothId)
+    largecategory = cloth['largeCategory']
+    # user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': largecategory})
+    users = db.user_ssafit.find({'userId': int(userId)})
+    for user in users:
+        try:
+            # print('try', user['recentItems'])
+            if newClothId in user['recentItems']:
+                user['recentItems'].remove(newClothId)
+                user['recentItems'].append(newClothId)
+            else:
+                user['recentItems'].append(newClothId)
+            db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': user['recentItems']}})
+
+        except:
+            # print('except', user)
+            db.user_ssafit.aggregate([{'$match': {'userId': int(userId)}},{'$addFields': { 'recentItems': [] }}])
+            user['recentItems'].append(newClothId)
+            db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': user['recentItems']}})
+    return
