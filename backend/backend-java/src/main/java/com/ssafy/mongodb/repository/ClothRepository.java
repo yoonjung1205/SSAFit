@@ -1,5 +1,6 @@
 package com.ssafy.mongodb.repository;
 
+import com.ssafy.common.vo.SearchCloth;
 import com.ssafy.mongodb.entity.Cloth;
 import com.ssafy.mongodb.entity.Department;
 import org.bson.types.ObjectId;
@@ -11,5 +12,5 @@ import java.util.List;
 public interface ClothRepository  extends MongoRepository<Cloth, ObjectId> {
 
 
-    List<Cloth> findAllByClothNameRegex(String keywords);
+    List<SearchCloth> findAllByClothNameRegex(String keywords);
 }

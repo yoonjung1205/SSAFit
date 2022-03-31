@@ -1,5 +1,6 @@
 package com.ssafy.api.response;
 
+import com.ssafy.common.vo.SearchCloth;
 import com.ssafy.mongodb.entity.Cloth;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -16,5 +17,5 @@ import java.util.List;
 @NoArgsConstructor
 public class GoodsListRes {
 
-    private List<Cloth> goodsList;
+    private List<SearchCloth> goodsList;
 }

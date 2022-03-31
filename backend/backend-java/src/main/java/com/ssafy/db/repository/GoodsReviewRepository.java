@@ -1,0 +1,19 @@
+package com.ssafy.db.repository;
+
+import com.ssafy.db.entity.UserRefreshToken;
+import com.ssafy.db.entity.cloth.GoodsReview;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface GoodsReviewRepository  extends JpaRepository<GoodsReview, Long> {
+
+
+    List<GoodsReview> findByReviewId(String reviewId);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE GoodsReview g SET g.comment = :comment WHERE g.id = :id")
+    int updateComment(String comment, int id);
+}
