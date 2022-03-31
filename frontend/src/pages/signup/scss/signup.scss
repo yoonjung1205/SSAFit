@@ -136,6 +136,11 @@
         font-size: 1.25rem;
       }
 
+      input[type="password"] {
+        font-family: Verdana;
+        font-weight: bolder;
+      }
+
       input::placeholder {
         font-size: 1rem;
         color: #cccccc;
