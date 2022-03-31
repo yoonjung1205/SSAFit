@@ -20,8 +20,7 @@ public class Codi {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    User user;
+    int CODI_ID;
 
     String name;
 
