@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable jsx-a11y/img-redundant-alt */
+import React, { Suspense, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../scss/recommedation.scss'
 import { DA_URL } from '../../../Request';
 import { useHistory } from 'react-router-dom';
+import Loading from '../../../components/Loading'
 
 
 const Recommedation = ({ brand, newClothId }) => {
@@ -38,6 +40,14 @@ const Recommedation = ({ brand, newClothId }) => {
     getSimilarClothes().then(getBrandClothes)
   }, [])
 
+  const FailToLoad = function(){
+    return (
+    <div className='fail-container'>
+      <h1>🤔</h1>
+      <p>이미지를 불러오지 못했습니다</p>
+    </div>
+    )
+  }
 
   return (
     <section className='recommendation'>
@@ -49,10 +59,12 @@ const Recommedation = ({ brand, newClothId }) => {
       <div className='recom-body'>
         <p>유사한 상품 추천</p>
         <div className='recom-cards'>
-          {similarClothes.map((cloth, idx) => (
+          {
+          Object.keys(similarClothes).length > 0 ?
+          similarClothes.map((cloth, idx) => (
             <div className='card' key={idx} onClick={() => history.push(`/item/${cloth.newClothId}`)} title={`${cloth.clothName}`}>
               <div className='card-image'>
-                <img src={cloth.clothImg} alt='cloth' />
+              <img src={cloth.clothImg} alt='fail to load image... 🤔' />
               </div>
               <div className='card-text'>
                 <p className='one-line'>{cloth.brand}</p>
@@ -63,15 +75,20 @@ const Recommedation = ({ brand, newClothId }) => {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+          :
+          <Loading/>
+        }
         </div>
         <br /><br />
         <p>{brand}의 인기 상품</p>
         <div className='recom-cards'>
-          {brandClothes.map((cloth, idx) => (
+        {
+          Object.keys(brandClothes).length > 0 ?
+          brandClothes.map((cloth, idx) => (
             <div className='card' key={idx} onClick={() => history.push(`/item/${cloth.newClothId}`)} title={`${cloth.clothName}`}>
               <div className='card-image'>
-                <img src={cloth.clothImg} alt='cloth' />
+              <img src={cloth.clothImg} alt='fail to load image... 🤔' />
               </div>
               <div className='card-text'>
                 <p className='one-line'>{cloth.brand}</p>
@@ -82,7 +99,10 @@ const Recommedation = ({ brand, newClothId }) => {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+          :
+          <Loading/>
+        }
         </div>
         <div></div>
       </div>

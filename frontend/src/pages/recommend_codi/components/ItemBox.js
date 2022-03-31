@@ -33,10 +33,13 @@ export default function itembox({ items }) {
       url: `${DA_URL}/cloth/isSSAFIT/${clothId}?userId=${userId}`
     })
     .then(res => {
+      console.log(res)
       if (res.data) {
         history.push(`/item/${res.data}`)
       } else {
-        console.log('무신사로 go!')
+        if (!alert('해당 옷의 데이터가 없습니다. 무신사로 이동합니다')){
+          window.open(`https://store.musinsa.com/app/goods/${clothId}`)
+        }
       }
     })
     .catch(err => console.log(err, typeof(err)))
