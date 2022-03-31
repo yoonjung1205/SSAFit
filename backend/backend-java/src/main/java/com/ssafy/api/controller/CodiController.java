@@ -1,16 +1,12 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.CodiReq;
-import com.ssafy.api.request.ValidateEmailReq;
 import com.ssafy.api.response.CodiListRes;
-import com.ssafy.api.response.GoodsListRes;
-import com.ssafy.api.response.UserCommentRes;
 import com.ssafy.api.service.CodiService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.JwtTokenUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +63,7 @@ public class CodiController {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
         token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
-        int userId = jwtTokenUtil.getUserId(token);
+        long userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
 
         codiService.likeCodi(userId, codiReq);

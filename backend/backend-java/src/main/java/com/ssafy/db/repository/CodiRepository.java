@@ -14,11 +14,14 @@ import java.util.List;
 @Repository
 public interface CodiRepository  extends JpaRepository<Codi, Long> {
 
-    @Query("SELECT * FROM Codi Where CODI_ID IN (:codiIds)")
+    @Query(value = "SELECT * FROM Codi Where CODI_ID IN (:codiIds)", nativeQuery = true)
     List<Codi> findByCodiList(@Param("codiIds")List<Integer> codiIds);
 
+    @Query(value = "SELECT EXISTS(SELECT * FROM Codi WHERE CODI_ID = :CodiId)", nativeQuery = true)
+    int existsByCODI_ID(int CodiId);
 
-    boolean existsByCODI_ID(int codi_id);
+    @Query(value="SELECT * FROM Codi Where CODI_ID = :CodiId", nativeQuery = true)
+    Codi findByCODIID(int CodiId);
 
-    Codi findByCODI_ID(int codi_id);
+
 }

@@ -1,5 +1,6 @@
 package com.ssafy.api.response;
 
+import com.ssafy.common.vo.CodiForm;
 import com.ssafy.common.vo.SearchCloth;
 import com.ssafy.db.entity.codi.Codi;
 import io.swagger.annotations.ApiModel;
@@ -17,5 +18,5 @@ import java.util.List;
 @NoArgsConstructor
 public class CodiListRes {
 
-    private List<Codi> codiList;
+    private List<CodiForm> codiList;
 }

@@ -2,6 +2,8 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.CodiReq;
 import com.ssafy.api.response.CodiListRes;
+import com.ssafy.common.vo.CodiForm;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.codi.Codi;
 import com.ssafy.db.entity.codi.LikeCodi;
 import com.ssafy.db.entity.codi.UserCodi;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -32,19 +36,32 @@ public class CodiServiceImpl implements CodiService {
 
         CodiListRes codiListRes = new CodiListRes();
 
-        List<Integer> codiIdList =  likeCodiRepository.findCodiById(userId);
+        List<Integer> codiIdList =  likeCodiRepository.findCodiIDByUserId(userId);
         List<Codi> codiList = codiRepository.findByCodiList(codiIdList);
+        List<CodiForm> codiFormList = new ArrayList<>();
+        for(Codi codi : codiList) {
+            CodiForm codiForm = new CodiForm();
+            codiForm.setCODI_ID(codi.getCODI_ID());
+            codiForm.setCodiImg(codi.getCodiImg());
+            codiForm.setCodiTitle(codi.getCodiTitle());
+            codiForm.setTpo(codi.getTpo());
 
-        codiListRes.setCodiList(codiList);
+            String[] list = codi.getHashtags().split(",");
+            List<String> slist = Arrays.asList(list);
+            codiForm.setHashtags(slist);
+            codiFormList.add(codiForm);
+        }
+
+        codiListRes.setCodiList(codiFormList);
 
         return codiListRes;
     }
 
     @Override
-    public void likeCodi(int userId, CodiReq codiReq) {
+    public void likeCodi(Long userId, CodiReq codiReq) {
 
         //있으면 true
-        if(!codiRepository.existsByCODI_ID(codiReq.getCodiId())){
+        if(codiRepository.existsByCODI_ID(codiReq.getCodiId()) == 0){
             Codi codi = new Codi();
             codi.setCODI_ID(codiReq.getCodiId());
             codi.setCodiTitle(codiReq.getCodiTitle());
@@ -61,13 +78,20 @@ public class CodiServiceImpl implements CodiService {
             codiRepository.save(codi);
         }
 
-        Codi codi = codiRepository.findByCODI_ID(codiReq.getCodiId());
-        User user = userRe
+
+        Codi codi = codiRepository.findByCODIID(codiReq.getCodiId());
+        User user = userRepository.findUserById(userId);
         UserCodi userCodi = new UserCodi();
         userCodi.setCodi(codi);
-        userCodi.setUser();
+        userCodi.setUser(user);
         LikeCodi likeCodi = new LikeCodi();
-        likeCodi.setUserCodi();
-        likeCodiRepository.saveAndFlush()
+        likeCodi.setUserCodi(userCodi);
+
+        if(likeCodiRepository.existsByCodiIDAndUserID(codiReq.getCodiId(),userId) == 1){
+            likeCodiRepository.delete(likeCodi);
+        }else{
+            likeCodiRepository.saveAndFlush(likeCodi);
+        }
+
     }
 }

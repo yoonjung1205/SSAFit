@@ -11,7 +11,10 @@ import java.util.List;
 @Repository
 public interface LikeCodiRepository  extends JpaRepository<LikeCodi, Long> {
 
-    @Query("select CODI_ID from LikeCodi where user_id = :userId")
-    List<Integer> findCodiById(int userId);
 
+    @Query(value = "select CODI_ID from LikeCodi where USER_ID = :USERID",nativeQuery = true)
+    List<Integer> findCodiIDByUserId(int USERID);
+
+    @Query(value =  "SELECT EXISTS(SELECT * FROM LikeCodi WHERE CODI_ID = :codiId AND USER_ID = :userId)", nativeQuery = true)
+    int existsByCodiIDAndUserID(int codiId,long userId);
 }

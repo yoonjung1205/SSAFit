@@ -8,5 +8,5 @@ public interface CodiService {
 
     public CodiListRes getMyCodiList(int userId);
 
-    public void likeCodi(int userId,CodiReq codiReq);
+    public void likeCodi(Long userId,CodiReq codiReq);
 }
