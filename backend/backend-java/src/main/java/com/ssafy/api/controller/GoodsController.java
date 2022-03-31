@@ -1,27 +1,19 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.GoodReq;
-import com.ssafy.api.request.UserChangePwReq;
 import com.ssafy.api.request.UserCommentReq;
-import com.ssafy.api.response.GoodsListRes;
-import com.ssafy.api.response.UserCommentRes;
-import com.ssafy.api.response.UserLoginPostRes;
+import com.ssafy.api.response.*;
 import com.ssafy.api.service.GoodsService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.JwtTokenUtil;
-import com.ssafy.db.entity.User;
-import com.ssafy.mongodb.entity.Cloth;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Api(value = "옷 API", tags = {"Cloth."})
 @RestController
@@ -36,20 +28,49 @@ public class GoodsController {
     JwtTokenUtil jwtTokenUtil;
 
 
+    @GetMapping("/mylist")
+    @ApiOperation(value = "내가 좋아요한 goods List가져오기", notes = "내가 좋아요한 goods List가져온다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<MyLikeGoodsRes> myGoodsList(HttpServletRequest request) {
+        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+
+        int userId = jwtTokenUtil.getUserId(token);
+        System.out.println("userId : " + userId);
+
+
+        // codiList userid로 codiId List 들고오고
+        MyLikeGoodsRes myLikeGoodsRes = new MyLikeGoodsRes();
+        myLikeGoodsRes = goodsService.getMyGoodsList(userId);
+
+        return new ResponseEntity<MyLikeGoodsRes>(myLikeGoodsRes, HttpStatus.OK);
+
+    }
+
     @PostMapping("/like")
-    public void likeGood(@RequestBody @ApiParam(value="좋아요 등록", required = true) GoodReq goodReq, HttpServletRequest request){
-//        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-//        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
-//
-//        int userId = jwtTokenUtil.getUserId(token);
-//        System.out.println("userId : " + userId);
+    @ApiOperation(value = "goods 좋아요 누르기", notes = "goods 좋아요 누르기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> likeGoods(@RequestBody @ApiParam(value="이메일 정보", required = true) GoodReq goodReq, HttpServletRequest request) {
+        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
-        // 옷정보 저장 service
+        long userId = jwtTokenUtil.getUserId(token);
+        System.out.println("userId : " + userId);
 
-        // like 등록, service
-        System.out.print(goodReq.getClothId());
-        goodsService.goodInsert(goodReq);
+        goodsService.likeGoods(userId, goodReq);
 
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
     @GetMapping("/search")
