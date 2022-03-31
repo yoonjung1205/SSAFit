@@ -2,6 +2,7 @@ package com.ssafy.db.repository;
 
 import com.ssafy.db.entity.cloth.Goods;
 import com.ssafy.db.entity.codi.Codi;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,8 +17,10 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
     int existsByGOODS_ID(Long GoodsId);
 
 
-    @Query(value = "SELECT * FROM Goods Where GOODS_ID IN (:goodIds)", nativeQuery = true)
-    List<Goods> findByGOODSList(@Param("goodIds")List<Integer> codiIds);
+    @Query(value = "SELECT * FROM Goods Where GOODS_ID IN (:goodIds)",
+            countQuery = "SELECT count(*) FROM Goods Where GOODS_ID IN (:goodIds)"
+            , nativeQuery = true)
+    List<Goods> findByGOODSList(@Param("goodIds")List<Integer> codiIds, Pageable pageable);
 
     @Query(value="SELECT * FROM Goods Where GOODS_ID = :goodsId", nativeQuery = true)
     Goods findByGOODSID(long goodsId);

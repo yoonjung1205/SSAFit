@@ -12,6 +12,7 @@ import com.ssafy.db.repository.LikeCodiRepository;
 import com.ssafy.db.repository.UserRepository;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
@@ -32,12 +33,12 @@ public class CodiServiceImpl implements CodiService {
     UserRepository userRepository;
 
     @Override
-    public CodiListRes getMyCodiList(int userId) {
+    public CodiListRes getMyCodiList(int userId, Pageable pageable) {
 
         CodiListRes codiListRes = new CodiListRes();
 
         List<Integer> codiIdList =  likeCodiRepository.findCodiIDByUserId(userId);
-        List<Codi> codiList = codiRepository.findByCodiList(codiIdList);
+        List<Codi> codiList = codiRepository.findByCodiList(codiIdList,pageable);
         List<CodiForm> codiFormList = new ArrayList<>();
         for(Codi codi : codiList) {
             CodiForm codiForm = new CodiForm();

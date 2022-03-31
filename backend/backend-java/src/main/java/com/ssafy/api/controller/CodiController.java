@@ -8,6 +8,7 @@ import com.ssafy.common.util.JwtTokenUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class CodiController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<CodiListRes> myCodiList(HttpServletRequest request) {
+    public ResponseEntity<CodiListRes> myCodiList(HttpServletRequest request, Pageable pageable) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
         token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
@@ -44,7 +45,7 @@ public class CodiController {
 
         // codiList userid로 codiId List 들고오고
         CodiListRes codiListRes = new CodiListRes();
-        codiListRes = codiService.getMyCodiList(userId);
+        codiListRes = codiService.getMyCodiList(userId,pageable);
 
 
 
@@ -90,7 +91,7 @@ public class CodiController {
 
         // codiList userid로 codiId List 들고오고
         CodiListRes codiListRes = new CodiListRes();
-        codiListRes = codiService.getMyCodiList(userId);
+//        codiListRes = codiService.getMyCodiList(userId);
 
 
 

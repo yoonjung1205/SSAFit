@@ -9,6 +9,7 @@ import com.ssafy.common.util.JwtTokenUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class GoodsController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<MyLikeGoodsRes> myGoodsList(HttpServletRequest request) {
+    public ResponseEntity<MyLikeGoodsRes> myGoodsList(Pageable pageable, HttpServletRequest request) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
         token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
@@ -46,7 +47,7 @@ public class GoodsController {
 
         // codiList userid로 codiId List 들고오고
         MyLikeGoodsRes myLikeGoodsRes = new MyLikeGoodsRes();
-        myLikeGoodsRes = goodsService.getMyGoodsList(userId);
+        myLikeGoodsRes = goodsService.getMyGoodsList(userId,pageable);
 
         return new ResponseEntity<MyLikeGoodsRes>(myLikeGoodsRes, HttpStatus.OK);
 
