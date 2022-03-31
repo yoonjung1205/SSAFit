@@ -85,6 +85,9 @@ public class UserSkirt {
     private Number colorPattern = 0;
 
     @Field
+    private Number viewCnt = 0;
+
+    @Field
     private Number colorOthers = 0;
 
 

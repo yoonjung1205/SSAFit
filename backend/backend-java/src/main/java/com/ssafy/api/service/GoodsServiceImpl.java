@@ -1,6 +1,13 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserCommentReq;
 import com.ssafy.api.response.GoodsListRes;
+import com.ssafy.api.response.UserCommentRes;
+import com.ssafy.common.vo.SearchCloth;
+import com.ssafy.db.entity.cloth.Goods;
+import com.ssafy.db.entity.cloth.GoodsReview;
+import com.ssafy.db.repository.GoodsReviewRepository;
+import com.ssafy.db.repository.UserRepository;
 import com.ssafy.mongodb.entity.Cloth;
 import com.ssafy.mongodb.repository.ClothRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +21,58 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     ClothRepository clothRepository;
 
+    @Autowired
+    GoodsReviewRepository goodsReviewRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
     @Override
     public GoodsListRes goodsListSearchWord(String keywords) {
         GoodsListRes goodsListRes = new GoodsListRes();
-
-        List<Cloth> list = clothRepository.findAllByClothNameRegex(keywords + ".*");
+        SearchCloth searchCloth = new SearchCloth();
+        List<SearchCloth> list = clothRepository.findAllByClothNameRegex(keywords + ".*");
         goodsListRes.setGoodsList(list);
         System.out.println(list.get(0).getClothName());
         System.out.println(list.get(1).getClothName());
 
         return goodsListRes;
+    }
+
+    @Override
+    public UserCommentRes goodsCommentInsert(UserCommentReq userCommentReq) {
+        GoodsReview goodsReview = new GoodsReview();
+        goodsReview.setReviewId(userCommentReq.getReviewId());
+        goodsReview.setUser(userRepository.findUserByEmail(userCommentReq.getEmail()));
+        goodsReview.setComment(userCommentReq.getContents());
+        goodsReviewRepository.saveAndFlush(goodsReview);
+
+        UserCommentRes userCommentRes = new UserCommentRes();
+        userCommentRes.setGoodsReviewList(goodsReviewRepository.findByReviewId(userCommentReq.getReviewId()));
+        return userCommentRes;
+    }
+
+    @Override
+    public UserCommentRes goodsCommentList(String no) {
+
+        UserCommentRes userCommentRes = new UserCommentRes();
+        userCommentRes.setGoodsReviewList(goodsReviewRepository.findByReviewId(no));
+        return userCommentRes;
+
+    }
+
+    @Override
+    public UserCommentRes goodsCommentUpdate(UserCommentReq userCommentReq, int commentSeq) {
+        goodsReviewRepository.updateComment(userCommentReq.getContents(), commentSeq);
+
+        UserCommentRes userCommentRes = new UserCommentRes();
+        userCommentRes.setGoodsReviewList(goodsReviewRepository.findByReviewId(userCommentReq.getReviewId()));
+        return userCommentRes;
+    }
+
+    @Override
+    public void goodsCommentDelete(long commentSeq) {
+        goodsReviewRepository.deleteById(commentSeq);
+
     }
 }
