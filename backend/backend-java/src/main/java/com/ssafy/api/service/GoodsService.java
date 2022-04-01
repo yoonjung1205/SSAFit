@@ -25,7 +25,7 @@ public interface GoodsService {
 
     public UserCommentRes goodsCommentUpdate(UserCommentReq userCommentReq,int commentSeq);
 
-    public void goodsCommentDelete(long commentSeq);
+    public void goodsCommentDelete(int commentSeq);
 
     public MyLikeGoodsRes getMyGoodsList(int userId, Pageable pageable);
 
