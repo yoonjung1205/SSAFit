@@ -4,6 +4,7 @@ import '../scss/comment.scss'
 
 
 const Comment = ({ comment, commentList, setCommentList }) => {
+  const [viewComment, setViewComment] = useState('')
   const [inputText, setInputText] = useState('')
   const [isEdit, setIsEdit] = useState(false)
 
@@ -29,8 +30,9 @@ const Comment = ({ comment, commentList, setCommentList }) => {
       },
       withCredentials: true,
     })
-    .then((res) => {
-      console.log(res.data)
+    .then(() => {
+      setViewComment(inputText)
+      setIsEdit(false)
     })
     .catch(err => console.log(err, typeof(err)))
   }
@@ -52,6 +54,7 @@ const Comment = ({ comment, commentList, setCommentList }) => {
   }
 
   useEffect(() => {
+    setViewComment(comment.comment)
     setInputText(comment.comment)
   }, [])
 
@@ -66,7 +69,7 @@ const Comment = ({ comment, commentList, setCommentList }) => {
           <button onClick={() => putComment()}><span /><p>수정</p></button>
         </div>
         :
-        <div className='content'>{comment.comment}</div>
+        <div className='content'>{viewComment}</div>
         }
         {/* 댓글의 userId가 필요함 -> 지금 userId와 같은지 비교하기 위해 -> style display none*/}
         <div className='edit-btn' onClick={() => setIsEdit(!isEdit)}></div>
