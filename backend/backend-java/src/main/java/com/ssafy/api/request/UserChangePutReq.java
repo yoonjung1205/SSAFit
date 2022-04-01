@@ -24,5 +24,5 @@ public class UserChangePutReq {
 
     @ApiModelProperty(name="성별", example="0")
     int gender;
-    
+
 }
