@@ -18,6 +18,6 @@ public class UserCodi implements Serializable {
     User user;
 
     @ManyToOne
-    @JoinColumn(name="CODI_ID")
+    @JoinColumn(name="CODI_ID", referencedColumnName = "CODI_ID")
     Codi codi;
 }

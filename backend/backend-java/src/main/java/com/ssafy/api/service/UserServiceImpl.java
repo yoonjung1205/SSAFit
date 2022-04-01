@@ -6,7 +6,6 @@ import com.ssafy.api.request.ValidateEmailReq;
 import com.ssafy.db.entity.Gender;
 import com.ssafy.db.entity.User;
 import com.ssafy.oauth.entity.ProviderType;
-import com.sun.tools.javac.jvm.Gen;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
