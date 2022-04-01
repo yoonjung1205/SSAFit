@@ -44,13 +44,14 @@
         flex-direction: column;
 
         #gender-box {
+          width: 175px;
           flex-direction: row;
           justify-content: flex-end;
           align-items: center;
 
           .gender-label {
             font-size: 1rem;
-            margin: 0;
+            margin: 0 0.5rem;
           }
 
           input {
@@ -66,7 +67,7 @@
 
           .unit {
             position: absolute;
-            top: 25%;
+            top: 30%;
             right: 7.5%;
           }
         }

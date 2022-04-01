@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import './scss/NavigationBar.scss'
 
-const NavigationBar = ({boldPath}) => {
+const NavigationBar = ({ boldPath }) => {
   let history = useHistory()
   const [showSearchBar, setShowSearchBar] = useState(false)
   const [inputText, setInputText] = useState('')

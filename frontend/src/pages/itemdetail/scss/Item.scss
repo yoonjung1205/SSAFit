@@ -1,4 +1,7 @@
 .detail-container {
+  display: flex;
+  flex-direction: column;
+
   .detail-header {
     display: flex;
     flex-direction: column;
@@ -38,17 +41,38 @@
         display: flex;
         flex-direction: column;
         margin: 0 3rem;
+        
+        .name {
+          word-break: keep-all;
+        }
 
         .tags {
           color: royalblue;
           font-weight: bold;
+          word-break: keep-all;
         }
       }
     }
   }
 
   .anchor {
-    margin: 3rem;
+    margin: 3rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    a {
+      font-size: 1.5rem;
+      color: #333333;
+      letter-spacing: 0.5rem;
+      margin: 0 2rem;
+      text-decoration: none;
+    }
+
+    img {
+      width: 0.5px;
+      height: 1.5rem;
+    }
   }
 
   button {

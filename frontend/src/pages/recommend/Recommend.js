@@ -5,9 +5,6 @@ import Footer from '../../components/Footer';
 import NavigationBar from '../../components/NavigationBar';
 import RecCategory from './compoenets/recCategory'
 import Loading from '../../components/Loading'
-import jwtDecode from 'jwt-decode'
-import axios from 'axios'
-import {DA_URL} from '../../Request'
 import './scss/Recommend.scss'
 
 const Recommend = ({ recommend, setter, getter }) => {
@@ -16,28 +13,40 @@ const Recommend = ({ recommend, setter, getter }) => {
   const [tab, setTab] = useState(false)
 
   const getRecAll = async function(){
-    const local = window.localStorage
+    const session = window.sessionStorage
 
     if (standard === 'color'){
       console.log('색깔?')
-      if (!local.getItem('color-rec')){
-        local.setItem('color-rec', JSON.stringify(await getter('color')))
+      if (!session.getItem('color-rec')){
+        try {
+          let res = await getter('color')
+          session.setItem('color-rec', JSON.stringify(res))
+        }
+        catch{}
       }
-      setter.color(JSON.parse(local.getItem('color-rec')))
+      setter.color(JSON.parse(session.getItem('color-rec')))
     }
     if (standard === 'style'){
       console.log('스타일?')
-      if (!local.getItem('style-rec')){
-        local.setItem('style-rec', JSON.stringify(await getter('style')))
+      if (!session.getItem('style-rec')){
+        try {
+          let res = await getter('style')
+          session.setItem('style-rec', JSON.stringify(res))
+        }
+        catch{}
       }
-      setter.style(JSON.parse(local.getItem('style-rec')))
+      setter.style(JSON.parse(session.getItem('style-rec')))
     }
     if (standard === 'category'){
       console.log('카테고리?')
-      if (!local.getItem('category-rec')){
-        local.setItem('category-rec', JSON.stringify(await getter('category')))
+      if (!session.getItem('category-rec')){
+        try {
+          let res = await getter('category')
+          session.setItem('category-rec', JSON.stringify(res))
+        }
+        catch{}
       }
-      setter.category(JSON.parse(local.getItem('category-rec')))
+      setter.category(JSON.parse(session.getItem('category-rec')))
     }
   }
 
@@ -70,10 +79,10 @@ const Recommend = ({ recommend, setter, getter }) => {
       </section>
       <br />
       <section className='rec-choice'>
-        <div className={`choice ${tab === 'size' ? 'rec-active' : ''}`} onClick={() => setTab('size')}><h5>사이즈</h5></div>
+        <div className={`choice ${standard === 'size' ? 'rec-active' : ''}`} onClick={() => setStandard('size')}><h5>사이즈</h5></div>
         <div className='choice-line'></div>
         <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onClick={() => setTab(true)}><h5>취향</h5></div>
-        <div className='tab-container' style={{display: `${tab? 'block':'none'}`}} onClick={e => {if (e.target.className === 'tab-container'){setTab(false)}}}>
+        <div className='tab-container' style={{display: `${tab? 'flex':'none'}`}} onClick={e => {if (e.target.className === 'tab-container'){setTab(false)}}}>
           <div className='tab-box'>
             <h4>Recommend By</h4>
             <div className='tabs'>

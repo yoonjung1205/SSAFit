@@ -1,40 +1,27 @@
+/* eslint-disable no-useless-escape */
 import NavigationBar from "../../components/NavigationBar";
 import Footer from "../../components/Footer";
 import './scss/EditPassword.scss'
 import corr from './images/corr.png'
 import incorr from './images/incorr.png'
-import { useEffect, useState } from "react";
-import { BE_URL, accessToken, refreshToken } from "../../Request";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import CustomAxios from "../../CustomAxios";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
-const EditPassword = () => {
-  let history = useHistory()
-
-  const [userInfo, setUserInfo] = useState({})
-  useEffect(() => {
-    let tmp = window.sessionStorage.getItem('userInfo')
-    tmp = JSON.parse(tmp)
-    setUserInfo(tmp)
-  }, [])
-
+const EditPassword = ({ user }) => {
+  const history = useHistory()
 
   const [checkedCurrent, setCheckedCurrent] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
   const checkCurrentPassword = e => {
     e.preventDefault()
     // 🎨🎨현재 비밀번호가 맞는지 요청은 post🎨🎨
-    axios({
+    CustomAxios({
       method: 'post',
-      url: `${BE_URL}/auth/user/pw`,
-      headers: {
-        "Content-type": "application/json",
-        "Authorization": accessToken,
-        // "Refresh" : refreshToken
-      },
+      url: `/api_be/auth/user/pw`,
       withCredentials: true,
-      data: {email: userInfo.sub, password: currentPassword},
+      data: {email: user.sub, password: currentPassword},
     })
     .then(() => {
       // 맞으면 setChecked(true)
@@ -97,16 +84,11 @@ const EditPassword = () => {
     isValid()
     .then(() => {
       // 🎨🎨비밀번호가 유효하면 password만 담아서 변경 요청(put) 보내기
-      axios({
+      CustomAxios({
         method: 'put',
-        url: `${BE_URL}/auth/user/pw`,
-        headers: {
-          "Content-type": "application/json",
-          "Authorization": accessToken,
-          // "Refresh" : refreshToken
-        },
+        url: `/api_be/auth/user/pw`,
         withCredentials: true,
-        data: {email: userInfo.sub, password: credentials.password},
+        data: {email: user.sub, password: credentials.password},
       })
       .then(() => {
         alert('비밀번호가 변경되었습니다')

@@ -3,53 +3,39 @@ import { useEffect, useState } from "react";
 import NavigationBar from "../../components/NavigationBar";
 import Footer from "../../components/Footer";
 import './scss/Edit.scss'
-import axios from "axios";
-import { useHistory } from "react-router-dom";
-import { BE_URL, accessToken, refreshToken } from "../../Request";
+import CustomAxios from "../../CustomAxios";
+import jwtDecode from "jwt-decode";
+import defaultImage from './images/default.png'
 
-const Edit = () => {
-  let history = useHistory()
-  const [userInfo, setUserInfo] = useState({})
-  const [credentials, setCredentials] = useState({})
+const Edit = ({ user, history }) => {
+  // 로그인 한 사용자만 허용
+  if (!Object.keys(user).length){
+    history.push('/login')
+  }
+
+  const [credentials, setCredentials] = useState({...user})
   const [profileImage, setProfileImage] = useState('')
-  
+
   useEffect(() => {
-    const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-    setUserInfo(userInfo)
-  }, [])
-  
-  useEffect(() => {
-    const tmp = {
-      email: userInfo.sub,
-      imageUrl: userInfo.profileImg,
-      nickname: userInfo.name,
-      height: userInfo.height,
-      weight: userInfo.weight,
-      gender: userInfo.gender === 'MALE' ? 1 : 0
-    }
-    setCredentials(tmp)
-    setProfileImage(userInfo.imageUrl)
-  }, [userInfo])
+    setProfileImage(user.profileImage)
+  }, [user])
 
   const fileUpload = e => {
     const file = e.target.files[0]
-    setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
+    setCredentials({...credentials, profileImage: URL.createObjectURL(file)})
     setProfileImage(file)
   }
 
   const makeCredential = () => {
-    // 🎨🎨이메일을 어디서 가져오지? 로그인 했을때 local or session에 userData를 가지고 있어야 하는가? 아니면 react store에 따로 가지고 있어야 하는가?🎨🎨
-    let user = {...credentials}
-    delete user.imageUrl
-    // console.log('delete:', user)
+    let userInfo = {...credentials}
+    delete userInfo.profileImage
     user.profileImage = profileImage
-    // console.log('update:', user)
-    // console.log(user)
     const formdata = new FormData()
-    for (const key in user){
-      formdata.append(key, user[key])
+
+    for (const key in userInfo){
+      formdata.append(key, userInfo[key])
     }
-    // console.log('last:', user)
+
     return formdata
   }
 
@@ -59,7 +45,7 @@ const Edit = () => {
     const invalidKeys = []
 
     return new Promise((resolve, reject) => {
-      if (!credentials.nickname || credentials.nickname.length < 2 || validatorNickName.test(credentials.nickname)){
+      if (!credentials.name || credentials.name.length < 2 || validatorNickName.test(credentials.name)){
         invalidKeys.push('닉네임')
       }
       if (!credentials.height || credentials.height < 100 || credentials.height > 210){
@@ -68,7 +54,7 @@ const Edit = () => {
       if (!credentials.weight || credentials.weight < 30 || credentials.weight > 160){
         invalidKeys.push('몸무게')
       }
-      if (credentials.gender !== 0 && credentials.gender !== 1){
+      if (credentials.gender !== "MALE" && credentials.gender !== "FEMALE" && credentials.gender !== 0 && credentials.gender !== 1){
         invalidKeys.push('성별')
       }
       if (invalidKeys.length > 0){
@@ -82,39 +68,35 @@ const Edit = () => {
 
   const submit = e => {
     e.preventDefault()
+
     isValid()
     .then(() => {
-      const userInfo = makeCredential()
-      axios({
-        method: 'put',
-        url: `${BE_URL}/auth/user`,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': accessToken,
-          // 'Refresh': refreshToken
-        },
-        data: userInfo
-      })
-    })
-    .then(() => {
-      // 🎨🎨원래 저장해둔 userData에 update된 userData 씌우기🎨🎨
-      // ⭕❌ 혹시 수정 성공하면 이미지, 이름, 키, 몸무게, 성별 보내줄 수 있는가?
-      // mypage로 보내기
-      let current = userInfo
-      const tmp = {
-        profileImg: credentials.imageUrl,
-        name: credentials.nickname,
-        height: credentials.height,
-        weight: credentials.weight,
-        gender: credentials.gender === 1 ? 'MALE' : 'FEMALE'
+      const data = makeCredential()
+      console.log(data.entries)
+      for (const i of data.entries()){
+        console.log(i)
       }
-      Object.assign(current, tmp)
-      // console.log(current)
-      window.sessionStorage.setItem('userInfo', JSON.stringify(current))
-      history.push('/mypage')
+      CustomAxios({
+        method: 'put',
+        url: '/api_be/auth/user',
+        headers: {'Content-Type': 'multipart/form-data'},
+        data: data
+      })
+      .then(res => {
+        console.log('되긴함')
+        const session = window.sessionStorage
+        const accessToken = res.headers.authorization
+        const refreshToken = res.headers.refreshtoken
+        session.setItem('access-token-jwt', accessToken)
+        session.setItem('refresh-token-jwt', refreshToken)
+        session.setItem('userInfo', JSON.stringify(jwtDecode(accessToken)))
+      })
+      .then(() => {
+        history.push('/mypage')
+      })
+      .catch(err => console.log(err))
     })
     .catch(err => {
-      // console.log(err, typeof(err))
       if (typeof(err) !== Object) {
         return alert(`${err.join(', ')}를 확인해주세요!`)
       }
@@ -130,7 +112,7 @@ const Edit = () => {
           <form onSubmit={(e) => submit(e)}>
             {/* 프로필 사진 */}
             <label className="profile" htmlFor="profile"
-              style={{backgroundImage: `url(${credentials.imageUrl})`}}>
+              style={{backgroundImage: `url(${credentials.profileImage.length ? credentials.profileImage:defaultImage})`}}>
               <input type="file" id="profile" accept="image/jpg, image/png, image/jpeg"
                 onChange={e => fileUpload(e)} />
             </label>
@@ -140,8 +122,8 @@ const Edit = () => {
               <div className="input-box">
                 <input type="text" id="nickname"
                   placeholder="특수문제를 제외한 2~10자로 입력하세요" maxLength="10"
-                  value={credentials.nickname}
-                  onChange={(e) => setCredentials({...credentials, nickname: e.target.value})}/>
+                  value={credentials.name}
+                  onChange={(e) => setCredentials({...credentials, name: e.target.value})}/>
               </div>
             </label>
             {/* 키 */}
@@ -170,19 +152,19 @@ const Edit = () => {
             <div className="input-form">
               <div className="label-text">성별</div>
               <div className="input-box">
-                <input type="radio" id="male" checked={credentials.gender === 1}
+                <input type="radio" id="male" checked={credentials.gender === "MALE"}
                   onChange={() => setCredentials({...credentials, gender: 1})}
                 /><label className="gender-label" htmlFor="male">남성</label>
-                <input type="radio" id="female" checked={credentials.gender === 0}
+                <input type="radio" id="female" checked={credentials.gender === "FEMALE"}
                   onChange={() => setCredentials({...credentials, gender: 0})}
                 /><label className="gender-label" htmlFor="female">여성</label>
               </div>
             </div>
           </form>
           <div className="buttons">
-            <button className={`left-btn ${userInfo.oauth === 1 ? 'oauth' : ''}`} onClick={() => history.push('/edit-password')}
+            <button className={`left-btn ${credentials.oauth === 1 ? 'oauth' : ''}`} onClick={() => history.push('/edit-password')}
             ><span /><p>비밀번호 변경</p></button>
-            <button className={`right-btn ${userInfo.oauth === 1 ? 'oauth' : ''}`} onClick={(e) => submit(e)}
+            <button className={`right-btn ${credentials.oauth === 1 ? 'oauth' : ''}`} onClick={(e) => submit(e)}
             ><span /><p>수정</p></button>
           </div>
         </section>
