@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import GoogleLogin from './components/GoogleLogin'
 import KakaoLogin from './components/KakaoLogin'
 import {Link} from 'react-router-dom'
-import axios from 'axios'
+import CustomAxios from '../../CustomAxios'
 import './scss/login.scss'
 
 
@@ -14,14 +14,13 @@ export default function Login({ history }) {
   })
 
   const signIn = function(){
-    axios({
+    CustomAxios({
       method: 'post',
-      baseURL: 'https://ssafit.site/api_be',
-      url: '/auth/login',
+      url: '/api_be/auth/login',
       data: {
         email: credentials.email,
         password: credentials.password
-      }
+      },
     })
     .then(res => {
       const session = window.sessionStorage

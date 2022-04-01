@@ -91,15 +91,21 @@
         overflow: hidden;
         z-index: 1;
         &.left-btn {
+          background-color: #777777;
+          span {
+            background-color: #aaaaaa;
+          }
+          &.oauth {
+            display: none;
+          }
+        }
+        &.right-btn {
           background-color: #56586C;
           span {
             background-color: #3c3d47;
           }
-        }
-        &.right-btn {
-          background-color: #777777;
-          span {
-            background-color: #aaaaaa;
+          &.oauth {
+            width: 100%;
           }
         }
         span {

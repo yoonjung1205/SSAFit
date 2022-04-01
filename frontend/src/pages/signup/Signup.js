@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import corr from './images/corr.png'
 import incorr from './images/incorr.png'
-import axios from 'axios'
+import CustomAxios from '../../CustomAxios'
 import './scss/signup.scss'
 
 
@@ -44,10 +44,9 @@ export default function Signup({ history }) {
   const validator = function(target){
     if (target === 'email'){
       /////////////// 이메일 중복검사 //////////////////
-      axios({
+      CustomAxios({
         method: 'post',
-        baseURL: 'https://ssafit.site/api_be',
-        url: '/auth/email/confirms',
+        url: '/api_be/auth/email/confirms',
         data: {email: credentials.email}
       })
       .then(() => setValidData({...validData, email: 1}))

@@ -1,0 +1,74 @@
+.recommendation {
+  padding: 4rem;
+
+  .recom-header {
+    p {
+      color: #777777;
+    }
+  }
+
+  .recom-body {
+    .recom-cards {
+      padding: 0 3rem;
+      display: flex;
+      justify-content: space-between;
+      .card {
+        cursor: pointer;
+        position: relative;
+        width: 15%;
+        aspect-ratio: 1/1.2;
+        &:hover {
+          .card-text {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 1.05rem;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.65);
+            color: white;
+          }
+        }
+
+        .card-image {
+          width: 100%;
+          height: 100%;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+          .fail-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            p {
+              color: #777777;
+            }
+          }
+        }
+
+        .card-text {
+          display: none;
+          p {
+            margin: 0.5rem;
+            letter-spacing: 0.1rem;
+            &.one-line {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            &.two-line {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+            }
+          }
+        }
+
+      }
+    }
+  }
+}

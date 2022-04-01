@@ -7,7 +7,6 @@ import LikeCloth from './component/LikeCloth'
 import LikeCodi from './component/LikeCodi'
 import Faq from './component/Faq'
 import './scss/Mypage.scss'
-import { user } from './data';
 import { Col, Row } from 'react-bootstrap';
 
 const Mypage = () => {
@@ -15,9 +14,9 @@ const Mypage = () => {
   const [menu, setMenu] = useState('recent')
   const colorHanger = 'https://i.ibb.co/cTB977h/free-icon-clothes-hanger-3100599.png'
   const whiteHanger = 'https://i.ibb.co/18ktfCy/free-icon-clothes-hanger-3100575.png'
-
+  
   useEffect(() => {
-    setMyinfo(user)
+    setMyinfo(JSON.parse(window.sessionStorage.getItem('userInfo')))
   }, [])
 
   return (

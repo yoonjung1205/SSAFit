@@ -2,39 +2,53 @@
 import React, { useEffect, useState } from 'react'
 import left from '../images/arrow-left.png'
 import right from '../images/arrow-right.png'
+import Loading from '../../../components/Loading'
 import '../scss/realfit.scss'
 
-export default function RealFit() {
-  const [page, setPage] = useState(9)
+export default function RealFit({ review }) {
+  const [page, setPage] = useState(0)
+  const [loading, setLoading] = useState(true)
   const [direc, setDirec] = useState(true)
 
-  console.log(direc)
-
   const realfit = []
-  for (let a = 0; a < 10; a++){
-    realfit.push({imageUrl: `https://cdn-icons-png.flaticon.com/512/1893/189323${a}.png`, desc: '이거 되는거죠?'})
+  for (let i = 0; i < review.length; i++){
+    realfit.push({imageUrl: review[i].reviewImg, desc: `${review[i].userHeight}/${review[i].userWeight} (${review[i].userSexMen ? '남':'여'})`})
   }
-
   const arr = () => {
     const temp = []
-    for (let i = page; i < page + 8; i++){
-      temp.push(i % realfit.length)
+    if (realfit.length < 4){
+      for (let i = 0; i < realfit.length; i++){
+        temp.push(i)
+      }
+    }
+    else {
+      for (let i = page; i < page + 6; i++){
+        temp.push(i % realfit.length)
+      }
     }
 
     return temp
   }
 
+
   const CarouselItems = function({ele}){
     return (
-    <span className={`carousel-card ${direc ? 'slide-left':'slide-right'}`}>
-      <img className='carousel-image' src={ele.imageUrl} alt="" />
+    <div className={`carousel-card ${direc ? 'slide-left':'slide-right'}`}>
+      <span className='carousel-image' style={{backgroundImage: `url(${ele.imageUrl})`}} />
       <p className='carousel-desc'>{ele.desc}</p>
-    </span>
+    </div>
     )
   }
 
+  useEffect(() => {
+    if (review.length > 0){
+      setLoading(false)
+    }
+  }, [review])
+
+
   return (
-    <section className='realfit-container'>
+    <section className='realfit-container' id='info'>
       <div className='realfit-header'>
         <h3 className='title'>Real Fit</h3>
         <p className='desc'>
@@ -43,15 +57,24 @@ export default function RealFit() {
           상품의 정보를 제공합니다.
         </p>
       </div>
-      <div className='carousel-box'>
-        <img src={left} className='carousel-btn' onClick={() => {setPage(page > 0 ? page-1 : realfit.length-1); setDirec(true)}}/>
+      {loading ? 
+      (<div className='no-items'>
+        {/* <img src="" alt="" /> */}
+        <h1>🤔</h1>
+        <h6>아직 사용자와 비슷한 리뷰가 없어요</h6>
+      </div>)
+      :
+      (<div className='carousel-box'>
+        <img src={left} className='carousel-btn' style={{display: realfit.length > 4 ? 'block':'none'}}
+          onClick={() => {setPage(page > 0 ? page-1 : realfit.length-1); setDirec(true)}}/>
         <div className='carousel-view'>
           <div className='carousel'>
-            {arr().map(idx => <CarouselItems ele={realfit[idx]} key={idx}/>)}
+            {arr().map((i, idx) => <CarouselItems ele={realfit[i]} key={idx}/>)}
           </div>
         </div>
-        <img src={right} className='carousel-btn' onClick={() => {setPage(page >= realfit.length-1 ? 0 : page+1); setDirec(false)}}/>
-      </div>
+        <img src={right} className='carousel-btn' style={{display: realfit.length > 4 ? 'block':'none'}}
+          onClick={() => {setPage(page >= realfit.length-1 ? 0 : page+1); setDirec(false)}}/>
+      </div>)}
     </section>
   )
 }

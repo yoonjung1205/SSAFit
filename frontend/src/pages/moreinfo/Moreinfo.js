@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import defaultImage from './images/default.png'
-import axios from 'axios'
+import CustomAxios from '../../CustomAxios'
 import './scss/moreinfo.scss'
 
 export default function Moreinfo({ history }) {
@@ -23,9 +23,6 @@ export default function Moreinfo({ history }) {
     let temp = query.split('=')
     firstCredentials[temp[0]] = temp[1]
   })
-
-  console.log(window.XMLHTTPRequest)
-  console.log(navigator)
 
   const isValid = function(){
     // eslint-disable-next-line no-useless-escape
@@ -73,9 +70,8 @@ export default function Moreinfo({ history }) {
     .then(() => {
       const userInfo = makeCredential()
 
-      return axios({
+      return CustomAxios({
         method: 'post',
-        baseURL: 'https://ssafit.site',
         url: '/api_be/auth/signup',
         headers: {'Content-Type': 'multipart/form-data'},
         data: userInfo
