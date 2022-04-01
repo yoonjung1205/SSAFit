@@ -34,7 +34,7 @@ const Review = ({ newClothId }) => {
   }
 
   return (
-    <section className='review-container'>
+    <section className='review-container' id='review'>
       <div className='review-header'>
         <h3>Review</h3>
         <p>사용자와 유사한 관심도,신체 사이즈 유저의 리뷰를 제공합니다.</p>

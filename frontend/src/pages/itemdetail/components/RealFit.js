@@ -2,12 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import left from '../images/arrow-left.png'
 import right from '../images/arrow-right.png'
-import Loading from '../../../components/Loading'
 import '../scss/realfit.scss'
 
 export default function RealFit({ review }) {
   const [page, setPage] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [exist, setExist] = useState(true)
   const [direc, setDirec] = useState(true)
 
   const realfit = []
@@ -42,7 +41,7 @@ export default function RealFit({ review }) {
 
   useEffect(() => {
     if (review.length > 0){
-      setLoading(false)
+      setExist(false)
     }
   }, [review])
 
@@ -57,9 +56,8 @@ export default function RealFit({ review }) {
           상품의 정보를 제공합니다.
         </p>
       </div>
-      {loading ? 
+      {exist ? 
       (<div className='no-items'>
-        {/* <img src="" alt="" /> */}
         <h1>🤔</h1>
         <h6>아직 사용자와 비슷한 리뷰가 없어요</h6>
       </div>)

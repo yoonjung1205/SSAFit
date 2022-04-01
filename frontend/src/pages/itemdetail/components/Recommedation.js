@@ -6,14 +6,13 @@ import { useHistory } from 'react-router-dom';
 import Loading from '../../../components/Loading'
 
 
-const Recommedation = ({ brand, newClothId }) => {
+const Recommedation = ({ user, brand, newClothId }) => {
   let history = useHistory()
 
   const [similarClothes, setSimilarClothes] = useState([])
   const [brandClothes, setBrandClothes] = useState([])
 
   useEffect(() => {
-    const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
     const getSimilarClothes = async () => {
       await CustomAxios({
         method: 'get',
@@ -41,7 +40,7 @@ const Recommedation = ({ brand, newClothId }) => {
 
 
   return (
-    <section className='recommendation'>
+    <section className='recommendation' id='recommend'>
       <div className='recom-header'>
         <h3>Recommendation</h3>
         <p>유사한 상품과, 같은 브랜드의 인기상품을 추천합니다.</p>

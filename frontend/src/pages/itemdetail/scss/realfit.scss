@@ -91,10 +91,10 @@
   .no-items {
     display: flex;
     flex-direction: column;
-    height: 30vh;
+    height: 20vh;
     justify-content: center;
     align-items: center;
-    margin: 4rem;
+    margin: 4rem 0 0 0;
 
     h6 {
       font-size: 1rem;

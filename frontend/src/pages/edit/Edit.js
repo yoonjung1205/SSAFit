@@ -69,12 +69,18 @@ const Edit = ({ user, setUser }) => {
     isValid()
     .then(() => {
       const data = makeCredential()
+      console.log(data.entries)
+      for (const i of data.entries()){
+        console.log(i)
+      }
       CustomAxios({
         method: 'put',
-        url: `/api_be/auth/user`,
+        url: '/api_be/auth/user',
+        headers: {'Content-Type': 'multipart/form-data'},
         data: data
       })
       .then(res => {
+        console.log('되긴함')
         const session = window.sessionStorage
         const accessToken = res.headers.authorization
         const refreshToken = res.headers.refreshtoken
