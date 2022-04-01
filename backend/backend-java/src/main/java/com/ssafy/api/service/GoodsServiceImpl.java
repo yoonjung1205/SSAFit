@@ -93,8 +93,8 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public void goodsCommentDelete(long commentSeq) {
-        goodsReviewRepository.deleteById(commentSeq);
+    public void goodsCommentDelete(int commentSeq) {
+        goodsReviewRepository.deleteById((long) commentSeq);
 
     }
 

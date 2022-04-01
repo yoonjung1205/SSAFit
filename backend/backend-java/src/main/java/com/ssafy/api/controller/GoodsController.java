@@ -61,7 +61,7 @@ public class GoodsController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> likeGoods(@RequestBody @ApiParam(value="이메일 정보", required = true) GoodReq goodReq, HttpServletRequest request) {
+    public ResponseEntity<? extends BaseResponseBody> likeGoods(@RequestBody GoodReq goodReq, HttpServletRequest request) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
         token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
@@ -82,7 +82,7 @@ public class GoodsController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<GoodsListRes> searchGoods(@RequestParam @ApiParam(value="옷 정보 검색 uri 파라미터", required = true) String keyword) {
+    public ResponseEntity<GoodsListRes> searchGoods(@RequestParam String keyword) {
 
         GoodsListRes goodsListRes;
         System.out.println(keyword);
@@ -157,7 +157,7 @@ public class GoodsController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> goodsCommentDelete(
-            @PathVariable long commentSeq) {
+            @PathVariable int commentSeq) {
 
         goodsService.goodsCommentDelete(commentSeq);
 
