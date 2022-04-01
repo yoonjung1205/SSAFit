@@ -41,17 +41,6 @@ def getImgReview(newClothId: int, userId: int):
     result = get_img_reviews(newClothId, userId)
     return result
 
-@router.get('/cloth/brand/{newClothId}/{userId}', tags=["Cloth"])
-def getBrandClothes(newClothId: int, userId: int):
-    result = get_brand_clothes(newClothId, userId)
-    return result
-
-@router.get('/cloth/similar/{newClothId}', tags=["Cloth"])
-def getSimilarClothes(newClothId: int):
-    result = get_similar_clothes(newClothId)
-    return result
-
-
 @router.get('/cloth/isSSAFIT/{clothId}', tags=["Cloth"])
 def getNewClothId(clothId: int, userId: int):
     result = get_cloth_by_user_info(clothId, userId)

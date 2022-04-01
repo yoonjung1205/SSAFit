@@ -127,7 +127,6 @@ def rec_category(userId: int):
     print(finish - start)
     return context
 
-
 @router.get('/cloth/brand/{newClothId}', tags=["Recommend"])
 def getBrandClothes(newClothId: int):
     result = get_brand_clothes(newClothId)
