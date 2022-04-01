@@ -32,7 +32,8 @@
     gap: 0;
     margin: 5rem 0 2rem 0;
     width: 100%;
-    a {
+    .service {
+      user-select: none;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -40,7 +41,12 @@
       color: black;
       aspect-ratio: 1/0.6;
       position: relative;
-  
+      &:hover {
+        h4 {
+          transition: 1s;
+          font-size: 3rem;
+        }
+      }
       h4 {
         z-index: 1;
         color: white;

@@ -36,18 +36,18 @@ export default function start2() {
         </div>
       </section>
       <section id='service-container' className='flex-row'>
-        <Link to='' id='link-1'>
+        <div className='service' id='link-1'>
           <div className='opac-blk' />
           <h4>체형 맞춤 옷</h4>
-        </Link>
-        <Link to='' id='link-2'>
+        </div>
+        <div className='service' id='link-2'>
           <div className='opac-blk' />
           <h4>상황 맞춤 코디</h4>
-        </Link>
-        <Link to='' id='link-3'>
+        </div>
+        <div className='service' id='link-3'>
           <div className='opac-blk' />
           <h4>취향 맞춤 옷</h4>
-        </Link>
+        </div>
       </section>
     </article>
   )

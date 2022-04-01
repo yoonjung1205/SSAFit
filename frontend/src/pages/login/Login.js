@@ -1,9 +1,10 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react'
 import GoogleLogin from './components/GoogleLogin'
 import KakaoLogin from './components/KakaoLogin'
 import {Link} from 'react-router-dom'
-import CustomAxios from '../../CustomAxios'
+import axios from 'axios'
+import { URL } from '../../CustomAxios'
 import './scss/login.scss'
 
 
@@ -14,9 +15,9 @@ export default function Login({ history }) {
   })
 
   const signIn = function(){
-    CustomAxios({
+    axios({
       method: 'post',
-      url: '/api_be/auth/login',
+      url: `${URL}/api_be/auth/login`,
       data: {
         email: credentials.email,
         password: credentials.password
@@ -33,16 +34,23 @@ export default function Login({ history }) {
       }
     })
     .catch(err => {
+      console.log(credentials)
       console.log(err)
       alert('입력정보를 확인해주세요!!')
     })
   }
 
+  useEffect(() => {
+    if (window.sessionStorage.getItem('access-token-jwt')){
+      history.push('/main')
+    } 
+  }, [])
+
   return (
     <article className='login-container'>
       <section className='img-box'>
         <Link to="/">
-          <img className='logo' src="img/logo_w.png" alt="image" />
+          <img className='logo' src="img/logo_w.png" alt="logoImage" />
         </Link>
       </section>
       <section className='login-body'>
@@ -51,14 +59,14 @@ export default function Login({ history }) {
           <label htmlFor="">
             이메일
             <input type="email" name="email" id="email"
-             placeholder='이메일을 입력하세요'
-             onInput={event => setCredentials({...credentials, email: event.target.value})} />
+              placeholder='이메일을 입력하세요'
+              onInput={event => setCredentials({...credentials, email: event.target.value})} />
           </label>
           <label htmlFor="">
             비밀번호
             <input type="password" name="password" id="password"
-             placeholder='비밀번호를 입력하세요'
-             onInput={event => setCredentials({...credentials, password: event.target.value})} />
+              placeholder='비밀번호를 입력하세요'
+              onInput={event => setCredentials({...credentials, password: event.target.value})} />
           </label>
           <button>
             <span/>

@@ -25,18 +25,26 @@ export default function ItemDetail({ user }) {
         method: 'get',
         url: `/api_da/cloth/${newClothId}`,
       })
-      .then(res => setItem(res.data))
+      .then(res => {
+        console.log('getCloth:', res.data)
+        console.log('getCloth:', res.data)
+        setItem(res.data)
+      })
       .catch(err => console.log(err, typeof(err)))
     }
 
     const getRealFit = async () => {
       await CustomAxios({
         method: 'get',
-        url: `/api_da/cloth/reviews/${newClothId}/${user.id}`,
+        url: `/api_da/cloth/reviews/${newClothId}`,
       })
-      .then(res => setRealFit(res.data))
+      .then(res => {
+        console.log('getRealFit', res.data)
+        setRealFit(res.data)
+      })
       .catch(err => console.log(err, typeof(err)))
     }
+
     getCloth()
     .then(getRealFit())
   }, [newClothId])
@@ -60,7 +68,7 @@ export default function ItemDetail({ user }) {
           female={item.userMale+item.userFemale === 2 ? 0 : item.userFemale}
           month={[item.month1, item.month2, item.month3, item.month4, item.month5, item.month6, item.month7, item.month8, item.month9, item.month10, item.month11, item.month12]}
           sum={item.month1 + item.month2 + item.month3 + item.month4 + item.month5 + item.month6 + item.month7 + item.month8 + item.month9 + item.month10 + item.month11 + item.month12}
-          />
+        />
         <Recommedation brand={item.brand} newClothId={newClothId} />
         <Reviews newClothId={newClothId} />
         <section className='detail-footer'>

@@ -83,13 +83,21 @@ function App() {
   })
 
   useEffect(() => {
-    console.log(location)
     if (location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login'){
       if (!Object.keys(user).length){
         if (!alert('로그인이 필요합니다.')){
           history.push('/login')
         }
       }
+    }
+    else if (location.pathname === '/main' && location.search){
+      const authorize = history.location.search.replace('?', '').split('&')
+
+      authorize.forEach(token => {
+        const temp = token.split('=')
+        session.setItem(temp[0], temp[1])
+      })
+      history.push('/main')
     }
   }, [location])
 
