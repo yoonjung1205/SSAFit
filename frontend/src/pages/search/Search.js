@@ -5,10 +5,7 @@ import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { parse } from 'query-string';
 import { useLocation, useHistory } from 'react-router-dom';
-import { searchClothes } from './data';
-import axios from 'axios';
-import { accessToken, BE_URL, refreshToken } from '../../Request';
-
+import CustomAxios from '../../CustomAxios';
 
 const Search = () => {
   let history = useHistory()
@@ -30,18 +27,11 @@ const Search = () => {
 
   useEffect(() => {
     const getSearchResult = async () => {
-      console.log(word)
-      await axios({
+      await CustomAxios({
         method: 'get',
-        url: `${BE_URL}/goods/search?keyword=${word}`,
-        headers: {
-          "Content-type": "application/json",
-          "Authorization": accessToken,
-          // "Refresh" : refreshToken
-        },
+        url: `/api_be/goods/search?keyword=${word}`,
         withCredentials: true,
       })
-      // .then(res => setClothes(res.data.goodsList))
       .then(res => {console.log(res.data.goodsList[0]); setClothes(res.data.goodsList)})
       .catch(err => console.log(err, typeof(err)))
     }

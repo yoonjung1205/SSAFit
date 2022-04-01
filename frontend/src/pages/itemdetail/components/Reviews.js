@@ -1,4 +1,4 @@
-import axios from 'axios';
+import CustomAxios from '../../../CustomAxios';
 import React, { useEffect, useState } from 'react';
 import { DA_URL, accessToken, refreshToken } from '../../../Request';
 import ReviewItem from './ReviewItem';
@@ -11,7 +11,7 @@ const Review = ({ newClothId }) => {
   const [pagenation, setPagenation] = useState({ page: 1, total: 0})
 
   const getReview = async () => {
-    await axios({
+    await CustomAxios({
       method: 'get',
       // url: `${DA_URL}/cloth/reviews/${newClothId}?page=${pagenation.page}&size=5`
       url: `${DA_URL}/cloth/reviews/${newClothId}?page=${4}&size=5`

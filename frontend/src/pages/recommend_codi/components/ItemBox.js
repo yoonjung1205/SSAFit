@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import axios from 'axios'
-import { DA_URL } from '../../../Request'
+import CustomAxios from '../../../CustomAxios'
 import React from 'react'
 import Loading from '../../../components/Loading'
 import { useHistory } from 'react-router-dom'
@@ -28,9 +27,9 @@ export default function itembox({ items }) {
   const getNewClothId = async (clothId) => {
     const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
     
-    await axios({
+    await CustomAxios({
       method: 'get',
-      url: `${DA_URL}/cloth/isSSAFIT/${clothId}?userId=${userId}`
+      url: `/api_da/cloth/isSSAFIT/${clothId}?userId=${userId}`
     })
     .then(res => {
       console.log(res)

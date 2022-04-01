@@ -4,8 +4,7 @@ import './scss/EditPassword.scss'
 import corr from './images/corr.png'
 import incorr from './images/incorr.png'
 import { useEffect, useState } from "react";
-import { BE_URL, accessToken, refreshToken } from "../../Request";
-import axios from "axios";
+import CustomAxios from "../../CustomAxios";
 import { useHistory } from "react-router-dom";
 
 
@@ -25,14 +24,9 @@ const EditPassword = () => {
   const checkCurrentPassword = e => {
     e.preventDefault()
     // 🎨🎨현재 비밀번호가 맞는지 요청은 post🎨🎨
-    axios({
+    CustomAxios({
       method: 'post',
-      url: `${BE_URL}/auth/user/pw`,
-      headers: {
-        "Content-type": "application/json",
-        "Authorization": accessToken,
-        // "Refresh" : refreshToken
-      },
+      url: `/api_be/auth/user/pw`,
       withCredentials: true,
       data: {email: userInfo.sub, password: currentPassword},
     })
@@ -97,14 +91,9 @@ const EditPassword = () => {
     isValid()
     .then(() => {
       // 🎨🎨비밀번호가 유효하면 password만 담아서 변경 요청(put) 보내기
-      axios({
+      CustomAxios({
         method: 'put',
-        url: `${BE_URL}/auth/user/pw`,
-        headers: {
-          "Content-type": "application/json",
-          "Authorization": accessToken,
-          // "Refresh" : refreshToken
-        },
+        url: `/api_be/auth/user/pw`,
         withCredentials: true,
         data: {email: userInfo.sub, password: credentials.password},
       })

@@ -18,7 +18,7 @@ import Category from "./pages/category/Category";
 import Edit from "./pages/edit/Edit";
 import EditPassword from "./pages/edit/EditPassword";
 import jwtDecode from "jwt-decode";
-import axios from 'axios'
+import CustomAxios from './CustomAxios'
 import {DA_URL} from './Request'
 
 function App() {
@@ -43,10 +43,9 @@ function App() {
 
   const getRec = async function(path){
     let response;
-    await axios({
+    await CustomAxios({
       method: 'get',
-      baseURL: DA_URL,
-      url: `/recommend/${path}/${user.id}`
+      url: `/api_da/recommend/${path}/${user.id}`,
     })
     .then(res => response = res.data)
     .catch(err => console.log(err))

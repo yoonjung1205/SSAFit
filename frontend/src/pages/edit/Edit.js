@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import NavigationBar from "../../components/NavigationBar";
 import Footer from "../../components/Footer";
 import './scss/Edit.scss'
-import axios from "axios";
+import CustomAxios from "../../CustomAxios";
 import { useHistory } from "react-router-dom";
-import { BE_URL, accessToken, refreshToken } from "../../Request";
 import jwtDecode from "jwt-decode";
 
 const Edit = () => {
@@ -85,14 +84,9 @@ const Edit = () => {
     isValid()
     .then(() => {
       const data = makeCredential()
-      axios({
+      CustomAxios({
         method: 'put',
-        url: `${BE_URL}/auth/user`,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': accessToken,
-          // 'Refresh': refreshToken
-        },
+        url: `/api_be/auth/user`,
         data: data
       })
       .then(res => {
