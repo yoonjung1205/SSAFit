@@ -86,10 +86,10 @@ const ReviewItem = ({ no, review }) => {
           </div>
         </div>
         <div className='desc'>
-          <span className='item'>사이즈가 <span>{size[review.size]}</span></span>
-          <span className='item'>밝기가 <span>{bright[review.bright]}</span></span>
-          <span className='item'>색깔이 <span>{color[review.color]}</span></span>
-          <span className='item'>두께가 <span>{thickness[review.thickness]}</span></span>
+          {review.size && <span className='item'>사이즈가 <span>{size[review.size]}</span></span>}
+          {review.bright && <span className='item'>밝기가 <span>{bright[review.bright]}</span></span>}
+          {review.color && <span className='item'>색깔이 <span>{color[review.color]}</span></span>}
+          {review.thickness && <span className='item'>두께가 <span>{thickness[review.thickness]}</span></span>}
         </div>
         <div className='content'>
           {review.reviewContent.map((v, i) => <span key={i}>{v} </span>)}
@@ -111,13 +111,9 @@ const ReviewItem = ({ no, review }) => {
       <>
         <Col md={12} className='review-comments'>
           {commentList.length ? 
-          <>
-            {commentList.map((v, i) => <Comment key={i} comment={v} setCommentList={setCommentList} commentList={commentList} />)}
-          </>
+          commentList.map((v, i) => <Comment key={i} comment={v} setCommentList={setCommentList} commentList={commentList} />)
           :
-          <>
-            <p className='no-comments'>댓글이 없습니다...(*￣０￣)ノ</p><hr />
-          </>
+          <><p className='no-comments'>댓글이 없습니다...(*￣０￣)ノ</p><hr /></>
           }
         </Col>
         <Col md={12} className='write-comment'>

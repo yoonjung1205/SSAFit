@@ -59,17 +59,15 @@
   }
 
   .edit-btn {
-    padding: 1rem;
-    margin-right: 1%;
+    margin: 0.5rem;
     background-image: url('../images/edit.png');
     background-size: cover;
     aspect-ratio: 1/1;
     cursor: pointer;
   }
-
+  
   .del-btn {
-    padding: 0;
-    margin-right: 1%;
+    margin: 0.5rem;
     background-image: url('../images/del.png');
     background-size: cover;
     aspect-ratio: 1/1;

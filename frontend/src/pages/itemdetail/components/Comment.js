@@ -72,8 +72,12 @@ const Comment = ({ comment, commentList, setCommentList }) => {
         <div className='content'><p>{viewComment}</p></div>
         }
         {/* 댓글의 userId가 필요함 -> 지금 userId와 같은지 비교하기 위해 -> style display none*/}
-        <div className='edit-btn' onClick={() => setIsEdit(!isEdit)}></div>
-        <div className='del-btn' onClick={(comment) => delComment(comment.id)}></div>
+        {comment.user.email === JSON.parse(window.sessionStorage.getItem('userInfo')).sub &&
+        <>
+          <div className='edit-btn' onClick={() => setIsEdit(!isEdit)} />
+          <div className='del-btn' onClick={(comment) => delComment(comment.id)} />
+        </>
+        }
       </div>
       <hr />
     </>

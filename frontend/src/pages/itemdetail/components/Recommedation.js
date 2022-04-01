@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import CustomAxios from '../../../CustomAxios';
 import '../scss/recommedation.scss'
 import { useHistory } from 'react-router-dom';
 import Loading from '../../../components/Loading'
@@ -14,7 +14,7 @@ const Recommedation = ({ brand, newClothId }) => {
 
   useEffect(() => {
     const getSimilarClothes = async () => {
-      await axios({
+      await CustomAxios({
         method: 'get',
         url: `/api_da/cloth/similar/${newClothId}`
       })
@@ -25,7 +25,7 @@ const Recommedation = ({ brand, newClothId }) => {
       .catch(err => console.log(err, typeof(err)))
     }
     const getBrandClothes = async () => {
-      await axios({
+      await CustomAxios({
         method: 'get',
         url: `/api_da/cloth/brand/${newClothId}`
       })
