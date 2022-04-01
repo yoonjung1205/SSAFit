@@ -119,7 +119,7 @@ public class JwtTokenUtil {
                 .withClaim("gender",gender)
                 .withClaim("role",role)
                 .withClaim("id",id)
-                .withClaim("profileImg",url)
+                .withClaim("profileImage",url)
                 .withClaim("auth", 0)
                 .withClaim("oauth", 1)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
@@ -140,7 +140,7 @@ public class JwtTokenUtil {
                 .withClaim("gender",gender)
                 .withClaim("role",role)
                 .withClaim("id",id)
-                .withClaim("profileImg",url)
+                .withClaim("profileImage",url)
                 .withClaim("auth", 1)
                 .withClaim("oauth", 0)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
@@ -161,7 +161,7 @@ public class JwtTokenUtil {
                 .withClaim("gender",gender)
                 .withClaim("role",role)
                 .withClaim("id",id)
-                .withClaim("profileImg",url)
+                .withClaim("profileImage",url)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }

@@ -25,6 +25,4 @@ public class UserChangePutReq {
     @ApiModelProperty(name="성별", example="0")
     int gender;
 
-    @ApiModelProperty(name="프로필 이미지", example="https:@example")
-    String profileImg;
 }
