@@ -100,7 +100,7 @@ public class GoodsController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<UserCommentRes> goodsCommentInsert(
-            UserCommentReq userCommentReq) {
+            @RequestBody UserCommentReq userCommentReq) {
 
         UserCommentRes userCommentRes;
         userCommentRes = goodsService.goodsCommentInsert(userCommentReq);
