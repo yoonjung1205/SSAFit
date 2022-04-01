@@ -10,8 +10,18 @@ import time
 import pickle
 import lightfm
 from copy import deepcopy
+from pydantic import BaseModel
 
 router = APIRouter()
+
+class Rec(BaseModel):
+    newClothId : int
+    clothName : str
+    clothImg: str
+    brand: str
+    clothPrice: int
+    goodsSize: str
+    
 
 def sample_recommendation(model, clothes, users, user_ids):
     cnt = 1
@@ -127,12 +137,12 @@ def rec_category(userId: int):
     print(finish - start)
     return context
 
-@router.get('/cloth/brand/{newClothId}', tags=["Recommend"])
+@router.get('/cloth/brand/{newClothId}', response_model=list[Rec], tags=["Recommend"])
 def getBrandClothes(newClothId: int):
     result = get_brand_clothes(newClothId)
     return result
 
-@router.get('/cloth/similar/{newClothId}', tags=["Recommend"])
+@router.get('/cloth/similar/{newClothId}', response_model=list[Rec], tags=["Recommend"])
 def getSimilarClothes(newClothId: int):
     result = get_similar_clothes(newClothId)
     return result
