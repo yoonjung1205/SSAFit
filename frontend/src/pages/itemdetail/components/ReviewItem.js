@@ -1,4 +1,4 @@
-import axios from 'axios';
+import CustomAxios from '../../../CustomAxios';
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { BE_URL, accessToken, refreshToken } from '../../../Request';
@@ -15,7 +15,7 @@ const ReviewItem = ({ key, review }) => {
 
   useEffect(() => {
     const getComment = async () => {
-      await axios({
+      await CustomAxios({
         method: 'get',
         url: `${BE_URL}/goods/houses/comments/${key}`,
         headers: {

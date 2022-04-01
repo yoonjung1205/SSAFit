@@ -40,14 +40,6 @@ const Recommedation = ({ brand, newClothId }) => {
     getSimilarClothes().then(getBrandClothes)
   }, [])
 
-  const FailToLoad = function(){
-    return (
-    <div className='fail-container'>
-      <h1>🤔</h1>
-      <p>이미지를 불러오지 못했습니다</p>
-    </div>
-    )
-  }
 
   return (
     <section className='recommendation'>

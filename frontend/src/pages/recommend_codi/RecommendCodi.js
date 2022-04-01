@@ -1,17 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { Suspense, useEffect, useState } from 'react'
-import {Link} from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import like from './images/like.png'
 import dislike from './images/dislike.png'
 import ItemBox from './components/ItemBox'
 import NavigationBar from '../../components/NavigationBar'
 import Loading from '../../components/Loading'
 import './scss/recommend_codi.scss'
-import axios from 'axios'
-import {DA_URL} from '../../Request'
-// import axios from 'axios'
-// import dummy from './data/dummy.js'
+import CustomAxios from '../../CustomAxios'
 
 export default function RecommendCodi({ history, location }) {
   const [codi, setCodi] = useState({})
@@ -37,10 +33,9 @@ export default function RecommendCodi({ history, location }) {
   }
 
   const getCodi = function(){
-    axios({
+    CustomAxios({
       method: 'get',
-      baseURL: DA_URL,
-      url: 'codi/codi' + tpo
+      url: `/api_da/codi/codi${tpo}`
     })
     .then(res => setCodi(res.data))
   }
