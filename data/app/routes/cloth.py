@@ -24,6 +24,16 @@ class Review(BaseModel):
     bright: int
     color: int
     newGoodsNo: int
+    
+class ImgReview(BaseModel):
+    reviewId: int
+    userName: str
+    userSexMen: int
+    userSexWomen: int
+    userHeight: int
+    userWeight: int
+    goodsSize: str
+    reviewImg: str
 
 @router.get('/cloth/{newClothId}', tags=["Cloth"])
 def getCloth(newClothId: int):
@@ -36,21 +46,10 @@ def getReview(newClothId: int):
     result = get_reviews(newClothId)
     return paginate(result)
 
-@router.get('/cloth/reviews/{newClothId}/{userId}', tags=["Review"])
+@router.get('/cloth/reviews/{newClothId}/{userId}', response_model=list[ImgReview], tags=["Review"])
 def getImgReview(newClothId: int, userId: int):
     result = get_img_reviews(newClothId, userId)
     return result
-
-@router.get('/cloth/brand/{newClothId}/{userId}', tags=["Cloth"])
-def getBrandClothes(newClothId: int, userId: int):
-    result = get_brand_clothes(newClothId, userId)
-    return result
-
-@router.get('/cloth/similar/{newClothId}', tags=["Cloth"])
-def getSimilarClothes(newClothId: int):
-    result = get_similar_clothes(newClothId)
-    return result
-
 
 @router.get('/cloth/isSSAFIT/{clothId}', tags=["Cloth"])
 def getNewClothId(clothId: int, userId: int):
