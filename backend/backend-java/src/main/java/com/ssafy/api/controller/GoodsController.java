@@ -140,7 +140,7 @@ public class GoodsController {
     })
     public ResponseEntity<UserCommentRes> goodsCommentUpdate(
             @PathVariable long commentSeq,
-            UserCommentReq userCommentReq) {
+            @RequestBody UserCommentReq userCommentReq) {
 
         UserCommentRes userCommentRes;
         userCommentRes = goodsService.goodsCommentUpdate(userCommentReq,commentSeq);
