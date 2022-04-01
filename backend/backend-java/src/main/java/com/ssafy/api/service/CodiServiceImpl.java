@@ -6,9 +6,11 @@ import com.ssafy.common.vo.CodiForm;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.codi.Codi;
 import com.ssafy.db.entity.codi.LikeCodi;
+import com.ssafy.db.entity.codi.UnlikeCodi;
 import com.ssafy.db.entity.codi.UserCodi;
 import com.ssafy.db.repository.CodiRepository;
 import com.ssafy.db.repository.LikeCodiRepository;
+import com.ssafy.db.repository.UnLikeCodiRepository;
 import com.ssafy.db.repository.UserRepository;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,15 @@ public class CodiServiceImpl implements CodiService {
     LikeCodiRepository likeCodiRepository;
 
     @Autowired
+    UnLikeCodiRepository unLikeCodiRepository;
+
+    @Autowired
     CodiRepository codiRepository;
 
     @Autowired
     UserRepository userRepository;
+
+
 
     @Override
     public CodiListRes getMyCodiList(int userId, Pageable pageable) {
@@ -93,6 +100,44 @@ public class CodiServiceImpl implements CodiService {
         }else{
             likeCodiRepository.saveAndFlush(likeCodi);
         }
+
+    }
+
+    @Override
+    public void unlikeCodi(Long userId, CodiReq codiReq) {
+        //있으면 true
+        if(codiRepository.existsByCODI_ID(codiReq.getCodiId()) == 0){
+            Codi codi = new Codi();
+            codi.setCODI_ID(codiReq.getCodiId());
+            codi.setCodiTitle(codiReq.getCodiTitle());
+            codi.setCodiImg(codiReq.getCodiImg());
+            codi.setTpo(codiReq.getTpo());
+
+            StringBuilder sb = new StringBuilder();
+            for(String ht:codiReq.getHashtags()) {
+                sb.append(ht);
+                sb.append(",");
+            }
+            String hashtags = sb.substring(0,sb.length()-1);
+            codi.setHashtags(hashtags);
+            codiRepository.save(codi);
+        }
+
+
+        Codi codi = codiRepository.findByCODIID(codiReq.getCodiId());
+        User user = userRepository.findUserById(userId);
+        UserCodi userCodi = new UserCodi();
+        userCodi.setCodi(codi);
+        userCodi.setUser(user);
+        UnlikeCodi unlikeCodi = new UnlikeCodi();
+        unlikeCodi.setUserCodi(userCodi);
+
+        if(likeCodiRepository.existsByCodiIDAndUserID(codiReq.getCodiId(),userId) == 1){
+            unLikeCodiRepository.delete(unlikeCodi);
+        }else{
+            unLikeCodiRepository.saveAndFlush(unlikeCodi);
+        }
+
 
     }
 }
