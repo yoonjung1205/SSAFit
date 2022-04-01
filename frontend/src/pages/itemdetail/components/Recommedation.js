@@ -14,7 +14,6 @@ const Recommedation = ({ brand, newClothId }) => {
   const [brandClothes, setBrandClothes] = useState([])
 
   useEffect(() => {
-    const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
     const getSimilarClothes = async () => {
       await axios({
         method: 'get',
@@ -29,7 +28,7 @@ const Recommedation = ({ brand, newClothId }) => {
     const getBrandClothes = async () => {
       await axios({
         method: 'get',
-        url: `${DA_URL}/cloth/brand/${newClothId}/${userId}`
+        url: `${DA_URL}/cloth/brand/${newClothId}`
       })
       .then(res => {
         setBrandClothes(res.data)

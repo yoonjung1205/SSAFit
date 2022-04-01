@@ -41,7 +41,7 @@ const Review = ({ newClothId }) => {
       </div>
       <div className='review-body'>
         {reviews.map(review => (
-          <ReviewItem key={review.reviewId} review={review} />
+          <ReviewItem key={review.reviewId} review={review} no={review.reviewId} />
         ))}
       </div>
     </section>
