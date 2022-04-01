@@ -351,7 +351,10 @@ def get_recent_items(userId):
     user = db.user_ssafit.find_one({'userId':int(userId), 'largecategory': 1}, {'_id': 0})
     try:
         result = user['recentItems']
-        return result
+        clothes = []
+        for cloth_id in result:
+            clothes.append(db.cloth.find_one({'newClothId': cloth_id}, {'_id': 0}))
+        return clothes
     except:
         return '최근 본 상품이 없습니다.'
     # if user['recentItems']:
