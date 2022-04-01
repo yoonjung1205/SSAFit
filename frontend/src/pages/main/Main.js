@@ -8,10 +8,6 @@ import maintop from './images/maintop.png'
 
 const Main = ({ rec, setRec }) => {
   let history = useHistory()
-  const onClickButton = (path) => {
-    console.log(path, '로 이동')
-    history.push(path)
-  }
 
   useEffect(() => {
     const session = window.sessionStorage
@@ -26,8 +22,8 @@ const Main = ({ rec, setRec }) => {
     }
 
     if (!session.getItem('access-token-jwt')){
-      history.push('/login')
-    }
+     history.push('/login')
+    } 
   }, [])
 
   return (
@@ -42,25 +38,21 @@ const Main = ({ rec, setRec }) => {
           <h3>빅데이터 기반 알고리즘으로 맞춤 옷을 추천해드립니다</h3>
         </div>
       </section>
-
-
       <section className='main-tpo'>
         <img className='left' src="https://i.ibb.co/Qvy9XQW/tpo.png" alt="tpo-image" />
         <div className='right'>
           <h3>TPO</h3>
           <p className='content'>Time, Place, Occasion에 맞는 코디를 추천해드립니다.<br/>아이템의 키워드를 분석해 태그를 분류하고 라벨링하여<br/>최적의 추천을 제공합니다.</p>
-          <button onClick={() => onClickButton('/tpo')}>
+          <button onClick={() => history.push('/tpo')}>
             <span>TPO</span>
           </button>
         </div>
       </section>
-
-
       <section className='main-recommend'>
         <div className='left'>
           <h3>Recommend</h3>
           <p className='content'>유저 정보와 아이템의 리뷰, 유저의 로그를 분석하여<br/>높은 신뢰도의 상품 추천을 제공합니다.</p>
-          <button onClick={() => onClickButton('/recommend')}>
+          <button onClick={() => history.push('/recommend')}>
             <span>Recommend</span>
           </button>
         </div>

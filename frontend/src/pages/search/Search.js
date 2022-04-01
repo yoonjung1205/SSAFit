@@ -6,11 +6,13 @@ import { Card, Col, Row } from 'react-bootstrap';
 import { parse } from 'query-string';
 import { useLocation, useHistory } from 'react-router-dom';
 import CustomAxios from '../../CustomAxios';
+import Loading from '../../components/Loading';
 
 const Search = () => {
   let history = useHistory()
   let { word } = parse(useLocation().search)
 
+  const [loading, setLoading] = useState(true)
   const [clothes, setClothes] = useState([])
   const [page, setPage] = useState(1)
 
@@ -26,6 +28,7 @@ const Search = () => {
   }
 
   useEffect(() => {
+    setLoading(true)
     const getSearchResult = async () => {
       await CustomAxios({
         method: 'get',
@@ -33,29 +36,15 @@ const Search = () => {
         withCredentials: true,
       })
       .then(res => {console.log(res.data.goodsList[0]); setClothes(res.data.goodsList)})
-      .catch(err => console.log(err, typeof(err)))
+      .then(() => setLoading(false))
+      .catch(err => {console.log(err, typeof(err)); setLoading(false)})
     }
     getSearchResult()
   }, [word])
 
-  return (
-    <>
-      <NavigationBar boldPath='SEARCH' />
-      <article className='serach'>
-        <section className='search-top'>
-          <div>
-            <img className='left' src='https://i.ibb.co/GTGCmNp/left.png' alt='left' />
-            <h2 className='center'>{word}</h2>
-            <img className='right' src='https://i.ibb.co/jMFVpqn/right.png' alt='right' />
-          </div>
-        </section>
-        {clothes.length === 0 ? 
-        <>
-          <div className='no-search'>
-            <h4>"{word}"에 대한 결과가 없습니다</h4>
-          </div>
-        </>
-        : 
+  const SearchResult = () => {
+    if (clothes.length) {
+      return (
         <>
           <section className='search-middle'>
             <Row md={5} className='g-5'>
@@ -82,7 +71,29 @@ const Search = () => {
             </div>
           </section>
         </>
-        }
+      )
+    }
+    return (
+      <>
+        <div className='no-search'>
+          <h4>"{word}"에 대한 결과가 없습니다</h4>
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <NavigationBar boldPath='SEARCH' />
+      <article className='serach'>
+        <section className='search-top'>
+          <div>
+            <img className='left' src='https://i.ibb.co/GTGCmNp/left.png' alt='left' />
+            <h2 className='center'>{word}</h2>
+            <img className='right' src='https://i.ibb.co/jMFVpqn/right.png' alt='right' />
+          </div>
+        </section>
+        {loading ?  <Loading /> : <SearchResult /> }
       </article>
       <Footer />
     </>
