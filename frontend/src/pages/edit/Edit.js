@@ -6,48 +6,33 @@ import './scss/Edit.scss'
 import CustomAxios from "../../CustomAxios";
 import { useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import defaultImage from './images/default.png'
 
-const Edit = () => {
+const Edit = ({ user, setUser }) => {
   let history = useHistory()
-  const [userInfo, setUserInfo] = useState({})
-  const [credentials, setCredentials] = useState({})
+  const [credentials, setCredentials] = useState({...user})
   const [profileImage, setProfileImage] = useState('')
-  
-  useEffect(() => {
-    setUserInfo(JSON.parse(window.sessionStorage.getItem('userInfo')))
-  }, [])
 
   useEffect(() => {
-    const tmp = {
-      email: userInfo.sub,
-      imageUrl: userInfo.profileImg ? userInfo.profileImage : 'https://i.ibb.co/17HCkM1/default.png',
-      nickname: userInfo.name,
-      height: userInfo.height,
-      weight: userInfo.weight,
-      gender: userInfo.gender === 'MALE' ? 1 : 0
-    }
-    setCredentials(tmp)
-    setProfileImage(tmp.imageUrl)
-  }, [userInfo])
+    setProfileImage(user.profileImage)
+  }, [user])
 
   const fileUpload = e => {
     const file = e.target.files[0]
-    setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
+    setCredentials({...credentials, profileImage: URL.createObjectURL(file)})
     setProfileImage(file)
   }
 
   const makeCredential = () => {
-    let user = {...credentials}
-    delete user.imageUrl
-    // console.log('delete:', user)
+    let userInfo = {...credentials}
+    delete userInfo.profileImage
     user.profileImage = profileImage
-    // console.log('update:', user)
-    // console.log(user)
     const formdata = new FormData()
-    for (const key in user){
-      formdata.append(key, user[key])
+
+    for (const key in userInfo){
+      formdata.append(key, userInfo[key])
     }
-    // console.log('last:', user)
+
     return formdata
   }
 
@@ -57,7 +42,7 @@ const Edit = () => {
     const invalidKeys = []
 
     return new Promise((resolve, reject) => {
-      if (!credentials.nickname || credentials.nickname.length < 2 || validatorNickName.test(credentials.nickname)){
+      if (!credentials.name || credentials.name.length < 2 || validatorNickName.test(credentials.name)){
         invalidKeys.push('닉네임')
       }
       if (!credentials.height || credentials.height < 100 || credentials.height > 210){
@@ -66,7 +51,7 @@ const Edit = () => {
       if (!credentials.weight || credentials.weight < 30 || credentials.weight > 160){
         invalidKeys.push('몸무게')
       }
-      if (credentials.gender !== 0 && credentials.gender !== 1){
+      if (credentials.gender !== "MALE" && credentials.gender !== "FEMALE" && credentials.gender !== 0 && credentials.gender !== 1){
         invalidKeys.push('성별')
       }
       if (invalidKeys.length > 0){
@@ -100,9 +85,9 @@ const Edit = () => {
       .then(() => {
         history.push('/mypage')
       })
+      .catch(err => console.log(err))
     })
     .catch(err => {
-      // console.log(err, typeof(err))
       if (typeof(err) !== Object) {
         return alert(`${err.join(', ')}를 확인해주세요!`)
       }
@@ -118,7 +103,7 @@ const Edit = () => {
           <form onSubmit={(e) => submit(e)}>
             {/* 프로필 사진 */}
             <label className="profile" htmlFor="profile"
-              style={{backgroundImage: `url(${credentials.imageUrl})`}}>
+              style={{backgroundImage: `url(${credentials.profileImage.length ? credentials.profileImage:defaultImage})`}}>
               <input type="file" id="profile" accept="image/jpg, image/png, image/jpeg"
                 onChange={e => fileUpload(e)} />
             </label>
@@ -128,8 +113,8 @@ const Edit = () => {
               <div className="input-box">
                 <input type="text" id="nickname"
                   placeholder="특수문제를 제외한 2~10자로 입력하세요" maxLength="10"
-                  value={credentials.nickname}
-                  onChange={(e) => setCredentials({...credentials, nickname: e.target.value})}/>
+                  value={credentials.name}
+                  onChange={(e) => setCredentials({...credentials, name: e.target.value})}/>
               </div>
             </label>
             {/* 키 */}
@@ -158,19 +143,19 @@ const Edit = () => {
             <div className="input-form">
               <div className="label-text">성별</div>
               <div className="input-box">
-                <input type="radio" id="male" checked={credentials.gender === 1}
+                <input type="radio" id="male" checked={credentials.gender === "MALE"}
                   onChange={() => setCredentials({...credentials, gender: 1})}
                 /><label className="gender-label" htmlFor="male">남성</label>
-                <input type="radio" id="female" checked={credentials.gender === 0}
+                <input type="radio" id="female" checked={credentials.gender === "FEMALE"}
                   onChange={() => setCredentials({...credentials, gender: 0})}
                 /><label className="gender-label" htmlFor="female">여성</label>
               </div>
             </div>
           </form>
           <div className="buttons">
-            <button className={`left-btn ${userInfo.oauth === 1 ? 'oauth' : ''}`} onClick={() => history.push('/edit-password')}
+            <button className={`left-btn ${credentials.oauth === 1 ? 'oauth' : ''}`} onClick={() => history.push('/edit-password')}
             ><span /><p>비밀번호 변경</p></button>
-            <button className={`right-btn ${userInfo.oauth === 1 ? 'oauth' : ''}`} onClick={(e) => submit(e)}
+            <button className={`right-btn ${credentials.oauth === 1 ? 'oauth' : ''}`} onClick={(e) => submit(e)}
             ><span /><p>수정</p></button>
           </div>
         </section>

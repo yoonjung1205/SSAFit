@@ -13,40 +13,40 @@ const Recommend = ({ recommend, setter, getter }) => {
   const [tab, setTab] = useState(false)
 
   const getRecAll = async function(){
-    const local = window.localStorage
+    const session = window.sessionStorage
 
     if (standard === 'color'){
       console.log('색깔?')
-      if (!local.getItem('color-rec')){
+      if (!session.getItem('color-rec')){
         try {
           let res = await getter('color')
-          local.setItem('color-rec', JSON.stringify(res))
+          session.setItem('color-rec', JSON.stringify(res))
         }
         catch{}
       }
-      setter.color(JSON.parse(local.getItem('color-rec')))
+      setter.color(JSON.parse(session.getItem('color-rec')))
     }
     if (standard === 'style'){
       console.log('스타일?')
-      if (!local.getItem('style-rec')){
+      if (!session.getItem('style-rec')){
         try {
           let res = await getter('style')
-          local.setItem('style-rec', JSON.stringify(res))
+          session.setItem('style-rec', JSON.stringify(res))
         }
         catch{}
       }
-      setter.style(JSON.parse(local.getItem('style-rec')))
+      setter.style(JSON.parse(session.getItem('style-rec')))
     }
     if (standard === 'category'){
       console.log('카테고리?')
-      if (!local.getItem('category-rec')){
+      if (!session.getItem('category-rec')){
         try {
           let res = await getter('category')
-          local.setItem('category-rec', JSON.stringify(res))
+          session.setItem('category-rec', JSON.stringify(res))
         }
         catch{}
       }
-      setter.category(JSON.parse(local.getItem('category-rec')))
+      setter.category(JSON.parse(session.getItem('category-rec')))
     }
   }
 
