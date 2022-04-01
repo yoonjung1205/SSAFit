@@ -2,8 +2,10 @@ import axios from 'axios'
 
 const session = window.sessionStorage
 
+export const URL = 'https://ssafit.site'
+
 const CustomAxios = axios.create({
-  baseURL: 'https://ssafit.site',
+  baseURL: URL,
   headers: {
     'Authorization': session.getItem('access-token-jwt'),
     'Refresh': session.getItem('refresh-token-jwt'),

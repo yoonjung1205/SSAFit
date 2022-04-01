@@ -1,5 +1,5 @@
-/* eslint-disable no-useless-escape */
-import React, { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import corr from './images/corr.png'
 import incorr from './images/incorr.png'
@@ -18,6 +18,12 @@ export default function Signup({ history }) {
   const [hover, setHover] = useState({
     email: false, password: false, passwordConf: false
   })
+
+  useEffect(() => {
+    if (window.sessionStorage.getItem('access-token-jwt')){
+      history.push('/main')
+    } 
+  }, [])
 
   const isValid = function(){
     return new Promise((resolve, reject) =>{
