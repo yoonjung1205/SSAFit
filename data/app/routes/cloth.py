@@ -23,6 +23,7 @@ class Review(BaseModel):
     size: int
     bright: int
     color: int
+    thickness: int
     newGoodsNo: int
     
 class ImgReview(BaseModel):
