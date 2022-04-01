@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, Link } from 'react-router-dom';
 import NavigationBar from '../../components/NavigationBar'
 import Footer from '../../components/Footer'
-import { DA_URL } from '../../Request'
 import Rate from './components/Rate'
 import RealFit from './components/RealFit'
 import Analysis from './components/Analysis'
@@ -46,7 +45,7 @@ export default function ItemDetail() {
     const getCloth = async () => {
       await axios({
         method: 'get',
-        url: `${DA_URL}/cloth/${newClothId}`,
+        url: `/api_da/cloth/${newClothId}`,
       })
       .then(res => setItem(res.data))
       .catch(err => console.log(err, typeof(err)))
@@ -56,7 +55,7 @@ export default function ItemDetail() {
       const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
       await axios({
         method: 'get',
-        url: `${DA_URL}/cloth/reviews/${newClothId}/${userId}`,
+        url: `/api_da/cloth/reviews/${newClothId}/${userId}`,
       })
       .then(res => setRealFit(res.data))
       .catch(err => console.log(err, typeof(err)))

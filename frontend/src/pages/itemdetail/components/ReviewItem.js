@@ -7,7 +7,7 @@ import Comment from './Comment';
 const ReviewItem = ({ no, review }) => {
 
   const [commentList, setCommentList] = useState([])
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const [inputText, setInputText] = useState('')
   const size = {1: '커요', 2: '보통이에요', 3: '작아요'}
   const bright = {1: '밝아요', 2: '보통이에요', 3: '어두워요'}
@@ -111,19 +111,12 @@ const ReviewItem = ({ no, review }) => {
       <>
         <Col md={12} className='review-comments'>
           {commentList.length ? 
-          // 댓글이 있을 때
           <>
-            {commentList.map((v, i) => 
-            <Comment key={i} comment={v} setCommentList={setCommentList} commentList={commentList} />
-            )}
+            {commentList.map((v, i) => <Comment key={i} comment={v} setCommentList={setCommentList} commentList={commentList} />)}
           </>
           :
-          // 댓글이 없을 때
           <>
-            <p className='no-comments'>
-              댓글이 없습니다...(*￣０￣)ノ
-            </p>
-            <hr />
+            <p className='no-comments'>댓글이 없습니다...(*￣０￣)ノ</p><hr />
           </>
           }
         </Col>

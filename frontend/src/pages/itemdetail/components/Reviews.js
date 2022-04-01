@@ -1,6 +1,5 @@
 import CustomAxios from '../../../CustomAxios';
 import React, { useEffect, useState } from 'react';
-import { DA_URL, accessToken, refreshToken } from '../../../Request';
 import ReviewItem from './ReviewItem';
 import '../scss/reviews.scss'
 
@@ -13,8 +12,7 @@ const Review = ({ newClothId }) => {
   const getReview = async () => {
     await CustomAxios({
       method: 'get',
-      // url: `${DA_URL}/cloth/reviews/${newClothId}?page=${pagenation.page}&size=5`
-      url: `${DA_URL}/cloth/reviews/${newClothId}?page=${4}&size=5`
+      url: `/api_da/cloth/reviews/${newClothId}?page=${4}&size=5`
     })
     .then(res => {
       console.log('getReview:', res.data)
@@ -27,6 +25,17 @@ const Review = ({ newClothId }) => {
   useEffect(() => {
     getReview()
   }, [])
+
+  const changePage = num => {
+    let newPage = pagenation.page + num
+    if (newPage < 1) {
+      alert('첫번째 페이지 입니다.')
+    } else if (newPage > 5) {
+      alert('마지막 페이지 입니다.')
+    } else {
+      setPagenation({...pagenation, page: newPage})
+    }
+  }
 
 
   if (!reviews.length) {
@@ -43,6 +52,21 @@ const Review = ({ newClothId }) => {
         {reviews.map(review => (
           <ReviewItem key={review.reviewId} review={review} no={review.reviewId} />
         ))}
+      </div>
+      <div className='review-bottom'>
+        
+        <div className='pagenation'>
+          <div onClick={() => {changePage(-1)}}><p>&lt;</p></div>
+          {[1, 2, 3, 4, 5].map(num => (
+            <div className={pagenation.page === num ? 'active': ''} key={num} 
+              onClick={() => setPagenation({...pagenation, page: num})}
+            >
+              <p>{num}</p>
+            </div>
+          ))}
+          <div onClick={() => {changePage(1)}}><p>&gt;</p></div>
+        </div>
+
       </div>
     </section>
   );

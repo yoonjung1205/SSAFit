@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../scss/recommedation.scss'
-import { DA_URL } from '../../../Request';
 import { useHistory } from 'react-router-dom';
 import Loading from '../../../components/Loading'
 
@@ -17,7 +16,7 @@ const Recommedation = ({ brand, newClothId }) => {
     const getSimilarClothes = async () => {
       await axios({
         method: 'get',
-        url: `${DA_URL}/cloth/similar/${newClothId}`
+        url: `/api_da/cloth/similar/${newClothId}`
       })
       .then(res => {
         setSimilarClothes(res.data)
@@ -28,7 +27,7 @@ const Recommedation = ({ brand, newClothId }) => {
     const getBrandClothes = async () => {
       await axios({
         method: 'get',
-        url: `${DA_URL}/cloth/brand/${newClothId}`
+        url: `/api_da/cloth/brand/${newClothId}`
       })
       .then(res => {
         setBrandClothes(res.data)

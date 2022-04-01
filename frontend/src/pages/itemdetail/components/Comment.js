@@ -62,14 +62,14 @@ const Comment = ({ comment, commentList, setCommentList }) => {
   return (
     <>
       <div className='comment'>
-        <div className='nickname'>{comment.user.nickname}</div>
+        <div className='nickname'><p className='nick-p'>{comment.user.nickname}</p></div>
         {isEdit ? 
         <div className='comment-edit'>
           <input value={inputText} onChange={(e) => setInputText(e.target.value)} onKeyUp={checkEnter} />
           <button onClick={() => putComment()}><span /><p>수정</p></button>
         </div>
         :
-        <div className='content'>{viewComment}</div>
+        <div className='content'><p>{viewComment}</p></div>
         }
         {/* 댓글의 userId가 필요함 -> 지금 userId와 같은지 비교하기 위해 -> style display none*/}
         <div className='edit-btn' onClick={() => setIsEdit(!isEdit)}></div>
