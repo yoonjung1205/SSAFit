@@ -81,20 +81,16 @@ public class CodiController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<CodiListRes> unlikeCodi(HttpServletRequest request) {
+    public ResponseEntity<? extends BaseResponseBody> unlikeCodi(@RequestBody @ApiParam(value="이메일 정보", required = true) CodiReq codiReq, HttpServletRequest request) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
         token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
-        int userId = jwtTokenUtil.getUserId(token);
+        long userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
 
-
-        // codiList userid로 codiId List 들고오고
-        CodiListRes codiListRes = new CodiListRes();
-//        codiListRes = codiService.getMyCodiList(userId);
+        codiService.unlikeCodi(userId, codiReq);
 
 
-
-        return new ResponseEntity<CodiListRes>(codiListRes, HttpStatus.OK);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 }

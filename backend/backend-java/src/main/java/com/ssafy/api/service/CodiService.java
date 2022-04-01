@@ -10,4 +10,6 @@ public interface CodiService {
     public CodiListRes getMyCodiList(int userId, Pageable pageable);
 
     public void likeCodi(Long userId,CodiReq codiReq);
+
+    public void unlikeCodi(Long userId,CodiReq codiReq);
 }
