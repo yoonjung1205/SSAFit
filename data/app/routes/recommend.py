@@ -126,3 +126,14 @@ def rec_category(userId: int):
     finish = time.time()
     print(finish - start)
     return context
+
+
+@router.get('/cloth/brand/{newClothId}', tags=["Recommend"])
+def getBrandClothes(newClothId: int):
+    result = get_brand_clothes(newClothId)
+    return result
+
+@router.get('/cloth/similar/{newClothId}', tags=["Recommend"])
+def getSimilarClothes(newClothId: int):
+    result = get_similar_clothes(newClothId)
+    return result
