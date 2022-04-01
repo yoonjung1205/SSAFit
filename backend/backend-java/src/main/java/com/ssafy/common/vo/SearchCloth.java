@@ -21,4 +21,6 @@ public class SearchCloth {
     private Number clothPrice;
 
     private String colorName;
+
+    private int size;
 }
