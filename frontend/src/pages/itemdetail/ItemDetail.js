@@ -14,6 +14,7 @@ import Recommedation from './components/Recommedation';
 import Reviews from './components/Reviews';
 
 export default function ItemDetail({ user }) {
+
   const newClothId = useLocation().pathname.replace('/item/', '')
   const [item, setItem] = useState({})
   const [realFit, setRealFit] = useState([])
@@ -60,7 +61,7 @@ export default function ItemDetail({ user }) {
           month={[item.month1, item.month2, item.month3, item.month4, item.month5, item.month6, item.month7, item.month8, item.month9, item.month10, item.month11, item.month12]}
           sum={item.month1 + item.month2 + item.month3 + item.month4 + item.month5 + item.month6 + item.month7 + item.month8 + item.month9 + item.month10 + item.month11 + item.month12}
           />
-        <Recommedation user={user} brand={item.brand} newClothId={newClothId} />
+        <Recommedation brand={item.brand} newClothId={newClothId} />
         <Reviews newClothId={newClothId} />
         <section className='detail-footer'>
         </section>

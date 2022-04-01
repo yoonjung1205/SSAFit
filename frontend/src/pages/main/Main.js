@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import './scss/Main.scss'
 import NavigationBar from '../../components/NavigationBar';
 import Footer from '../../components/Footer';
 import maintop from './images/maintop.png'
+import './scss/Main.scss'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-const Main = ({ rec, setRec }) => {
-  let history = useHistory()
+const Main = (user) => {
+  const history = useHistory()
+
   const onClickButton = (path) => {
     console.log(path, '로 이동')
     history.push(path)

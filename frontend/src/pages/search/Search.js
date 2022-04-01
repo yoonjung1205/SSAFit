@@ -4,11 +4,13 @@ import './scss/Search.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { parse } from 'query-string';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, } from 'react-router-dom';
 import CustomAxios from '../../CustomAxios';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+
 
 const Search = () => {
-  let history = useHistory()
+  const history = useHistory()
   let { word } = parse(useLocation().search)
 
   const [clothes, setClothes] = useState([])

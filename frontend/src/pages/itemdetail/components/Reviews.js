@@ -1,6 +1,5 @@
 import CustomAxios from '../../../CustomAxios';
 import React, { useEffect, useState } from 'react';
-import { DA_URL, accessToken, refreshToken } from '../../../Request';
 import ReviewItem from './ReviewItem';
 import '../scss/reviews.scss'
 
@@ -13,8 +12,7 @@ const Review = ({ newClothId }) => {
   const getReview = async () => {
     await CustomAxios({
       method: 'get',
-      // url: `${DA_URL}/cloth/reviews/${newClothId}?page=${pagenation.page}&size=5`
-      url: `${DA_URL}/cloth/reviews/${newClothId}?page=${4}&size=5`
+      url: `/api_da/cloth/reviews/${newClothId}?page=${4}&size=5`
     })
     .then(res => {
       console.log('getReview:', res.data)

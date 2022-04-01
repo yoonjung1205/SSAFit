@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import { useState } from 'react';
 import Footer from '../../components/Footer';
 import NavigationBar from '../../components/NavigationBar';
 import MyInfo from './component/MyInfo'
@@ -9,15 +10,11 @@ import Faq from './component/Faq'
 import './scss/Mypage.scss'
 import { Col, Row } from 'react-bootstrap';
 
-const Mypage = () => {
-  const [myinfo, setMyinfo] = useState({})
+const Mypage = ({ user }) => {
+  const [myinfo, setMyinfo] = useState(user)
   const [menu, setMenu] = useState('recent')
   const colorHanger = 'https://i.ibb.co/cTB977h/free-icon-clothes-hanger-3100599.png'
   const whiteHanger = 'https://i.ibb.co/18ktfCy/free-icon-clothes-hanger-3100575.png'
-  
-  useEffect(() => {
-    setMyinfo(JSON.parse(window.sessionStorage.getItem('userInfo')))
-  }, [])
 
   return (
     <>

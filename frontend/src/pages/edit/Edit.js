@@ -4,12 +4,15 @@ import NavigationBar from "../../components/NavigationBar";
 import Footer from "../../components/Footer";
 import './scss/Edit.scss'
 import CustomAxios from "../../CustomAxios";
-import { useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import defaultImage from './images/default.png'
 
-const Edit = ({ user, setUser }) => {
-  let history = useHistory()
+const Edit = ({ user, history }) => {
+  // 로그인 한 사용자만 허용
+  if (!Object.keys(user).length){
+    history.push('/login')
+  }
+
   const [credentials, setCredentials] = useState({...user})
   const [profileImage, setProfileImage] = useState('')
 

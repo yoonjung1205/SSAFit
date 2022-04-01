@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import Loading from '../../../components/Loading'
 
 
-const Recommedation = ({ user, brand, newClothId }) => {
+const Recommedation = ({ brand, newClothId }) => {
   let history = useHistory()
 
   const [similarClothes, setSimilarClothes] = useState([])

@@ -8,14 +8,17 @@ import NavigationBar from '../../components/NavigationBar'
 import Loading from '../../components/Loading'
 import './scss/recommend_codi.scss'
 import CustomAxios from '../../CustomAxios'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-export default function RecommendCodi({ history, location }) {
+export default function RecommendCodi() {
+  const history = useHistory()
+  
   const [codi, setCodi] = useState({})
   const [idx, setIdx] = useState(0)
   const [loading, setLoading] = useState(true);
 
 
-  const tpo = location.pathname.replace('/recommend_codi/', '')
+  const tpo = history.location.pathname.replace('/recommend_codi/', '')
   const tpoObject = {
     Date: '데이트', Daily: '일상', Campus: '캠퍼스', Party: '파티', Travel: '여행', Wedding: '결혼식',
     Business: '출근', Sport: '운동', Interview: '면접', Hip: '힙', Golf: '골프', Other: '기타'

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss'
 import Main from "./pages/main/Main";
@@ -22,6 +22,7 @@ import CustomAxios from './CustomAxios'
 
 function App() {
   console.log('나 재 랜더링되는 중')
+  const history = useHistory()
   const location = useLocation();
   const [user, setUser] = useState({})
   const [size, setSize] = useState({})
@@ -80,13 +81,23 @@ function App() {
     }
   })
 
+  useEffect(() => {
+    console.log(location)
+    if (location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login'){
+      if (!Object.keys(user).length){
+        if (!alert('로그인이 필요합니다.')){
+          history.push('/login')
+        }
+      }
+    }
+  }, [location])
+
 
   return (
     <div className="App" key={location.pathname}>
       <Switch>
-        <Route path="/" component={Start} exact />
 
-        <Route path="/main" component={Main} exact />
+        <Route path="/" component={Start} exact />
 
         <Route path="/login" component={Login} exact />
 
@@ -96,39 +107,36 @@ function App() {
 
         <Route path="/search" component={Search} exact />
         
+        <Route path="/main" component={Main} exact />
+
+        <Route path="/tpo" component={Tpo} exact/>
+
+        <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
+
+        <Route path="/recommend/:category" component={Category} exact />
+
         <Route path="/edit-mypage" exact>
-          <Edit user={user} setUser={setUser} />
+          <Edit user={user} />
         </Route>
         
         <Route path="/edit-password" exact>
-          <EditPassword user={user} setUser={setUser} />
-        </Route>
-        
-        <Route path="/tpo" exact >
-          <Tpo  user={user} setUser={setUser} />
-        </Route>
-
-        <Route path="/recommend_codi/:tpo">
-          <RecommendCodi user={user} setUser={setUser} />
+          <EditPassword user={user} />
         </Route>
 
         <Route path="/recommend" exact >
-          <Recommend recommend={{size: size, color: color, style: style, category: category}} setter={{color: setColor, style: setStyle, category: setCategory}} getter={getRec} />
+          <Recommend user={user} recommend={{size: size, color: color, style: style, category: category}} setter={{color: setColor, style: setStyle, category: setCategory}} getter={getRec} />
         </Route>
 
         <Route path="/item/:id" exact>
-          <ItemDetail user={user} setUser={setUser} />
-        </Route>
-
-        <Route path="/recommend/:category" exact>
-          <Category user={user} setUser={setUser} />
+          <ItemDetail user={user} />
         </Route>
 
         <Route path="/mypage" exact>
-          <Mypage user={user} setUser={setUser} />
+          <Mypage user={user} />
         </Route>
 
         <Route component={NotFound} />
+
       </Switch>
     </div>
   );

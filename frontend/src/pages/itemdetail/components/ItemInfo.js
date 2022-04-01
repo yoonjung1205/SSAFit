@@ -5,7 +5,7 @@ import heart from '../images/heart.png'
 import CustomAxios from '../../../CustomAxios'
 
 
-export default function ItemInfo({ user, item }) {
+export default function ItemInfo({ item }) {
   const [liked, setLiked] = useState(false)
 
   const comma = function(tar){
