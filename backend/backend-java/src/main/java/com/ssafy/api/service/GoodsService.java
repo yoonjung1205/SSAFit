@@ -23,7 +23,7 @@ public interface GoodsService {
 
     public UserCommentRes goodsCommentList(String no);
 
-    public UserCommentRes goodsCommentUpdate(UserCommentReq userCommentReq,int commentSeq);
+    public UserCommentRes goodsCommentUpdate(UserCommentReq userCommentReq,long commentSeq);
 
     public void goodsCommentDelete(int commentSeq);
 

@@ -139,7 +139,7 @@ public class GoodsController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<UserCommentRes> goodsCommentUpdate(
-            @PathVariable int commentSeq,
+            @PathVariable long commentSeq,
             UserCommentReq userCommentReq) {
 
         UserCommentRes userCommentRes;
