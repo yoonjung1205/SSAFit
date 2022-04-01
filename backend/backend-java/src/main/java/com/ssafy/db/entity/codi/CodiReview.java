@@ -1,13 +1,13 @@
 package com.ssafy.db.entity.codi;
 
+import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.cloth.UserGoods;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -16,14 +16,20 @@ import javax.persistence.Entity;
 @Entity
 public class CodiReview {
 
-    @EmbeddedId
-    private UserCodi userCodi;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String reviewId;
+
+    @ManyToOne
+    private User user;
 
     private String comment;
 
-    private int klass;
-
-    private int orders;
-
-    private int groupNum;
+//    private int klass;
+//
+//    private int orders;
+//
+//    private int groupNum;
 }

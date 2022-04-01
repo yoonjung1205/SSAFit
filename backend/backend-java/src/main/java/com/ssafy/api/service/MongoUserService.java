@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 public interface MongoUserService {
 
-    public void createUser(Department department);
+    public void createUser(User user);
 
 
 }

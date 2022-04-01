@@ -17,27 +17,69 @@ import Search from "./pages/search/Search";
 import Category from "./pages/category/Category";
 import Edit from "./pages/edit/Edit";
 import EditPassword from "./pages/edit/EditPassword";
+import jwtDecode from "jwt-decode";
+import CustomAxios from './CustomAxios'
+import {DA_URL} from './Request'
 
 function App() {
+  console.log('나 재 랜더링되는 중')
   const location = useLocation();
-  const [path, setPath] = useState('/')
-  // const app = window.document.getElementsByClassName('App')[0]
+  const [user, setUser] = useState({})
+  const [size, setSize] = useState({})
+  const [color, setColor] = useState({})
+  const [style, setStyle] = useState({})
+  const [category, setCategory] = useState({})
   
+  const session = window.sessionStorage
+  try {
+    const token = session.getItem('access-token-jwt')
+    session.setItem('userInfo', JSON.stringify(jwtDecode(token)))
+    if (!Object.keys(user).length){setUser(jwtDecode(token))}
+  }
+  catch {
+    if (Object.keys(user).length){setUser({});setSize({})}
+    console.log('사용자 인증 정보가 없습니다.')
+  }
+
+  const getRec = async function(path){
+    let response;
+    await CustomAxios({
+      method: 'get',
+      url: `/api_da/recommend/${path}/${user.id}`,
+    })
+    .then(res => response = res.data)
+    .catch(err => console.log(err))
+
+    return response
+  }
+  
+  const getRecAll = async function(){
+    const local = window.localStorage
+  
+    if (!Object.keys(size).length){
+      console.log('사이즈?')
+      if (!local.getItem('size-rec')){
+        try {
+          const res = await getRec('size')
+          local.setItem('size-rec', JSON.stringify(res))
+        }
+        catch{}
+      }
+      setSize(JSON.parse(local.getItem('size-rec')))
+    }
+  }
+
+
   useEffect(() => {
-    // const transition = function(){
-    //   app.classList.remove('transition')
-    //   setTimeout(() => {
-    //     app.classList.add('transition')
-    //   }, 1)
-    // }
-    // if (app){
-    //   transition()
-    // }
-    setPath(location.pathname)
-  }, [location])
+    console.log('나라구')
+    if (Object.keys(user).length){
+      getRecAll()
+    }
+  })
+
 
   return (
-    <div className="App" key={path}>
+    <div className="App" key={location.pathname}>
       <Switch>
         <Route path="/" component={Start} exact />
         <Route path="/search" component={Search} />
@@ -46,7 +88,9 @@ function App() {
         <Route path="/main" component={Main} exact />
         <Route path="/tpo" component={Tpo} exact />
         <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
-        <Route path="/recommend" component={Recommend} exact />
+        <Route path="/recommend" exact>
+          <Recommend recommend={{size: size, color: color, style: style, category: category}} setter={{color: setColor, style: setStyle, category: setCategory}} getter={getRec} />
+        </Route>
         <Route path="/item/:id" component={ItemDetail} exact />
         <Route path="/recommend/:category" component={Category} exact />
         <Route path="/mypage" component={Mypage} exact />

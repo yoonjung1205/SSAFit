@@ -53,7 +53,12 @@ public class JwtTokenUtil {
     public String getUserEmail(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token).getBody().getSubject();
     }
-    
+
+    // 토큰에서 회원 정보 추출
+    public int getUserId(String token) {
+        return (int) Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token).getBody().get("id");
+    }
+
 	public void setExpirationTime() {
     		//JwtTokenUtil.expirationTime = Integer.parseInt(expirationTime);
     		JwtTokenUtil.expirationTime = expirationTime;
@@ -114,7 +119,7 @@ public class JwtTokenUtil {
                 .withClaim("gender",gender)
                 .withClaim("role",role)
                 .withClaim("id",id)
-                .withClaim("profileImg",url)
+                .withClaim("profileImage",url)
                 .withClaim("auth", 0)
                 .withClaim("oauth", 1)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
@@ -135,7 +140,7 @@ public class JwtTokenUtil {
                 .withClaim("gender",gender)
                 .withClaim("role",role)
                 .withClaim("id",id)
-                .withClaim("profileImg",url)
+                .withClaim("profileImage",url)
                 .withClaim("auth", 1)
                 .withClaim("oauth", 0)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
@@ -156,7 +161,7 @@ public class JwtTokenUtil {
                 .withClaim("gender",gender)
                 .withClaim("role",role)
                 .withClaim("id",id)
-                .withClaim("profileImg",url)
+                .withClaim("profileImage",url)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }

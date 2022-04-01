@@ -1,186 +1,383 @@
 import motor.motor_asyncio
+from pymongo import MongoClient
 import asyncio
-from bson import ObjectId
-from .database_helper import *
+import json
+from bson import ObjectId, json_util
+from fastapi.encoders import jsonable_encoder
+import numpy as np
+import pandas as pd
+import time
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.decomposition import TruncatedSVD
 
 mongo_url = "mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
-client = motor.motor_asyncio.AsyncIOMotorClient(mongo_url)
-client.get_io_loop = asyncio.get_running_loop
-database = client.ssafit
 
-cloth_collection = database.get_collection('cloth')
-user_meta_collection = database.get_collection('user_meta')
-cloth_meta_collection = database.get_collection('cloth_meta')
-user_ssafit_collection = database.get_collection('user_ssafit')
-codi_collection = database.get_collection('codi')
-review_collection = database.get_collection('review')
+client = MongoClient(mongo_url)
+db = client['ssafit']
 
-async def get_cloth_meta(what_id):
-    clothes = []
-    async for cloth in cloth_meta_collection.find({'what': int(what_id)}):
-        clothes.append(cloth_meta_helper(cloth))
+
+def get_cloth_meta(what: int):
+    clothes = db.cloth_meta.find({'what': what})
+    clothes = list(clothes)
     return clothes
 
-async def get_size_user_meta(what_id):
-    users = []
-    async for user in user_meta_collection.find({'what': int(what_id)}):
-        users.append(user_meta_size_helper(user))
+def get_user_meta(what: int, userId: int):    
+    users = db.user_meta.find({'what': what})
+    users = list(users)
     return users
 
-async def get_size_user_info(userId, largecategory):
-    user = await user_ssafit_collection.find_one({'userId': int(userId), 'largecategory': int(largecategory)})
-    return user_ssafit_size_helper(user)
+def get_size_user_info(userId, largecategory):
+    users = set()
+    user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': largecategory})
+    exist = False
+    for i in range(10):
+        for one_user in db.user.aggregate([{'$match': {'largecategory': user['largecategory'], 'userHeight': {'$in': list(range(user['userHeight']-i, user['userHeight']+i))}, 'userWeight': {'$in': list(range(user['userWeight']-i, user['userWeight']+i))}}},{'$sample': {'size':1}}]):
+            users.add(one_user['userId'])
+            if len(users) == 3:
+                exist = True
+                break
+        if exist:
+            break
+    return list(users)
 
-async def get_color_user_meta(what_id):
-    users = []
-    async for user in user_meta_collection.find({'what': int(what_id)}):
-        users.append(user_meta_color_helper(user))
-    return users
+def get_color_user_info(userId, largecategory):
+    users = set()
+    user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': largecategory})
+    color_list = []
+    color_exist = False
+    for idx, col in enumerate(user):
+        if col=='colorWhite':
+            color_list.append([col, user[col]])
+            color_exist = True
+        elif color_exist and col!='colorOthers':
+            color_list.append([col, user[col]])
+        elif col=='colorOthers':
+            color_list.append([col, user[col]])
+            break
+    color_list = sorted(color_list, key=lambda x: x[1], reverse=True)
+    color_li = []
+    for i in range(0, 3):
+        color_li.append(color_list[i][0])
+    exist = False
+    for i in np.arange(0.1, 1, 0.1):
+        for one_user in db.user.aggregate([{'$match': {'largecategory': user['largecategory'], color_li[0]: {"$gte": user[color_li[0]]-i, "$lte": user[color_li[0]]+i},color_li[1]: {"$gte": user[color_li[1]]-i, "$lte": user[color_li[1]]+i},color_li[2]: {"$gte": user[color_li[2]]-i, "$lte": user[color_li[2]]+i}}},{'$sample': {'size':1}}]):
+            users.add(one_user['userId'])
+            if len(users) == 3:
+                exist = True
+                break
+        if exist:
+            break
+    return list(users)
 
-async def get_color_user_info(userId, largecategory):
-    user = await user_ssafit_collection.find_one({'userId': int(userId), 'largecategory': int(largecategory)})
-    return user_ssafit_color_helper(user)
+def get_style_user_info(userId, largecategory):
+    users = set()
+    user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': largecategory})
+    exist = False
+    for i in range(0, 4, 1):
+        for one_user in db.user.aggregate([{'$match': {'largecategory': user['largecategory'], 'size': {"$gte": user['size']-i, "$lte": user['size']+i}, 'bright': {"$gte": user['bright']-i, "$lte": user['bright']+i}, 'color': {"$gte": user['color']-i, "$lte": user['color']+i}, 'thickness': {"$gte": user['thickness']-i, "$lte": user['thickness']+i}}},{'$sample': {'size':1}}]):
+            users.add(one_user['userId'])
+            if len(users) == 3:
+                exist = True
+                break
+        if exist:
+            break
+    return list(users)
 
-async def get_style_user_meta(what_id):
-    users = []
-    async for user in user_meta_collection.find({'what': int(what_id)}):
-        users.append(user_meta_style_helper(user))
-    return users
 
-async def get_style_user_info(userId, largecategory):
-    user = await user_ssafit_collection.find_one({'userId': int(userId), 'largecategory': int(largecategory)})
-    return user_ssafit_style_helper(user)
-
-async def get_category_user_meta(what_id):
-    users = []
-    if what_id == 16:
-        async for user in user_meta_collection.find({'what': int(what_id)}):
-            users.append(user_meta_category_top_helper(user))
-    elif what_id == 17:
-        async for user in user_meta_collection.find({'what': int(what_id)}):
-            users.append(user_meta_category_outer_helper(user))
-    elif what_id == 18:
-        async for user in user_meta_collection.find({'what': int(what_id)}):
-            users.append(user_meta_category_pants_helper(user))
-    elif what_id == 19:
-        async for user in user_meta_collection.find({'what': int(what_id)}):
-            users.append(user_meta_category_onepiece_helper(user))
-    elif what_id == 20:
-        async for user in user_meta_collection.find({'what': int(what_id)}):
-            users.append(user_meta_category_skirt_helper(user))
-    return users
-
-async def get_category_user_info(userId, largecategory):
+def get_category_user_info(userId, largecategory):
+    user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': largecategory})
+    users = set()
     if largecategory == 1:
-        user = await user_ssafit_collection.find_one({'userId': int(userId), 'largecategory': int(largecategory)})
-        return user_ssafit_category_top_helper(user)
+        category_list = []
+        for idx, cat in enumerate(user):
+            if 14<=idx<=22:
+                category_list.append([cat, user[cat]])
+        category_list = sorted(category_list, key=lambda x: x[1], reverse=True)
+        category_li = []
+        for i in range(0, 3):
+            category_li.append(category_list[i][0])
     elif largecategory == 2:
-        user = await user_ssafit_collection.find_one({'userId': int(userId), 'largecategory': int(largecategory)})
-        return user_ssafit_category_outer_helper(user)
+        category_list = []
+        for idx, cat in enumerate(user):
+            if 14<=idx<=24:
+                category_list.append([cat, user[cat]])
+        category_list = sorted(category_list, key=lambda x: x[1], reverse=True)
+        category_li = []
+        for i in range(0, 3):
+            category_li.append(category_list[i][0])
     elif largecategory == 3:
-        user = await user_ssafit_collection.find_one({'userId': int(userId), 'largecategory': int(largecategory)})
-        return user_ssafit_category_pants_helper(user)
+        category_list = []
+        for idx, cat in enumerate(user):
+            if 14<=idx<=21:
+                category_list.append([cat, user[cat]])
+        category_list = sorted(category_list, key=lambda x: x[1], reverse=True)
+        category_li = []
+        for i in range(0, 3):
+            category_li.append(category_list[i][0])
     elif largecategory == 4:
-        user = await user_ssafit_collection.find_one({'userId': int(userId), 'largecategory': int(largecategory)})
-        return user_ssafit_category_onepiece_helper(user)
+        category_li = ['smallCategoryMinidress', 'smallCategoryMidi', 'smallCategoryMaxidress']
     elif largecategory == 5:
-        user = await user_ssafit_collection.find_one({'userId': int(userId), 'largecategory': int(largecategory)})
-        return user_ssafit_category_skirt_helper(user)
-    
+        category_li = ['smallCategoryMiniskirt', 'smallCategoryMidi', 'smallCategoryLongskirt']
+    exist = False
+    for i in np.arange(0.1, 1, 0.1):
+        for one_user in db.user.aggregate([{'$match': {'largecategory': user['largecategory'], category_li[0]: {"$gte": user[category_li[0]]-i, "$lte": user[category_li[0]]+i},category_li[1]: {"$gte": user[category_li[1]]-i, "$lte": user[category_li[1]]+i},category_li[2]: {"$gte": user[category_li[2]]-i, "$lte": user[category_li[2]]+i}}},{'$sample': {'size':1}}]):
+            users.add(one_user['userId'])
+            if len(users) == 3:
+                exist = True
+                break
+        if exist:
+            break
+    return list(users)
 
 
-async def get_cloth(idList):
-    clothes = []
+def get_cloth(idList):
     if type(idList) == int:
-        cloth = await cloth_collection.find_one({'newClothId': int(idList)})
-        clothes.append(cloth_detail_helper(cloth))
+        cloth = db.cloth.find_one({'newClothId': int(idList)}, {'_id': 0})
+        return cloth
     else:
+        clothes = []
         for cloth_id in idList:
-            cloth = await cloth_collection.find_one({'newClothId': int(cloth_id)})
-            clothes.append(cloth_helper(cloth))
-    return clothes
+            cloth = db.cloth.find_one({'newClothId': int(cloth_id)}, {'_id': 0})
+            clothes.append(jsonable_encoder(cloth))
+        return clothes
     
-async def get_user_gender(userId):
-    user = await user_ssafit_collection.find_one({'userId': int(userId)})
-    return user_ssafit_helper(user)['userMale']
+def get_user_gender(userId):
+    user = db.user_ssafit.find_one({'userId': int(userId)})
+    return user['userMale']
 
-async def get_codi(codiTPO):
+def get_codi(codiTPO):
     codis = []
-    async for codi in codi_collection.aggregate([{'$match':{f'{codiTPO}': int(1)}},{'$sample': {'size':20}}]):
-        codis.append(codi_helper(codi))
+    for codi in db.codi.aggregate([{'$project': {"_id": 0}}, {'$match':{f'{codiTPO}': int(1)}},{'$sample': {'size':20}}]):
+        codis.append(codi)
     return codis
 
-async def get_reviews(newClothId):
+def get_reviews(newClothId):
     reviews = []
-    async for review in review_collection.aggregate([{'$match': {'newGoodsNo': int(newClothId)}}, {'$sort': {'date': -1}}]):
-        reviews.append(review_helper(review))
+    for review in db.review.aggregate([{'$project': {"_id": 0}}, {'$match': {'newGoodsNo': int(newClothId)}}, {'$sort': {'date': -1}}]):
+        reviews.append(review)
     return reviews
 
-async def get_user_info(userId):
-    user = await user_ssafit_collection.find_one({'userId': int(userId)})
-    users = user_ssafit_helper(user)
-    return user['userMale'], users['userHeight'], users['userWeight']
-
-async def get_img_reviews(newClothId):
+def get_img_reviews(newClothId: int, userId: int):
+    review_list = []
+    user = db.user_ssafit.find_one({'userId': userId}, {'_id': 0})
+    for review in db.review.aggregate([{'$match': {'newGoodsNo': int(newClothId), 'reviewStyle': 1}}]):
+        review_list.append([review['userHeight'], review['userWeight'], review['reviewId']])
+    for i in range(len(review_list)):
+        review_list[i][0] = review_list[i][0] - user['userHeight']
+        review_list[i][1] = review_list[i][1] - user['userWeight']
+    review_list = sorted(review_list, key=lambda x: x[0]+x[1])
+    re_list = []
+    for j in range(len(review_list)):
+        if j == 10:
+            break
+        re_list.append(review_list[j][2])
     reviews = []
-    async for review in review_collection.find({'newGoodsNo': int(newClothId), 'reviewStyle': int(1)}):
-        reviews.append(review_img_helper(review))
+    for i in re_list:
+        reviews.append(db.review.find_one({"reviewId": i}, {"_id": 0}))
     return reviews
 
-async def get_img_reviews_by_id(id_list):
-    reviews = []
-    for review_id in id_list:
-        review = await review_collection.find_one({'_id': ObjectId(review_id)})
-        reviews.append(review_img_helper(review))
-    return reviews
+# def get_brand_clothes(newClothId, userId):
+#     cloth = db.cloth.find_one({'newClothId': newClothId})
+#     user = db.user_ssafit.find_one({'userId': int(userId)})
+#     brand_list = []
+#     goods_id = set()
+#     for brand in db.cloth.aggregate([{'$match': {'brand': cloth['brand']}}]):
+#         if brand['clothId'] not in goods_id:
+#             brand_list.append([brand['userHeight'], brand['userWeight'], brand['clothReviewCnt'], brand['newClothId']])
+#             goods_id.add(brand['clothId'])
+#     for i in range(len(brand_list)):
+#         brand_list[i][0] = brand_list[i][0] - user['userHeight']
+#         brand_list[i][1] = brand_list[i][1] - user['userWeight']
+#     brand_list = sorted(brand_list, key=lambda x: (x[0]+x[1], x[2]))
+#     br_list = []
+#     for j in range(len(brand_list)):
+#         if j == 6:
+#             break
+#         br_list.append(brand_list[j][3])
+#     brands = []
+#     for i in br_list:
+#         brands.append(db.cloth.find_one({"newClothId": i}, {"_id": 0}))
+#     return brands
 
-async def get_brand_clothes(newClothId, userId):
-    cloth = await cloth_collection.find_one({'newClothId': newClothId})
-    cloth = cloth_detail_helper(cloth)
-    user = await user_ssafit_collection.find_one({'userId': int(userId)})
-    users = user_ssafit_helper(user)
-    brands = []
-    check = []
-    check.append(cloth['clothId'])
+def get_brand_clothes(newClothId: int):
+    cloth = db.cloth.find_one({'newClothId': newClothId})
+    transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'brand': cloth['brand']}, {'_id': 0, 'largecategory': 0})
+    transaction = list(transaction)
+    transaction = pd.DataFrame(transaction)
+    trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
+    trans.fillna(0, inplace=True)
+    SVD = TruncatedSVD(n_components=10)
+    SVD_matrix = SVD.fit_transform(trans)
+    corr = np.corrcoef(SVD_matrix)
+    corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
+    corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[1:50].index
+    result = []
+    sub = set()
     cnt = 0
+    for clothId in corr_list:
+        sub_cloth = db.cloth.find_one({'newClothId': clothId}, {'_id': 0})
+        if cnt == 0:
+            result.append(sub_cloth)
+            sub.add(sub_cloth['clothId'])
+            cnt += 1
+        elif cnt != 0 and sub_cloth['clothId'] not in sub:
+            result.append(sub_cloth)
+            sub.add(sub_cloth['clothId'])
+            cnt += 1
+        if cnt == 6:
+            break
+    return result
+
+def get_similar_clothes(newClothId: int):
+    cloth = db.cloth.find_one({'newClothId': newClothId})
+    transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName']}, {'_id': 0, 'largecategory': 0})
+    transaction = list(transaction)
+    transaction = pd.DataFrame(transaction)
+    trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
+    trans.fillna(0, inplace=True)
+    SVD = TruncatedSVD(n_components=10)
+    SVD_matrix = SVD.fit_transform(trans)
+    corr = np.corrcoef(SVD_matrix)
+    corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
+    corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[1:50].index
+    result = []
+    sub = set()
+    cnt = 0
+    for clothId in corr_list:
+        sub_cloth = db.cloth.find_one({'newClothId': clothId}, {'_id': 0})
+        if cnt == 0:
+            result.append(sub_cloth)
+            sub.add(sub_cloth['clothId'])
+            cnt += 1
+        else:
+            if sub_cloth['clothId'] not in sub:
+                result.append(sub_cloth)
+                sub.add(sub_cloth['clothId'])
+                cnt += 1
+        if cnt == 6:
+            break
+    return result
+
+
+def get_cloth_by_user_info(clothId, userId):
+    user = db.user_ssafit.find_one({'userId':int(userId)})
+    newClothId = ''
     exist = False
-    for i in range(20):
-        async for brand in cloth_collection.aggregate([{'$match': {'brand': cloth['brand'], 'userHeight': {'$in': list(range(users['userHeight']-i, users['userHeight']+i))}, 'userWeight': {'$in': list(range(users['userWeight']-i, users['userWeight']+i))}}}, {'$sort': {'clothReviewCnt': -1}},{'$sample': {'size':1}}]):
-            if brand:
-                brand = cloth_helper(brand)
-                if brand['clothId'] not in check:
-                    brands.append(brand)
-                    check.append(brand['clothId'])
-                    cnt += 1
-            if cnt == 6:
+    
+    for i in range(30):
+        for cloth in db.cloth.aggregate([{'$project': {"_id": 0}},{'$match': {'clothId': int(clothId), 'userHeight': {'$in': list(range(user['userHeight']-i, user['userHeight']+i))}, 'userWeight': {'$in': list(range(user['userWeight']-i, user['userWeight']+i))}}}]):
+            newClothId = cloth['newClothId']
+            if newClothId:
                 exist = True
                 break
         if exist:
             break
-    return brands
+    return newClothId
+
+def change_user_info(userId, newClothId, num):
+    cloth = get_cloth(newClothId)
+    largecategory = cloth['largeCategory']
+    smallCategorySelect = ''
+    style = ['size', 'bright', 'color', 'thickness']
+    colorSelect = ''
+    for idx, col in enumerate(cloth):
+        if 'smallCategory' in col and cloth[col] == 1:
+            smallCategorySelect = col
+        elif 'color' in col and cloth[col] == 1:
+            colorSelect = col
+            
+    col_list = ['size', 'bright', 'color', 'thickness', 'colorWhite', 
+        'colorGrey', 'colorBlack', 'colorRed', 'colorPink', 'colorOrange', 'colorIvory', 'colorYellow',
+        'colorGreen', 'colorBlue', 'colorPurple', 'colorBrown', 'colorBeige', 'colorJean', 'colorPattern', 'colorOthers', 
+        'smallCategoryHalfshort', 'smallCategoryShirt', 'smallCategoryCollar',
+        'smallCategoryHoody', 'smallCategorySweatshirt', 'smallCategoryKnit',
+        'smallCategoryLong', 'smallCategoryShort', 'smallCategoryOthers',
+        'smallCategoryHoodie', 'smallCategoryBlouson', 'smallCategoryRiders', 'smallCategoryMustang', 
+        'smallCategoryCardigan', 'smallCategoryFleece', 'smallCategoryCoat', 'smallCategoryPaddedcoat', 'smallCategoryVest', 'smallCategoryJacket',
+        'smallCategoryDenimpants', 'smallCategoryCottonpants', 'smallCategorySlacks',
+        'smallCategoryJoggerpants', 'smallCategoryShortpants', 'smallCategoryLeggings', 'smallCategoryJumpsuit',
+        'smallCategoryMinidress', 'smallCategoryMidi', 'smallCategoryMaxidress',
+        'smallCategoryMiniskirt', 'smallCategoryLongskirt']
 
 
-async def get_similar_clothes(newClothId, userId):
-    cloth = await cloth_collection.find_one({'newClothId': newClothId})
-    cloth = cloth_detail_helper(cloth)
-    user = await user_ssafit_collection.find_one({'userId': int(userId)})
-    users = user_ssafit_helper(user)
-    similar_clothes = []
-    check = []
-    check.append(cloth['clothId'])
-    cnt = 0
-    exist = False
-    for i in range(20):
-        async for similar in cloth_collection.aggregate([{'$match': {'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName'], 'userHeight': {'$in': list(range(users['userHeight']-i, users['userHeight']+i))}, 'userWeight': {'$in': list(range(users['userWeight']-i, users['userWeight']+i))}}},{'$sample': {'size':1}}]):
-            if similar:
-                similar = cloth_helper(similar)
-                if similar['clothId'] not in check:
-                    similar_clothes.append(similar)
-                    check.append(similar['clothId'])
-                    cnt += 1
-            if cnt == 6:
-                exist = True
-                break
-        if exist:
-            break
-    return similar_clothes
+    user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': largecategory})
+    if num == 1:
+        for idx, cat in enumerate(user):
+            # 모든 성분 * viewCnt
+            if cat in col_list:
+                user[cat] *= user['viewCnt']
+                if cat == smallCategorySelect:
+                    user[cat] += 1
+                elif cat == colorSelect:
+                    user[cat] += 1
+                elif cat in style:
+                    user[cat] += cloth[cat]
+                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
+            
+        # viewCnt += 1
+        user['viewCnt'] += 1
+
+        for idx, cat in enumerate(user):
+            # 모든 성분 / viewCnt
+            if cat in col_list:
+                user[cat] /= user['viewCnt']
+                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
+    
+    # 좋아요 취소
+    elif num == 2:
+        for idx, cat in enumerate(user):
+            # 모든 성분 * viewCnt
+            if cat in col_list:
+                user[cat] *= user['viewCnt']
+                if cat == smallCategorySelect and user[cat] >= 1:
+                    user[cat] -= 1
+                elif cat == colorSelect and user[cat] >= 1:
+                    user[cat] -= 1
+                elif cat in style and user[cat] >= 3:
+                    user[cat] -= cloth[cat]
+                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
+
+        user['viewCnt'] -= 1
+        
+        for idx, cat in enumerate(user):
+            # 모든 성분 / viewCnt
+            if cat in col_list:
+                user[cat] /= user['viewCnt']
+                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
+    return
+
+
+def get_recent_items(userId):
+    user = db.user_ssafit.find_one({'userId':int(userId), 'largecategory': 1}, {'_id': 0})
+    try:
+        result = user['recentItems']
+        return result
+    except:
+        return '최근 본 상품이 없습니다.'
+    # if user['recentItems']:
+    #     return user['recentItems']
+    # else:
+    #     return
+
+
+def change_recent_item(userId, newClothId):
+    cloth = get_cloth(newClothId)
+    user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': 1}, {'_id': 0})
+    try:
+        if newClothId in user['recentItems']:
+            user['recentItems'].remove(newClothId)
+            user['recentItems'].insert(0, newClothId)
+        elif newClothId not in user['recentItems'] and len(user['recentItems']) < 5:
+            user['recentItems'].insert(0, newClothId)
+        elif newClothId not in user['recentItems'] and len(user['recentItems']) == 5:
+            user['recentItems'].pop()
+            user['recentItems'].insert(0, newClothId)
+        db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': user['recentItems']}})
+
+    except:
+        # db.user_ssafit.aggregate([{'$match': {'userId': int(userId)}},{'$addFields': { 'recentItems': list() }}])
+        db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': []}})
+        user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': 1}, {'_id': 0})
+        user['recentItems'].append(newClothId)
+        db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': [user['recentItems']]}})
+    return

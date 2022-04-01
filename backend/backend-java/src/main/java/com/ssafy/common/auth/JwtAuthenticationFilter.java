@@ -107,6 +107,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                     // jwt 토큰에 포함된 계정 정보(userId) 통해 실제 디비에 해당 정보의 계정이 있는지 조회.
             		User user = userService.getUserByEmail(userId);
                 if(user != null) {
+                        // response에 accesstoken 추가.
+                        String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),1800000);
+                        response.setHeader("authorization", accessToken);
+
                         // 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
                 		SsafitUserDetails userDetails = new SsafitUserDetails(user);
                         Collection<? extends GrantedAuthority> test = userDetails.getAuthorities();

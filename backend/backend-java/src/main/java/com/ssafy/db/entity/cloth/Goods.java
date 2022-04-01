@@ -1,9 +1,7 @@
 package com.ssafy.db.entity.cloth;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.ssafy.db.entity.User;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Goods {
 
     @Id
@@ -19,5 +18,14 @@ public class Goods {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    long GOODS_ID;
+
+    String name;
+
+    Long price;
+
+    String brand;
+
+    String goodsImg;
 
 }

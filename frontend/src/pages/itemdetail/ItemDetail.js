@@ -1,67 +1,121 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useLocation, Link } from 'react-router-dom';
 import NavigationBar from '../../components/NavigationBar'
+import Footer from '../../components/Footer'
+import { DA_URL } from '../../Request'
+import Rate from './components/Rate'
 import RealFit from './components/RealFit'
 import Analysis from './components/Analysis'
+import Chart from './components/Chart'
+import heart from './images/heart.png'
+import dash from './images/dash.png'
+import './scss/Item.scss'
+import Recommedation from './components/Recommedation';
+import Reviews from './components/Reviews';
 
-export default function ItemDetail({ history, location }) {
-  const itemId = location.pathname.replace('/item/', '')
-  console.log(itemId)
+export default function ItemDetail() {
+  const newClothId = useLocation().pathname.replace('/item/', '')
+  const [liked, setLiked] = useState(false)
+  const [item, setItem] = useState({})
+  const [realFit, setRealFit] = useState([])
 
-  //////////////////// DA 연결 부분 ////////////////////////
-  // const [item, setItem] = useState({})
-  // const [realFit, setRealFit] = useState([])
-  // const [analysis, setAnalysis] = useState({})
-  // const [reviews, setReviews] = useState([])
+  
+  const comma = function(tar){
+    let result = ''
+    if (tar){
+      for (let i = tar.length - 1; i >= 0; i--){
+        if (i !== tar.length - 1 && (tar.length - i - 1) % 3 === 0){
+          result = ',' + result
+        }
+        result = tar[i] + result
+      }
+    }
 
-  // useEffect(() => {
-  //   axios({
-  //     method: 'get',
-  //     baseURL: 'https://ssafit.site/api_da',
-  //     url: `/${itemId}`,
-  //     headers: {} /// 토큰 or 유저 정보      
-  //   })
-  //   .then(res => setItem(res))
-  // })
+    return result
+  }
 
-  // useEffect(() => {
-  //   setRealFit(item.realFit);
-  //   setAnalysis(item.analysis);
-  //   setReviews(item.reviews)
-  // }, [item])
+  const goToShop = function(){
+    if (Object.keys(item).length){
+      window.open(`https://store.musinsa.com/app/goods/${item.clothId}`)
+    }
+  }
+
+  useEffect(() => {
+    const getCloth = async () => {
+      await axios({
+        method: 'get',
+        url: `${DA_URL}/cloth/${newClothId}`,
+      })
+      .then(res => setItem(res.data))
+      .catch(err => console.log(err, typeof(err)))
+    }
+
+    const getRealFit = async () => {
+      const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
+      await axios({
+        method: 'get',
+        url: `${DA_URL}/cloth/reviews/${newClothId}/${userId}`,
+      })
+      .then(res => setRealFit(res.data))
+      .catch(err => console.log(err, typeof(err)))
+    }
+    getCloth()
+    .then(getRealFit())
+  }, [newClothId])
 
 
   return (
-    <article className='detail-container'>
+    <>
       <NavigationBar boldPath='RECOMMEND' />
-      <section className='detail-header'>
-
-        <h3 className='item-category'>아우터 &gt; 후드 집업</h3> {/* 해당 아이템의 카테고리 */}
-        <div className='item-box'>
-          <div className='image-box'>
-            <img src="" alt="image" />{/* 해당 아이템의 이미지 */}
-            <span className='like'></span>{/* 좋아요 버튼 */}
+      <article className='detail-container'>
+        <section className='detail-header'>
+          <h3 className='item-category'>{item.largeCategoryName} &gt; {item.smallCategoryName}</h3>
+          <div className='item-box'>
+            <div className='image-box'>
+              <img src={item.clothImg} alt="image" />
+              <span className={liked ? 'liked':''} onClick={() => setLiked(!liked)}>
+                <img src={heart} alt="like" />
+              </span>
+            </div>
+            <div className='item-info'>
+              <h2 className='brand'>{item.brand}</h2>
+              <h3 className='name'>{item.clothName}</h3>
+              <Rate rate={item.clothRate}/>
+              <h3 className='price'>{comma(String(item.clothPrice))}원</h3>
+              <h6 className='tags'>
+                {item.clothHashtags && item.clothHashtags[0] !== "[]" && item.clothHashtags.map((hashtag, idx) => 
+                <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
+                )}
+              </h6>
+              <button onClick={() => goToShop()}>
+                <span/>
+                구매하러 가기
+              </button>
+            </div>
           </div>
-
-          <div className='item-info'>
-            <h3 className='brand'>TOFFEE</h3>{/* 해당 아이템의 브랜드 */}
-            <h2 className='name'>2WAY 스웻 후드 집업 (MELANGE GREY)</h2>{/* 해당 아이템의 이름 */}
-            <span className='rate'>4.8</span>{/* 해당 아이템의 평점 */}
-            <h3 className='price'>42,500원</h3>{/* 해당 아이템의 가격 */}
-            <span className='tags'></span>{/* 해당 아이템의 태그들 */}
-            <button>
-              구매하러 가기
-              <span/>
-            </button>
-          </div>
+        </section>
+        <div className='anchor'>
+          <Link to="#info">상품정보</Link>
+          <img src={dash} alt="" />
+          <Link to="#">추천상품</Link>
+          <img src={dash} alt="" />
+          <Link to="#">사용후기</Link>
         </div>
-
-      </section>
-      <div className='anchor'></div>
-      <RealFit/>
-      <Analysis/>
-      <section className='detail-footer'>
-      </section>
-    </article>
+        <RealFit review={realFit} />
+        { item.reviewNoun &&  <Analysis words={item.reviewNoun} /> }
+        <Chart male={item.userMale+item.userFemale === 2 ? 0 : item.userMale}
+          female={item.userMale+item.userFemale === 2 ? 0 : item.userFemale}
+          month={[item.month1, item.month2, item.month3, item.month4, item.month5, item.month6, item.month7, item.month8, item.month9, item.month10, item.month11, item.month12]}
+          sum={item.month1 + item.month2 + item.month3 + item.month4 + item.month5 + item.month6 + item.month7 + item.month8 + item.month9 + item.month10 + item.month11 + item.month12}
+          />
+        <Recommedation brand={item.brand} newClothId={newClothId} />
+        <Reviews newClothId={newClothId} />
+        <section className='detail-footer'>
+        </section>
+      </article>
+      <Footer />
+    </>
   )
 }

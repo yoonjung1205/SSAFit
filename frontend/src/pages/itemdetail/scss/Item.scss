@@ -1,0 +1,153 @@
+.detail-container {
+  display: flex;
+  flex-direction: column;
+
+  .detail-header {
+    display: flex;
+    flex-direction: column;
+    margin: 3rem;
+    
+    .item-box {
+      display: flex;
+
+      .image-box {
+        position: relative;
+
+        span {
+          width: 4rem;
+          aspect-ratio: 1/1;
+          border-radius: 50%;
+          background-color: rgba(119, 119, 119, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          bottom: 5%;
+          right: 5%;
+          cursor: pointer;
+
+          img {
+            width: 50%;
+            aspect-ratio: 1/1;
+          }
+        }
+        
+        .liked {
+          background-color: rgba(255, 100, 100, 0.75);
+        }
+      }
+
+      .item-info {
+        display: flex;
+        flex-direction: column;
+        margin: 0 3rem;
+        
+        .name {
+          word-break: keep-all;
+        }
+
+        .tags {
+          color: royalblue;
+          font-weight: bold;
+          word-break: keep-all;
+        }
+      }
+    }
+  }
+
+  .anchor {
+    margin: 3rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    a {
+      font-size: 1.5rem;
+      color: #333333;
+      letter-spacing: 0.5rem;
+      margin: 0 2rem;
+      text-decoration: none;
+    }
+
+    img {
+      width: 0.5px;
+      height: 1.5rem;
+    }
+  }
+
+  button {
+    padding: 1.5rem 2rem;
+    width: 40%;
+    text-align: center;
+    background-color: #56586C;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+    margin: 2rem 0;
+    font-size: 1.25rem;
+
+    span {
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+      position: absolute;
+      transition: 0.5s;
+      background-color: #3c3d47;
+      top: 0;
+      left: -100%;
+      z-index: -1;
+    }
+
+    p {
+      color: white;
+      margin: 0;
+      z-index: 2;
+    }
+
+    &:hover {
+      span {
+        left: 0;
+      }
+    }
+  }
+
+  p {
+    font-size: 1.25rem;
+    letter-spacing: 0.5rem;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    letter-spacing: 1rem;
+    margin-bottom: 3rem;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+    letter-spacing: 1rem;
+  }
+  
+  h3 {
+    font-size: 2rem;
+    letter-spacing: 1rem;
+  }
+  
+  h4 {
+    font-size: 1.75rem;
+    letter-spacing: 1rem;
+  }
+  
+  h5 {
+    font-size: 1.5rem;
+    letter-spacing: 0.5rem;
+  }
+  
+  h6 {
+    font-size: 1.35rem;
+    letter-spacing: 0.5rem;
+  }
+}

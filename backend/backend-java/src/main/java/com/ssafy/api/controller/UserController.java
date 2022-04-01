@@ -5,6 +5,7 @@ import com.ssafy.api.request.UserChangePutReq;
 import com.ssafy.api.request.UserChangePwReq;
 import com.ssafy.api.request.ValidateEmailReq;
 import com.ssafy.api.response.UserLoginPostRes;
+import com.ssafy.api.service.MongoUserService;
 import com.ssafy.api.service.RefreshTokenServiceImpl;
 import com.ssafy.common.S3.S3Uploader;
 import com.ssafy.common.util.JwtTokenUtil;
@@ -69,6 +70,9 @@ public class UserController {
 	@Autowired
 	RefreshTokenServiceImpl refreshTokenService;
 
+	@Autowired
+	MongoUserService mongoUserService;
+
 	@PostMapping("/signup")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
     @ApiResponses({
@@ -82,9 +86,9 @@ public class UserController {
 
 		MultipartFile file = request.getFile("profileImage");
 
-		System.out.println("file size : " + file.getSize());
+
 		String fileUrl = "";
-		if(file.getSize() == 0) {
+		if(file == null) {
 			System.out.println("파일이름이 엄서용~!");
 		}else{
 			fileUrl = s3Uploader.upload(file,"user");
@@ -102,6 +106,9 @@ public class UserController {
 			String userEmail = registerInfo.getEmail();
 
 			User user = userService.getUserByEmail(userEmail);
+
+			// MongoDB에 저장.
+			mongoUserService.createUser(user);
 
 			UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
 
@@ -131,6 +138,9 @@ public class UserController {
 			String userEmail = registerInfo.getEmail();
 
 			User user = userService.getUserByEmail(userEmail);
+
+			// MongoDB에 저장.
+			mongoUserService.createUser(user);
 
 			UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
 
@@ -225,12 +235,11 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> changeUserInfo(@ApiParam(value="사용자 변경 정보", required = true) UserChangePutReq userChangePutReq, HttpServletResponse response, MultipartHttpServletRequest request) throws IOException {
 
-		MultipartFile file = request.getFile("files");
+		MultipartFile file = request.getFile("profileImage");
 
-		System.out.println("file size : " + file.getSize());
 		String fileUrl = "";
 		String accessToken = "";
-		if(file.getSize() == 0) {
+		if(file == null) {
 			System.out.println("파일이름이 엄서용~!");
 			User user = userService.updateUser(userChangePutReq);
 			accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().name(),1800000);

@@ -5,13 +5,17 @@ import '../scss/recCategory.scss'
 const recCategory = ({cate, clothes}) => {
   let history = useHistory()
 
-  const goToDetail = () => {
-    history.push('/item/1')
+  const goToDetail = (idx) => {
+    history.push(`/item/${clothes[idx].newClothId}`)
   }
 
   const clickMore = () => {
     window.localStorage.setItem('clothes', JSON.stringify(clothes))
     history.push(`/recommend/${cate}`)
+  }
+
+  if (!clothes){
+    return false
   }
 
   return (
@@ -22,8 +26,8 @@ const recCategory = ({cate, clothes}) => {
       </div>
       <div className='rec-cate-cloth'>
 
-      {clothes.slice(0, 5).map((cloth, idx) => (
-        <div className='card' onClick={() => goToDetail()} key={idx}>
+      { clothes.slice(0, 5).map((cloth, idx) => (
+        <div className='card' onClick={() => goToDetail(idx)} key={idx}>
           <div className='card-image'>
             <img src={cloth.clothImg} alt='cloth' />
           </div>
