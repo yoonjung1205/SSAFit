@@ -19,7 +19,6 @@ import Edit from "./pages/edit/Edit";
 import EditPassword from "./pages/edit/EditPassword";
 import jwtDecode from "jwt-decode";
 import CustomAxios from './CustomAxios'
-import {DA_URL} from './Request'
 
 function App() {
   console.log('나 재 랜더링되는 중')
