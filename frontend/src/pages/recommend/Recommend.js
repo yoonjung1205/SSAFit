@@ -62,16 +62,9 @@ const Recommend = ({ recommend, setter, getter }) => {
   }, [recommend, standard])
 
 
-  
-
-  if (loading){
-    return (<Loading/>)
-  }
-
   return (
     <article className='recommend'>
       <NavigationBar boldPath='RECOMMEND' />
-      {/* <button onClick={() => getSizeRecommend()}>흠</button> */}
       <section className='rec-top'>
         <div className='rec-top-text'>
           <h3>Make sure your style</h3>
@@ -94,13 +87,17 @@ const Recommend = ({ recommend, setter, getter }) => {
         </div>
       </section>
       <section className='rec-clothes'>
-        <RecCategory cate='Outer' clothes={recommend[standard].outer} />
-        <RecCategory cate='Top' clothes={recommend[standard].top} />
-        <RecCategory cate='Pants' clothes={recommend[standard].pants} />
-        {JSON.parse(window.sessionStorage.getItem('userInfo')).gender === 'FEMALE' &&
+        {loading ? <Loading /> :
         <>
-          <RecCategory cate='Onepiece' clothes={recommend[standard].onepiece} />
-          <RecCategory cate='Skirt' clothes={recommend[standard].skirt} />
+          <RecCategory cate='Outer' clothes={recommend[standard].outer} />
+          <RecCategory cate='Top' clothes={recommend[standard].top} />
+          <RecCategory cate='Pants' clothes={recommend[standard].pants} />
+          {JSON.parse(window.sessionStorage.getItem('userInfo')).gender === 'FEMALE' &&
+          <>
+            <RecCategory cate='Onepiece' clothes={recommend[standard].onepiece} />
+            <RecCategory cate='Skirt' clothes={recommend[standard].skirt} />
+          </>
+          }
         </>
         }
       </section>
