@@ -14,7 +14,7 @@ const Search = () => {
   const [clothes, setClothes] = useState([])
   const [page, setPage] = useState(1)
 
-  function changePage (num) {
+  const changePage = num => {
     let newPage = page + num
     if (newPage < 1) {
       alert('첫번째 페이지 입니다.')

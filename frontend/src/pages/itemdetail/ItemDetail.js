@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import axios from 'axios'
+import CustomAxios from '../../CustomAxios';
 import React, { useEffect, useState } from 'react'
 import { useLocation, Link } from 'react-router-dom';
 import NavigationBar from '../../components/NavigationBar'
 import Footer from '../../components/Footer'
-import { DA_URL } from '../../Request'
 import Rate from './components/Rate'
 import RealFit from './components/RealFit'
 import Analysis from './components/Analysis'
@@ -44,23 +43,31 @@ export default function ItemDetail() {
 
   useEffect(() => {
     const getCloth = async () => {
-      await axios({
+      await CustomAxios({
         method: 'get',
-        url: `${DA_URL}/cloth/${newClothId}`,
+        url: `/api_da/cloth/${newClothId}`,
       })
-      .then(res => setItem(res.data))
+      .then(res => {
+        console.log('getCloth:', res.data)
+        console.log('getCloth:', res.data)
+        setItem(res.data)
+      })
       .catch(err => console.log(err, typeof(err)))
     }
 
     const getRealFit = async () => {
       const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
-      await axios({
+      await CustomAxios({
         method: 'get',
-        url: `${DA_URL}/cloth/reviews/${newClothId}/${userId}`,
+        url: `/api_da/cloth/reviews/${newClothId}/${userId}`,
       })
-      .then(res => setRealFit(res.data))
+      .then(res => {
+        console.log('getRealFit', res.data)
+        setRealFit(res.data)
+      })
       .catch(err => console.log(err, typeof(err)))
     }
+
     getCloth()
     .then(getRealFit())
   }, [newClothId])
@@ -109,7 +116,7 @@ export default function ItemDetail() {
           female={item.userMale+item.userFemale === 2 ? 0 : item.userFemale}
           month={[item.month1, item.month2, item.month3, item.month4, item.month5, item.month6, item.month7, item.month8, item.month9, item.month10, item.month11, item.month12]}
           sum={item.month1 + item.month2 + item.month3 + item.month4 + item.month5 + item.month6 + item.month7 + item.month8 + item.month9 + item.month10 + item.month11 + item.month12}
-          />
+        />
         <Recommedation brand={item.brand} newClothId={newClothId} />
         <Reviews newClothId={newClothId} />
         <section className='detail-footer'>
