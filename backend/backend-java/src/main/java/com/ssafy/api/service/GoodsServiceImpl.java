@@ -84,7 +84,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public UserCommentRes goodsCommentUpdate(UserCommentReq userCommentReq, int commentSeq) {
+    public UserCommentRes goodsCommentUpdate(UserCommentReq userCommentReq, long commentSeq) {
         goodsReviewRepository.updateComment(userCommentReq.getContents(), commentSeq);
 
         UserCommentRes userCommentRes = new UserCommentRes();

@@ -17,5 +17,5 @@ public interface GoodsReviewRepository  extends JpaRepository<GoodsReview, Long>
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE GoodsReview g SET g.comment = :comment WHERE g.id = :id")
-    int updateComment(String comment, int id);
+    int updateComment(String comment, long id);
 }
