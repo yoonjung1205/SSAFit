@@ -8,10 +8,6 @@ import jwtDecode from "jwt-decode";
 import defaultImage from './images/default.png'
 
 const Edit = ({ user, history }) => {
-  // 로그인 한 사용자만 허용
-  if (!Object.keys(user).length){
-    history.push('/login')
-  }
 
   const [credentials, setCredentials] = useState({...user})
   const [profileImage, setProfileImage] = useState('')
