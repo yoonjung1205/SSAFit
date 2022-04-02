@@ -65,7 +65,7 @@ export default function ItemDetail({ user }) {
     <>
       <NavigationBar boldPath='RECOMMEND' />
       <article className='detail-container'>
-        <ItemInfo item={item}/>
+        <ItemInfo item={item} user={user} />
         <div className='anchor'>
           <a href="#info">상품정보</a>
           <img src={dash} alt="" />
