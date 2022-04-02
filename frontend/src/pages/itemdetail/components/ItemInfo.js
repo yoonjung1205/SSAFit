@@ -77,6 +77,7 @@ export default function ItemInfo({ item, user }) {
             <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
             )}
           </h6>
+          <h6>Size : {item.goodsSize}</h6>
           <button onClick={() => goToShop()}>
             <span/>
             구매하러 가기

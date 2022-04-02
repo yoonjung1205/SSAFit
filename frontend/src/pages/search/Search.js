@@ -17,6 +17,19 @@ const Search = () => {
   const [clothes, setClothes] = useState([])
   const [page, setPage] = useState(1)
 
+  const comma = function(tar){
+    let result = ''
+    if (tar){
+      for (let i = tar.length - 1; i >= 0; i--){
+        if (i !== tar.length - 1 && (tar.length - i - 1) % 3 === 0){
+          result = ',' + result
+        }
+        result = tar[i] + result
+      }
+    }
+    return result
+  }
+
   const changePage = num => {
     let newPage = page + num
     if (newPage < 1) {
@@ -55,7 +68,7 @@ const Search = () => {
                   <Card.Img src={cloth.clothImg} alt='cloth' />
                   <p className='search-card-text one-line'>{cloth.clothBrand}</p>
                   <p className='search-card-text two-line'>{cloth.clothName}</p>
-                  <p className='search-card-text one-line last'>{cloth.clothPrice}원</p>
+                  <p className='search-card-text one-line last'>{comma(String(cloth.clothPrice))}원</p>
                 </div>
               </Col>
             ))}
