@@ -207,15 +207,19 @@ def get_brand_clothes(newClothId: int):
         transaction = db.transaction.find({'brand': cloth['brand']}, {'_id': 0, 'largecategory': 0})
     transaction = list(transaction)
     transaction = pd.DataFrame(transaction)
-    trans = transaction.pivot_table(index='newClothId', columns='userId', values='shopCnt')
-    trans.fillna(0, inplace=True)
-    SVD = TruncatedSVD(n_components=10)
-    SVD_matrix = SVD.fit_transform(trans)
-    corr = np.corrcoef(SVD_matrix)
-    corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
-    corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[1:50].index
+    if len(transaction) >= 10:
+        trans = transaction.pivot_table(index='newClothId', columns='userId', values='shopCnt')
+        trans.fillna(0, inplace=True)
+        SVD = TruncatedSVD(n_components=10)
+        SVD_matrix = SVD.fit_transform(trans)
+        corr = np.corrcoef(SVD_matrix)
+        corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
+        corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[:50].index
+    else:
+        corr_list = list(transaction.newClothId)
     result = []
     sub = set()
+    sub.add(cloth['clothId'])
     cnt = 0
     for clothId in corr_list:
         sub_cloth = db.cloth.find_one({'newClothId': clothId}, {'_id': 0})
@@ -239,15 +243,19 @@ def get_similar_clothes(newClothId: int):
         transaction = db.transaction.find({'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName']}, {'_id': 0, 'largecategory': 0})
     transaction = list(transaction)
     transaction = pd.DataFrame(transaction)
-    trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
-    trans.fillna(0, inplace=True)
-    SVD = TruncatedSVD(n_components=10)
-    SVD_matrix = SVD.fit_transform(trans)
-    corr = np.corrcoef(SVD_matrix)
-    corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
-    corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[1:50].index
+    if len(transaction) >= 10:
+        trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
+        trans.fillna(0, inplace=True)
+        SVD = TruncatedSVD(n_components=10)
+        SVD_matrix = SVD.fit_transform(trans)
+        corr = np.corrcoef(SVD_matrix)
+        corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
+        corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[1:50].index
+    else:
+        corr_list = list(transaction.newClothId)
     result = []
     sub = set()
+    sub.add(cloth['clothId'])
     cnt = 0
     for clothId in corr_list:
         sub_cloth = db.cloth.find_one({'newClothId': clothId}, {'_id': 0})
