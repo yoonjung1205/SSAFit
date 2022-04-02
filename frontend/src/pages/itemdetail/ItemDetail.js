@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import CustomAxios from '../../CustomAxios'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
@@ -27,7 +26,6 @@ export default function ItemDetail({ user }) {
       })
       .then(res => {
         console.log('getCloth:', res.data)
-        console.log('getCloth:', res.data)
         setItem(res.data)
       })
       .catch(err => console.log(err, typeof(err)))
@@ -45,8 +43,21 @@ export default function ItemDetail({ user }) {
       .catch(err => console.log(err, typeof(err)))
     }
 
+    // const updateRecentItem = async () => {
+    //   await CustomAxios({
+    //     method: 'put',
+    //     url: `/api_da/user/${user.id}/changeRecentItem?newClothId=${newClothId}`
+    //   })
+    //   .then(res => {
+    //     console.log('updateRecentItem!!')
+    //     console.log(res)
+    //   })
+    //   .catch(err => console.log(err, typeof(err)))
+    // }
+
     getCloth()
     .then(getRealFit())
+    // .then(updateRecentItem())
   }, [newClothId])
 
 
