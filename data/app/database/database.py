@@ -201,10 +201,13 @@ def get_img_reviews(newClothId: int, userId: int):
 
 def get_brand_clothes(newClothId: int):
     cloth = db.cloth.find_one({'newClothId': newClothId})
-    transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'brand': cloth['brand']}, {'_id': 0, 'largecategory': 0})
+    if cloth['largeCategory']==1 or cloth['largeCategory']==2 or cloth['largeCategory']==3:
+        transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'brand': cloth['brand']}, {'_id': 0, 'largecategory': 0})
+    else:
+        transaction = db.transaction.find({'brand': cloth['brand']}, {'_id': 0, 'largecategory': 0})
     transaction = list(transaction)
     transaction = pd.DataFrame(transaction)
-    trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
+    trans = transaction.pivot_table(index='newClothId', columns='userId', values='shopCnt')
     trans.fillna(0, inplace=True)
     SVD = TruncatedSVD(n_components=10)
     SVD_matrix = SVD.fit_transform(trans)
@@ -230,7 +233,10 @@ def get_brand_clothes(newClothId: int):
 
 def get_similar_clothes(newClothId: int):
     cloth = db.cloth.find_one({'newClothId': newClothId})
-    transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName']}, {'_id': 0, 'largecategory': 0})
+    if cloth['largeCategory']==1 or cloth['largeCategory']==2 or cloth['largeCategory']==3:
+        transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName']}, {'_id': 0, 'largecategory': 0})
+    else:
+        transaction = db.transaction.find({'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName']}, {'_id': 0, 'largecategory': 0})
     transaction = list(transaction)
     transaction = pd.DataFrame(transaction)
     trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
