@@ -53,7 +53,6 @@ const Recommend = ({ recommend, setter, getter }) => {
   useEffect(() => {
     setLoading(true)
     if (Object.keys(recommend[standard]).length){
-      console.log(standard)
       setLoading(false)
     }
     else {

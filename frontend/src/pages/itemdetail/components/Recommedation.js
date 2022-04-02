@@ -38,6 +38,19 @@ const Recommedation = ({ brand, newClothId }) => {
     getSimilarClothes().then(getBrandClothes)
   }, [])
 
+  const comma = function(tar){
+    let result = ''
+    if (tar){
+      for (let i = tar.length - 1; i >= 0; i--){
+        if (i !== tar.length - 1 && (tar.length - i - 1) % 3 === 0){
+          result = ',' + result
+        }
+        result = tar[i] + result
+      }
+    }
+    return result
+  }
+
 
   return (
     <section className='recommendation' id='recommend'>
@@ -60,7 +73,7 @@ const Recommedation = ({ brand, newClothId }) => {
                 <p className='one-line'>{cloth.brand}</p>
                 <p className='two-line'>{cloth.clothName}</p>
                 <div>
-                  <p className='one-line'>Price: {cloth.clothPrice}원</p>
+                  <p className='one-line'>Price: {comma(String(cloth.clothPrice))}원</p>
                   <p className='one-line'>Size: {cloth.goodsSize}</p>
                 </div>
               </div>
@@ -84,7 +97,7 @@ const Recommedation = ({ brand, newClothId }) => {
                 <p className='one-line'>{cloth.brand}</p>
                 <p className='two-line'>{cloth.clothName}</p>
                 <div>
-                  <p className='one-line'>Price: {cloth.clothPrice}원</p>
+                  <p className='one-line'>Price: {comma(String(cloth.clothPrice))}원</p>
                   <p className='one-line'>Size: {cloth.goodsSize}</p>
                 </div>
               </div>

@@ -83,7 +83,7 @@ function App() {
   })
 
   useEffect(() => {
-    if (location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login'){
+    if (location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login'){
       if (!Object.keys(user).length){
         if (!alert('로그인이 필요합니다.')){
           history.push('/login')

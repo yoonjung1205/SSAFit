@@ -8,6 +8,19 @@ const LikeCloth = () => {
   const fillLike = 'https://i.ibb.co/RDV7jPR/heart-free-icon-font.png'
   const lineLike = 'https://i.ibb.co/Nr77tWK/heart-free-icon-font-1.png'
 
+  const comma = function(tar){
+    let result = ''
+    if (tar){
+      for (let i = tar.length - 1; i >= 0; i--){
+        if (i !== tar.length - 1 && (tar.length - i - 1) % 3 === 0){
+          result = ',' + result
+        }
+        result = tar[i] + result
+      }
+    }
+    return result
+  }
+
   function chnageLike(item) {
     setClothes([...clothes], item.like = !item.like)
   }
@@ -24,7 +37,7 @@ const LikeCloth = () => {
             <Card.Img src={cloth.clothImage} alt='like-cloth' />
             <p className='text one-line'>{cloth.brand}</p>
             <p className='text two-line'>{cloth.clothName}</p>
-            <p className='text one-line price'>{cloth.clothPrice}원</p>
+            <p className='text one-line price'>{comma(String(cloth.clothPrice))}원</p>
             <div onClick={() => chnageLike(cloth)} className='card-heart'>
               {cloth.like ? 
               <img src={fillLike} alt='heart' />
