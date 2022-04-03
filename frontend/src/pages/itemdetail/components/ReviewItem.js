@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import CustomAxios from '../../../CustomAxios';
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import '../scss/reviews.scss'
 import Comment from './Comment';
 
-const ReviewItem = ({ no, review }) => {
+const ReviewItem = ({ no, review, currentPage }) => {
 
   const [commentList, setCommentList] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -14,14 +15,12 @@ const ReviewItem = ({ no, review }) => {
   const color = {1: '선명해요', 2: '보통이에요', 3: '흐려요'}
   const thickness = {1: '두꺼워요', 2: '보통이에요', 3: '얇아요'}
 
-
   const checkEnter = (e) => {
     if (e.key === 'Enter') {
       postComment()
     }
   }
 
-  console.log('리뷰!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', review)
   const postComment = () => {
     const email = JSON.parse(window.sessionStorage.getItem('userInfo')).sub
     if (inputText.trim().length) {
@@ -49,25 +48,25 @@ const ReviewItem = ({ no, review }) => {
     setInputText('')
   }
 
-  useEffect(() => {
-    const getComment = async () => {
-      await CustomAxios({
-        method: 'get',
-        url: `/api_be/goods/houses/comments/${no}`,
-        headers: {
-          "Content-type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then(res => {
-        console.log('getComments:', res.data.goodsReviewList)
-        setCommentList(res.data.goodsReviewList)
-      })
-      .catch(err => console.log(err, typeof(err)))
-    }
+  const getComment = async () => {
+    await CustomAxios({
+      method: 'get',
+      url: `/api_be/goods/houses/comments/${no}`,
+      headers: {
+        "Content-type": "application/json",
+      },
+      withCredentials: true,
+    })
+    .then(res => {
+      console.log('getComments:', res.data.goodsReviewList)
+      setCommentList(res.data.goodsReviewList)
+    })
+    .catch(err => console.log(err, typeof(err)))
+  }
 
+  useEffect(() => {
     getComment()
-  }, [])
+  }, [review])
 
   // ∨∧
 

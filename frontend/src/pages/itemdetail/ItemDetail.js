@@ -36,17 +36,12 @@ export default function ItemDetail({ user }) {
     const getLikeInfo = async () => {
       await CustomAxios({
         method: 'get',
-        url: '/api_be/goods/like',
-        data: {
-          "clothId": newClothId,
-          "userId": user.id
-        },
-        headers: {
-          "Content-type": "application/json",
-        },
-        withCredentials: true
+        url: `/api_be/goods/like?clothId=${newClothId}&userId=${user.id}`,
       })
-      .then(res => console.log(res))
+      .then(res => {
+        console.log('getLikeInfo!!!')
+        console.log(res)
+      })
       .catch(err => {console.log(err); console.log(newClothId, user.id)})
     }
 
@@ -68,15 +63,14 @@ export default function ItemDetail({ user }) {
         url: `/api_da/user/${user.id}/changeRecentItem`,
         data: { "newClothId" : newClothId }
       })
-      .then(res => {
+      .then(() => {
         console.log('updateRecentItem!!')
-        console.log(res)
       })
       .catch(err => console.log(err, typeof(err)))
     }
 
     getCloth()
-    // .then(getLikeInfo())
+    .then(getLikeInfo())
     .then(getRealFit())
     .then(updateRecentItem())
   }, [newClothId])
