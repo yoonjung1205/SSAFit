@@ -5,10 +5,13 @@ import corr from './images/corr.png'
 import incorr from './images/incorr.png'
 import CustomAxios from '../../CustomAxios'
 import './scss/signup.scss'
+import { useHistory } from 'react-router-dom'
 
 
 
-export default function Signup({ history }) {
+export default function Signup() {
+  const history = useHistory()
+
   const [credentials, setCredentials] = useState({
     email: null, password: null, passwordConf: null
   })
@@ -18,12 +21,6 @@ export default function Signup({ history }) {
   const [hover, setHover] = useState({
     email: false, password: false, passwordConf: false
   })
-
-  useEffect(() => {
-    if (window.sessionStorage.getItem('access-token-jwt')){
-      history.push('/main')
-    } 
-  }, [])
 
   const isValid = function(){
     return new Promise((resolve, reject) =>{
@@ -40,8 +37,11 @@ export default function Signup({ history }) {
     event.preventDefault()
     ////////////// 회원가입  /////////////////
     isValid()
+    .then(() => {console.log('불렀어?');window.sessionStorage.setItem('credentials', JSON.stringify(credentials))})
     .then(() => {
-      history.push(`/moreinfo?email=${credentials.email}&password=${credentials.password}`)
+      if (!alert('다음으로 이동합니다!')){
+        history.push('/moreinfo')
+      }
     })
     .catch(err => {console.log(err);alert('입력정보를 확인하세요!!')})
   }
