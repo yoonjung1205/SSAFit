@@ -11,7 +11,7 @@ import lombok.Setter;
 public class UserChangePutReq {
 
     @ApiModelProperty(name="유저 이메일", example="@email.com")
-    String email;
+    String sub;
 
     @ApiModelProperty(name="유저 닉네임", example="팡민")
     String nickname;
