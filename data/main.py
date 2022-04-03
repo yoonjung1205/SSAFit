@@ -12,6 +12,7 @@ from fastapi_pagination import add_pagination
 
 origins = ["http://ssafit.site",
     "https://ssafit.site",
+    "https://ssafit.site/api_da/docs",
     "http://localhost",
     "http://localhost:3000",]
 
