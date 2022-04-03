@@ -125,7 +125,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userEmail);
 
-            String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getOAuthToken(userEmail,user2.getNickname(),user2.getRole(),user2.getId(),user2.getProfileImageUrl(),user2.getHeight(),user2.getWeight(),user2.getGender().name(),1800000);
+            String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getOAuthToken(userEmail,user2.getNickname(),user2.getRole(),user2.getId(),user2.getProfileImageUrl(),user2.getHeight(),user2.getWeight(),user2.getGender().ordinal(),1800000);
             String refreshToken = JwtTokenUtil.getToken(userEmail,user2.getNickname(),user2.getRole(),user2.getId(),172800000);
             if(userRefreshToken == null || jwtTokenUtil.validateToken(userRefreshToken.getRefreshToken())) {  // 범위안에 있으면 false를 반환함. 범위안에 없으면 true
                 System.out.println(userEmail);
