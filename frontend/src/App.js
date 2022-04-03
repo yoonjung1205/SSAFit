@@ -47,6 +47,13 @@ function App() {
   catch {
     console.log('사용자 인증 정보가 없습니다.')
     session.clear()
+    if (Object.keys(user).length){
+      setUser({})
+      setSize({})
+      setColor({})
+      setStyle({})
+      setCategory({})
+    }
   }
 
   const getRec = async function(path){
@@ -75,7 +82,6 @@ function App() {
     }
   }
 
-
   useEffect(() => {
     if (Object.keys(user).length){
       getRecAll()
@@ -97,6 +103,11 @@ function App() {
         if (!alert('로그인이 필요합니다.')){
           history.push('/login')
         }
+      }
+    }
+    else if (location.pathname === '/signup' || location.pathname === '/moreinfo' || location.pathname === '/login'){
+      if (Object.keys(user).length){
+        history.push('/main')
       }
     }
   }, [location])

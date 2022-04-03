@@ -40,12 +40,6 @@ export default function Login({ history }) {
     })
   }
 
-  useEffect(() => {
-    if (window.sessionStorage.getItem('access-token-jwt')){
-      history.push('/main')
-    } 
-  }, [])
-
   return (
     <article className='login-container'>
       <section className='img-box'>

@@ -6,8 +6,10 @@ import './scss/Edit.scss'
 import CustomAxios from "../../CustomAxios";
 import jwtDecode from "jwt-decode";
 import defaultImage from './images/default.png'
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-const Edit = ({ user, history }) => {
+const Edit = ({ user }) => {
+  const history = useHistory()
 
   const [credentials, setCredentials] = useState({...user})
   const [profileImage, setProfileImage] = useState('')
@@ -23,9 +25,9 @@ const Edit = ({ user, history }) => {
   }
 
   const makeCredential = () => {
-    let userInfo = {...credentials}
-    delete userInfo.profileImage
-    user.profileImage = profileImage
+    let userInfo = {...credentials, profileImage: profileImage}
+    // console.log('이전정보', credentials)
+    // console.log('변경정보', userInfo)
     const formdata = new FormData()
 
     for (const key in userInfo){
@@ -41,7 +43,7 @@ const Edit = ({ user, history }) => {
     const invalidKeys = []
 
     return new Promise((resolve, reject) => {
-      if (!credentials.name || credentials.name.length < 2 || validatorNickName.test(credentials.name)){
+      if (!credentials.nickname || credentials.nickname.length < 2 || validatorNickName.test(credentials.nickname)){
         invalidKeys.push('닉네임')
       }
       if (!credentials.height || credentials.height < 100 || credentials.height > 210){
@@ -50,7 +52,7 @@ const Edit = ({ user, history }) => {
       if (!credentials.weight || credentials.weight < 30 || credentials.weight > 160){
         invalidKeys.push('몸무게')
       }
-      if (credentials.gender !== "MALE" && credentials.gender !== "FEMALE" && credentials.gender !== 0 && credentials.gender !== 1){
+      if (credentials.gender !== 0 && credentials.gender !== 1){
         invalidKeys.push('성별')
       }
       if (invalidKeys.length > 0){
@@ -118,8 +120,8 @@ const Edit = ({ user, history }) => {
               <div className="input-box">
                 <input type="text" id="nickname"
                   placeholder="특수문제를 제외한 2~10자로 입력하세요" maxLength="10"
-                  value={credentials.name}
-                  onChange={(e) => setCredentials({...credentials, name: e.target.value})}/>
+                  value={credentials.nickname}
+                  onChange={(e) => setCredentials({...credentials, nickname: e.target.value})}/>
               </div>
             </label>
             {/* 키 */}
@@ -148,10 +150,10 @@ const Edit = ({ user, history }) => {
             <div className="input-form">
               <div className="label-text">성별</div>
               <div className="input-box">
-                <input type="radio" id="male" checked={credentials.gender === "MALE"}
+                <input type="radio" id="male" checked={credentials.gender === 0}
                   onChange={() => setCredentials({...credentials, gender: 1})}
                 /><label className="gender-label" htmlFor="male">남성</label>
-                <input type="radio" id="female" checked={credentials.gender === "FEMALE"}
+                <input type="radio" id="female" checked={credentials.gender === 1}
                   onChange={() => setCredentials({...credentials, gender: 0})}
                 /><label className="gender-label" htmlFor="female">여성</label>
               </div>
