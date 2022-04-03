@@ -17,7 +17,7 @@ public class UserOnepiece {
     @Field
     private Number userId = 0;
 
-    private String userName;
+    private String userName; // 이게 동일하게 되면은 다같이 바껴요. 중복 되요.
 
     @Field
     private Number largecategory = 0;
