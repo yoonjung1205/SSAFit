@@ -96,16 +96,16 @@ public class MongoUserServiceImpl  implements MongoUserService{
         }
 
         if(user.getGender().name() == "FEMALE") {
-            userOnepieceRepository.insert(userOnepiece);
-            userOuterRepository.insert(userOuter);
-            userPantsRepository.insert(userPants);
-            userSkirtRepository.insert(userSkirt);
-            userTopRepository.insert(userTop);
+            userOnepieceRepository.save(userOnepiece);
+            userOuterRepository.save(userOuter);
+            userPantsRepository.save(userPants);
+            userSkirtRepository.save(userSkirt);
+            userTopRepository.save(userTop);
 
         }else {
-            userOuterRepository.insert(userOuter);
-            userPantsRepository.insert(userPants);
-            userTopRepository.insert(userTop);
+            userOuterRepository.save(userOuter);
+            userPantsRepository.save(userPants);
+            userTopRepository.save(userTop);
         }
 
     }

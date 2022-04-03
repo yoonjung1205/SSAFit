@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 		user.setProviderType(ProviderType.LOCAL);
 		if(userRegisterInfo.getGender() == 0) {
 			user.setGender(Gender.FEMALE);
-		}else if(userRegisterInfo.getGender() == 1) {  
+		}else if(userRegisterInfo.getGender() == 1) {
 			user.setGender(Gender.MALE);
 		}
 		user.setBirthDate(userRegisterInfo.getBirth());
