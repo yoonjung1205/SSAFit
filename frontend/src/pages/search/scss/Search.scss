@@ -48,9 +48,18 @@
           white-space: nowrap;
           font-weight: bold;
           margin-top: 0.5rem;
+          &.size {
+            position: absolute;
+            top: 55%;
+            background-color: rgba(255, 255, 255, 0.25);
+            padding: 0.2rem;
+            font-size: 1.15rem;
+            width: 92%;
+
+          }
           &.last {
             position: absolute;
-            bottom: 0.7rem;
+            bottom: 2%;
           }
         }
         &.two-line {
