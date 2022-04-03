@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 export default function Moreinfo({ password, setPassword }) {
   const history = useHistory()
 
-  const [firstCredentials, setFirstCredentials] = useState(JSON.parse(window.sessionStorage.getItem('credentials')))
+  const [firstCredentials, setFirstCredentials] = useState({})
   const [credentials, setCredentials] = useState({
     imageUrl:defaultImage, nickname: null, height: null, weight: null, birth: null, gender: null
   })
@@ -27,9 +27,10 @@ export default function Moreinfo({ password, setPassword }) {
     if (history.location.search){
       const q = history.location.search.replace('?', '').split('=')
       window.sessionStorage.setItem('credentials', JSON.stringify({ [q[0]]: q[1]}))
-      
-      history.push('/moreinfo')
     }
+    const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
+    setFirstCredentials(temp)
+    history.push('/main')
   }, [])
 
  
