@@ -11,7 +11,6 @@ import './scss/Mypage.scss'
 import { Col, Row } from 'react-bootstrap';
 
 const Mypage = ({ user }) => {
-  const [myinfo, setMyinfo] = useState(user)
   const [menu, setMenu] = useState('recent')
   const colorHanger = 'https://i.ibb.co/cTB977h/free-icon-clothes-hanger-3100599.png'
   const whiteHanger = 'https://i.ibb.co/18ktfCy/free-icon-clothes-hanger-3100575.png'
@@ -21,7 +20,7 @@ const Mypage = ({ user }) => {
       <NavigationBar boldPath="MYPAGE" />
       <article className='mypage'>
         <section className='mypage-myinfo'>
-          <MyInfo info={myinfo} />
+          <MyInfo user={user} />
         </section>
         <hr style={{margin: 0}}/>
         <section className='hanger'>
