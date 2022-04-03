@@ -30,7 +30,7 @@ export default function Moreinfo({ password, setPassword }) {
     }
     const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
     setFirstCredentials(temp)
-    history.push('/main')
+    history.push('/moreinfo')
   }, [])
 
  
