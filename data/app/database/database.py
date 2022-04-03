@@ -297,7 +297,7 @@ def change_user_info(userId, newClothId, num):
     for idx, col in enumerate(cloth):
         if 'smallCategory' in col and cloth[col] == 1:
             smallCategorySelect = col
-        elif 'color' in col and cloth[col] == 1:
+        elif col != 'color' and 'color' in col and cloth[col] == 1:
             colorSelect = col
             
     col_list = ['size', 'bright', 'color', 'thickness', 'colorWhite', 
@@ -347,22 +347,30 @@ def change_user_info(userId, newClothId, num):
                     user[cat] -= 1
                 elif cat == colorSelect and user[cat] >= 1:
                     user[cat] -= 1
-                elif cat in style and user[cat] >= 3:
+                elif cat in style and user[cat]:
                     user[cat] -= cloth[cat]
+                    if user[cat] < 0:
+                        user[cat] = 0
                 db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
 
         user['viewCnt'] -= 1
-        
-        for idx, cat in enumerate(user):
-            # 모든 성분 / viewCnt
-            if cat in col_list:
-                user[cat] /= user['viewCnt']
-                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
+        if user['viewCnt'] == 0:
+            for idx, cat in enumerate(user):
+                if cat in col_list:
+                    user[cat] = 0
+                    db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
+        else:
+            for idx, cat in enumerate(user):
+                # 모든 성분 / viewCnt
+                if cat in col_list:
+                    user[cat] /= user['viewCnt']
+                    db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
     return
 
 
 def get_recent_items(userId):
     user = db.user_ssafit.find_one({'userId':int(userId), 'largecategory': 1}, {'_id': 0})
+    print(user)
     try:
         result = user['recentItems']
         clothes = []
@@ -389,12 +397,12 @@ def change_recent_item(userId, newClothId):
         elif newClothId not in user['recentItems'] and len(user['recentItems']) == 5:
             user['recentItems'].pop()
             user['recentItems'].insert(0, newClothId)
-        db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': user['recentItems']}})
+        db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': user['recentItems']}})
 
     except:
-        # db.user_ssafit.aggregate([{'$match': {'userId': int(userId)}},{'$addFields': { 'recentItems': list() }}])
-        db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': []}})
-        user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': 1}, {'_id': 0})
-        user['recentItems'].append(newClothId)
-        db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': [user['recentItems']]}})
+        # db.user_ssafit.aggregate([{'$match': {'userId': int(userId)}},{'$addFields': { 'recentItems':[] }}])
+        db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': list()}})
+        users = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': 1}, {'_id': 0})
+        users['recentItems'].append(newClothId)
+        db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': users['recentItems']}})
     return

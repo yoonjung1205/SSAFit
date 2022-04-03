@@ -11,6 +11,7 @@ import pickle
 import lightfm
 from copy import deepcopy
 from pydantic import BaseModel
+from typing import List
 
 router = APIRouter()
 
@@ -137,12 +138,12 @@ def rec_category(userId: int):
     print(finish - start)
     return context
 
-@router.get('/cloth/brand/{newClothId}', response_model=list[Rec], tags=["Recommend"])
+@router.get('/cloth/brand/{newClothId}', response_model=List[Rec], tags=["Recommend"])
 def getBrandClothes(newClothId: int):
     result = get_brand_clothes(newClothId)
     return result
 
-@router.get('/cloth/similar/{newClothId}', response_model=list[Rec], tags=["Recommend"])
+@router.get('/cloth/similar/{newClothId}', response_model=List[Rec], tags=["Recommend"])
 def getSimilarClothes(newClothId: int):
     result = get_similar_clothes(newClothId)
     return result
