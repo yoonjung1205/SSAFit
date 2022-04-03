@@ -109,4 +109,100 @@ public class MongoUserServiceImpl  implements MongoUserService{
         }
 
     }
+
+    @Override
+    public void updateUser(User user) {
+
+        // MongoDB에 Insert
+
+
+
+
+
+        if(user.getGender().name() == "FEMALE") {
+            UserTop userTop = userTopRepository.findByUserName(user.getNickname());
+            userTop.setUserId(user.getId());
+            userTop.setUserWeight(user.getWeight());
+            userTop.setUserHeight(user.getHeight());
+            userTop.setUserName(user.getNickname());
+            userTop.setLargecategory(1);
+
+            UserOuter userOuter = userOuterRepository.findByUserName(user.getNickname());
+            userOuter.setUserId(user.getId());
+            userOuter.setUserWeight(user.getWeight());
+            userOuter.setUserHeight(user.getHeight());
+            userOuter.setUserName(user.getNickname());
+            userOuter.setLargecategory(2);
+
+            UserPants userPants = userPantsRepository.findByUserName(user.getNickname());
+            userPants.setUserId(user.getId());
+            userPants.setUserWeight(user.getWeight());
+            userPants.setUserHeight(user.getHeight());
+            userPants.setUserName(user.getNickname());
+            userPants.setLargecategory(3);
+
+            UserOnepiece userOnepiece = userOnepieceRepository.findByUserName(user.getNickname());
+            userOnepiece.setUserId(user.getId());
+            userOnepiece.setUserWeight(user.getWeight());
+            userOnepiece.setUserHeight(user.getHeight());
+            userOnepiece.setUserName(user.getNickname());
+            userOnepiece.setLargecategory(4);
+
+            UserSkirt userSkirt = userSkirtRepository.findByUserName(user.getNickname());
+            userSkirt.setUserId(user.getId());
+            userSkirt.setUserWeight(user.getWeight());
+            userSkirt.setUserHeight(user.getHeight());
+            userSkirt.setUserName(user.getNickname());
+            userSkirt.setLargecategory(5);
+
+            userOnepiece.setUserFemale(1);
+            userOnepiece.setUserMale(0);
+            userOuter.setUserFemale(1);
+            userOuter.setUserMale(0);
+            userPants.setUserFemale(1);
+            userPants.setUserMale(0);
+            userSkirt.setUserFemale(1);
+            userSkirt.setUserMale(0);
+            userTop.setUserFemale(1);
+            userTop.setUserMale(0);
+            userOnepieceRepository.save(userOnepiece);
+            userOuterRepository.save(userOuter);
+            userPantsRepository.save(userPants);
+            userSkirtRepository.save(userSkirt);
+            userTopRepository.save(userTop);
+        }
+        else {
+            UserTop userTop = userTopRepository.findByUserName(user.getNickname());
+            userTop.setUserId(user.getId());
+            userTop.setUserWeight(user.getWeight());
+            userTop.setUserHeight(user.getHeight());
+            userTop.setUserName(user.getNickname());
+            userTop.setLargecategory(1);
+
+            UserOuter userOuter = userOuterRepository.findByUserName(user.getNickname());
+            userOuter.setUserId(user.getId());
+            userOuter.setUserWeight(user.getWeight());
+            userOuter.setUserHeight(user.getHeight());
+            userOuter.setUserName(user.getNickname());
+            userOuter.setLargecategory(2);
+
+            UserPants userPants = userPantsRepository.findByUserName(user.getNickname());
+            userPants.setUserId(user.getId());
+            userPants.setUserWeight(user.getWeight());
+            userPants.setUserHeight(user.getHeight());
+            userPants.setUserName(user.getNickname());
+            userPants.setLargecategory(3);
+
+            userOuter.setUserFemale(0);
+            userOuter.setUserMale(1);
+            userPants.setUserFemale(0);
+            userPants.setUserMale(1);
+
+            userTop.setUserFemale(0);
+            userTop.setUserMale(1);
+            userOuterRepository.save(userOuter);
+            userPantsRepository.save(userPants);
+            userTopRepository.save(userTop);
+        }
+    }
 }
