@@ -98,14 +98,14 @@ public class JwtTokenUtil {
                 .withSubject(email)
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
-                .withClaim("name",userName)
+                .withClaim("nickName",userName)
                 .withClaim("role",role)
                 .withClaim("id",id)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
 
-    public static String getOAuthToken(String email, String userName, String role, Long id, String url,int height,int weight, String gender, int expireTime) {
+    public static String getOAuthToken(String email, String userName, String role, Long id, String url,int height,int weight, int gender, int expireTime) {
         // refresh_token 172800000, access_token  1800000
         Date now = new Date();
         Date expires = new Date(now.getTime() + expireTime);
@@ -113,7 +113,7 @@ public class JwtTokenUtil {
                 .withSubject(email)
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
-                .withClaim("name",userName)
+                .withClaim("nickName",userName)
                 .withClaim("height", height)
                 .withClaim("weight",weight)
                 .withClaim("gender",gender)
@@ -126,7 +126,7 @@ public class JwtTokenUtil {
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
 
-    public static String getAuthToken(String email, String userName, String role, Long id, String url,int height,int weight, String gender, int expireTime) {
+    public static String getAuthToken(String email, String userName, String role, Long id, String url,int height,int weight, int gender, int expireTime) {
         // refresh_token 172800000, access_token  1800000
         Date now = new Date();
         Date expires = new Date(now.getTime() + expireTime);
@@ -134,7 +134,7 @@ public class JwtTokenUtil {
                 .withSubject(email)
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
-                .withClaim("name",userName)
+                .withClaim("nickName",userName)
                 .withClaim("height", height)
                 .withClaim("weight",weight)
                 .withClaim("gender",gender)
@@ -147,7 +147,7 @@ public class JwtTokenUtil {
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
 
-    public static String getToken(String email, String userName, String role, Long id, String url,int height,int weight, String gender, int expireTime) {
+    public static String getToken(String email, String userName, String role, Long id, String url,int height,int weight, int gender, int expireTime) {
         // refresh_token 172800000, access_token  1800000
         Date now = new Date();
         Date expires = new Date(now.getTime() + expireTime);
@@ -155,7 +155,7 @@ public class JwtTokenUtil {
                 .withSubject(email)
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
-                .withClaim("name",userName)
+                .withClaim("nickName",userName)
                 .withClaim("height", height)
                 .withClaim("weight",weight)
                 .withClaim("gender",gender)

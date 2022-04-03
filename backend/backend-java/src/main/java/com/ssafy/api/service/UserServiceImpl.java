@@ -75,9 +75,9 @@ public class UserServiceImpl implements UserService {
 		user.setWeight(userRegisterInfo.getWeight());
 		user.setProviderType(ProviderType.LOCAL);
 		if(userRegisterInfo.getGender() == 0) {
-			user.setGender(Gender.FEMALE);
-		}else if(userRegisterInfo.getGender() == 1) {
 			user.setGender(Gender.MALE);
+		}else if(userRegisterInfo.getGender() == 1) {
+			user.setGender(Gender.FEMALE);
 		}
 		user.setBirthDate(userRegisterInfo.getBirth());
 		return userRepository.saveAndFlush(user);
