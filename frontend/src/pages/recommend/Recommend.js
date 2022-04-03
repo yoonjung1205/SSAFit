@@ -91,7 +91,7 @@ const Recommend = ({ recommend, setter, getter }) => {
           <RecCategory cate='Outer' clothes={recommend[standard].outer} />
           <RecCategory cate='Top' clothes={recommend[standard].top} />
           <RecCategory cate='Pants' clothes={recommend[standard].pants} />
-          {JSON.parse(window.sessionStorage.getItem('userInfo')).gender === 'FEMALE' &&
+          {JSON.parse(window.sessionStorage.getItem('userInfo')).gender === 0 &&
           <>
             <RecCategory cate='Onepiece' clothes={recommend[standard].onepiece} />
             <RecCategory cate='Skirt' clothes={recommend[standard].skirt} />
