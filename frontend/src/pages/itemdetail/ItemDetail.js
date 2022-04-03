@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import CustomAxios from '../../CustomAxios'
 import React, { useEffect, useState } from 'react'
@@ -32,6 +33,23 @@ export default function ItemDetail({ user }) {
       .catch(err => console.log(err, typeof(err)))
     }
 
+    const getLikeInfo = async () => {
+      await CustomAxios({
+        method: 'get',
+        url: '/api_be/goods/like',
+        data: {
+          "clothId": newClothId,
+          "userId": user.id
+        },
+        headers: {
+          "Content-type": "application/json",
+        },
+        withCredentials: true
+      })
+      .then(res => console.log(res))
+      .catch(err => {console.log(err); console.log(newClothId, user.id)})
+    }
+
     const getRealFit = async () => {
       await CustomAxios({
         method: 'get',
@@ -44,21 +62,23 @@ export default function ItemDetail({ user }) {
       .catch(err => console.log(err, typeof(err)))
     }
 
-    // const updateRecentItem = async () => {
-    //   await CustomAxios({
-    //     method: 'put',
-    //     url: `/api_da/user/${user.id}/changeRecentItem?newClothId=${newClothId}`
-    //   })
-    //   .then(res => {
-    //     console.log('updateRecentItem!!')
-    //     console.log(res)
-    //   })
-    //   .catch(err => console.log(err, typeof(err)))
-    // }
+    const updateRecentItem = async () => {
+      await CustomAxios({
+        method: 'put',
+        url: `/api_da/user/${user.id}/changeRecentItem`,
+        data: { "newClothId" : newClothId }
+      })
+      .then(res => {
+        console.log('updateRecentItem!!')
+        console.log(res)
+      })
+      .catch(err => console.log(err, typeof(err)))
+    }
 
     getCloth()
+    // .then(getLikeInfo())
     .then(getRealFit())
-    // .then(updateRecentItem())
+    .then(updateRecentItem())
   }, [newClothId])
 
 

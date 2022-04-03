@@ -14,7 +14,7 @@ const Review = ({ newClothId }) => {
   const getReview = async () => {
     await CustomAxios({
       method: 'get',
-      url: `/api_da/cloth/reviews/${newClothId}?page=${4}&size=5`
+      url: `/api_da/cloth/reviews/${newClothId}?page=${1}&size=5`
     })
     .then(res => {
       console.log('getReview:', res.data)

@@ -21,6 +21,7 @@ const ReviewItem = ({ no, review }) => {
     }
   }
 
+  console.log('리뷰!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', review)
   const postComment = () => {
     const email = JSON.parse(window.sessionStorage.getItem('userInfo')).sub
     if (inputText.trim().length) {
@@ -86,10 +87,10 @@ const ReviewItem = ({ no, review }) => {
           </div>
         </div>
         <div className='desc'>
-          {review.size && <span className='item'>사이즈가 <span>{size[review.size]}</span></span>}
-          {review.bright && <span className='item'>밝기가 <span>{bright[review.bright]}</span></span>}
-          {review.color && <span className='item'>색깔이 <span>{color[review.color]}</span></span>}
-          {review.thickness && <span className='item'>두께가 <span>{thickness[review.thickness]}</span></span>}
+          {review.size > 0 && <span className='item'>사이즈가 <span>{size[review.size]}</span></span>}
+          {review.bright > 0 && <span className='item'>밝기가 <span>{bright[review.bright]}</span></span>}
+          {review.color > 0 && <span className='item'>색깔이 <span>{color[review.color]}</span></span>}
+          {review.thickness > 0 && <span className='item'>두께가 <span>{thickness[review.thickness]}</span></span>}
         </div>
         <div className='content'>
           {review.reviewContent.map((v, i) => <span key={i}>{v} </span>)}
