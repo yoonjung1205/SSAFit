@@ -30,6 +30,7 @@ function App() {
   const [color, setColor] = useState({})
   const [style, setStyle] = useState({})
   const [category, setCategory] = useState({})
+  const [password, setPassword] = useState('')
   
   const session = window.sessionStorage
 
@@ -46,13 +47,8 @@ function App() {
   }
   catch {
     console.log('사용자 인증 정보가 없습니다.')
-    session.clear()
     if (Object.keys(user).length){
       setUser({})
-      setSize({})
-      setColor({})
-      setStyle({})
-      setCategory({})
     }
   }
 
