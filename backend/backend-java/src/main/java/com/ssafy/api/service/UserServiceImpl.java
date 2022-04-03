@@ -120,9 +120,9 @@ public class UserServiceImpl implements UserService {
 
 		if(userChangePutReq.getGender() == 0) {
 
-			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, fileUrl, userChangePutReq.getEmail());
-		}else if(userChangePutReq.getGender() == 1) {
 			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.MALE, fileUrl, userChangePutReq.getEmail());
+		}else if(userChangePutReq.getGender() == 1) {
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, fileUrl, userChangePutReq.getEmail());
 		}
 
 
@@ -135,9 +135,9 @@ public class UserServiceImpl implements UserService {
 
 		if(userChangePutReq.getGender() == 0) {
 
-			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, userChangePutReq.getEmail());
-		}else if(userChangePutReq.getGender() == 1) {
 			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.MALE, userChangePutReq.getEmail());
+		}else if(userChangePutReq.getGender() == 1) {
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, userChangePutReq.getEmail());
 		}
 
 
