@@ -15,6 +15,17 @@ mongo_url = "mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPrefe
 client = MongoClient(mongo_url)
 db = client['ssafit']
 
+def cloth_helper(cloth):
+    context = {
+        'newClothId': int(cloth['newClothId']),
+        'clothId': cloth['clothId'],
+        'clothName': cloth['clothName'],
+        'brand': cloth['brand'],
+        'clothImg': cloth['clothImg'],
+        'clothPrice': cloth['clothPrice'],
+        'goodsSize': cloth['goodsSize'],
+    }
+    return context
 
 def get_cloth_meta(what: int):
     clothes = db.cloth_meta.find({'what': what})
@@ -138,7 +149,7 @@ def get_cloth(idList):
         clothes = []
         for cloth_id in idList:
             cloth = db.cloth.find_one({'newClothId': int(cloth_id)}, {'_id': 0})
-            clothes.append(jsonable_encoder(cloth))
+            clothes.append(cloth_helper(cloth))
         return clothes
     
 def get_user_gender(userId):
