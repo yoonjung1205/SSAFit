@@ -150,10 +150,10 @@ const Edit = ({ user }) => {
             <div className="input-form">
               <div className="label-text">성별</div>
               <div className="input-box">
-                <input type="radio" id="male" checked={credentials.gender === 0}
+                <input type="radio" id="male" checked={credentials.gender === 1}
                   onChange={() => setCredentials({...credentials, gender: 1})}
                 /><label className="gender-label" htmlFor="male">남성</label>
-                <input type="radio" id="female" checked={credentials.gender === 1}
+                <input type="radio" id="female" checked={credentials.gender === 0}
                   onChange={() => setCredentials({...credentials, gender: 0})}
                 /><label className="gender-label" htmlFor="female">여성</label>
               </div>

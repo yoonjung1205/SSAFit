@@ -67,8 +67,9 @@ const Search = () => {
               <Col key={idx}>
                 <div className='search-card' onClick={() => history.push(`/item/${cloth.newClothId}`)} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
                   <Card.Img src={cloth.clothImg} alt='cloth' />
-                  <p className='search-card-text one-line'>{cloth.clothBrand}</p>
-                  <p className='search-card-text two-line'>{cloth.clothName}</p>
+                  <span className='search-card-text one-line' style={{fontSize: '1.25rem'}}>{cloth.brand}</span>
+                  <p className='search-card-text one-line size'>Size : {cloth.goodsSize}</p>
+                  <p className='search-card-text one-line'>{cloth.clothName}</p>
                   <p className='search-card-text one-line last'>{comma(String(cloth.clothPrice))}원</p>
                 </div>
               </Col>
