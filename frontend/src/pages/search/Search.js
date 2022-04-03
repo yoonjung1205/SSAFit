@@ -9,6 +9,7 @@ import CustomAxios from '../../CustomAxios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Loading from '../../components/Loading';
 
+
 const Search = () => {
   const history = useHistory()
   let { word } = parse(useLocation().search)

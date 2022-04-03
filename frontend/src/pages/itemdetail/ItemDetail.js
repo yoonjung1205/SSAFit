@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import CustomAxios from '../../CustomAxios'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';

@@ -83,14 +83,7 @@ function App() {
   })
 
   useEffect(() => {
-    if (location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login'){
-      if (!Object.keys(user).length){
-        if (!alert('로그인이 필요합니다.')){
-          history.push('/login')
-        }
-      }
-    }
-    else if (location.pathname === '/main' && location.search){
+    if (location.pathname === '/main' && location.search){
       const authorize = history.location.search.replace('?', '').split('&')
 
       authorize.forEach(token => {
@@ -98,6 +91,13 @@ function App() {
         session.setItem(temp[0], temp[1])
       })
       history.push('/main')
+    }
+    else if (location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login'){
+      if (!Object.keys(user).length){
+        if (!alert('로그인이 필요합니다.')){
+          history.push('/login')
+        }
+      }
     }
   }, [location])
 
