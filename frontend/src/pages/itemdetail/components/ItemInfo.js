@@ -37,7 +37,6 @@ export default function ItemInfo({ item, user }) {
         url: '/api_be/goods/like',
         data: item
       })
-      .then(() => setLiked(!liked))
       .catch(err => console.log(err))
     }
 
@@ -52,12 +51,12 @@ export default function ItemInfo({ item, user }) {
           "num": num
         }
       })
-      .then(res => console.log(res))
       .catch(err => console.log(err))
     }
 
     likeBe()
     .then(likeDa())
+    .then(setLiked(!liked))
   }
 
 
