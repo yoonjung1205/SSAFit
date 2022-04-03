@@ -10,5 +10,6 @@ public interface MongoUserService {
 
     public void createUser(User user);
 
+    public void updateUser(User user);
 
 }
