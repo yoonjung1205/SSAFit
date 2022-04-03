@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import defaultImage from './images/default.png'
 import CustomAxios from '../../CustomAxios'
 import './scss/moreinfo.scss'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-export default function Moreinfo({ history }) {
+export default function Moreinfo({ password, setPassword }) {
+  const history = useHistory()
+
+  const [firstCredentials, setFirstCredentials] = useState(JSON.parse(window.sessionStorage.getItem('credentials')))
   const [credentials, setCredentials] = useState({
     imageUrl:defaultImage, nickname: null, height: null, weight: null, birth: null, gender: null
   })
@@ -17,12 +21,18 @@ export default function Moreinfo({ history }) {
     setCredentials({...credentials, imageUrl: URL.createObjectURL(file)})
     setProfileImage(file)
   }
-  const q = history.location.search.replace('?', '').split('&')
-  const firstCredentials = {}
-  q.forEach(query => {
-    let temp = query.split('=')
-    firstCredentials[temp[0]] = temp[1]
-  })
+
+  // url query에서 email, props에서 password
+  useEffect(() => {
+    if (history.location.search){
+      const q = history.location.search.replace('?', '').split('=')
+      window.sessionStorage.setItem('credentials', JSON.stringify({ [q[0]]: q[1]}))
+      
+      history.push('/moreinfo')
+    }
+  }, [])
+
+ 
 
   const isValid = function(){
     // eslint-disable-next-line no-useless-escape
@@ -69,6 +79,9 @@ export default function Moreinfo({ history }) {
     isValid()
     .then(() => {
       const userInfo = makeCredential()
+      for (const a of userInfo){
+        console.log(a)
+      }
 
       return CustomAxios({
         method: 'post',
@@ -79,7 +92,7 @@ export default function Moreinfo({ history }) {
     })
     .then(res => {
       const session = window.sessionStorage
-
+      session.removeItem('credentials')
       if (!alert('가입이 완료되었습니다!')){
         session.setItem('access-token-jwt', res.headers.authorization)
         session.setItem('refresh-token-jwt', res.headers.refreshtoken)
