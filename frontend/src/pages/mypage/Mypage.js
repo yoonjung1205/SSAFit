@@ -9,8 +9,10 @@ import LikeCodi from './component/LikeCodi'
 import Faq from './component/Faq'
 import './scss/Mypage.scss'
 import { Col, Row } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 const Mypage = ({ user }) => {
+  let history = useHistory()
   const [menu, setMenu] = useState('recent')
   const colorHanger = 'https://i.ibb.co/cTB977h/free-icon-clothes-hanger-3100599.png'
   const whiteHanger = 'https://i.ibb.co/18ktfCy/free-icon-clothes-hanger-3100575.png'
@@ -48,9 +50,9 @@ const Mypage = ({ user }) => {
               <div />
             </div>
             <div className='content'>
-              {menu === 'recent' && <Recent />}
-              {menu === 'likeCloth' && <LikeCloth />}
-              {menu === 'likeCodi' && <LikeCodi />}
+              {menu === 'recent' && <Recent user={user} history={history} />}
+              {menu === 'likeCloth' && <LikeCloth history={history} />}
+              {menu === 'likeCodi' && <LikeCodi history={history} />}
               {menu === 'faq' && <Faq />}
             </div>
 
