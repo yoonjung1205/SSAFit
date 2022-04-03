@@ -76,21 +76,17 @@ public class GoodsController {
     }
 
     @GetMapping("/like")
-    @ApiOperation(value = "goods 좋아요 누르기", notes = "goods 좋아요 누르기")
+    @ApiOperation(value = "goods 좋아요 여부 확인", notes = "goods 좋아요 여부 확인")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestParam LikeExistedReq likeExistedReq, HttpServletRequest request) {
-        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+    public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestParam int userId, @RequestParam int clothId, HttpServletRequest request) {
 
-        long userId = jwtTokenUtil.getUserId(token);
-        System.out.println("userId : " + userId);
 
-        LikeExistedRes likeExistedRes = goodsService.isLikeGoods(likeExistedReq.getUserId(), likeExistedReq.getClothId());
+        LikeExistedRes likeExistedRes = goodsService.isLikeGoods(userId, clothId);
 
         return new ResponseEntity<LikeExistedRes>(likeExistedRes, HttpStatus.OK);
     }
