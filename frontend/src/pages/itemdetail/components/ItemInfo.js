@@ -41,19 +41,23 @@ export default function ItemInfo({ item, user }) {
       .catch(err => console.log(err))
     }
 
-    // const likeDa = async() => {
-    //   // 1은 긍정 2는 부정이면...좋아요 누를때 1보내고 취소 누를때 2?
-    //   const num = liked ? 2 : 1
-    //   await CustomAxios({
-    //     method: 'put',
-    //     url: `/api_da/user/${user.id}?newClothId=${item.clothId}&num=${num}`
-    //   })
-    //   .then(res => console.log(res))
-    //   .catch(err => console.log(err))
-    // }
+    const likeDa = async() => {
+      // 1은 긍정 2는 부정이면...좋아요 누를때 1보내고 취소 누를때 2?
+      const num = liked ? 2 : 1
+      await CustomAxios({
+        method: 'put',
+        url: `/api_da/user/${user.id}`,
+        data: {
+          "newClothId": item.newClothId,
+          "num": num
+        }
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+    }
 
     likeBe()
-    // .then(likeDa())
+    .then(likeDa())
   }
 
 
