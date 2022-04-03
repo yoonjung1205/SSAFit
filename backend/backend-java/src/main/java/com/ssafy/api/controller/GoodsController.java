@@ -84,7 +84,7 @@ public class GoodsController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestParam String userId, @RequestParam String clothId, HttpServletRequest request) {
-
+        //wait
         int uid = Integer.parseInt(userId);
         int cid = Integer.parseInt(clothId);
 
