@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import CustomAxios from '../../../CustomAxios';
 import React, { useEffect, useState } from 'react';
 import '../scss/comment.scss'
@@ -56,7 +57,7 @@ const Comment = ({ comment, commentList, setCommentList }) => {
   useEffect(() => {
     setViewComment(comment.comment)
     setInputText(comment.comment)
-  }, [])
+  }, [comment])
 
 
   return (

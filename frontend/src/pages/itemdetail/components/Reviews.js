@@ -9,37 +9,59 @@ const Review = ({ newClothId }) => {
 
   const [loading, setLoading] = useState(true)
   const [reviews, setReviews] = useState([])
-  const [pagenation, setPagenation] = useState({ page: 1, total: 0})
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(0)
 
   const getReview = async () => {
     await CustomAxios({
       method: 'get',
-      url: `/api_da/cloth/reviews/${newClothId}?page=${4}&size=5`
+      url: `/api_da/cloth/reviews/${newClothId}?page=${currentPage}&size=5`
     })
     .then(res => {
       console.log('getReview:', res.data)
       setReviews(res.data.items)
-      setPagenation({page: res.data.page, total: res.data.total})
+      setCurrentPage(res.data.page)
+      setTotalPage(Math.ceil(res.data.total/5))
     })
     .then(() => setLoading(false))
     .catch(err => console.log(err, typeof(err)))
   }
 
+  const makeNumList = () => {
+    let arr = []
+    if (totalPage < 5) {
+      // 1부터 totalPage까지
+      for (let i = 1; i < totalPage+1; i++) {arr.push(i)}
+    } else if (currentPage > totalPage-2) {
+      // totalPage -4부터 totalPage까지 
+      for (let i = totalPage-4; i < totalPage+1; i++) {arr.push(i)}
+    } else if (currentPage < 3) {
+      // 1부터 5까지
+      for (let i = 1; i < 6; i++) {arr.push(i)}
+    } else {
+      // currentPage -2부터 +2까지
+      for (let i = currentPage-2; i < currentPage+3; i++) {arr.push(i)}
+    }
+    return arr
+  }
+
   useEffect(() => {
     setLoading(true)
     getReview()
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage])
 
   const changePage = num => {
-    let newPage = pagenation.page + num
+    let newPage = currentPage + num
     if (newPage < 1) {
       alert('첫번째 페이지 입니다.')
-    } else if (newPage > 5) {
+    } else if (newPage > totalPage) {
       alert('마지막 페이지 입니다.')
     } else {
-      setPagenation({...pagenation, page: newPage})
+      setCurrentPage(newPage)
     }
   }
+
 
   const ReviewBodies = () => {
     if (reviews.length) {
@@ -51,19 +73,17 @@ const Review = ({ newClothId }) => {
             ))}
           </div>
           <div className='review-bottom'>
-            
             <div className='pagenation'>
               <div onClick={() => {changePage(-1)}}><p>&lt;</p></div>
-              {[1, 2, 3, 4, 5].map(num => (
-                <div className={pagenation.page === num ? 'active': ''} key={num} 
-                  onClick={() => setPagenation({...pagenation, page: num})}
+              {makeNumList().map((num, idx) => (
+                <div className={currentPage === num ? 'active': ''} key={idx} 
+                  onClick={() => setCurrentPage(num)}
                 >
                   <p>{num}</p>
                 </div>
               ))}
               <div onClick={() => {changePage(1)}}><p>&gt;</p></div>
             </div>
-  
           </div>
         </>
       )

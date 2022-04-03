@@ -1,13 +1,3 @@
-export const user = {
-  email: "ab@cd.ef",
-  nickname: "alphabet",
-  height: "123",
-  weight: "45",
-  gender: "1",
-  birthDate: "2022.03.21",
-  imgUrl: "http://cdn.lecturernews.com/news/photo/202203/92531_310307_4919.png"
-}
-
 export const recentClothes = [
   {
     clothId: 100234,
@@ -135,22 +125,4 @@ export const likeCodies = [
     hashtags: ['#편안한', '#그래픽', '#레터링', '#꾸안꾸', '#캠퍼스', '#A라인'],
     like: true
   },
-]
-
-export const faqs = [
-  { title: '첫번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '첫번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  },
-  { title: '두번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '두번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  },
-  { title: '세번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '세번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  },
-  { title: '네번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '네번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  },
-  { title: '다섯번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '다섯번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  }
 ]

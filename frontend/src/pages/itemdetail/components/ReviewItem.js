@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import CustomAxios from '../../../CustomAxios';
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import '../scss/reviews.scss'
 import Comment from './Comment';
 
-const ReviewItem = ({ no, review }) => {
+const ReviewItem = ({ no, review, currentPage }) => {
 
   const [commentList, setCommentList] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -13,7 +14,6 @@ const ReviewItem = ({ no, review }) => {
   const bright = {1: '밝아요', 2: '보통이에요', 3: '어두워요'}
   const color = {1: '선명해요', 2: '보통이에요', 3: '흐려요'}
   const thickness = {1: '두꺼워요', 2: '보통이에요', 3: '얇아요'}
-
 
   const checkEnter = (e) => {
     if (e.key === 'Enter') {
@@ -48,25 +48,25 @@ const ReviewItem = ({ no, review }) => {
     setInputText('')
   }
 
-  useEffect(() => {
-    const getComment = async () => {
-      await CustomAxios({
-        method: 'get',
-        url: `/api_be/goods/houses/comments/${no}`,
-        headers: {
-          "Content-type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then(res => {
-        console.log('getComments:', res.data.goodsReviewList)
-        setCommentList(res.data.goodsReviewList)
-      })
-      .catch(err => console.log(err, typeof(err)))
-    }
+  const getComment = async () => {
+    await CustomAxios({
+      method: 'get',
+      url: `/api_be/goods/houses/comments/${no}`,
+      headers: {
+        "Content-type": "application/json",
+      },
+      withCredentials: true,
+    })
+    .then(res => {
+      console.log('getComments:', res.data.goodsReviewList)
+      setCommentList(res.data.goodsReviewList)
+    })
+    .catch(err => console.log(err, typeof(err)))
+  }
 
+  useEffect(() => {
     getComment()
-  }, [])
+  }, [review])
 
   // ∨∧
 
@@ -86,10 +86,10 @@ const ReviewItem = ({ no, review }) => {
           </div>
         </div>
         <div className='desc'>
-          {review.size && <span className='item'>사이즈가 <span>{size[review.size]}</span></span>}
-          {review.bright && <span className='item'>밝기가 <span>{bright[review.bright]}</span></span>}
-          {review.color && <span className='item'>색깔이 <span>{color[review.color]}</span></span>}
-          {review.thickness && <span className='item'>두께가 <span>{thickness[review.thickness]}</span></span>}
+          {review.size > 0 && <span className='item'>사이즈가 <span>{size[review.size]}</span></span>}
+          {review.bright > 0 && <span className='item'>밝기가 <span>{bright[review.bright]}</span></span>}
+          {review.color > 0 && <span className='item'>색깔이 <span>{color[review.color]}</span></span>}
+          {review.thickness > 0 && <span className='item'>두께가 <span>{thickness[review.thickness]}</span></span>}
         </div>
         <div className='content'>
           {review.reviewContent.map((v, i) => <span key={i}>{v} </span>)}
