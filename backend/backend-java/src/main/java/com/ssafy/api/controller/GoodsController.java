@@ -83,10 +83,12 @@ public class GoodsController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestParam int userId, @RequestParam int clothId, HttpServletRequest request) {
+    public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestParam String userId, @RequestParam String clothId, HttpServletRequest request) {
 
+        int uid = Integer.parseInt(userId);
+        int cid = Integer.parseInt(clothId);
 
-        LikeExistedRes likeExistedRes = goodsService.isLikeGoods(userId, clothId);
+        LikeExistedRes likeExistedRes = goodsService.isLikeGoods(uid, cid);
 
         return new ResponseEntity<LikeExistedRes>(likeExistedRes, HttpStatus.OK);
     }
