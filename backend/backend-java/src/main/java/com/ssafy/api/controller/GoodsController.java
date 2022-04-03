@@ -83,7 +83,7 @@ public class GoodsController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestBody LikeExistedReq likeExistedReq, HttpServletRequest request) {
+    public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestParam LikeExistedReq likeExistedReq, HttpServletRequest request) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
         token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 

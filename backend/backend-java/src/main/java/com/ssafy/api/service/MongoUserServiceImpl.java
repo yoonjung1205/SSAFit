@@ -121,11 +121,8 @@ public class MongoUserServiceImpl  implements MongoUserService{
         // MongoDB에 Update
 
 
-
-
-
         if(user.getGender().name() == "FEMALE") {
-            List<MongoUser> users = userRepository.findByUserName(user.getNickname());
+            List<MongoUser> users = userRepository.findByUserId(user.getId());
 
             for(MongoUser u : users) {
                 if(u.getLargecategory() == (Number)1) {
@@ -184,7 +181,7 @@ public class MongoUserServiceImpl  implements MongoUserService{
 
         }
         else {
-            List<MongoUser> users = userRepository.findByUserName(user.getNickname());
+            List<MongoUser> users = userRepository.findByUserId(user.getId());
             for(MongoUser u : users) {
                 if(u.getLargecategory() == (Number)1) {
                     Optional<UserTop> userTop = userTopRepository.findById(u.getId());
