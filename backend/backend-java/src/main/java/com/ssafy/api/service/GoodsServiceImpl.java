@@ -136,7 +136,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public LikeExistedRes isLikeGoods(int userId, int clothId) {
+    public LikeExistedRes isLikeGoods(int userId, long clothId) {
         LikeExistedRes commentsExistedRes = new LikeExistedRes();
 
         if(likeGoodsRepository.existsByGoodsIDAndUserID(clothId,userId) == 1){

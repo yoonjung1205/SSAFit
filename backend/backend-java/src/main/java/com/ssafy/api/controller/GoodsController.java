@@ -86,7 +86,7 @@ public class GoodsController {
     public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestParam String userId, @RequestParam String clothId, HttpServletRequest request) {
         //wait
         int uid = Integer.parseInt(userId);
-        int cid = Integer.parseInt(clothId);
+        long cid = Long.parseLong(clothId);
 
         LikeExistedRes likeExistedRes = goodsService.isLikeGoods(uid, cid);
 

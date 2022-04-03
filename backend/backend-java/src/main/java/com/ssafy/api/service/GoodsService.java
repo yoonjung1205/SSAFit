@@ -23,5 +23,5 @@ public interface GoodsService {
 
     public void likeGoods(Long userId, GoodReq goodReq);
 
-    public LikeExistedRes isLikeGoods(int userId, int clothId);
+    public LikeExistedRes isLikeGoods(int userId, long clothId);
 }
