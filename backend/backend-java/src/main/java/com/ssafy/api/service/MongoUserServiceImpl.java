@@ -175,7 +175,7 @@ public class MongoUserServiceImpl  implements MongoUserService{
                     userSkirt.get().setUserWeight(user.getWeight());
                     userSkirt.get().setUserHeight(user.getHeight());
                     userSkirt.get().setUserName(user.getNickname());
-                    userSkirt.get().setLargecategory(4);
+                    userSkirt.get().setLargecategory(5);
                     userSkirt.get().setUserMale(0);
                     userSkirt.get().setUserFemale(1);
                     userSkirtRepository.save(userSkirt.get());
