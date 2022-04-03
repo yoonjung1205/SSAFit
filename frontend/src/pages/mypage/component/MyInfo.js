@@ -24,7 +24,7 @@ const MyInfo = ({ user }) => {
         <div>
           <p className='title'>성별</p>
           <hr />
-          <p>{user.gender ? '여자':'남자'}</p>
+          <p>{user.gender ? '남자':'여자'}</p>
         </div>
         <div className='myinfo-btn-div'></div>
       </section>
