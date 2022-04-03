@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("CommentsExistedRes")
-public class CommentsExistedRes {
+public class LikeExistedRes {
 
     @ApiModelProperty(name="좋아요 여부", example="True/false")
     boolean isLike;
