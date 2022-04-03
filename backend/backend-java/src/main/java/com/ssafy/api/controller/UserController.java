@@ -243,10 +243,12 @@ public class UserController {
 		if(file == null) {
 			System.out.println("파일이름이 엄서용~!");
 			User user = userService.updateUser(userChangePutReq);
+			mongoUserService.createUser(user);
 			accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),1800000);
 		}else{
 			fileUrl = s3Uploader.upload(file,"user");
 			User user = userService.updateUser(userChangePutReq,fileUrl);
+			mongoUserService.createUser(user);
 			accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),1800000);
 		}
 
