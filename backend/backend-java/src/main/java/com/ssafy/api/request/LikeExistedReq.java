@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("CommentsExistedReq")
-public class CommentsExistedReq {
+public class LikeExistedReq {
 
     @ApiModelProperty(name="유저 아이디", example="123")
     int userId;

@@ -1,6 +1,6 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.CommentsExistedReq;
+import com.ssafy.api.request.LikeExistedReq;
 import com.ssafy.api.request.GoodReq;
 import com.ssafy.api.request.UserCommentReq;
 import com.ssafy.api.response.*;
@@ -75,25 +75,25 @@ public class GoodsController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-//    @GetMapping("/like")
-//    @ApiOperation(value = "goods 좋아요 누르기", notes = "goods 좋아요 누르기")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "성공"),
-//            @ApiResponse(code = 401, message = "인증 실패"),
-//            @ApiResponse(code = 404, message = "사용자 없음"),
-//            @ApiResponse(code = 500, message = "서버 오류")
-//    })
-//    public ResponseEntity<CommentsExistedReq> likeGoodsExisted(@RequestBody CommentsExistedReq commentsExistedReq, HttpServletRequest request) {
-//        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-//        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
-//
-//        long userId = jwtTokenUtil.getUserId(token);
-//        System.out.println("userId : " + userId);
-//
-//        CommentsExistedRes commentsExistedRes = goodsService.isLikeGoods(commentsExistedReq.getUserId(), commentsExistedReq.getClothId());
-//
-//        return new ResponseEntity<CommentsExistedRes>(goodsListRes, HttpStatus.OK);
-//    }
+    @GetMapping("/like")
+    @ApiOperation(value = "goods 좋아요 누르기", notes = "goods 좋아요 누르기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestBody LikeExistedReq likeExistedReq, HttpServletRequest request) {
+        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+
+        long userId = jwtTokenUtil.getUserId(token);
+        System.out.println("userId : " + userId);
+
+        LikeExistedRes likeExistedRes = goodsService.isLikeGoods(likeExistedReq.getUserId(), likeExistedReq.getClothId());
+
+        return new ResponseEntity<LikeExistedRes>(likeExistedRes, HttpStatus.OK);
+    }
 
     @GetMapping("/search")
     @ApiOperation(value = "옷 정보 검색", notes = "옷 정보를 검색한다.")
