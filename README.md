@@ -86,6 +86,8 @@
 
 
 
+
+
 ## ✔️ 적용한 빅데이터 기술 사항. 
 
 **저희는 유저 데이터와 옷 데이터 및 거래 데이터를 오픈 소스인 LightFM에 적용시켜 유저 맞춤 상품 추천을 진행했습니다.**
@@ -104,7 +106,7 @@
 >
 > 회원정보는 JWT Refresh Token, Access Token으로 관리되고 있습니다.
 
-![GoogleLogin](README.assets/GoogleLogin.gif){: .right}
+![GoogleLogin](README.assets/GoogleLogin.gif)
 
 
 
@@ -112,7 +114,7 @@
 
 > 일상적으로 발생할 수 있는 대표적인 12가지의 상황 별 맞춤 코디 추천.
 
-![TPO](README.assets/TPO.gif){: .right}
+![TPO](README.assets/TPO.gif)
 
 
 
@@ -120,7 +122,7 @@
 
   > 좋아요, 싫어요 정보를 저장하여 빅데이터 학습에 적용하여 최적의 맞춤 서비스로 개선해나가고 있습니다.
 
-![TPODetail](README.assets/TPODetail.gif){: .right}
+![TPODetail](README.assets/TPODetail.gif)
 
 
 
