@@ -6,14 +6,6 @@ from typing import List
 
 router = APIRouter()
     
-class Rec(BaseModel):
-    newClothId : int
-    clothName : str
-    clothImg: str
-    brand: str
-    clothPrice: int
-    goodsSize: str
-    
 class Item(BaseModel):
     newClothId: int
     num: int
@@ -26,9 +18,10 @@ def changeUserInfo(userId: int, item: Item):
     change_user_info(userId, item.newClothId, item.num)
     return
 
-@router.get('/user/{userId}/recentItems', response_model=List[Rec], tags=["User"])
+@router.get('/user/{userId}/recentItems', tags=["User"])
 def getRecentItems(userId: int):
     result = get_recent_items(userId)
+    
     return result
 
 @router.put('/user/{userId}/changeRecentItem', tags=["User"])
