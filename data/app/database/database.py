@@ -398,10 +398,12 @@ def get_recent_items(userId):
         result = user['recentItems']
         clothes = []
         for cloth_id in result:
-            clothes.append(db.cloth.find_one({'newClothId': cloth_id}, {'_id': 0}))
+            cloth = db.cloth.find_one({'newClothId': cloth_id}, {'_id': 0})
+            clothes.append(cloth_helper(cloth))
         return clothes
     except:
-        return '최근 본 상품이 없습니다.'
+        text = "최근 본 상품이 없습니다."
+        return text
 
 
 def change_recent_item(userId, newClothId):
