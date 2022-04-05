@@ -46,9 +46,9 @@ export default function RecommendCodi({ user }) {
   const getCodi = function(){
     CustomAxios({
       method: 'get',
-      url: `/api_da/codi/${tpo}`
+      url: `/api_da/codi/detail/${tpo}`
     })
-    .then(res => {setCodi([res.data])})
+    .then(res => {console.log(res);setCodi([res.data])})
   }
 
   useEffect(() => {
@@ -94,10 +94,17 @@ export default function RecommendCodi({ user }) {
         <section className='img-box'/>
         <section className='codi-body'>
           <span className='codi-title'>
-            <h1>
-              {`${user.nickname}님, ${tpoObject[tpo]}`}
-            </h1>
-              에<br /> 맞는 코디를 추천해드릴게요
+            {codi.length > 1 ? 
+              <p>
+                <h1>{user.nickname}님, {tpoObject[tpo]}</h1>에<br />
+                맞는 코디를 추천해드릴게요
+              </p>
+             :
+              <p>
+                <h1>{user.nickname}님,</h1><br/>
+                찜하신 코디를 보여드릴게요
+              </p>
+            }
           </span>
           <ItemBox items={codi[idx].clothes} />
           <div className='button-box'>

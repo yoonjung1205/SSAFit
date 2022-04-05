@@ -22,12 +22,6 @@
       flex-direction: column;
       padding: 2rem;
       padding-left: 3rem;
-
-      .codi-title {
-        font-size: 2rem;
-        letter-spacing: 1rem;
-        margin-bottom: 2rem;
-      }
       
       .button-box {
         display: flex;
@@ -86,8 +80,9 @@
     }
 
     p {
-      font-size: 1.25rem;
-      letter-spacing: 0.5rem;
+      font-size: 2rem;
+      letter-spacing: 1rem;
+      margin-bottom: 2rem;
     }
     
     h1 {
