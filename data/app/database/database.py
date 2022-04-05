@@ -395,15 +395,14 @@ def change_user_info(userId, newClothId, num):
 def get_recent_items(userId):
     user = db.user_ssafit.find_one({'userId':int(userId), 'largecategory': 1}, {'_id': 0})
     try:
-        result = user['recentItems']
         clothes = []
+        result = user['recentItems']
         for cloth_id in result:
             cloth = db.cloth.find_one({'newClothId': cloth_id}, {'_id': 0})
             clothes.append(cloth_helper(cloth))
         return clothes
     except:
-        text = "최근 본 상품이 없습니다."
-        return text
+        return []
 
 
 def change_recent_item(userId, newClothId):
