@@ -12,5 +12,5 @@ import java.util.List;
 public interface ClothRepository  extends MongoRepository<Cloth, ObjectId> {
 
 
-    List<SearchCloth> findAllByClothNameRegex(String keywords);
+    List<SearchCloth> findAllByClothNameRegexOrderByClothIdAsc(String keywords);
 }
