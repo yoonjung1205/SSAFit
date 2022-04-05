@@ -1,9 +1,8 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import image4 from '../images/image_4.png'
 import '../scss/start3.scss'
 
-export default function start3() {
+export default function start3({ goPage }) {
   return (
     <article id='start-3'>
       <img className='dash' src="img/dash.png" alt="dash" />
@@ -26,13 +25,11 @@ export default function start3() {
             <h3>
               한 번 시작해볼까요?
             </h3>
-            <Link to={'/login'}>
-              <button>
-                <span>
-                  GO
-                </span>
-              </button>
-            </Link>
+            <button onClick={() => goPage('/main')}>
+              <span>
+                GO
+              </span>
+            </button>
           </div>
         </div>
         <img src={image4} alt="img" />
