@@ -1,0 +1,105 @@
+.realfit-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 4rem;
+
+  .desc {
+    color: #777777
+  }
+
+  .carousel-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+
+    .carousel-view {
+      width: 60vw;
+      min-width: 300px;
+      height: calc(96vw * 0.275);
+      overflow: hidden;
+      position: relative;
+
+      .carousel {
+        width: 96vw;
+        min-width: 480px;
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        left: -30%;
+  
+        .carousel-card {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 25%;
+          max-width: 250px;
+          margin: 2rem;
+  
+          .carousel-image {
+            width: 100%;
+            aspect-ratio: 1/1.75;
+            background-size: cover;
+            background-position: center;
+
+          }
+  
+          .carousel-desc {
+            text-align: end;
+          }
+        }
+      }
+    }
+
+    .carousel-btn {
+      width: 35px;
+      opacity: 50%;
+      aspect-ratio: 1/1;
+      cursor: pointer;
+      margin: 2rem;
+    }
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+
+  }
+  @keyframes slide-out {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  .slide-left {
+    animation: slide-in 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  .slide-right {
+    animation: slide-out 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  .no-items {
+    display: flex;
+    flex-direction: column;
+    height: 30vh;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem;
+
+    h6 {
+      font-size: 1rem;
+      letter-spacing: 0.25px;
+      color: #777777;
+    }
+  }
+}

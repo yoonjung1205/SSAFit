@@ -1,0 +1,52 @@
+.chart {
+  display: flex;
+  justify-content: center;
+  height: 45vh;
+  padding: 0 5rem;
+  .gender {
+    margin: 0 6rem;
+    .chart-box {
+      width: 100%;
+      padding-left: 2rem;
+      display: flex;
+      justify-content: center;
+      .bar-chart {
+        text-align: center;
+        &.left {
+          margin-right: 5rem;
+        }
+        .blank {
+          position: relative;
+          height: 30vh;
+          aspect-ratio: 1/2;
+          .bar {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+          }
+          &.female {
+            background: url(../images/female.png) center bottom no-repeat;
+            background-size: cover;
+            .bar {
+              background: url(../images/female_on.png) center bottom no-repeat;
+              background-size: cover;
+            }
+          }
+          &.male {
+            background: url(../images/male.png) center bottom no-repeat;
+            background-size: cover;
+            .bar {
+              background: url(../images/male_on.png) center bottom no-repeat;
+              background-size: cover;
+            }
+          }
+        }
+      }
+    }
+  }
+  .month {
+    width: 50%;
+    margin: 0 6rem;
+  }
+}

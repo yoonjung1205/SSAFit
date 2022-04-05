@@ -2,9 +2,7 @@
 
 #### 빅데이터 기반  개인 맞춤 옷, 코디 추천 플랫폼
 
-![image](/uploads/3e840b5e2f8b40390fe982698a7a8656/image.png)
-
-
+![image-20220404120231497](README.assets/main.png)
 
 
 
@@ -13,7 +11,7 @@
 ##### 정재호 ( Jae Ho Jung )
 
 - **빅데이터 추천, 웹 크롤링 , FastAPI 서버 개발** 
-- 🍒 Github : 
+- 🍒 Github : https://github.com/jaho901
 
 ##### 정윤정 ( Jeong Yun Jeong )
 
@@ -23,7 +21,7 @@
 ##### 이혜진 ( Hye Jin Lee )
 
 - **프론트 엔드 React 개발** 
-- 🍇 Github : 
+- 🍇 Github : https://github.com/hy2jin
 
 ##### 임경훈 ( Kyung Hun Lim )
 
@@ -38,7 +36,7 @@
 ##### 김창민 ( Chang Min Kim )
 
 - **서비스 아키텍쳐 설계 및 구현, 백엔드 개발** 
-- 🍅 Github : 
+- 🍅 Github : https://github.com/sky6min
 
 
 
@@ -88,11 +86,25 @@
 
 
 
+
+
+## ✔️ 적용한 빅데이터 기술 사항. 
+
+**저희는 유저 데이터와 옷 데이터 및 거래 데이터를 오픈 소스인 LightFM에 적용시켜 유저 맞춤 상품 추천을 진행했습니다.**
+
+**LightFM은 2개의 데이터를 통해 모델을 학습시키고, 이와 관련된 정보를 기입하면 추천을 해주는 알고리즘입니다.저희는 데이터를 train set과 test set을 랜덤하게 8:2의 비중으로 나눴고, 이를 모델에 학습시켜주면서, 예측값 역시 조회할 수 있는 함수를 생성해주었습니다.이를 활용하면, 위 사진의 페르소나인 여자와 남자에 관한 정보를 넣었을 때, 각각 맞춤 옷을 추천해줄 수 있다고 생각하며 현재 구현중에 있습니다.**
+
+![image-20220404160149384](README.assets/bigdata.png)
+
+
+
 ## ⚡ 주요 기능
 
 #### 소셜 로그인을 통해 간편하게 서비스 이용 가능
 
 > Google, Kakao 소셜 로그인을 이용하여, 간단한 신체정보 입력만으로 Ssafit을 이용할 수 있습니다.
+>
+> 회원정보는 JWT Refresh Token, Access Token으로 관리되고 있습니다.
 
 ![GoogleLogin](README.assets/GoogleLogin.gif)
 
@@ -104,11 +116,13 @@
 
 ![TPO](README.assets/TPO.gif)
 
+
+
 - ##### TPO 코디 상세 페이지
 
-  > 좋아요, 싫어요 정보를 저장하여 빅데이터 학습에 이용하여 최적의 맞춤 서비스에 이용하고 있습니다.
+  > 좋아요, 싫어요 정보를 저장하여 빅데이터 학습에 적용하여 최적의 맞춤 서비스로 개선해나가고 있습니다.
 
-​		![TPODetail](README.assets/TPODetail.gif)
+![TPODetail](README.assets/TPODetail.gif)
 
 
 
@@ -118,9 +132,16 @@
 
 ![RECOMMAND](README.assets/RECOMMAND.gif)
 
-- 개인 별 좋아하는 색깔, 카테고리 별로 옷을 추천하는 기능을 제공합니다.
+- 개인 별 좋아하는 색깔, 스타일, 카테고리 별로 옷을 추천하는 기능을 제공합니다.
 
   ![LIKE](README.assets/LIKE.gif)
+
+- **옷 디테일 페이지**
+
+  - 디테일 페이지에서 해당 옷이 언제 가장 많이 구매되었고, 유저들의 리뷰를 확인할 수 있습니다.
+  - 또한, 워드클라우드를 통해 해당 옷의 부가적인 정보(장점, 특징)를 제공합니다.
+
+  ![DETAIL](README.assets/DETAIL.gif)
 
 
 
@@ -134,7 +155,7 @@
 
 ## ❔ 서비스 아키텍쳐
 
-![image-20220404160149383](C:\Users\dlrjs\AppData\Roaming\Typora\typora-user-images\image-20220404160149383.png)
+![image-20220404160149383](README.assets/infra.png)
 
 
 

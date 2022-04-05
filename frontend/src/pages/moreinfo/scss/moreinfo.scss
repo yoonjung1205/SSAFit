@@ -1,0 +1,181 @@
+.moreinfo-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  .img-box {
+    width: 40%;
+    height: 100%;
+    background-image: url(../images/signup_img.png);
+    background-size: cover;
+
+    .logo {
+      height: 5vh;
+      margin: 1rem;
+      cursor: pointer;
+    }
+  }
+
+  .moreinfo-body {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      #gender {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      label {
+        width: 40%;
+        font-size: 1.25rem;
+        color: #777777;
+        margin: 0.25rem 0;
+        display: flex;
+        flex-direction: column;
+
+        #gender-box {
+          width: 175px;
+          flex-direction: row;
+          justify-content: flex-end;
+          align-items: center;
+
+          .gender-label {
+            font-size: 1rem;
+            margin: 0 0.5rem;
+          }
+
+          input {
+            margin: 0 0.5rem 0 1rem;
+          }
+        }
+
+        .input-box {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+
+          .unit {
+            position: absolute;
+            top: 30%;
+            right: 7.5%;
+          }
+        }
+      }
+
+      input {
+        padding: 0.75rem;
+        border-radius: 5px;
+        border: #777777 1.75px solid;
+        margin: 0.5rem 0;
+        font-size: 1.25rem;
+      }
+
+      input::placeholder {
+        font-size: 1rem;
+        color: #cccccc;
+      }
+
+      input:focus::-webkit-input-placeholder {
+        color: transparent;
+      }
+
+      #file-input {
+        width: 15%;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background-image: url(../images/corr.png);
+        background-size: cover;
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+
+      button {
+        padding: 1.5rem 2rem;
+        width: 40%;
+        text-align: center;
+        background-color: #56586C;
+        color: white;
+        border-radius: 4px;
+        border: none;
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+        z-index: 1;
+        margin: 2rem;
+    
+        span {
+          width: 100%;
+          height: 100%;
+          display: inline-block;
+          position: absolute;
+          transition: 0.5s;
+          background-color: #3c3d47;
+          top: 0;
+          left: -100%;
+          z-index: -1;
+        }
+    
+        p {
+          color: white;
+          margin: 0;
+          z-index: 2;
+        }
+    
+        &:hover {
+          span {
+            left: 0;
+          }
+        }
+      }
+    }
+  }
+  /* font-weight, margin 등의 요소는 자율적으로 */
+
+  p {
+    font-size: 1.25rem;
+    letter-spacing: 0.5rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+    letter-spacing: 1rem;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    letter-spacing: 1rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+    letter-spacing: 1rem;
+  }
+
+  h4 {
+    font-size: 1.75rem;
+    letter-spacing: 1rem;
+  }
+
+  h5 {
+    font-size: 1.5rem;
+    letter-spacing: 1rem;
+  }
+
+  h6 {
+    font-size: 1.25rem;
+    letter-spacing: 1rem;
+  }
+}

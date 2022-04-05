@@ -1,0 +1,109 @@
+
+
+userId : 858063 (최댓값 : 1416948  /  Type : Integer)
+userName : "! . !" (기입된 내용  /  Type : String)
+
+------------------------------------------------------------------------------------
+변경할 부분 시작
+------------------------------------------------------------------------------------
+
+### Top (type : Integer)
+largecategory : 1
+
+### Outer (type : Integer)
+largecategory : 2
+
+### Pants (type : Integer)
+largecategory : 3
+
+### Onepiece (type : Integer)
+largecategory : 4
+
+### Skirt (type : Integer)
+largecategory : 5
+
+------------------------------------------------------------------------------------
+변경할 부분 끝
+------------------------------------------------------------------------------------
+
+###  (전부 default는 0 / Type : Integer)
+userMale : 1 (남자는 1 / 여자는 0)
+userFemale : 1 (여자는 1 / 남자는 0)
+userHeight : 158 (기입된 내용)
+userWeight : 50 (기입된 내용)
+
+###  (전부 default는 0 / Type : Float)
+size
+bright
+color
+thickness
+weightness
+touch
+
+------------------------------------------------------------------------------------
+변경할 부분 시작
+------------------------------------------------------------------------------------
+### Top (전부 default는 0 / Type : Float)
+smallCategoryHalfshort
+smallCategoryShirt
+smallCategoryCollar
+smallCategoryHoody
+smallCategorySweatshirt
+smallCategoryKnit
+smallCategoryLong
+smallCategoryShort
+smallCategoryOthers
+
+### Outer (전부 default는 0 / Type : Float)
+smallCategoryHoodie
+smallCategoryBlouson
+smallCategoryRiders
+smallCategoryMustang
+smallCategoryCardigan
+smallCategoryFleece
+smallCategoryCoat
+smallCategoryPaddedcoat
+smallCategoryVest
+smallCategoryJacket
+smallCategoryOthers
+
+### Pants (전부 default는 0 / Type : Float)
+smallCategoryDenimpants
+smallCategoryCottonpants
+smallCategorySlacks
+smallCategoryJoggerpants
+smallCategoryShortpants
+smallCategoryLeggings
+smallCategoryJumpsuit
+smallCategoryOthers
+
+### Onepiece (전부 default는 0 / Type : Float)
+smallCategoryMinidress
+smallCategoryMidi
+smallCategoryMaxidress
+
+### Skirt (전부 default는 0 / Type : Float)
+smallCategoryMiniskirt
+smallCategoryMidi
+smallCategoryLongskirt
+
+------------------------------------------------------------------------------------
+변경할 부분 끝
+------------------------------------------------------------------------------------
+###  (전부 default는 0 / Type : Float)
+colorWhite
+colorGrey
+colorBlack
+colorRed
+colorPink
+colorOrange
+colorIvory
+colorYellow
+colorGreen
+colorBlue
+colorPurple
+colorBrown
+colorBeige
+colorJean
+colorPattern
+colorOthers
