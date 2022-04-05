@@ -63,7 +63,10 @@ const Comment = ({ comment, commentList, setCommentList }) => {
   return (
     <>
       <div className='comment'>
-        <div className='nickname'><p className='nick-p'>{comment.user.nickname}</p></div>
+        <div className='nickname'>
+          <img src={comment.user.profileImageUrl ? comment.user.profileImageUrl : 'https://i.ibb.co/17HCkM1/default.png'} alt='Img' />
+          <p className='nick-p'>{comment.user.nickname}</p>
+        </div>
         {isEdit ? 
         <div className='comment-edit'>
           <input value={inputText} onChange={(e) => setInputText(e.target.value)} onKeyUp={checkEnter} />
@@ -72,7 +75,6 @@ const Comment = ({ comment, commentList, setCommentList }) => {
         :
         <div className='content'><p>{viewComment}</p></div>
         }
-        {/* 댓글의 userId가 필요함 -> 지금 userId와 같은지 비교하기 위해 -> style display none*/}
         {comment.user.email === JSON.parse(window.sessionStorage.getItem('userInfo')).sub &&
         <>
           <div className='edit-btn' onClick={() => setIsEdit(!isEdit)} />
