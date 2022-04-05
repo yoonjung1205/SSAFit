@@ -48,7 +48,7 @@ const Mypage = ({ user }) => {
             </div>
             <div className='content'>
               {menu === 'recent' && <Recent user={user} history={history} />}
-              {menu === 'likeCloth' && <LikeCloth user={user} history={history} />}
+              {menu === 'likeCloth' && <LikeCloth history={history} />}
               {menu === 'likeCodi' && <LikeCodi history={history} />}
               {menu === 'faq' && <Faq />}
             </div>
