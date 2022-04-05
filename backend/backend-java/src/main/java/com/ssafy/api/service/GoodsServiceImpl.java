@@ -93,7 +93,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         MyLikeGoodsRes goodsListRes = new MyLikeGoodsRes();
 
-        List<Integer> goodsIdList =  likeGoodsRepository.findGoodsIDByUserId(userId);
+        List<Long> goodsIdList =  likeGoodsRepository.findGoodsIDByUserId(userId);
         List<Goods> goodsList = goodsRepository.findByGOODSList(goodsIdList, pageable);
 
         goodsListRes.setGoodsList(goodsList);

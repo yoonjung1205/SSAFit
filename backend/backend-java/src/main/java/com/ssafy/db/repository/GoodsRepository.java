@@ -20,12 +20,12 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
     @Query(value = "SELECT * FROM Goods Where newClothId IN (:goodIds)",
             countQuery = "SELECT count(*) FROM Goods Where newClothId IN (:goodIds)"
             , nativeQuery = true)
-    List<Goods> findByGOODSList(@Param("goodIds")List<Integer> goodIds, Pageable pageable);
+    List<Goods> findByGOODSList(@Param("goodIds")List<Long> goodIds, Pageable pageable);
 
     @Query(value="SELECT * FROM Goods Where newClothId = :goodsId", nativeQuery = true)
     Goods findByGOODSID(long goodsId);
 //    Goods Save(Goods goods);
 
     @Query(value = "SELECT count(*) FROM Goods Where newClothId IN (:goodIds)", nativeQuery = true)
-    int findCountByGoods(@Param("goodIds") List<Integer> goodIds);
+    int findCountByGoods(@Param("goodIds") List<Long> goodIds);
 }
