@@ -3,12 +3,18 @@
   position: relative;
   height: 4vh;
 
+  img {
+    height: 100%;
+    aspect-ratio: 1/1;
+  }
+
   p {
     font-size: 1.25rem;
     letter-spacing: 0.15rem;
     margin: 0;
     position: absolute;
     top: 50%;
+    left: 5vh;
     transform: translateY(-50%);
     &.nick-p {
       font-size: 1.4rem;
@@ -16,7 +22,8 @@
   }
 
   .nickname {
-    width: 11%;
+    user-select: none;
+    width: 15%;
     position: relative;
     margin: 0 1%;
     padding: 0;
@@ -53,7 +60,7 @@
 
   .content {
     position: relative;
-    width: 80%;
+    width: 76%;
     padding: 0;
     margin: 0 1% 0 0;
   }
