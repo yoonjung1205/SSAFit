@@ -27,5 +27,7 @@ public interface CodiRepository  extends JpaRepository<Codi, Long> {
     @Query(value="SELECT * FROM Codi Where CODI_ID = :CodiId", nativeQuery = true)
     Codi findByCODIID(int CodiId);
 
+    @Query(value = "SELECT count(*) FROM Codi Where CODI_ID IN (:codiIds)", nativeQuery = true)
+    int findCountByCodi(@Param("codiIds") List<Integer> codiIds);
 
 }
