@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from ..database.database import *
+from ..database.database import get_codi, get_codi_detail
 
 router = APIRouter()
 
@@ -8,7 +8,7 @@ def getCodi(codiTPO: str):
     result = get_codi(codiTPO)
     return result
 
-@router.get('/codi/{codiId}', tags=["Codi"])
+@router.get('/codi/detail/{codiId}', tags=["Codi"])
 def getCodiDetail(codiId: int):
     result = get_codi_detail(codiId)
     return result
