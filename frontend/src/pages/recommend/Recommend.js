@@ -12,6 +12,10 @@ const Recommend = ({ recommend, setter, getter }) => {
   const [standard, setStandard] = useState('size')
   const [tab, setTab] = useState(false)
 
+  const tabName = {
+    size: '취향', color: '색상', category: '카테고리', style: '스타일'
+  }
+
   const getRecAll = async function(){
     const session = window.sessionStorage
 
@@ -71,17 +75,13 @@ const Recommend = ({ recommend, setter, getter }) => {
       </section>
       <br />
       <section className='rec-choice'>
-        <div className={`choice ${standard === 'size' ? 'rec-active' : ''}`} onClick={() => setStandard('size')}><h5>사이즈</h5></div>
-        <div className='choice-line'></div>
-        <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onClick={() => setTab(true)}><h5>취향</h5></div>
-        <div className='tab-container' style={{display: `${tab? 'flex':'none'}`}} onClick={e => {if (e.target.className === 'tab-container'){setTab(false)}}}>
-          <div className='tab-box'>
-            <h4>Recommend By</h4>
-            <div className='tabs'>
-              <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}><h6>Color</h6></span>
-              <span className='tab' onClick={() => {setStandard('style'); setTab(false)}}><h6>Style</h6></span>
-              <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}><h6>Category</h6></span>
-            </div>
+        <div className={`choice ${standard === 'size' ? 'rec-active' : ''}`} onClick={() => setStandard('size')}><h4>사이즈</h4></div>
+        <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onMouseOver={() => setTab(true)} onMouseLeave={e => setTab(false)}>
+          <h4>{tabName[standard]}</h4>
+          <div className='tabs' style={{display: `${tab? 'flex':'none'}`}} >
+            <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}><h6>Color</h6></span>
+            <span className='tab' onClick={() => {setStandard('style'); setTab(false)}}><h6>Style</h6></span>
+            <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}><h6>Category</h6></span>
           </div>
         </div>
       </section>

@@ -35,7 +35,8 @@ const Recommedation = ({ brand, newClothId }) => {
       })
       .catch(err => console.log(err, typeof(err)))
     }
-    getSimilarClothes().then(getBrandClothes)
+    getSimilarClothes()
+    // .then(getBrandClothes)
   }, [])
 
   const comma = function(tar){
