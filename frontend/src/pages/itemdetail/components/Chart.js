@@ -5,7 +5,6 @@ import '../scss/chart.scss'
 const Chart = ({ male, female, month, sum }) => {
   return (
     <section className='chart'>
-
       <div className='gender'>
         <p className='chart-title'>Gender</p>
         <div className='chart-box'>
@@ -23,7 +22,6 @@ const Chart = ({ male, female, month, sum }) => {
           </div>
         </div>
       </div>
-
       <div className='month'>
         <p className='chart-title'>Month</p>
         <MonthChart month={month} sum={sum}/>
