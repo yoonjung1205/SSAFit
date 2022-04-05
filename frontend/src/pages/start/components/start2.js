@@ -3,7 +3,12 @@ import React from 'react'
 import '../scss/start2.scss'
 import ourService from '../images/our_service_img.png'
 
-export default function start2({ isLogin, goPage }) {
+export default function start2({ isLogin, history }) {
+  const goPage = (path) => {
+    if (isLogin) {
+      history.push(path)
+    }
+  }
 
   return (
     <article id='start-2'>

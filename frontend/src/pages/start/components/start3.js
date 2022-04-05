@@ -2,7 +2,15 @@ import React from 'react'
 import image4 from '../images/image_4.png'
 import '../scss/start3.scss'
 
-export default function start3({ goPage }) {
+export default function start3({ isLogin, history }) {
+  const goPage = (path) => {
+    if (isLogin) {
+      history.push(path)
+    } else {
+      history.push('/login')
+    }
+  }
+
   return (
     <article id='start-3'>
       <img className='dash' src="img/dash.png" alt="dash" />
