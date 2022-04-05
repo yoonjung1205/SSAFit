@@ -89,7 +89,7 @@ const Review = ({ newClothId }) => {
         </>
       )
     }
-    return <p style={{textAlign: 'center', marginTop: '2rem'}}>리뷰가 없어요...(*￣０￣)ノ</p>
+    return <p style={{textAlign: 'center', margin: '10rem', fontSize: '1.5rem'}}>리뷰가 없어요...(*￣０￣)ノ</p>
   }
 
 
