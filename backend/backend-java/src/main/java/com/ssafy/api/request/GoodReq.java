@@ -16,7 +16,7 @@ public class GoodReq {
 
 //    int userId;
     @ApiModelProperty(name="옷 ID", example="FastAPI에서 받은 newClothId 보내주시면 됩니다 ")
-    Long clothId;
+    Long newClothId;
     @ApiModelProperty(name="옷 Brand", example="옷의 Brand 이름")
     String brand;
     @ApiModelProperty(name="옷 clothName", example="옷의 clothName")

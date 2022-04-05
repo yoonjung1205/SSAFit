@@ -18,14 +18,11 @@ public class Goods {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    long GOODS_ID;
+    private String brand;
+    private String clothName;
+    private long clothPrice;
+    private String clothImg;
+    private long newClothId;
 
-    String name;
-
-    Long price;
-
-    String brand;
-
-    String goodsImg;
-
+    private boolean likes;
 }
