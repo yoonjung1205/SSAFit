@@ -95,7 +95,7 @@ def get_content(url):
             codiTitle = codiSoup.find('a', class_="style-list-item__link").attrs['title']
             date = '20'+codiSoup.find_all('span', class_="post-information__text")[0].text
             viewCnt = codiSoup.find_all('span', class_="post-information__text")[1].text.split()[1]
-            imgSrc = codiSoup.find('img')['data-original']
+            # imgSrc = codiSoup.find('img')['data-original']
 
             newUrl = f'https://www.musinsa.com/app/codimap/views/{codiId}'
             newReq = requests.get(newUrl, headers=headers)
@@ -111,6 +111,7 @@ def get_content(url):
                         hashtags.append(hashtag[i].text[1:])
             else:
                 hashtags = []
+            imgSrc = newSoup.find('img',class_="photo")['src']
             codiContents = newSoup.select_one("#style_info > div.styling_tag > p").text
             # 하위 items                
             clothesInfo = newSoup.find_all("div", class_="swiper-slide")

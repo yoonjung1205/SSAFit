@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from ..database.database import *
-from fastapi.responses import JSONResponse
 from fastapi_pagination import Page, add_pagination, paginate
 from typing import List
 import pandas as pd
