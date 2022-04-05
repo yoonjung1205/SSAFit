@@ -19,15 +19,58 @@ class Rec(BaseModel):
     clothPrice: int
     goodsSize: str
     
+def sample_size_recommendation(model, clothes, users, user_info, user_id):
+    cnt = 1
+    for user in user_info:
+        if cnt==1:
+            scores = model.predict(int(users[users.userId==user].index[0]), np.arange(len(clothes)))
+        else:
+            scores += model.predict(int(users[users.userId==user].index[0]), np.arange(len(clothes)))
+        cnt+=1
+    user_result = get_user_height_weight(user_id)
+    userHeight, userWeight = user_result[0], user_result[1]
+    top_items = clothes.idx[np.argsort(-scores)]
+    rec_clothes = []
+    re_cnt = 1
+    for i in top_items:
+        cloth_result = get_cloth_height_weight(clothes[clothes.idx==i].newClothId.iloc[0])
+        clothHeight, clothWeight = cloth_result[0], cloth_result[1]
+        if abs(userHeight-clothHeight) <= 10 and abs(userWeight-clothWeight) <= 10:
+            rec_clothes.append(clothes[clothes.idx==i].newClothId.iloc[0])
+            re_cnt += 1
+        if re_cnt == 30:
+            break
+    return rec_clothes
+
+def sample_size_rec(model, clothes, users, user_info, user_id):
+    cnt = 1
+    for user in user_info:
+        if cnt==1:
+            scores = model.predict(int(users[users.userId==user].index[0]), np.arange(len(clothes)))
+        else:
+            scores += model.predict(int(users[users.userId==user].index[0]), np.arange(len(clothes)))
+        cnt+=1
+    userGender = get_user_gender(user_id)
+    top_items = clothes.idx[np.argsort(-scores)]
+    rec_clothes = []
+    re_cnt = 1
+    for i in top_items:
+        clothGender = get_cloth_gender(clothes[clothes.idx==i].newClothId.iloc[0])
+        if userGender==clothGender:
+            rec_clothes.append(clothes[clothes.idx==i].newClothId.iloc[0])
+            re_cnt += 1
+        if re_cnt == 30:
+            break
+    return rec_clothes
 
 def sample_recommendation(model, clothes, users, user_ids):
     cnt = 1
+    scores = 0
     for user_id in user_ids:
         if cnt==1:
             scores = model.predict(int(users[users.userId==user_id].index[0]), np.arange(len(clothes)))
         else:
             scores += model.predict(int(users[users.userId==user_id].index[0]), np.arange(len(clothes)))
-        
         cnt+=1
     top_items = clothes.idx[np.argsort(-scores)]
     sub_clothes = []
@@ -55,7 +98,7 @@ def rec_size(userId: int):
         clothes = pd.DataFrame(get_cloth_meta(i))
         user_info = get_size_user_info(userId, i)
         model = pickle.load(open('./app/models/'+model_list[i-1], 'rb'))
-        rec_size = sample_recommendation(model, clothes, users, user_info)
+        rec_size = sample_size_rec(model, clothes, users, user_info, userId)
         result = get_cloth(rec_size)
         context[name_list[i-1]] = result
 

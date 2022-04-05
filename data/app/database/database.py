@@ -57,7 +57,7 @@ def get_color_user_info(userId, largecategory):
         if col=='colorWhite':
             color_list.append([col, user[col]])
             color_exist = True
-        elif color_exist and col!='colorOthers':
+        elif color_exist and col!='colorOthers' and 'color' in col:
             color_list.append([col, user[col]])
         elif col=='colorOthers':
             color_list.append([col, user[col]])
@@ -67,8 +67,8 @@ def get_color_user_info(userId, largecategory):
     for i in range(0, 3):
         color_li.append(color_list[i][0])
     exist = False
-    for i in np.arange(0.1, 1, 0.1):
-        for one_user in db.user.aggregate([{'$match': {'largecategory': user['largecategory'], color_li[0]: {"$gte": user[color_li[0]]-i, "$lte": user[color_li[0]]+i},color_li[1]: {"$gte": user[color_li[1]]-i, "$lte": user[color_li[1]]+i},color_li[2]: {"$gte": user[color_li[2]]-i, "$lte": user[color_li[2]]+i}}},{'$sample': {'size':1}}]):
+    for i in np.arange(0.1, 1.1, 0.1):
+        for one_user in db.user.aggregate([{'$match': {'largecategory': user['largecategory'], color_li[0]: {"$gte": user[color_li[0]]-i, "$lte": user[color_li[0]]+i},color_li[1]: {"$gte": user[color_li[1]]-i, "$lte": user[color_li[1]]+i},color_li[2]: {"$gte": user[color_li[2]]-i, "$lte": user[color_li[2]]+i}}}]):
             users.add(one_user['userId'])
             if len(users) == 3:
                 exist = True
@@ -98,7 +98,7 @@ def get_category_user_info(userId, largecategory):
     if largecategory == 1:
         category_list = []
         for idx, cat in enumerate(user):
-            if 14<=idx<=22:
+            if 'smallCategory' in cat:
                 category_list.append([cat, user[cat]])
         category_list = sorted(category_list, key=lambda x: x[1], reverse=True)
         category_li = []
@@ -107,7 +107,7 @@ def get_category_user_info(userId, largecategory):
     elif largecategory == 2:
         category_list = []
         for idx, cat in enumerate(user):
-            if 14<=idx<=24:
+            if 'smallCategory' in cat:
                 category_list.append([cat, user[cat]])
         category_list = sorted(category_list, key=lambda x: x[1], reverse=True)
         category_li = []
@@ -116,7 +116,7 @@ def get_category_user_info(userId, largecategory):
     elif largecategory == 3:
         category_list = []
         for idx, cat in enumerate(user):
-            if 14<=idx<=21:
+            if 'smallCategory' in cat:
                 category_list.append([cat, user[cat]])
         category_list = sorted(category_list, key=lambda x: x[1], reverse=True)
         category_li = []
@@ -152,6 +152,20 @@ def get_cloth(idList):
 def get_user_gender(userId):
     user = db.user_ssafit.find_one({'userId': int(userId)})
     return user['userMale']
+
+def get_cloth_gender(newClothId):
+    user = db.cloth.find_one({'newClothId': int(newClothId)})
+    return user['clothMale']
+
+def get_user_height_weight(userId):
+    user = db.user_ssafit.find_one({'userId': int(userId)})
+    result = [user['userHeight'], user['userWeight']]
+    return result
+
+def get_cloth_height_weight(newClothId):
+    cloth = db.cloth.find_one({'newClothId': int(newClothId)})
+    result = [cloth['userHeight'], cloth['userWeight']]
+    return result
 
 def get_codi(codiTPO):
     codis = []
