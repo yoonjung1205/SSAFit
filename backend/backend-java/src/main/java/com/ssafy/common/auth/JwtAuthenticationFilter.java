@@ -108,7 +108,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             		User user = userService.getUserByEmail(userId);
                 if(user != null) {
                         // response에 accesstoken 추가.
-                        String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),1800000);
+                        // response에 accesstoken 추가.
+                        String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),1800000);
                         response.setHeader("authorization", accessToken);
 
                         // 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
@@ -146,7 +147,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                     System.out.println(test.stream().toArray().toString());
 
                     // response에 accesstoken 추가.
-                    String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),1800000);
+                    String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),1800000);
                     response.setHeader("authorization", accessToken);
 
                     UsernamePasswordAuthenticationToken jwtAuthentication = new UsernamePasswordAuthenticationToken(user.getNickname(),null,userDetails.getAuthorities());
