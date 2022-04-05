@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from ..database.database import *
-from fastapi.responses import JSONResponse
 from fastapi_pagination import Page, add_pagination, paginate
+from typing import List
 import pandas as pd
 
 router = APIRouter()
@@ -23,6 +23,7 @@ class Review(BaseModel):
     size: int
     bright: int
     color: int
+    thickness: int
     newGoodsNo: int
     
 class ImgReview(BaseModel):
@@ -46,7 +47,7 @@ def getReview(newClothId: int):
     result = get_reviews(newClothId)
     return paginate(result)
 
-@router.get('/cloth/reviews/{newClothId}/{userId}', response_model=list[ImgReview], tags=["Review"])
+@router.get('/cloth/reviews/{newClothId}/{userId}', response_model=List[ImgReview], tags=["Review"])
 def getImgReview(newClothId: int, userId: int):
     result = get_img_reviews(newClothId, userId)
     return result

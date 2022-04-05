@@ -1,12 +1,9 @@
 import motor.motor_asyncio
 from pymongo import MongoClient
 import asyncio
-import json
-from bson import ObjectId, json_util
-from fastapi.encoders import jsonable_encoder
 import numpy as np
 import pandas as pd
-import time
+
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import TruncatedSVD
 
@@ -15,6 +12,17 @@ mongo_url = "mongodb://admin:ssafit@ssafit.site:8975/?authSource=admin&readPrefe
 client = MongoClient(mongo_url)
 db = client['ssafit']
 
+def cloth_helper(cloth):
+    context = {
+        'newClothId': int(cloth['newClothId']),
+        'clothId': cloth['clothId'],
+        'clothName': cloth['clothName'],
+        'brand': cloth['brand'],
+        'clothImg': cloth['clothImg'],
+        'clothPrice': cloth['clothPrice'],
+        'goodsSize': cloth['goodsSize'],
+    }
+    return context
 
 def get_cloth_meta(what: int):
     clothes = db.cloth_meta.find({'what': what})
@@ -138,7 +146,7 @@ def get_cloth(idList):
         clothes = []
         for cloth_id in idList:
             cloth = db.cloth.find_one({'newClothId': int(cloth_id)}, {'_id': 0})
-            clothes.append(jsonable_encoder(cloth))
+            clothes.append(cloth_helper(cloth))
         return clothes
     
 def get_user_gender(userId):
@@ -201,18 +209,30 @@ def get_img_reviews(newClothId: int, userId: int):
 
 def get_brand_clothes(newClothId: int):
     cloth = db.cloth.find_one({'newClothId': newClothId})
-    transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'brand': cloth['brand']}, {'_id': 0, 'largecategory': 0})
+    if cloth['largeCategory']==1 or cloth['largeCategory']==2 or cloth['largeCategory']==3:
+        transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'brand': cloth['brand']}, {'_id': 0, 'largecategory': 0})
+    else:
+        transaction = db.transaction.find({'brand': cloth['brand']}, {'_id': 0, 'largecategory': 0})
     transaction = list(transaction)
     transaction = pd.DataFrame(transaction)
-    trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
-    trans.fillna(0, inplace=True)
-    SVD = TruncatedSVD(n_components=10)
-    SVD_matrix = SVD.fit_transform(trans)
-    corr = np.corrcoef(SVD_matrix)
-    corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
-    corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[1:50].index
+    if 10 <= len(transaction):
+        if len(transaction) >= 1000:
+            a = transaction[transaction.newClothId==newClothId]
+            transaction = transaction.sample(n=1000)
+            transaction = pd.concat([transaction, a])
+            transaction = transaction.drop_duplicates(['userId', 'newClothId'])
+        trans = transaction.pivot_table(index='newClothId', columns='userId', values='shopCnt')
+        trans.fillna(0, inplace=True)
+        SVD = TruncatedSVD(n_components=10)
+        SVD_matrix = SVD.fit_transform(trans)
+        corr = np.corrcoef(SVD_matrix)
+        corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
+        corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[:50].index
+    else:
+        corr_list = list(transaction.newClothId)
     result = []
     sub = set()
+    sub.add(cloth['clothId'])
     cnt = 0
     for clothId in corr_list:
         sub_cloth = db.cloth.find_one({'newClothId': clothId}, {'_id': 0})
@@ -230,18 +250,30 @@ def get_brand_clothes(newClothId: int):
 
 def get_similar_clothes(newClothId: int):
     cloth = db.cloth.find_one({'newClothId': newClothId})
-    transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName']}, {'_id': 0, 'largecategory': 0})
+    if cloth['largeCategory']==1 or cloth['largeCategory']==2 or cloth['largeCategory']==3:
+        transaction = db.transaction.find({'shopCnt': {'$gt': 1}, 'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName']}, {'_id': 0, 'largecategory': 0})
+    else:
+        transaction = db.transaction.find({'smallCategoryName': cloth['smallCategoryName'], 'colorName': cloth['colorName']}, {'_id': 0, 'largecategory': 0})
     transaction = list(transaction)
     transaction = pd.DataFrame(transaction)
-    trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
-    trans.fillna(0, inplace=True)
-    SVD = TruncatedSVD(n_components=10)
-    SVD_matrix = SVD.fit_transform(trans)
-    corr = np.corrcoef(SVD_matrix)
-    corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
-    corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[1:50].index
+    if len(transaction) >= 10:
+        if len(transaction) >= 1000:
+            a = transaction[transaction.newClothId==newClothId]
+            transaction = transaction.sample(n=1000)
+            transaction = pd.concat([transaction, a])
+            transaction = transaction.drop_duplicates(['userId', 'newClothId'])
+        trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
+        trans.fillna(0, inplace=True)
+        SVD = TruncatedSVD(n_components=10)
+        SVD_matrix = SVD.fit_transform(trans)
+        corr = np.corrcoef(SVD_matrix)
+        corr = pd.DataFrame(data=corr, index=trans.index, columns=trans.index)
+        corr_list = corr[cloth['newClothId']].sort_values(ascending=False)[1:50].index
+    else:
+        corr_list = list(transaction.newClothId)
     result = []
     sub = set()
+    sub.add(cloth['clothId'])
     cnt = 0
     for clothId in corr_list:
         sub_cloth = db.cloth.find_one({'newClothId': clothId}, {'_id': 0})
@@ -283,7 +315,7 @@ def change_user_info(userId, newClothId, num):
     for idx, col in enumerate(cloth):
         if 'smallCategory' in col and cloth[col] == 1:
             smallCategorySelect = col
-        elif 'color' in col and cloth[col] == 1:
+        elif col != 'color' and 'color' in col and cloth[col] == 1:
             colorSelect = col
             
     col_list = ['size', 'bright', 'color', 'thickness', 'colorWhite', 
@@ -333,17 +365,24 @@ def change_user_info(userId, newClothId, num):
                     user[cat] -= 1
                 elif cat == colorSelect and user[cat] >= 1:
                     user[cat] -= 1
-                elif cat in style and user[cat] >= 3:
+                elif cat in style and user[cat]:
                     user[cat] -= cloth[cat]
+                    if user[cat] < 0:
+                        user[cat] = 0
                 db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
 
         user['viewCnt'] -= 1
-        
-        for idx, cat in enumerate(user):
-            # 모든 성분 / viewCnt
-            if cat in col_list:
-                user[cat] /= user['viewCnt']
-                db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
+        if user['viewCnt'] == 0:
+            for idx, cat in enumerate(user):
+                if cat in col_list:
+                    user[cat] = 0
+                    db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
+        else:
+            for idx, cat in enumerate(user):
+                # 모든 성분 / viewCnt
+                if cat in col_list:
+                    user[cat] /= user['viewCnt']
+                    db.user_ssafit.update_one({'userId': int(userId), 'largecategory': largecategory}, {'$set': {'viewCnt': user['viewCnt'], cat: user[cat]}})
     return
 
 
@@ -357,10 +396,6 @@ def get_recent_items(userId):
         return clothes
     except:
         return '최근 본 상품이 없습니다.'
-    # if user['recentItems']:
-    #     return user['recentItems']
-    # else:
-    #     return
 
 
 def change_recent_item(userId, newClothId):
@@ -375,12 +410,11 @@ def change_recent_item(userId, newClothId):
         elif newClothId not in user['recentItems'] and len(user['recentItems']) == 5:
             user['recentItems'].pop()
             user['recentItems'].insert(0, newClothId)
-        db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': user['recentItems']}})
+        db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': user['recentItems']}})
 
     except:
-        # db.user_ssafit.aggregate([{'$match': {'userId': int(userId)}},{'$addFields': { 'recentItems': list() }}])
-        db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': []}})
-        user = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': 1}, {'_id': 0})
-        user['recentItems'].append(newClothId)
-        db.user_ssafit.update_one({'userId': int(userId)}, {'$set': {'recentItems': [user['recentItems']]}})
+        db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': list()}})
+        users = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': 1}, {'_id': 0})
+        users['recentItems'].append(newClothId)
+        db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': users['recentItems']}})
     return

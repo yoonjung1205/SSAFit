@@ -1,16 +1,13 @@
 from fastapi import APIRouter
 from ..database.database import *
 from ..models.user_meta import *
-# from .recommend_function import *
-from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
 import pandas as pd
 import numpy as np
-import time
 import pickle
 import lightfm
 from copy import deepcopy
 from pydantic import BaseModel
+from typing import List
 
 router = APIRouter()
 
@@ -39,12 +36,12 @@ def sample_recommendation(model, clothes, users, user_ids):
     rec_clothes = []
     for i in sub_clothes:
         rec_clothes.append(clothes[clothes.idx==i].newClothId.iloc[0])
+        
     return rec_clothes
 
 
 @router.get('/recommend/size/{userId}', tags=["Recommend"])
 def rec_size(userId: int):
-    start = time.time()
     gender = get_user_gender(userId)
     if gender == 1:
         to_do = 4
@@ -61,14 +58,12 @@ def rec_size(userId: int):
         rec_size = sample_recommendation(model, clothes, users, user_info)
         result = get_cloth(rec_size)
         context[name_list[i-1]] = result
-    finish = time.time()
-    print(finish - start)
+
     return context
 
 
 @router.get('/recommend/color/{userId}', tags=["Recommend"])
 def rec_color(userId: int):
-    start = time.time()
     gender = get_user_gender(userId)
     if gender == 1:
         to_do = 4
@@ -85,14 +80,12 @@ def rec_color(userId: int):
         rec_size = sample_recommendation(model, clothes, users, user_info)
         result = get_cloth(rec_size)
         context[name_list[i-1]] = result
-    finish = time.time()
-    print(finish - start)
+
     return context
 
 
 @router.get('/recommend/style/{userId}', tags=["Recommend"])
 def rec_style(userId: int):
-    start = time.time()
     gender = get_user_gender(userId)
     if gender == 1:
         to_do = 4
@@ -109,14 +102,12 @@ def rec_style(userId: int):
         rec_size = sample_recommendation(model, clothes, users, user_info)
         result = get_cloth(rec_size)
         context[name_list[i-1]] = result
-    finish = time.time()
-    print(finish - start)
+
     return context
 
 
 @router.get('/recommend/category/{userId}', tags=["Recommend"])
 def rec_category(userId: int):
-    start = time.time()
     gender = get_user_gender(userId)
     if gender == 1:
         to_do = 4
@@ -133,16 +124,17 @@ def rec_category(userId: int):
         rec_size = sample_recommendation(model, clothes, users, user_info)
         result = get_cloth(rec_size)
         context[name_list[i-1]] = result
-    finish = time.time()
-    print(finish - start)
+
     return context
 
-@router.get('/cloth/brand/{newClothId}', response_model=list[Rec], tags=["Recommend"])
+@router.get('/cloth/brand/{newClothId}', response_model=List[Rec], tags=["Recommend"])
 def getBrandClothes(newClothId: int):
     result = get_brand_clothes(newClothId)
+
     return result
 
-@router.get('/cloth/similar/{newClothId}', response_model=list[Rec], tags=["Recommend"])
+@router.get('/cloth/similar/{newClothId}', response_model=List[Rec], tags=["Recommend"])
 def getSimilarClothes(newClothId: int):
     result = get_similar_clothes(newClothId)
+
     return result
