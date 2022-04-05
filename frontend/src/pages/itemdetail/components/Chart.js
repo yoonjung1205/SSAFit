@@ -6,7 +6,6 @@ const Chart = ({ male, female, month, sum }) => {
   const newFemale = Math.round(female * 100) / 100
   return (
     <section className='chart'>
-
       <div className='gender'>
         <p className='chart-title'>Gender</p>
         <div className='chart-box'>
@@ -24,7 +23,6 @@ const Chart = ({ male, female, month, sum }) => {
           </div>
         </div>
       </div>
-
       <div className='month'>
         <p className='chart-title'>Month</p>
         <MonthChart month={month} sum={sum}/>

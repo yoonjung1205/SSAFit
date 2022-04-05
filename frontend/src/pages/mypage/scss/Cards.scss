@@ -54,3 +54,43 @@
     }
   }
 }
+.like-bottom {
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  .pagenation {
+    border: 1px solid #56586C;
+    border-radius: 4px;
+    width: 25%;
+    height: 100%;
+    display: flex;
+    div {
+      height: 100%;
+      // width: 15%;
+      cursor: pointer;
+      position: relative;
+      &:first-child,
+      &:last-child {
+        width: 12.5%;
+      }
+      &.active {
+        font-weight: bold;
+        background-color: #f3f3f3;
+      }
+      &:hover {
+        background-color: #f3f3f3;
+        transition: ease-in 0.2s;
+        p {
+          font-weight: bold;
+        }
+      }
+      p {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+}
