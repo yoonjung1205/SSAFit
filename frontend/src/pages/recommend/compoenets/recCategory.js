@@ -14,6 +14,19 @@ const recCategory = ({cate, clothes}) => {
     history.push(`/recommend/${cate}`)
   }
 
+  const comma = function(tar){
+    let result = ''
+    if (tar){
+      for (let i = tar.length - 1; i >= 0; i--){
+        if (i !== tar.length - 1 && (tar.length - i - 1) % 3 === 0){
+          result = ',' + result
+        }
+        result = tar[i] + result
+      }
+    }
+    return result
+  }
+
   if (!clothes){
     return false
   }
@@ -34,7 +47,7 @@ const recCategory = ({cate, clothes}) => {
           <div className='card-text'>
             <p>{cloth.brand}</p>
             <p>{cloth.clothName}</p>
-            <p>Price: {cloth.clothPrice}</p>
+            <p>Price: {comma(String(cloth.clothPrice))} 원</p>
             <p>Size: {cloth.goodsSize}</p>
           </div>
         </div>

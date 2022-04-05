@@ -19,6 +19,7 @@ public class UserTop {
 
     private String userName;
 
+
     @Field
     private Number largecategory = 0;
 

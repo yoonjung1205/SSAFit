@@ -6,4 +6,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UserOnepieceRepository extends MongoRepository<UserOnepiece, ObjectId> {
+
+    public UserOnepiece findByUserName(String userName);
 }

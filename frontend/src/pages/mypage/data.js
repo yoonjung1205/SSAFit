@@ -1,97 +1,44 @@
-export const user = {
-  email: "ab@cd.ef",
-  nickname: "alphabet",
-  height: "123",
-  weight: "45",
-  gender: "1",
-  birthDate: "2022.03.21",
-  imgUrl: "http://cdn.lecturernews.com/news/photo/202203/92531_310307_4919.png"
-}
-
-export const recentClothes = [
-  {
-    clothId: 100234,
-    brand: '무신사 스탠다드4',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20200219/1310957/1310957_1_125.jpg',
-    clothPrice: 68000,
-    like: false
-  },
-  {
-    clothId: 100235,
-    brand: '무신사 스탠다드1무신사 스탠다드1',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20210204/1778408/1778408_1_125.jpg',
-    clothPrice: 68000,
-    like: true
-  },
-  {
-    clothId: 100236,
-    brand: '무신사 스탠다드2',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20180914/858911/858911_6_125.jpg',
-    clothPrice: 68000,
-    like: false
-  },
-  {
-    clothId: 100237,
-    brand: '무신사 스탠다드3',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20220104/2290363/2290363_2_125.jpg',
-    clothPrice: 68000,
-    like: true
-  },
-  {
-    clothId: 100238,
-    brand: '무신사 스탠다드4',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20200219/1310957/1310957_1_125.jpg',
-    clothPrice: 68000,
-    like: false
-  },
-]
-
 export const likeClothes = [
   {
-    clothId: 100234,
-    brand: '무신사 스탠다드4',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20220303/2394742/2394742_2_125.jpg',
-    clothPrice: 68000,
-    like: false
+    "newClothId": 1123301140039,
+    "clothName": "엔젤 와펜 셔츠 화이트",
+    "clothImg": "//image.msscdn.net/images/goods_img/20190821/1123301/1123301_4_500.jpg",
+    "brand": "와릿이즌",
+    "clothPrice": 48300,
+    "goodsSize": "M"
   },
   {
-    clothId: 100235,
-    brand: '무신사 스탠다드1무신사 스탠다드1',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20220308/2406896/2406896_1_125.jpg',
-    clothPrice: 68000,
-    like: true
+    "newClothId": 177400380239,
+    "clothName": "듀렉데브 볼트 풀집업 후디",
+    "clothImg": "//image.msscdn.net/images/goods_img/20210202/1774003/1774003_1_500.png",
+    "brand": "듀렉데브",
+    "clothPrice": 87600,
+    "goodsSize": "M"
   },
   {
-    clothId: 100236,
-    brand: '무신사 스탠다드2',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20220311/2412957/2412957_1_125.jpg',
-    clothPrice: 68000,
-    like: false
+    "newClothId": 20819699449,
+    "clothName": "척 시그니처 로고 스웨트 조거 팬츠 (블랙)",
+    "clothImg": "//image.msscdn.net/images/goods_img/20210823/2081969/2081969_1_500.jpg",
+    "brand": "척",
+    "clothPrice": 62100,
+    "goodsSize": "M（기모）"
   },
   {
-    clothId: 100237,
-    brand: '무신사 스탠다드3',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20220316/2424409/2424409_1_125.jpg',
-    clothPrice: 68000,
-    like: true
+    "newClothId": 185616414367,
+    "clothName": "PAISLEYS HALF PANTS(BLACK)",
+    "clothImg": "//image.msscdn.net/images/goods_img/20210322/1856164/1856164_1_500.jpg",
+    "brand": "시디스콤마",
+    "clothPrice": 19900,
+    "goodsSize": "BLACK/L"
   },
   {
-    clothId: 100238,
-    brand: '무신사 스탠다드4',
-    clothName: 'Side Pleats Mini Skirt Grey, 상품명이 아주 길게 있겠지 분명히 두줄도 있을거야',
-    clothImage: 'https://image.msscdn.net/images/goods_img/20220303/2394742/2394742_2_125.jpg',
-    clothPrice: 68000,
-    like: false
-  },
+    "newClothId": 1809706133294,
+    "clothName": "이지 케어 오버 셔츠 세트",
+    "clothImg": "//image.msscdn.net/images/goods_img/20210223/1809706/1809706_1_500.jpg",
+    "brand": "수아레",
+    "clothPrice": 65660,
+    "goodsSize": "XLLIGHTBLUEXLLIGHTKHAKI"
+  }
 ]
 
 export const likeCodies = [
@@ -135,22 +82,4 @@ export const likeCodies = [
     hashtags: ['#편안한', '#그래픽', '#레터링', '#꾸안꾸', '#캠퍼스', '#A라인'],
     like: true
   },
-]
-
-export const faqs = [
-  { title: '첫번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '첫번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  },
-  { title: '두번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '두번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  },
-  { title: '세번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '세번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  },
-  { title: '네번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '네번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  },
-  { title: '다섯번째 자주 묻는 질문의 제목을 여기 쓴다.',
-    content: '다섯번째 자주 묻는 질문의 답변은 여기에 쓴다.'
-  }
 ]

@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.LikeExistedReq;
 import com.ssafy.api.request.GoodReq;
 import com.ssafy.api.request.UserCommentReq;
 import com.ssafy.api.response.*;
@@ -61,7 +62,7 @@ public class GoodsController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> likeGoods(@RequestBody @ApiParam(value="이메일 정보", required = true) GoodReq goodReq, HttpServletRequest request) {
+    public ResponseEntity<? extends BaseResponseBody> likeGoods(@RequestBody GoodReq goodReq, HttpServletRequest request) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
         token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
@@ -74,6 +75,24 @@ public class GoodsController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
+    @GetMapping("/like")
+    @ApiOperation(value = "goods 좋아요 여부 확인", notes = "goods 좋아요 여부 확인")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<LikeExistedRes> likeGoodsExisted(@RequestParam String userId, @RequestParam String clothId, HttpServletRequest request) {
+        //wait
+        int uid = Integer.parseInt(userId);
+        long cid = Long.parseLong(clothId);
+
+        LikeExistedRes likeExistedRes = goodsService.isLikeGoods(uid, cid);
+
+        return new ResponseEntity<LikeExistedRes>(likeExistedRes, HttpStatus.OK);
+    }
+
     @GetMapping("/search")
     @ApiOperation(value = "옷 정보 검색", notes = "옷 정보를 검색한다.")
     @ApiResponses({
@@ -82,7 +101,7 @@ public class GoodsController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<GoodsListRes> searchGoods(@RequestParam @ApiParam(value="옷 정보 검색 uri 파라미터", required = true) String keyword) {
+    public ResponseEntity<GoodsListRes> searchGoods(@RequestParam String keyword) {
 
         GoodsListRes goodsListRes;
         System.out.println(keyword);
@@ -139,8 +158,8 @@ public class GoodsController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<UserCommentRes> goodsCommentUpdate(
-            @PathVariable int commentSeq,
-            UserCommentReq userCommentReq) {
+            @PathVariable long commentSeq,
+            @RequestBody UserCommentReq userCommentReq) {
 
         UserCommentRes userCommentRes;
         userCommentRes = goodsService.goodsCommentUpdate(userCommentReq,commentSeq);
@@ -157,7 +176,7 @@ public class GoodsController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> goodsCommentDelete(
-            @PathVariable long commentSeq) {
+            @PathVariable int commentSeq) {
 
         goodsService.goodsCommentDelete(commentSeq);
 

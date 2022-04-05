@@ -1,34 +1,23 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.CodiReq;
 import com.ssafy.api.request.GoodReq;
 import com.ssafy.api.request.UserCommentReq;
-import com.ssafy.api.response.CodiListRes;
-import com.ssafy.api.response.GoodsListRes;
-import com.ssafy.api.response.MyLikeGoodsRes;
-import com.ssafy.api.response.UserCommentRes;
-import com.ssafy.common.vo.CodiForm;
+import com.ssafy.api.response.*;
 import com.ssafy.common.vo.SearchCloth;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.cloth.Goods;
 import com.ssafy.db.entity.cloth.GoodsReview;
 import com.ssafy.db.entity.cloth.LikeGoods;
 import com.ssafy.db.entity.cloth.UserGoods;
-import com.ssafy.db.entity.codi.Codi;
-import com.ssafy.db.entity.codi.LikeCodi;
-import com.ssafy.db.entity.codi.UserCodi;
 import com.ssafy.db.repository.GoodsRepository;
 import com.ssafy.db.repository.GoodsReviewRepository;
 import com.ssafy.db.repository.LikeGoodsRepository;
 import com.ssafy.db.repository.UserRepository;
-import com.ssafy.mongodb.entity.Cloth;
 import com.ssafy.mongodb.repository.ClothRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -84,7 +73,8 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public UserCommentRes goodsCommentUpdate(UserCommentReq userCommentReq, int commentSeq) {
+    public UserCommentRes goodsCommentUpdate(UserCommentReq userCommentReq, long commentSeq) {
+        System.out.println(userCommentReq.getContents());
         goodsReviewRepository.updateComment(userCommentReq.getContents(), commentSeq);
 
         UserCommentRes userCommentRes = new UserCommentRes();
@@ -93,8 +83,8 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public void goodsCommentDelete(long commentSeq) {
-        goodsReviewRepository.deleteById(commentSeq);
+    public void goodsCommentDelete(int commentSeq) {
+        goodsReviewRepository.deleteById((long) commentSeq);
 
     }
 
@@ -143,5 +133,18 @@ public class GoodsServiceImpl implements GoodsService {
             likeGoodsRepository.saveAndFlush(likeGoods);
         }
 
+    }
+
+    @Override
+    public LikeExistedRes isLikeGoods(int userId, long clothId) {
+        LikeExistedRes commentsExistedRes = new LikeExistedRes();
+
+        if(likeGoodsRepository.existsByGoodsIDAndUserID(clothId,userId) == 1){
+            commentsExistedRes.setLike(true);
+        }else{
+            commentsExistedRes.setLike(false);
+        }
+
+        return commentsExistedRes;
     }
 }

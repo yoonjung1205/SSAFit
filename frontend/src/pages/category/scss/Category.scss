@@ -19,7 +19,7 @@
     }
   }
 
-  .cate-middle {
+  .cate-body {
     width: 100%;
     padding: 5rem 10rem;
     .cate-card {
@@ -54,44 +54,6 @@
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
-        }
-      }
-    }
-  }
-  .cate-bottom {
-    height: 10vh;
-    .pagenation {
-      margin: 0 auto;
-      border: 1px solid #56586C;
-      border-radius: 4px;
-      width: 20%;
-      height: 50%;
-      display: flex;
-      div {
-        height: 100%;
-        width: 15%;
-        cursor: pointer;
-        position: relative;
-        &:first-child,
-        &:last-child {
-          width: 12.5%;
-        }
-        &.active {
-          font-weight: bold;
-          background-color: #f3f3f3;
-        }
-        &:hover {
-          background-color: #f3f3f3;
-          transition: ease-in 0.2s;
-          p {
-            font-weight: bold;
-          }
-        }
-        p {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
         }
       }
     }

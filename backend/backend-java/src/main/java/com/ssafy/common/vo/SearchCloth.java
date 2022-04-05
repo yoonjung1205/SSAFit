@@ -22,5 +22,7 @@ public class SearchCloth {
 
     private String colorName;
 
-    private int size;
+    private String goodsSize;
+
+    //private String goodsSize;
 }
