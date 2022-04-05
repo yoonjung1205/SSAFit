@@ -135,7 +135,6 @@
       display: flex;
       div {
         height: 100%;
-        width: 15%;
         cursor: pointer;
         position: relative;
         &:first-child,
@@ -155,6 +154,7 @@
         }
         p {
           position: absolute;
+          margin: 0;
           left: 50%;
           top: 50%;
           transform: translate(-50%, -50%);

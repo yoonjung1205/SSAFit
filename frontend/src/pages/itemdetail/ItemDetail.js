@@ -14,7 +14,7 @@ import './scss/Item.scss'
 import Recommedation from './components/Recommedation';
 import Reviews from './components/Reviews';
 
-export default function ItemDetail({ user }) {
+export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
 
   const newClothId = useLocation().pathname.replace('/item/', '')
   const [item, setItem] = useState({})
@@ -74,6 +74,12 @@ export default function ItemDetail({ user }) {
     .then(getRealFit())
     .then(updateRecentItem())
     .then(likeDa())
+    .then(() => {
+      const session = window.sessionStorage
+      setColor({}); session.removeItem('color-rec');
+      setStyle({}); session.removeItem('style-rec');
+      setCategory({}); session.removeItem('category-rec');
+    })
   }, [newClothId])
 
 

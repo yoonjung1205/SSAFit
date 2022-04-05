@@ -78,6 +78,7 @@ const Review = ({ newClothId }) => {
               {makeNumList().map((num, idx) => (
                 <div className={currentPage === num ? 'active': ''} key={idx} 
                   onClick={() => setCurrentPage(num)}
+                  style={{width: `${totalPage > 4 ? '15%' : `${75/totalPage}%`}`}}
                 >
                   <p>{num}</p>
                 </div>
@@ -88,7 +89,7 @@ const Review = ({ newClothId }) => {
         </>
       )
     }
-    return <p style={{textAlign: 'center', marginTop: '2rem'}}>리뷰가 없어요...(*￣０￣)ノ</p>
+    return <p style={{textAlign: 'center', margin: '10rem', fontSize: '1.5rem'}}>리뷰가 없어요...(*￣０￣)ノ</p>
   }
 
 

@@ -8,7 +8,7 @@ import jwtDecode from "jwt-decode";
 import defaultImage from './images/default.png'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-const Edit = ({ user }) => {
+const Edit = ({ user, setSize }) => {
   const history = useHistory()
 
   const [credentials, setCredentials] = useState({...user})
@@ -26,8 +26,6 @@ const Edit = ({ user }) => {
 
   const makeCredential = () => {
     let userInfo = {...credentials, profileImage: profileImage}
-    // console.log('이전정보', credentials)
-    // console.log('변경정보', userInfo)
     const formdata = new FormData()
 
     for (const key in userInfo){
@@ -66,13 +64,10 @@ const Edit = ({ user }) => {
 
   const submit = e => {
     e.preventDefault()
-
+    
     isValid()
     .then(() => {
       const data = makeCredential()
-      // for (const i of data.entries()){
-      //   console.log(i)
-      // }
       CustomAxios({
         method: 'put',
         url: '/api_be/auth/user',
@@ -86,6 +81,8 @@ const Edit = ({ user }) => {
         session.setItem('access-token-jwt', accessToken)
         session.setItem('refresh-token-jwt', refreshToken)
         session.setItem('userInfo', JSON.stringify(jwtDecode(accessToken)))
+        session.removeItem('size-rec')
+        setSize({})
       })
       .then(() => {
         history.push('/mypage')
