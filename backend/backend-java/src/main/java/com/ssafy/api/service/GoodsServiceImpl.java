@@ -42,7 +42,7 @@ public class GoodsServiceImpl implements GoodsService {
     public GoodsListRes goodsListSearchWord(String keywords) {
         GoodsListRes goodsListRes = new GoodsListRes();
         SearchCloth searchCloth = new SearchCloth();
-        List<SearchCloth> list = clothRepository.findAllByClothNameRegexOrderByClothIdAsc(keywords + ".*");
+        List<SearchCloth> list = clothRepository.findAllByClothNameRegexOrderByClothIdDesc(keywords + ".*");
         goodsListRes.setGoodsList(list);
         System.out.println(list.get(0).getClothName());
         System.out.println(list.get(1).getClothName());
