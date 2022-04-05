@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 export default function RecommendCodi({ user }) {
   const history = useHistory()
   
-  const [codi, setCodi] = useState([])
+  const [codies, setCodies] = useState([])
   const [idx, setIdx] = useState(0)
   const [loading, setLoading] = useState(true);
 
@@ -24,9 +24,28 @@ export default function RecommendCodi({ user }) {
     Business: '출근', Sport: '운동', Interview: '면접', Hip: '힙', Golf: '골프', Other: '기타'
   }
 
-  const nextIdx = function(){
-    if (idx < codi.length - 1){
-      setIdx(idx + 1)
+  const nextIdx = function(like){
+    if (idx < codies.length - 1){
+      const { codiId, hashtags } = codies[idx]
+      const data =  {
+        codiId, hashtags,
+        tpo: tpoObject[tpo],
+        codiImg: codies[idx].imgSrc,
+        codiTitle: codies[idx].codiContents
+      }
+      CustomAxios({
+        method: 'post',
+        url: `/api_be/codi/${like ? 'like': 'unlike'}`,
+        data
+      })
+      .then(res => {
+        console.log(`click codi ${like ? 'like' : 'unlike'}:`, res)
+        setIdx(idx + 1)
+      })
+      .catch(err => {
+        console.log('request data:', data)
+        console.log(err)
+      })
     }
     else {
       if (!alert('마지막 페이지입니다')){
@@ -40,7 +59,7 @@ export default function RecommendCodi({ user }) {
       method: 'get',
       url: `/api_da/codi/codi${tpo}`
     })
-    .then(res => {setCodi(res.data)})
+    .then(res => {setCodies(res.data)})
   }
 
   const getCodi = function(){
@@ -48,11 +67,11 @@ export default function RecommendCodi({ user }) {
       method: 'get',
       url: `/api_da/codi/${tpo}`
     })
-    .then(res => {setCodi([res.data])})
+    .then(res => {setCodies([res.data])})
   }
 
   useEffect(() => {
-    if (!codi.length){
+    if (!codies.length){
       const identifier = tpo[0].charCodeAt()
       if (identifier > 64 && identifier < 91){
         getCodiSet()
@@ -64,22 +83,22 @@ export default function RecommendCodi({ user }) {
   }, [])
 
   useEffect(() => {
-    if (codi.length && user){
+    if (codies.length && user){
       setLoading(false)
     }
-  }, [codi])
+  }, [codies])
 
   useEffect(() => {
-    if (codi[idx]){
+    if (codies[idx]){
       const imgBox = document.getElementsByClassName('img-box')[0]
-      imgBox.style.backgroundImage = `url(${codi[idx].imgSrc})`
+      imgBox.style.backgroundImage = `url(${codies[idx].imgSrc})`
     }
   }, [loading])
 
   useEffect(() => {
-    if (codi[idx]){
+    if (codies[idx]){
       const imgBox = document.getElementsByClassName('img-box')[0]
-      imgBox.style.backgroundImage = `url(${codi[idx].imgSrc})`
+      imgBox.style.backgroundImage = `url(${codies[idx].imgSrc})`
     }
   }, [idx])
 
@@ -99,17 +118,17 @@ export default function RecommendCodi({ user }) {
             </h1>
               에<br /> 맞는 코디를 추천해드릴게요
           </span>
-          <ItemBox items={codi[idx].clothes} />
+          <ItemBox items={codies[idx].clothes} />
           <div className='button-box'>
             {/* 백엔드랑 통신 넣어야함 */}
-            <button className='like-btn' onClick={() => nextIdx()}>
+            <button className='like-btn' onClick={() => nextIdx(1)}>
               <img src={like} alt="like" />
               맘에 들어요
               <span>
               </span>
             </button>
             {/* 백엔드랑 통신 넣어야함 */}
-            <button className='dislike-btn' onClick={() => nextIdx()}>
+            <button className='dislike-btn' onClick={() => nextIdx(0)}>
               <img src={dislike} alt="dislike" />
               별로에요
               <span>
