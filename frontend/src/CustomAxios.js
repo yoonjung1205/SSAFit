@@ -12,4 +12,19 @@ const CustomAxios = axios.create({
   }
 })
 
+CustomAxios.interceptors.response.use(
+  function CustomInterceptor(res){
+    if (res.headers.authorization) {
+      console.log('access', res)
+      window.sessionStorage.setItem('access-token-jwt', res.headers.authorization)
+    }
+    if (res.headers.refreshtoken){
+      console.log('refresh', res)
+      window.sessionStorage.setItem('refresh-token-jwt', res.headers.refreshtoken)
+    }
+
+    return res
+  }
+)
+
 export default CustomAxios

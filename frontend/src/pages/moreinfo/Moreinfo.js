@@ -80,10 +80,6 @@ export default function Moreinfo({ password, setPassword }) {
     isValid()
     .then(() => {
       const userInfo = makeCredential()
-      for (const a of userInfo){
-        console.log(a)
-      }
-
       return CustomAxios({
         method: 'post',
         url: '/api_be/auth/signup',
@@ -91,13 +87,8 @@ export default function Moreinfo({ password, setPassword }) {
         data: userInfo
       })
     })
-    .then(res => {
-      const session = window.sessionStorage
-      session.removeItem('credentials')
+    .then(() => {
       if (!alert('가입이 완료되었습니다!')){
-        session.setItem('access-token-jwt', res.headers.authorization)
-        session.setItem('refresh-token-jwt', res.headers.refreshtoken)
-
         history.push('/main')
       }
     })

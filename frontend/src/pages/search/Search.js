@@ -42,6 +42,16 @@ const Search = () => {
     }
   }
 
+  function scrollHandler () {
+    console.log('hi')
+  }
+
+  useEffect(() => {
+    const app = document.getElementsByClassName('App')[0]
+    app.addEventListener('scroll', scrollHandler)
+    return () => app.removeEventListener('scroll', scrollHandler)
+  }, [])
+
   useEffect(() => {
     setLoading(true)
     const getSearchResult = async () => {
@@ -76,7 +86,7 @@ const Search = () => {
             ))}
             </Row>
           </section>
-          {/* 인피니티 스크롤 할거면 없애도 됨 */}
+          {/* 인피니티 스크롤 할거면 없애도 됨
           <section className='search-bottom'>
             <div className='pagenation'>
               <div onClick={() => {changePage(-1)}}><p>&lt;</p></div>
@@ -85,7 +95,7 @@ const Search = () => {
               ))}
               <div onClick={() => {changePage(1)}}><p>&gt;</p></div>
             </div>
-          </section>
+          </section> */}
         </>
       )
     }
