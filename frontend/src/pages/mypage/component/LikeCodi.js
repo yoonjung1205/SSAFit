@@ -1,19 +1,13 @@
 import '../scss/Cards.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import { likeCodies } from '../data';
 import CustomAxios from '../../../CustomAxios';
 
 const LikeCodi = ({ history }) => {
   const [codies, setCodies] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
-  const fillLike = 'https://i.ibb.co/RDV7jPR/heart-free-icon-font.png'
-  const lineLike = 'https://i.ibb.co/Nr77tWK/heart-free-icon-font-1.png'
 
-  function chnageLike(item) {
-    setCodies([...codies], item.like = !item.like)
-  }
 
   const changePage = num => {
     let newPage = currentPage + num
@@ -59,7 +53,6 @@ const LikeCodi = ({ history }) => {
       .catch(err => console.log(err))
     }
     getLikeCodies()
-    // setCodies(likeCodies)
   }, [currentPage])
 
   const Likes = () => {
@@ -68,7 +61,7 @@ const LikeCodi = ({ history }) => {
         {codies.map((codi, idx) => {
           return(
             <Col key={idx} style={{margin: '0'}}>
-              <div className='codi-card' onClick={() => console.log('Go codi detail!!!')} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
+              <div className='codi-card' onClick={() => history.push(`/recommend_codi/${codi.codi_ID}`)} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
                 <Card.Img src={codi.codiImg} alt='like-codi' />
                 <p className='text one-line'>TPO : {codi.tpo}</p>
                 <p className='text two-line'>Description:  {codi.codiTitle}</p>
@@ -77,13 +70,6 @@ const LikeCodi = ({ history }) => {
                   {codi.hashtags.map(hashtag => `#${hashtag} `)}
                 </p>
                 }
-                <div onClick={() => chnageLike(codi)} className='card-heart'>
-                  {codi.like ? 
-                  <img src={fillLike} alt='heart' />
-                  :
-                  <img src={lineLike} alt='heart' />
-                  }
-                </div>
               </div>
             </Col>
           )}

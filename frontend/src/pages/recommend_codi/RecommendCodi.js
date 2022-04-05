@@ -25,31 +25,33 @@ export default function RecommendCodi({ user }) {
   }
 
   const nextIdx = function(like){
-    if (idx < codies.length - 1){
-      const { codiId, hashtags } = codies[idx]
-      const data =  {
-        codiId, hashtags,
-        tpo: tpoObject[tpo],
-        codiImg: codies[idx].imgSrc,
-        codiTitle: codies[idx].codiContents
+    if (!parseInt(tpo)) {
+      if (idx < codies.length - 1){
+        const { codiId, hashtags } = codies[idx]
+        const data =  {
+          codiId, hashtags,
+          tpo: tpoObject[tpo],
+          codiImg: codies[idx].imgSrc,
+          codiTitle: codies[idx].codiContents
+        }
+        CustomAxios({
+          method: 'post',
+          url: `/api_be/codi/${like ? 'like': 'unlike'}`,
+          data
+        })
+        .then(res => {
+          console.log(`click codi ${like ? 'like' : 'unlike'}:`, res)
+          setIdx(idx + 1)
+        })
+        .catch(err => {
+          console.log('request data:', data)
+          console.log(err)
+        })
       }
-      CustomAxios({
-        method: 'post',
-        url: `/api_be/codi/${like ? 'like': 'unlike'}`,
-        data
-      })
-      .then(res => {
-        console.log(`click codi ${like ? 'like' : 'unlike'}:`, res)
-        setIdx(idx + 1)
-      })
-      .catch(err => {
-        console.log('request data:', data)
-        console.log(err)
-      })
-    }
-    else {
-      if (!alert('마지막 페이지입니다')){
-        history.push('/main')
+      else {
+        if (!alert('마지막 페이지입니다')){
+          history.push('/tpo')
+        }
       }
     }
   }
@@ -73,6 +75,9 @@ export default function RecommendCodi({ user }) {
   useEffect(() => {
     if (!codies.length){
       const identifier = tpo[0].charCodeAt()
+      console.log('11tpo????', tpo)
+      console.log('22tpo????', tpo[0])
+      console.log('33tpo????', tpo[0].charCodeAt())
       if (identifier > 64 && identifier < 91){
         getCodiSet()
       }
