@@ -19,6 +19,7 @@ public class UserPants {
 
     private String userName;
 
+
     @Field
     private Number largecategory = 0;
 

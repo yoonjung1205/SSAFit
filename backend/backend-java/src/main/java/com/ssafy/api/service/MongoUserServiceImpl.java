@@ -6,6 +6,9 @@ import com.ssafy.mongodb.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class MongoUserServiceImpl  implements MongoUserService{
 
@@ -27,6 +30,8 @@ public class MongoUserServiceImpl  implements MongoUserService{
     @Autowired
     UserTopRepository userTopRepository;
 
+    @Autowired
+    MongoUserRepository userRepository;
 
     @Override
     public void createUser(User user) {
@@ -96,17 +101,122 @@ public class MongoUserServiceImpl  implements MongoUserService{
         }
 
         if(user.getGender().name() == "FEMALE") {
-            userOnepieceRepository.insert(userOnepiece);
-            userOuterRepository.insert(userOuter);
-            userPantsRepository.insert(userPants);
-            userSkirtRepository.insert(userSkirt);
-            userTopRepository.insert(userTop);
+            userOnepieceRepository.save(userOnepiece);
+            userOuterRepository.save(userOuter);
+            userPantsRepository.save(userPants);
+            userSkirtRepository.save(userSkirt);
+            userTopRepository.save(userTop);
 
         }else {
-            userOuterRepository.insert(userOuter);
-            userPantsRepository.insert(userPants);
-            userTopRepository.insert(userTop);
+            userOuterRepository.save(userOuter);
+            userPantsRepository.save(userPants);
+            userTopRepository.save(userTop);
         }
 
+    }
+
+    @Override
+    public void updateUser(User user) {
+
+        // MongoDB에 Update
+
+
+        if(user.getGender().name() == "FEMALE") {
+            List<MongoUser> users = userRepository.findByUserId(user.getId());
+
+            for(MongoUser u : users) {
+                if(u.getLargecategory() == (Number)1) {
+                    Optional<UserTop> userTop = userTopRepository.findById(u.getId());
+
+                    userTop.get().setUserId(user.getId());
+                    userTop.get().setUserWeight(user.getWeight());
+                    userTop.get().setUserHeight(user.getHeight());
+                    userTop.get().setUserName(user.getNickname());
+                    userTop.get().setLargecategory(1);
+                    userTop.get().setUserMale(0);
+                    userTop.get().setUserFemale(1);
+                    userTopRepository.save(userTop.get());
+                }else if(u.getLargecategory() == (Number)2) {
+                    Optional<UserOuter> userOuter = userOuterRepository.findById(u.getId());
+                    userOuter.get().setUserId(user.getId());
+                    userOuter.get().setUserWeight(user.getWeight());
+                    userOuter.get().setUserHeight(user.getHeight());
+                    userOuter.get().setUserName(user.getNickname());
+                    userOuter.get().setLargecategory(2);
+                    userOuter.get().setUserMale(0);
+                    userOuter.get().setUserFemale(1);
+                    userOuterRepository.save(userOuter.get());
+                }else if(u.getLargecategory() == (Number)3) {
+                    Optional<UserPants> userPants = userPantsRepository.findById(u.getId());
+                    userPants.get().setUserId(user.getId());
+                    userPants.get().setUserWeight(user.getWeight());
+                    userPants.get().setUserHeight(user.getHeight());
+                    userPants.get().setUserName(user.getNickname());
+                    userPants.get().setLargecategory(3);
+                    userPants.get().setUserMale(0);
+                    userPants.get().setUserFemale(1);
+                    userPantsRepository.save(userPants.get());
+                }else if(u.getLargecategory() == (Number)4) {
+                    Optional<UserOnepiece> userOnepiece = userOnepieceRepository.findById(u.getId());
+                    userOnepiece.get().setUserId(user.getId());
+                    userOnepiece.get().setUserWeight(user.getWeight());
+                    userOnepiece.get().setUserHeight(user.getHeight());
+                    userOnepiece.get().setUserName(user.getNickname());
+                    userOnepiece.get().setLargecategory(4);
+                    userOnepiece.get().setUserMale(0);
+                    userOnepiece.get().setUserFemale(1);
+                    userOnepieceRepository.save(userOnepiece.get());
+                }else if(u.getLargecategory() == (Number)5) {
+                    Optional<UserSkirt> userSkirt = userSkirtRepository.findById(u.getId());
+                    userSkirt.get().setUserId(user.getId());
+                    userSkirt.get().setUserWeight(user.getWeight());
+                    userSkirt.get().setUserHeight(user.getHeight());
+                    userSkirt.get().setUserName(user.getNickname());
+                    userSkirt.get().setLargecategory(5);
+                    userSkirt.get().setUserMale(0);
+                    userSkirt.get().setUserFemale(1);
+                    userSkirtRepository.save(userSkirt.get());
+                }
+            }
+
+        }
+        else {
+            List<MongoUser> users = userRepository.findByUserId(user.getId());
+            for(MongoUser u : users) {
+                if(u.getLargecategory() == (Number)1) {
+                    Optional<UserTop> userTop = userTopRepository.findById(u.getId());
+
+                    userTop.get().setUserId(user.getId());
+                    userTop.get().setUserWeight(user.getWeight());
+                    userTop.get().setUserHeight(user.getHeight());
+                    userTop.get().setUserName(user.getNickname());
+                    userTop.get().setLargecategory(1);
+                    userTop.get().setUserMale(1);
+                    userTop.get().setUserFemale(0);
+                    userTopRepository.save(userTop.get());
+                }else if(u.getLargecategory() == (Number)2) {
+                    Optional<UserOuter> userOuter = userOuterRepository.findById(u.getId());
+                    userOuter.get().setUserId(user.getId());
+                    userOuter.get().setUserWeight(user.getWeight());
+                    userOuter.get().setUserHeight(user.getHeight());
+                    userOuter.get().setUserName(user.getNickname());
+                    userOuter.get().setLargecategory(2);
+                    userOuter.get().setUserMale(1);
+                    userOuter.get().setUserFemale(0);
+                    userOuterRepository.save(userOuter.get());
+                }else if(u.getLargecategory() == (Number)3) {
+                    Optional<UserPants> userPants = userPantsRepository.findById(u.getId());
+                    userPants.get().setUserId(user.getId());
+                    userPants.get().setUserWeight(user.getWeight());
+                    userPants.get().setUserHeight(user.getHeight());
+                    userPants.get().setUserName(user.getNickname());
+                    userPants.get().setLargecategory(3);
+                    userPants.get().setUserMale(1);
+                    userPants.get().setUserFemale(0);
+                    userPantsRepository.save(userPants.get());
+                }
+            }
+
+        }
     }
 }

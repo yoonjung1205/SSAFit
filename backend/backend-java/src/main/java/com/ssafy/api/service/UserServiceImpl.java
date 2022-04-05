@@ -120,13 +120,13 @@ public class UserServiceImpl implements UserService {
 
 		if(userChangePutReq.getGender() == 0) {
 
-			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, fileUrl, userChangePutReq.getEmail());
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, fileUrl, userChangePutReq.getSub());
 		}else if(userChangePutReq.getGender() == 1) {
-			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.MALE, fileUrl, userChangePutReq.getEmail());
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.MALE, fileUrl, userChangePutReq.getSub());
 		}
 
 
-		User user = userRepository.findUserByEmail(userChangePutReq.getEmail());
+		User user = userRepository.findUserByEmail(userChangePutReq.getSub());
 		return user;
 	}
 
@@ -135,13 +135,13 @@ public class UserServiceImpl implements UserService {
 
 		if(userChangePutReq.getGender() == 0) {
 
-			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, userChangePutReq.getEmail());
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.FEMALE, userChangePutReq.getSub());
 		}else if(userChangePutReq.getGender() == 1) {
-			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.MALE, userChangePutReq.getEmail());
+			userRepository.updateUser(userChangePutReq.getNickname(), userChangePutReq.getHeight(), userChangePutReq.getWeight(), Gender.MALE, userChangePutReq.getSub());
 		}
 
 
-		User user = userRepository.findUserByEmail(userChangePutReq.getEmail());
+		User user = userRepository.findUserByEmail(userChangePutReq.getSub());
 		return user;
 	}
 
