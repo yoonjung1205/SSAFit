@@ -96,9 +96,9 @@ public class GoodsServiceImpl implements GoodsService {
         List<Integer> goodsIdList =  likeGoodsRepository.findGoodsIDByUserId(userId);
         List<Goods> goodsList = goodsRepository.findByGOODSList(goodsIdList, pageable);
 
-
-
         goodsListRes.setGoodsList(goodsList);
+        goodsListRes.setPageNumber(pageable.getPageNumber());
+        goodsListRes.setTotal(goodsIdList.size());
 
         return goodsListRes;
     }
@@ -107,19 +107,19 @@ public class GoodsServiceImpl implements GoodsService {
     public void likeGoods(Long userId, GoodReq goodReq) {
 
         //있으면 true
-        if(goodsRepository.existsByGOODS_ID(goodReq.getClothId()) == 0){
+        if(goodsRepository.existsByGOODS_ID(goodReq.getNewClothId()) == 0){
             Goods goods = new Goods();
-            goods.setGOODS_ID(goodReq.getClothId());
-            goods.setGoodsImg(goodReq.getClothImg());
+            goods.setNewClothId(goodReq.getNewClothId());
+            goods.setClothImg(goodReq.getClothImg());
             goods.setBrand(goodReq.getBrand());
-            goods.setName(goodReq.getClothName());
-            goods.setPrice(goodReq.getClothPrice());
-
+            goods.setClothName(goodReq.getClothName());
+            goods.setClothPrice(goodReq.getClothPrice());
+            goods.setLikes(true);
             goodsRepository.save(goods);
         }
 
 
-        Goods goods = goodsRepository.findByGOODSID(goodReq.getClothId());
+        Goods goods = goodsRepository.findByGOODSID(goodReq.getNewClothId());
         User user = userRepository.findUserById(userId);
         UserGoods userGoods = new UserGoods();
         userGoods.setGoods(goods);
@@ -127,7 +127,7 @@ public class GoodsServiceImpl implements GoodsService {
         LikeGoods likeGoods = new LikeGoods();
         likeGoods.setUserGoods(userGoods);
 
-        if(likeGoodsRepository.existsByGoodsIDAndUserID(goodReq.getClothId(),userId) == 1){
+        if(likeGoodsRepository.existsByGoodsIDAndUserID(goodReq.getNewClothId(),userId) == 1){
             likeGoodsRepository.delete(likeGoods);
         }else{
             likeGoodsRepository.saveAndFlush(likeGoods);

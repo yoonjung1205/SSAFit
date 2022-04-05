@@ -17,6 +17,6 @@ public class UserGoods implements Serializable {
     User user;
 
     @ManyToOne
-    @JoinColumn(name="GOODS_ID", referencedColumnName = "GOODS_ID")
+    @JoinColumn(name="GOODS_ID", referencedColumnName = "newClothId")
     Goods goods;
 }
