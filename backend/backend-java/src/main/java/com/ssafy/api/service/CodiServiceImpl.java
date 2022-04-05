@@ -61,7 +61,8 @@ public class CodiServiceImpl implements CodiService {
         }
 
         codiListRes.setCodiList(codiFormList);
-
+        codiListRes.setPageNumber(pageable.getPageNumber());
+        codiListRes.setTotal(codiIdList.size());
         return codiListRes;
     }
 

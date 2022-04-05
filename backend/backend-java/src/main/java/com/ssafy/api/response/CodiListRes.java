@@ -19,4 +19,8 @@ import java.util.List;
 public class CodiListRes {
 
     private List<CodiForm> codiList;
+
+    private int pageNumber;
+
+    private int total;
 }
