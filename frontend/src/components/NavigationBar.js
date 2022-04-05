@@ -26,9 +26,6 @@ const NavigationBar = ({ boldPath }) => {
     }
   }
 
-  const onClickLogo = () => {
-    history.push('/')
-  }
 
   return (
     <>
@@ -47,7 +44,7 @@ const NavigationBar = ({ boldPath }) => {
       </section>
       }
       <nav className='navbar'>
-        <img src="https://i.ibb.co/tx6hcxR/ssafit-b.png" className='ssafit-logo' onClick={onClickLogo} alt='ssafit-logo' />
+        <img src="https://i.ibb.co/tx6hcxR/ssafit-b.png" className='ssafit-logo' onClick={() => history.push('/')} alt='ssafit-logo' />
         <ul className='nav-menu'>
           <li>
             <Link className={`link ${boldPath === "TPO" ? "active" : ""}`} to="/tpo">TPO</Link>

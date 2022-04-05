@@ -14,7 +14,8 @@ import golf from './images/golf.jpg'
 import other from './images/other.jpg'
 import './scss/tpo.scss'
 
-const Tpo = ({ history }) => {
+const Tpo = ({ user, history }) => {
+  
   const tpoObject = {
     Date: ['데이트', date], Daily: ['일상', daily], Campus: ['캠퍼스', campus], Party: ['파티', party], Travel: ['여행', travel], Wedding: ['결혼식', wedding],
     Business: ['출근', business], Sport: ['운동', sport], Interview: ['면접', interview], Hip: ['힙', hip], Golf: ['골프', golf], Other: ['기타', other]

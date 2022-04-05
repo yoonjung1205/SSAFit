@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { Suspense, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import CustomAxios from '../../../CustomAxios';
 import '../scss/recommedation.scss'
-import { DA_URL } from '../../../Request';
 import { useHistory } from 'react-router-dom';
 import Loading from '../../../components/Loading'
 
@@ -14,11 +13,10 @@ const Recommedation = ({ brand, newClothId }) => {
   const [brandClothes, setBrandClothes] = useState([])
 
   useEffect(() => {
-    const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
     const getSimilarClothes = async () => {
-      await axios({
+      await CustomAxios({
         method: 'get',
-        url: `${DA_URL}/cloth/similar/${newClothId}`
+        url: `/api_da/cloth/similar/${newClothId}`
       })
       .then(res => {
         setSimilarClothes(res.data)
@@ -27,9 +25,9 @@ const Recommedation = ({ brand, newClothId }) => {
       .catch(err => console.log(err, typeof(err)))
     }
     const getBrandClothes = async () => {
-      await axios({
+      await CustomAxios({
         method: 'get',
-        url: `${DA_URL}/cloth/brand/${newClothId}/${userId}`
+        url: `/api_da/cloth/brand/${newClothId}`
       })
       .then(res => {
         setBrandClothes(res.data)
@@ -37,12 +35,26 @@ const Recommedation = ({ brand, newClothId }) => {
       })
       .catch(err => console.log(err, typeof(err)))
     }
-    getSimilarClothes().then(getBrandClothes)
+    getSimilarClothes()
+    .then(getBrandClothes)
   }, [])
+
+  const comma = function(tar){
+    let result = ''
+    if (tar){
+      for (let i = tar.length - 1; i >= 0; i--){
+        if (i !== tar.length - 1 && (tar.length - i - 1) % 3 === 0){
+          result = ',' + result
+        }
+        result = tar[i] + result
+      }
+    }
+    return result
+  }
 
 
   return (
-    <section className='recommendation'>
+    <section className='recommendation' id='recommend'>
       <div className='recom-header'>
         <h3>Recommendation</h3>
         <p>유사한 상품과, 같은 브랜드의 인기상품을 추천합니다.</p>
@@ -62,7 +74,7 @@ const Recommedation = ({ brand, newClothId }) => {
                 <p className='one-line'>{cloth.brand}</p>
                 <p className='two-line'>{cloth.clothName}</p>
                 <div>
-                  <p className='one-line'>Price: {cloth.clothPrice}원</p>
+                  <p className='one-line'>Price: {comma(String(cloth.clothPrice))}원</p>
                   <p className='one-line'>Size: {cloth.goodsSize}</p>
                 </div>
               </div>
@@ -86,7 +98,7 @@ const Recommedation = ({ brand, newClothId }) => {
                 <p className='one-line'>{cloth.brand}</p>
                 <p className='two-line'>{cloth.clothName}</p>
                 <div>
-                  <p className='one-line'>Price: {cloth.clothPrice}원</p>
+                  <p className='one-line'>Price: {comma(String(cloth.clothPrice))}원</p>
                   <p className='one-line'>Size: {cloth.goodsSize}</p>
                 </div>
               </div>

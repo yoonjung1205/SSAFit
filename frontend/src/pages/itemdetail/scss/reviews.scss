@@ -5,6 +5,7 @@
       color: #777777;
     }
   }
+
   .review-body {
     .review-item {
       margin: 2rem 1rem;
@@ -31,12 +32,16 @@
         }
         .desc {
           margin-bottom: 2rem;
+          user-select: none;
           .item {
             padding: 0.5rem;
             margin-right: 2rem;
-            background-color: rgb(250, 250, 255);
             border-radius: 20px;
             box-shadow: 1px 2px 4px 1.5px rgba(0, 0, 0, 0.09);
+            transition: 0.5s;
+            &:hover {
+              box-shadow: 1px 2px 4px 2.5px rgba(0, 0, 0, 0.2);
+            }
             span {
               font-size: 1.1rem
             }
@@ -61,6 +66,7 @@
         margin-top: 1rem;
         display: flex;
         justify-content: space-between;
+        user-select: none;
         p {
           cursor: pointer;
           margin: 0;
@@ -73,44 +79,12 @@
 
       .review-comments {
         margin-top: 3rem;
-        .comment {
-          display: flex;
-          position: relative;
-          div {
-            padding: 0;
-            margin-right: 1%;
-            &.nickname {
-              background-color: beige;
-              margin-left: 1%;
-              width: 11%;
-            }
-            &.content {
-              background-color: aliceblue;
-              width: 80%;
-            }
-            &.edit {
-              background-color: beige;
-              background-image: url('../images/edit.png');
-              background-size: cover;
-              width: 2%;
-              aspect-ratio: 1/1;
-            }
-            &.del {
-              background-color: aliceblue;
-              background-image: url('../images/del.png');
-              background-size: cover;
-              width: 2%;
-              aspect-ratio: 1/1;
-            }
-          }
-        }
         .no-comments {
           text-align: center;
         }
       }
 
       .write-comment {
-        background-color: aliceblue;
         margin-top: 1rem;
         height: 4rem;
         display: flex;
@@ -126,6 +100,8 @@
             border: none;
             box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.25);
             padding: 0 1rem;
+            font-size: 1.2rem;
+            letter-spacing: 0.12rem;
             &:focus {
               outline: none;
             }
@@ -141,6 +117,47 @@
             width: 100%;
             height: 100%;
           }
+        }
+      }
+    }
+  }
+
+  .review-bottom {
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    .pagenation {
+      border: 1px solid #56586C;
+      margin-top: 2rem;
+      border-radius: 4px;
+      width: 25%;
+      height: 100%;
+      display: flex;
+      div {
+        height: 100%;
+        width: 15%;
+        cursor: pointer;
+        position: relative;
+        &:first-child,
+        &:last-child {
+          width: 12.5%;
+        }
+        &.active {
+          font-weight: bold;
+          background-color: #f3f3f3;
+        }
+        &:hover {
+          background-color: #f3f3f3;
+          transition: ease-in 0.2s;
+          p {
+            font-weight: bold;
+          }
+        }
+        p {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
         }
       }
     }
