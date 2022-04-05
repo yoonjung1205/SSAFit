@@ -133,7 +133,7 @@ function App() {
         </Route>
 
         <Route path="/edit-mypage" exact>
-          <Edit user={user} />
+          <Edit user={user} setSize={setSize} />
         </Route>
         
         <Route path="/edit-password" exact>
