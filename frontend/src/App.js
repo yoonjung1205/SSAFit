@@ -145,7 +145,7 @@ function App() {
         </Route>
 
         <Route path="/item/:id" exact>
-          <ItemDetail user={user} />
+          <ItemDetail user={user} setColor={setColor} setStyle={setStyle} setCategory={setCategory} />
         </Route>
 
         <Route path="/mypage" exact>
