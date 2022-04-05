@@ -78,6 +78,7 @@ const Review = ({ newClothId }) => {
               {makeNumList().map((num, idx) => (
                 <div className={currentPage === num ? 'active': ''} key={idx} 
                   onClick={() => setCurrentPage(num)}
+                  style={{width: `${totalPage > 4 ? '15%' : `${75/totalPage}%`}`}}
                 >
                   <p>{num}</p>
                 </div>
