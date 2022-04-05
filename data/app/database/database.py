@@ -218,7 +218,12 @@ def get_brand_clothes(newClothId: int):
         transaction = db.transaction.find({'brand': cloth['brand']}, {'_id': 0, 'largecategory': 0})
     transaction = list(transaction)
     transaction = pd.DataFrame(transaction)
-    if len(transaction) >= 10:
+    if 10 <= len(transaction):
+        if len(transaction) >= 1000:
+            a = transaction[transaction.newClothId==newClothId]
+            transaction = transaction.sample(n=1000)
+            transaction = pd.concat([transaction, a])
+            transaction = transaction.drop_duplicates(['userId', 'newClothId'])
         trans = transaction.pivot_table(index='newClothId', columns='userId', values='shopCnt')
         trans.fillna(0, inplace=True)
         SVD = TruncatedSVD(n_components=10)
@@ -255,6 +260,11 @@ def get_similar_clothes(newClothId: int):
     transaction = list(transaction)
     transaction = pd.DataFrame(transaction)
     if len(transaction) >= 10:
+        if len(transaction) >= 1000:
+            a = transaction[transaction.newClothId==newClothId]
+            transaction = transaction.sample(n=1000)
+            transaction = pd.concat([transaction, a])
+            transaction = transaction.drop_duplicates(['userId', 'newClothId'])
         trans = transaction.pivot(index='newClothId', columns='userId', values='shopCnt')
         trans.fillna(0, inplace=True)
         SVD = TruncatedSVD(n_components=10)
