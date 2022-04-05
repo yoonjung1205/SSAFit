@@ -15,7 +15,8 @@ export default function RecommendCodi({ user }) {
   
   const [codies, setCodies] = useState([])
   const [idx, setIdx] = useState(0)
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
+  const [isLike, setIsLike] = useState(true)
 
 
   const tpo = history.location.pathname.replace('/recommend_codi/', '')
@@ -24,36 +25,43 @@ export default function RecommendCodi({ user }) {
     Business: '출근', Sport: '운동', Interview: '면접', Hip: '힙', Golf: '골프', Other: '기타'
   }
 
+  const ClickBtn = async (bool) => {
+    const { codiId, hashtags } = codies[idx]
+    const data =  {
+      codiId, hashtags,
+      tpo: tpoObject[tpo],
+      codiImg: codies[idx].imgSrc,
+      codiTitle: codies[idx].codiContents
+    }
+    await CustomAxios({
+      method: 'post',
+      url: `/api_be/codi/${bool ? 'like': 'unlike'}`,
+      data
+    })
+    .then(res => {
+      console.log(`click codi ${bool ? 'like' : 'unlike'}:`, res)
+    })
+    .catch(err => {
+      console.log('request data:', data)
+      console.log(err)
+    })
+  }
+
   const nextIdx = function(like){
-    if (!parseInt(tpo)) {
-      if (idx < codies.length - 1){
-        const { codiId, hashtags } = codies[idx]
-        const data =  {
-          codiId, hashtags,
-          tpo: tpoObject[tpo],
-          codiImg: codies[idx].imgSrc,
-          codiTitle: codies[idx].codiContents
-        }
-        CustomAxios({
-          method: 'post',
-          url: `/api_be/codi/${like ? 'like': 'unlike'}`,
-          data
-        })
-        .then(res => {
-          console.log(`click codi ${like ? 'like' : 'unlike'}:`, res)
-          setIdx(idx + 1)
-        })
-        .catch(err => {
-          console.log('request data:', data)
-          console.log(err)
-        })
-      }
-      else {
-        if (!alert('마지막 페이지입니다')){
-          history.push('/tpo')
-        }
+    if (idx < codies.length - 1){
+      ClickBtn(like)
+      .then(setIdx(idx + 1))
+    }
+    else {
+      if (!alert('마지막 페이지입니다')){
+        history.push('/tpo')
       }
     }
+  }
+
+  const changeLike = () => {
+    ClickBtn(!isLike)
+    setIsLike(!isLike)
   }
 
   const getCodiSet = function(){
@@ -69,19 +77,16 @@ export default function RecommendCodi({ user }) {
       method: 'get',
       url: `/api_da/codi/detail/${tpo}`
     })
-    .then(res => {setCodies([res.data])})
+    .then(res => {setCodies([res.data]); setIsLike(true)})
   }
 
   useEffect(() => {
-    if (!codies.length){
-      const identifier = tpo[0].charCodeAt()
-      console.log('11tpo????', tpo)
-      console.log('22tpo????', tpo[0])
-      console.log('33tpo????', tpo[0].charCodeAt())
-      if (identifier > 64 && identifier < 91){
+    if (!codies.length) {
+      if (!parseInt(tpo)) {
+        console.log('codiSet')
         getCodiSet()
-      }
-      else {
+      } else {
+        console.log('codiOnly')
         getCodi()
       }
     }
@@ -107,13 +112,47 @@ export default function RecommendCodi({ user }) {
     }
   }, [idx])
 
-  if (loading) {
-    return <Loading/>;
+  const ButtonsSet = () => {
+    return (
+      <div className='button-box'>
+        <button className='like-btn' onClick={() => nextIdx(1)}>
+          <img src={like} alt="like" />
+          맘에 들어요
+          <span>
+          </span>
+        </button>
+        <button className='dislike-btn' onClick={() => nextIdx(0)}>
+          <img src={dislike} alt="dislike" />
+          별로에요
+          <span>
+          </span>
+        </button>
+      </div>
+    )
   }
 
+  const ButtonOnly = () => {
+    return (
+      <div className='button-box'>
+        {isLike ? 
+        <button className='dislike-btn only' onClick={() => changeLike()}>
+          <img src={dislike} alt="dislike" />별로에요<span />
+        </button>
+        :
+        <button className='like-btn only' onClick={() => changeLike()}>
+          <img src={like} alt="like" />맘에 들어요<span />
+        </button>
+        }
+      </div>
+    )
+  }
+
+
   return (
+    <>
+    <NavigationBar boldPath="TPO" />
+    {loading ? <Loading /> :
     <article className='page'>
-      <NavigationBar boldPath="TPO" />
       <article className='codi-container'>
         <section className='img-box'/>
         <section className='codi-body'>
@@ -131,24 +170,11 @@ export default function RecommendCodi({ user }) {
             }
           </span>
           <ItemBox items={codies[idx].clothes} />
-          <div className='button-box'>
-            {/* 백엔드랑 통신 넣어야함 */}
-            <button className='like-btn' onClick={() => nextIdx(1)}>
-              <img src={like} alt="like" />
-              맘에 들어요
-              <span>
-              </span>
-            </button>
-            {/* 백엔드랑 통신 넣어야함 */}
-            <button className='dislike-btn' onClick={() => nextIdx(0)}>
-              <img src={dislike} alt="dislike" />
-              별로에요
-              <span>
-              </span>
-            </button>
-          </div>
+          { !parseInt(tpo) ? <ButtonsSet /> : <ButtonOnly /> }
         </section>
       </article>
     </article>
+    }
+    </>
   )
 }
