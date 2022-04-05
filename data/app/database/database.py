@@ -159,6 +159,12 @@ def get_codi(codiTPO):
         codis.append(codi)
     return codis
 
+
+def get_codi_detail(codiId):
+    codi = db.codi.find_one({'codiId': int(codiId)}, {'_id': 0})
+    return codi
+
+
 def get_reviews(newClothId):
     reviews = []
     for review in db.review.aggregate([{'$project': {"_id": 0}}, {'$match': {'newGoodsNo': int(newClothId)}}, {'$sort': {'date': -1}}]):
