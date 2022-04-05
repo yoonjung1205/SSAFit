@@ -3,7 +3,7 @@ import MonthChart from './MonthChart'
 import '../scss/chart.scss'
 
 const Chart = ({ male, female, month, sum }) => {
-  const newFemale = Math.round(female * 100) / 100
+  const newFemale = Math.round(female * 10000) / 100
   return (
     <section className='chart'>
       <div className='gender'>
@@ -13,13 +13,13 @@ const Chart = ({ male, female, month, sum }) => {
             <div className='female blank'>
               <div className='bar' style={{height: `${female*100}%`}} />
             </div>
-            <p>{newFemale*100}%</p>
+            <p>{newFemale}%</p>
           </div>
           <div className='bar-chart'>
             <div className='male blank'>
               <div className='bar' style={{height: `${male*100}%`}} />
             </div>
-            <p>{(1-newFemale)*100}%</p>
+            <p>{100-newFemale}%</p>
           </div>
         </div>
       </div>
