@@ -70,10 +70,9 @@ const Edit = ({ user }) => {
     isValid()
     .then(() => {
       const data = makeCredential()
-      console.log(data.entries)
-      for (const i of data.entries()){
-        console.log(i)
-      }
+      // for (const i of data.entries()){
+      //   console.log(i)
+      // }
       CustomAxios({
         method: 'put',
         url: '/api_be/auth/user',
@@ -81,7 +80,6 @@ const Edit = ({ user }) => {
         data: data
       })
       .then(res => {
-        console.log('되긴함')
         const session = window.sessionStorage
         const accessToken = res.headers.authorization
         const refreshToken = res.headers.refreshtoken
@@ -110,7 +108,7 @@ const Edit = ({ user }) => {
           <form onSubmit={(e) => submit(e)}>
             {/* 프로필 사진 */}
             <label className="profile" htmlFor="profile"
-              style={{backgroundImage: `url(${credentials.profileImage.length ? credentials.profileImage:defaultImage})`}}>
+              style={{backgroundImage: `url(${credentials.profileImage ? credentials.profileImage:defaultImage})`}}>
               <input type="file" id="profile" accept="image/jpg, image/png, image/jpeg"
                 onChange={e => fileUpload(e)} />
             </label>

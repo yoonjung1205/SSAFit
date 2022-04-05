@@ -58,21 +58,25 @@ const LikeCodi = ({ history }) => {
       })
       .catch(err => console.log(err))
     }
-    // getLikeCodies()
-    setCodies(likeCodies)
+    getLikeCodies()
+    // setCodies(likeCodies)
   }, [currentPage])
 
-  return (
-    <>
+  const Likes = () => {
+    return (<>
       <Row md={5} className='g-5 mypage-codi'>
         {codies.map((codi, idx) => {
           return(
             <Col key={idx} style={{margin: '0'}}>
               <div className='codi-card' onClick={() => console.log('Go codi detail!!!')} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
                 <Card.Img src={codi.codiImg} alt='like-codi' />
-                <p className='text one-line'>{codi.tpo}</p>
-                <p className='text two-line'>{codi.codiTitle}</p>
-                <p className='text one-line'>{codi.hashtags}</p>
+                <p className='text one-line'>TPO : {codi.tpo}</p>
+                <p className='text two-line'>Description:  {codi.codiTitle}</p>
+                {codi.hashtags[0] !== "[]" && 
+                <p className='text one-line'>
+                  {codi.hashtags.map(hashtag => `#${hashtag} `)}
+                </p>
+                }
                 <div onClick={() => chnageLike(codi)} className='card-heart'>
                   {codi.like ? 
                   <img src={fillLike} alt='heart' />
@@ -99,8 +103,15 @@ const LikeCodi = ({ history }) => {
           <div onClick={() => {changePage(1)}}><p>&gt;</p></div>
         </div>
       </div>
-    </>
-  );
+    </>)
+  }
+
+  return (<>
+  {codies.length > 0 ?
+  <Likes />
+  :
+  <div className='no-cards'>찜한 코디가 없습니다...(*￣０￣)ノ</div>}
+  </>);
 };
 
 export default LikeCodi;

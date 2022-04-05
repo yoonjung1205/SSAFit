@@ -57,9 +57,23 @@ export default function ItemDetail({ user }) {
       .catch(err => console.log(err, typeof(err)))
     }
 
+    const likeDa = async() => {
+      // 1은 긍정 2는 부정이면...좋아요 누를때 1보내고 취소 누를때 2?
+      await CustomAxios({
+        method: 'put',
+        url: `/api_da/user/${user.id}`,
+        data: {
+          "newClothId": item.newClothId,
+          "num": 1
+        }
+      })
+      .catch(err => console.log(err))
+    }
+
     getCloth()
     .then(getRealFit())
     .then(updateRecentItem())
+    .then(likeDa())
   }, [newClothId])
 
 

@@ -142,15 +142,13 @@ const LikeCloth = ({ user, history }) => {
     </>)
   }
 
-  return (
-    <>
-      {clothes.length > 0 ? 
-      <Likes />
-      :
-      <div>찜한 옷이 없습니다( ﾉ ﾟｰﾟ)ﾉ</div>
-      }
-    </>
-  );
+  return (<>
+    {clothes.length > 0 ? 
+    <Likes />
+    :
+    <div className='no-cards'>찜한 옷이 없습니다...(*￣０￣)ノ</div>
+    }
+  </>);
 };
 
 export default LikeCloth;
