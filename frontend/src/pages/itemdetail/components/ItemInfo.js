@@ -33,7 +33,7 @@ export default function ItemInfo({ item, user }) {
   const getLikeInfo = () => {
     CustomAxios({
       method: 'get',
-      url: `/api_be/goods/like?clothId=${item.clothId}&userId=${user.id}`,
+      url: `/api_be/goods/like?clothId=${item.newClothId}&userId=${user.id}`,
     })
     .then(res => {
       console.log('getLikeInfo!!!', res.data)
@@ -77,7 +77,6 @@ export default function ItemInfo({ item, user }) {
       getLikeInfo()
     }
   }, [item])
-  
 
 
   return (
@@ -86,9 +85,6 @@ export default function ItemInfo({ item, user }) {
       <div className='item-box'>
         <div className='image-box'>
           <img src={item.clothImg} alt="image" />
-          <span className={liked ? 'liked':''} onClick={() => like()}>
-            <img src={heart} alt="like" />
-          </span>
         </div>
         <div className='item-info'>
           <h2 className='brand'>{item.brand}</h2>
@@ -101,6 +97,9 @@ export default function ItemInfo({ item, user }) {
             )}
           </h6>
           <h6>Size : {item.goodsSize}</h6>
+          <span className={`like-btn ${liked ? 'liked':''}`} onClick={() => like()}>
+            <img src={heart} alt="like" />
+          </span>
           <button onClick={() => goToShop()}>
             <span/>
             구매하러 가기

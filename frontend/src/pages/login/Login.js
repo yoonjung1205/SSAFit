@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import GoogleLogin from './components/GoogleLogin'
 import KakaoLogin from './components/KakaoLogin'
 import {Link} from 'react-router-dom'
-import axios from 'axios'
+import CustomAxios from '../../CustomAxios'
 import { URL } from '../../CustomAxios'
 import './scss/login.scss'
 
@@ -15,7 +15,7 @@ export default function Login({ history }) {
   })
 
   const signIn = function(){
-    axios({
+    CustomAxios({
       method: 'post',
       url: `${URL}/api_be/auth/login`,
       data: {
@@ -23,12 +23,7 @@ export default function Login({ history }) {
         password: credentials.password
       },
     })
-    .then(res => {
-      const session = window.sessionStorage
-
-      session.setItem('access-token-jwt', res.headers.authorization)
-      session.setItem('refresh-token-jwt', res.headers.refreshtoken)
-      
+    .then(() => {
       if (!alert('로그인 되었습니다!')){
         history.push('/main')
       }

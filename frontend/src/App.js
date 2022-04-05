@@ -30,7 +30,6 @@ function App() {
   const [color, setColor] = useState({})
   const [style, setStyle] = useState({})
   const [category, setCategory] = useState({})
-  const [password, setPassword] = useState('')
   
   const session = window.sessionStorage
 
@@ -127,9 +126,11 @@ function App() {
 
         <Route path="/tpo" component={Tpo} exact/>
 
-        <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
-
         <Route path="/recommend/:category" component={Category} exact />
+
+        <Route path="/recommend_codi/:tpo" exact >
+          <RecommendCodi user={user} />
+        </Route>
 
         <Route path="/edit-mypage" exact>
           <Edit user={user} />

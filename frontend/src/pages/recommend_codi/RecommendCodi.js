@@ -10,10 +10,10 @@ import './scss/recommend_codi.scss'
 import CustomAxios from '../../CustomAxios'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-export default function RecommendCodi() {
+export default function RecommendCodi({ user }) {
   const history = useHistory()
   
-  const [codi, setCodi] = useState({})
+  const [codi, setCodi] = useState([])
   const [idx, setIdx] = useState(0)
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +25,7 @@ export default function RecommendCodi() {
   }
 
   const nextIdx = function(){
-    if (idx < 19){
+    if (idx < codi.length - 1){
       setIdx(idx + 1)
     }
     else {
@@ -35,23 +35,36 @@ export default function RecommendCodi() {
     }
   }
 
-  const getCodi = function(){
+  const getCodiSet = function(){
     CustomAxios({
       method: 'get',
       url: `/api_da/codi/codi${tpo}`
     })
-    .then(res => setCodi(res.data))
+    .then(res => {setCodi(res.data)})
+  }
+
+  const getCodi = function(){
+    CustomAxios({
+      method: 'get',
+      url: `/api_da/codi/${tpo}`
+    })
+    .then(res => {setCodi([res.data])})
   }
 
   useEffect(() => {
-    // console.log('나는 코디', codi)
-    if (!Object.keys(codi).length){
-      getCodi()
+    if (!codi.length){
+      const identifier = tpo[0].charCodeAt()
+      if (identifier > 64 && identifier < 91){
+        getCodiSet()
+      }
+      else {
+        getCodi()
+      }
     }
   }, [])
 
   useEffect(() => {
-    if (Object.keys(codi).length){
+    if (codi.length && user){
       setLoading(false)
     }
   }, [codi])
@@ -82,7 +95,7 @@ export default function RecommendCodi() {
         <section className='codi-body'>
           <span className='codi-title'>
             <h1>
-              {`ooo님, ${tpoObject[tpo]}`}
+              {`${user.nickname}님, ${tpoObject[tpo]}`}
             </h1>
               에<br /> 맞는 코디를 추천해드릴게요
           </span>
