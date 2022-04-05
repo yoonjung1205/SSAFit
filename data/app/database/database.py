@@ -1,12 +1,9 @@
 import motor.motor_asyncio
 from pymongo import MongoClient
 import asyncio
-import json
-from bson import ObjectId, json_util
-from fastapi.encoders import jsonable_encoder
 import numpy as np
 import pandas as pd
-import time
+
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import TruncatedSVD
 
@@ -391,7 +388,6 @@ def change_user_info(userId, newClothId, num):
 
 def get_recent_items(userId):
     user = db.user_ssafit.find_one({'userId':int(userId), 'largecategory': 1}, {'_id': 0})
-    print(user)
     try:
         result = user['recentItems']
         clothes = []
@@ -400,10 +396,6 @@ def get_recent_items(userId):
         return clothes
     except:
         return '최근 본 상품이 없습니다.'
-    # if user['recentItems']:
-    #     return user['recentItems']
-    # else:
-    #     return
 
 
 def change_recent_item(userId, newClothId):
@@ -421,7 +413,6 @@ def change_recent_item(userId, newClothId):
         db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': user['recentItems']}})
 
     except:
-        # db.user_ssafit.aggregate([{'$match': {'userId': int(userId)}},{'$addFields': { 'recentItems':[] }}])
         db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': list()}})
         users = db.user_ssafit.find_one({'userId': int(userId), 'largecategory': 1}, {'_id': 0})
         users['recentItems'].append(newClothId)
