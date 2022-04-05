@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import MonthChart from './MonthChart'
 import '../scss/chart.scss'
 
 const Chart = ({ male, female, month, sum }) => {
+  const newFemale = Math.round(female * 100) / 100
   return (
     <section className='chart'>
 
@@ -13,13 +14,13 @@ const Chart = ({ male, female, month, sum }) => {
             <div className='female blank'>
               <div className='bar' style={{height: `${female*100}%`}} />
             </div>
-            <p>{female*100}%</p>
+            <p>{newFemale*100}%</p>
           </div>
           <div className='bar-chart'>
             <div className='male blank'>
               <div className='bar' style={{height: `${male*100}%`}} />
             </div>
-            <p>{male*100}%</p>
+            <p>{(1-newFemale)*100}%</p>
           </div>
         </div>
       </div>
