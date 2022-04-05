@@ -113,7 +113,7 @@ export default function RecommendCodi({ user }) {
         <section className='img-box'/>
         <section className='codi-body'>
           <span className='codi-title'>
-            {codi.length > 1 ? 
+            {codies.length > 1 ? 
               <p>
                 <h1>{user.nickname}님, {tpoObject[tpo]}</h1>에<br />
                 맞는 코디를 추천해드릴게요

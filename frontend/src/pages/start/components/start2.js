@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import '../scss/start2.scss'
-import { Link } from 'react-router-dom'
 import ourService from '../images/our_service_img.png'
 
-export default function start2() {
+export default function start2({ isLogin, goPage }) {
+
   return (
     <article id='start-2'>
       <section id='intro-header'>
@@ -36,15 +37,15 @@ export default function start2() {
         </div>
       </section>
       <section id='service-container' className='flex-row'>
-        <div className='service' id='link-1'>
+        <div className='service' id='link-1' onClick={() => goPage('/recommend')}>
           <div className='opac-blk' />
           <h4>체형 맞춤 옷</h4>
         </div>
-        <div className='service' id='link-2'>
+        <div className='service' id='link-2' onClick={() => goPage('/tpo')}>
           <div className='opac-blk' />
           <h4>상황 맞춤 코디</h4>
         </div>
-        <div className='service' id='link-3'>
+        <div className='service' id='link-3' onClick={() => goPage('recommend')}>
           <div className='opac-blk' />
           <h4>취향 맞춤 옷</h4>
         </div>
