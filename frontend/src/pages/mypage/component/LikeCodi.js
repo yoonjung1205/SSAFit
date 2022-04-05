@@ -4,7 +4,7 @@ import { Card, Col, Row } from 'react-bootstrap';
 import { likeCodies } from '../data';
 import CustomAxios from '../../../CustomAxios';
 
-const LikeCodi = () => {
+const LikeCodi = ({ history }) => {
   const [codies, setCodies] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
@@ -45,20 +45,22 @@ const LikeCodi = () => {
   }
 
   useEffect(() => {
-    setCodies(likeCodies)
     const getLikeCodies = async () => {
       await CustomAxios({
         method: 'get',
-        url:`/api_be/codi/mylist?page=${1}&size=${5}`,
+        url:`/api_be/codi/mylist?page=${currentPage}&size=${5}`,
       })
       .then(res => {
-        console.log('getLikeCodies:', res)
+        console.log('getLikeCodies:', res.data)
         setCodies(res.data.codiList)
+        setCurrentPage(res.data.pageNumber + 1)
+        setTotalPage(Math.ceil(res.data.total/5))
       })
       .catch(err => console.log(err))
     }
     // getLikeCodies()
-  }, [])
+    setCodies(likeCodies)
+  }, [currentPage])
 
   return (
     <>
@@ -66,8 +68,8 @@ const LikeCodi = () => {
         {codies.map((codi, idx) => {
           return(
             <Col key={idx} style={{margin: '0'}}>
-              <div className='codi-card' onClick={() => console.log('go to codi detail')} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
-                <Card.Img src={codi.codiImage} alt='like-codi' />
+              <div className='codi-card' onClick={() => console.log('Go codi detail!!!')} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
+                <Card.Img src={codi.codiImg} alt='like-codi' />
                 <p className='text one-line'>{codi.tpo}</p>
                 <p className='text two-line'>{codi.codiTitle}</p>
                 <p className='text one-line'>{codi.hashtags}</p>

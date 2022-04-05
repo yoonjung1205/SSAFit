@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import '../scss/Cards.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
@@ -32,7 +33,6 @@ const Recent = ({ user, history }) => {
       .catch(err => console.log(err))
     }
     getRecent()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

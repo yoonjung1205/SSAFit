@@ -37,7 +37,7 @@ const LikeCloth = ({ user, history }) => {
 
     const likeDa = async() => {
       // 1은 긍정 2는 부정이면...좋아요 누를때 1보내고 취소 누를때 2?
-      const num = item.like ? 2 : 1
+      const num = item.likes ? 2 : 1
       await CustomAxios({
         method: 'put',
         url: `/api_da/user/${user.id}`,
@@ -53,7 +53,7 @@ const LikeCloth = ({ user, history }) => {
     .then(likeDa())
     .then(() => {
       console.log('change like status')
-      setClothes([...clothes], item.like = !item.like)
+      setClothes([...clothes], item.likes = !item.likes)
     })
   }
 
@@ -87,23 +87,25 @@ const LikeCloth = ({ user, history }) => {
   }
 
   useEffect(() => {
-    setClothes(likeClothes)
+    // setClothes(likeClothes)
     const getLikeClothes = async () => {
       await CustomAxios({
         method: 'get',
-        url:`/api_be/goods/mylist?page=${1}&size=${5}`,
+        url:`/api_be/goods/mylist?page=${currentPage}&size=${5}`,
       })
       .then(res => {
-        console.log('getLikeClothes:', res)
+        console.log('getLikeClothes:', res.data)
         setClothes(res.data.goodsList)
+        setCurrentPage(res.data.pageNumber + 1)
+        setTotalPage(Math.ceil(res.data.total/5))
       })
       .catch(err => console.log(err))
     }
-    // getLikeClothes()
-  }, [])
+    getLikeClothes()
+  }, [currentPage])
 
-  return (
-    <>
+  const Likes = () => {
+    return (<>
       <Row md={5} className='g-5 mypage-like'>
         {clothes.map((cloth, idx) => (
           <Col key={idx} style={{margin: '0'}}>
@@ -113,7 +115,7 @@ const LikeCloth = ({ user, history }) => {
               <p className='text two-line'>{cloth.clothName}</p>
               <p className='text one-line price'>{comma(String(cloth.clothPrice))}원</p>
               <div onClick={() => chnageLike(cloth)} className='card-heart'>
-                {cloth.like ? 
+                {cloth.likes ? 
                 <img src={fillLike} alt='heart' />
                 :
                 <img src={lineLike} alt='heart' />
@@ -137,6 +139,16 @@ const LikeCloth = ({ user, history }) => {
           <div onClick={() => {changePage(1)}}><p>&gt;</p></div>
         </div>
       </div>
+    </>)
+  }
+
+  return (
+    <>
+      {clothes.length > 0 ? 
+      <Likes />
+      :
+      <div>찜한 옷이 없습니다( ﾉ ﾟｰﾟ)ﾉ</div>
+      }
     </>
   );
 };

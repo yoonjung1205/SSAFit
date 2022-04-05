@@ -54,12 +54,14 @@
     }
   }
 }
+
 .like-bottom {
   height: 5vh;
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
   .pagenation {
+    user-select: none;
     border: 1px solid #56586C;
     border-radius: 4px;
     width: 25%;
