@@ -10,4 +10,7 @@ import java.util.List;
 public class MyLikeGoodsRes {
     private List<Goods> goodsList;
 
+    private int pageNumber;
+
+    private int total;
 }
