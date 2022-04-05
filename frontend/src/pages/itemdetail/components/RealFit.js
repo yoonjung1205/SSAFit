@@ -6,23 +6,24 @@ import '../scss/realfit.scss'
 
 export default function RealFit({ review }) {
   const [page, setPage] = useState(0)
-  const [exist, setExist] = useState(true)
+  const [exist, setExist] = useState(false)
   const [direc, setDirec] = useState(true)
 
-  const realfit = []
-  for (let i = 0; i < review.length; i++){
-    realfit.push({imageUrl: review[i].reviewImg, desc: `${review[i].userHeight}/${review[i].userWeight} (${review[i].userSexMen ? '남':'여'})`})
-  }
+  // const realfit = []
+  // for (let i = 0; i < review.length; i++){
+  //   realfit.push({imageUrl: review[i].reviewImg, desc: `${review[i].userHeight}/${review[i].userWeight} (${review[i].userSexMen ? '남':'여'})`})
+  // }
+  // console.log(realfit)
   const arr = () => {
     const temp = []
-    if (realfit.length < 4){
-      for (let i = 0; i < realfit.length; i++){
+    if (review.length < 4){
+      for (let i = 0; i < review.length; i++){
         temp.push(i)
       }
     }
     else {
       for (let i = page; i < page + 6; i++){
-        temp.push(i % realfit.length)
+        temp.push(i % review.length)
       }
     }
 
@@ -31,17 +32,18 @@ export default function RealFit({ review }) {
 
 
   const CarouselItems = function({ele}){
+    console.log(ele)
     return (
     <div className={`carousel-card ${direc ? 'slide-left':'slide-right'}`}>
-      <span className='carousel-image' style={{backgroundImage: `url(${ele.imageUrl})`}} />
-      <p className='carousel-desc'>{ele.desc}</p>
+      <span className='carousel-image' style={{backgroundImage: `url(${ele.reviewImg})`}} />
+      <p className='carousel-desc'>{`${ele.userHeight}/${ele.userWeight} (${ele.userSexMen ? '남':'여'})`}</p>
     </div>
     )
   }
 
   useEffect(() => {
     if (review.length > 0){
-      setExist(false)
+      setExist(true)
     }
   }, [review])
 
@@ -57,21 +59,21 @@ export default function RealFit({ review }) {
         </p>
       </div>
       {exist ? 
+      (<div className='carousel-box'>
+        <img src={left} className='carousel-btn' style={{display: review.length > 4 ? 'block':'none'}}
+          onClick={() => {setPage(page > 0 ? page-1 : review.length-1); setDirec(true)}}/>
+        <div className='carousel-view'>
+          <div className='carousel'>
+            {arr().map((i, idx) => <CarouselItems ele={review[i]} key={idx}/>)}
+          </div>
+        </div>
+        <img src={right} className='carousel-btn' style={{display: review.length > 4 ? 'block':'none'}}
+          onClick={() => {setPage(page >= review.length-1 ? 0 : page+1); setDirec(false)}}/>
+      </div>)
+      :
       (<div className='no-items'>
         <h1>🤔</h1>
         <h6>아직 사용자와 비슷한 리뷰가 없어요</h6>
-      </div>)
-      :
-      (<div className='carousel-box'>
-        <img src={left} className='carousel-btn' style={{display: realfit.length > 4 ? 'block':'none'}}
-          onClick={() => {setPage(page > 0 ? page-1 : realfit.length-1); setDirec(true)}}/>
-        <div className='carousel-view'>
-          <div className='carousel'>
-            {arr().map((i, idx) => <CarouselItems ele={realfit[i]} key={idx}/>)}
-          </div>
-        </div>
-        <img src={right} className='carousel-btn' style={{display: realfit.length > 4 ? 'block':'none'}}
-          onClick={() => {setPage(page >= realfit.length-1 ? 0 : page+1); setDirec(false)}}/>
       </div>)}
     </section>
   )

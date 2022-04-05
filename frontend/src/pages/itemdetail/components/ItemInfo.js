@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Rate from './Rate'
 import heart from '../images/heart.png'
 import CustomAxios from '../../../CustomAxios'
@@ -27,6 +27,19 @@ export default function ItemInfo({ item, user }) {
     if (Object.keys(item).length){
       window.open(`https://store.musinsa.com/app/goods/${item.clothId}`)
     }
+  }
+
+  
+  const getLikeInfo = () => {
+    CustomAxios({
+      method: 'get',
+      url: `/api_be/goods/like?clothId=${item.clothId}&userId=${user.id}`,
+    })
+    .then(res => {
+      console.log('getLikeInfo!!!', res.data)
+      setLiked(res.data.like)
+    })
+    .catch(err => {console.log(err); console.log(item.newClothId, user.id)})
   }
 
 
@@ -58,6 +71,13 @@ export default function ItemInfo({ item, user }) {
     .then(likeDa())
     .then(setLiked(!liked))
   }
+
+  useEffect(() => {
+    if (Object.keys(item).length){
+      getLikeInfo()
+    }
+  }, [item])
+  
 
 
   return (
