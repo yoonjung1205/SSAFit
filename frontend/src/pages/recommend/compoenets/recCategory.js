@@ -14,7 +14,6 @@ const recCategory = ({cate, clothes}) => {
     history.push(`/recommend/${cate}`)
   }
 
-<<<<<<< HEAD
   const comma = function(tar){
     let result = ''
     if (tar){
@@ -28,9 +27,6 @@ const recCategory = ({cate, clothes}) => {
     return result
   }
 
-=======
-  console.log(clothes)
->>>>>>> 6127d93b931d63263e915d9786a2bdabbe8988db
   if (!clothes){
     return false
   }

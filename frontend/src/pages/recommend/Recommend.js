@@ -65,15 +65,11 @@ const Recommend = ({ recommend, setter, getter }) => {
   }, [recommend, standard])
 
 
-<<<<<<< HEAD
-=======
-  
 
   if (loading){
     return (<Loading/>)
   }
 
->>>>>>> 6127d93b931d63263e915d9786a2bdabbe8988db
   return (
     <article className='recommend'>
       <NavigationBar boldPath='RECOMMEND' />
@@ -84,7 +80,6 @@ const Recommend = ({ recommend, setter, getter }) => {
       </section>
       <br />
       <section className='rec-choice'>
-<<<<<<< HEAD
         <div className='choice' onClick={() => setStandard('size')}>
           <h4 className={`${standard === 'size' ? 'rec-active' : ''}`}>사이즈</h4>
         </div>
@@ -100,24 +95,10 @@ const Recommend = ({ recommend, setter, getter }) => {
             <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}>
               <h4 className={`${standard === 'category' ? 'rec-active':''}`}>카테고리</h4>
             </span>
-=======
-        <div className={`choice ${tab === 'size' ? 'rec-active' : ''}`} onClick={() => setTab('size')}><h5>사이즈</h5></div>
-        <div className='choice-line'></div>
-        <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onClick={() => setTab(true)}><h5>취향</h5></div>
-        <div className='tab-container' style={{display: `${tab? 'block':'none'}`}} onClick={e => {if (e.target.className === 'tab-container'){setTab(false)}}}>
-          <div className='tab-box'>
-            <h4>Recommend By</h4>
-            <div className='tabs'>
-              <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}><h6>Color</h6></span>
-              <span className='tab' onClick={() => {setStandard('style'); setTab(false)}}><h6>Style</h6></span>
-              <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}><h6>Category</h6></span>
-            </div>
->>>>>>> 6127d93b931d63263e915d9786a2bdabbe8988db
           </div>
         </div>
       </section>
       <section className='rec-clothes'>
-<<<<<<< HEAD
         {loading ? <Loading /> :
         <>
           <RecCategory cate='Outer' clothes={recommend[standard].outer} />
@@ -131,13 +112,6 @@ const Recommend = ({ recommend, setter, getter }) => {
           }
         </>
         }
-=======
-        <RecCategory cate='Outer' clothes={recommend[standard].outer} />
-        <RecCategory cate='Top' clothes={recommend[standard].top} />
-        <RecCategory cate='Pants' clothes={recommend[standard].pants} />
-        <RecCategory cate='Onepiece' clothes={recommend[standard].onepiece} />
-        <RecCategory cate='Skirt' clothes={recommend[standard].skirt} />
->>>>>>> 6127d93b931d63263e915d9786a2bdabbe8988db
       </section>
       <Footer />
     </article>
