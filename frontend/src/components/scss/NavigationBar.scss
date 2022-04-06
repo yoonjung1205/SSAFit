@@ -24,17 +24,26 @@
       color: #777777;
       margin: 0 0.5rem;
 
+      &.active {
+        color: black;
+        p {
+          font-size: 1.5rem;
+        }
+      }
+
       p {
         font-size: 1.2rem;
         margin: 0;
         padding: 0.5rem;
-        &.active {
-          color: black;
-        }
-        &:hover {
-          color: black;
-          transform: scale(1.25);
-          transition: 0.5s;
+      }
+
+      &.inactive {
+        p {
+          &:hover {
+            color: black;
+            transform: scale(1.25);
+            transition: 0.5s;
+          }
         }
       }
     }

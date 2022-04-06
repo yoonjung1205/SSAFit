@@ -52,11 +52,11 @@ const NavigationBar = ({ boldPath }) => {
       <nav className='navbar'>
         <img src="https://i.ibb.co/tx6hcxR/ssafit-b.png" className='ssafit-logo' onClick={() => history.push('/')} alt='ssafit-logo' />
         <div className='nav-menu'>
-          <div onClick={() => history.push('/tpo')} className={`${boldPath === "TPO" ? "active" : ""}`}><p>TPO</p></div>
-          <div onClick={() => history.push('/recommend')} className={`${boldPath === "RECOMMEND" ? "active" : ""}`}><p>RECOMMEND</p></div>
-          <div onClick={() => history.push('/mypage')} className={`${boldPath === "MYPAGE" ? "active" : ""}`}><p>MYPAGE</p></div>
-          <div onClick={() => logout()}><p>LOGOUT</p></div>
-          <div onClick={() => {setShowSearchBar(!showSearchBar)}} className={`${boldPath === "SEARCH" ? "active" : ""}`}><p>SEARCH</p></div>
+          <div onClick={() => history.push('/tpo')} className={`${boldPath === "TPO" ? "active" : "inactive"}`}><p>TPO</p></div>
+          <div onClick={() => history.push('/recommend')} className={`${boldPath === "RECOMMEND" ? "active" : "inactive"}`}><p>RECOMMEND</p></div>
+          <div onClick={() => history.push('/mypage')} className={`${boldPath === "MYPAGE" ? "active" : "inactive"}`}><p>MYPAGE</p></div>
+          <div className='inactive' onClick={() => logout()}><p>LOGOUT</p></div>
+          <div onClick={() => {setShowSearchBar(!showSearchBar)}} className={`${boldPath === "SEARCH" ? "active" : "inactive"}`}><p>SEARCH</p></div>
         </div>
       </nav>
     </>
