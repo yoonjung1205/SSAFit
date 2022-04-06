@@ -84,9 +84,7 @@ export default function ItemInfo({ item, user }) {
     <section className='detail-header'>
       <h3 className='item-category'>{item.largeCategoryName} &gt; {item.smallCategoryName}</h3>
       <div className='item-box'>
-        <div className='image-box'>
-          <img src={item.clothImg} alt="image" />
-        </div>
+        <div className='image-box' style={{backgroundImage: `url(${item.clothImg})`}} />
         <div className='item-info'>
           <h2 className='brand'>{item.brand}</h2>
           <h3 className='name'>{item.clothName}</h3>

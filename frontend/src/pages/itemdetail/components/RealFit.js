@@ -29,12 +29,11 @@ export default function RealFit({ review }) {
 
     return temp
   }
-
-
+  
   const CarouselItems = function({ele}){
     console.log(ele)
     return (
-    <div className={`carousel-card ${direc ? 'slide-left':'slide-right'}`}>
+      <div className={`carousel-card ${direc ? 'slide-left':'slide-right'}`}>
       <span className='carousel-image' style={{backgroundImage: `url(${ele.reviewImg})`}} />
       <p className='carousel-desc'>{`${ele.userHeight}/${ele.userWeight} (${ele.userSexMen ? '남':'여'})`}</p>
     </div>
