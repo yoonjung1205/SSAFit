@@ -13,12 +13,14 @@ import dash from './images/dash.png'
 import './scss/Item.scss'
 import Recommedation from './components/Recommedation';
 import Reviews from './components/Reviews';
+import Loading from '../../components/Loading'
 
 export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
 
   const newClothId = useLocation().pathname.replace('/item/', '')
   const [item, setItem] = useState({})
   const [realFit, setRealFit] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getCloth = async () => {
@@ -29,6 +31,7 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
       .then(res => {
         console.log('getCloth:', res.data)
         setItem(res.data)
+        setLoading(false)
       })
       .catch(err => console.log(err, typeof(err)))
     }
@@ -82,6 +85,9 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
     })
   }, [newClothId])
 
+  if (loading){
+    return <Loading />
+  }
 
   return (
     <>
