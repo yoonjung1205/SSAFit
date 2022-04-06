@@ -88,23 +88,26 @@ export default function ItemInfo({ item, user }) {
         <div className='item-info'>
           <h2 className='brand'>{item.brand}</h2>
           <h3 className='name'>{item.clothName}</h3>
-          <Rate rate={item.clothRate}/>
-          <h3 className='price'>{comma(String(item.clothPrice))}원</h3>
-          <h6 className='tags'>
-            {item.clothHashtags && item.clothHashtags[0] !== "[]" && item.clothHashtags.map((hashtag, idx) => 
-            <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
-            )}
-          </h6>
-          <h6 className='size'>SIZE : {item.goodsSize}</h6>
-          <span className={`like-btn ${liked ? 'liked':''}`} onClick={() => like()}>
-            <img src={heart} alt="like" />
-          </span>
-          <button onClick={() => goToShop()}>
-            <span/>
-            구매하러 가기
-          </button>
+          <div className='size'>👕추천 사이즈
+            <br/>🩳{item.goodsSize}
+          </div>
+          <div className='rate-price'>
+            <Rate rate={item.clothRate}/>
+            <h3 className='price'>{comma(String(item.clothPrice))}원</h3>
+          </div>
+          <div className='heart-buy'>
+            <span className={`like-btn ${liked ? 'liked':''}`} onClick={() => like()}>
+              <img src={heart} alt="like" />
+            </span>
+            <button onClick={() => goToShop()}><span/>구매하러 가기</button>
+          </div>
         </div>
       </div>
+      <h6 className='item-tags'>
+        {item.clothHashtags && item.clothHashtags[0] !== "[]" && item.clothHashtags.map((hashtag, idx) => 
+        <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
+        )}
+      </h6>
     </section>
   )
 }

@@ -15,49 +15,63 @@
         height: 500px;
         background-position: center;
         background-size: cover;
+        margin-right: 3rem;
       }
 
       .item-info {
         display: flex;
         flex-direction: column;
+        justify-content: space-evenly;
         margin: 0 3rem;
         
         .name {
           word-break: keep-all;
         }
 
-        .tags {
-          color: royalblue;
-          font-weight: bold;
-          word-break: keep-all;
-        }
-
         .size {
-          font-size: 1.8rem;
+          font-size: 2.2rem;
+          letter-spacing: 0.8rem;
         }
 
-        .like-btn {
-          width: 4rem;
-          aspect-ratio: 1/1;
-          border-radius: 50%;
-          background-color: rgba(119, 119, 119, 0.5);
+        .heart-buy,
+        .rate-price {
           display: flex;
-          justify-content: center;
           align-items: center;
-          cursor: pointer;
-
-          img {
-            width: 50%;
-            aspect-ratio: 1/1;
+          .price {
+            height: 100%;
+            margin: 0 0 0 2rem;
+            padding: 1.6rem 0 1rem 0;
           }
-        }
-        
-        .liked {
-          background-color: rgba(255, 100, 100, 0.75);
+          .like-btn {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background-color: rgba(119, 119, 119, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 2.5rem;
+            cursor: pointer;
+            &.liked {
+              background-color: rgba(255, 100, 100, 0.75);
+            }
+            img {
+              width: 50%;
+              aspect-ratio: 1/1;
+            }
+          }
         }
       }
     }
+
+    .item-tags {
+      margin-top: 2.5rem;
+      color: royalblue;
+      font-weight: bold;
+      word-break: keep-all;
+    }
   }
+
 
   .anchor {
     margin: 3rem auto;
