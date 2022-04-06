@@ -193,6 +193,10 @@ public class UserController {
 		String newpw = RandomStringUtils.randomAlphabetic(10);
 		System.out.println(newpw);
 
+		if(userService.verifyEmail(validateEmailReq)) {
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "not"));
+		}
+
 		// 비밀번호 변경
 		userService.setUserPasswordByEmail(validateEmailReq.getEmail(),newpw);
 
