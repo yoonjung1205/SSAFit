@@ -65,6 +65,11 @@ const Recommend = ({ recommend, setter, getter }) => {
   }, [recommend, standard])
 
 
+
+  if (loading){
+    return (<Loading/>)
+  }
+
   return (
     <article className='recommend'>
       <NavigationBar boldPath='RECOMMEND' />
@@ -75,13 +80,21 @@ const Recommend = ({ recommend, setter, getter }) => {
       </section>
       <br />
       <section className='rec-choice'>
-        <div className={`choice ${standard === 'size' ? 'rec-active' : ''}`} onClick={() => setStandard('size')}><h4>사이즈</h4></div>
-        <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onMouseOver={() => setTab(true)} onMouseLeave={e => setTab(false)}>
-          <h4>{tabName[standard]}</h4>
+        <div className='choice' onClick={() => setStandard('size')}>
+          <h4 className={`${standard === 'size' ? 'rec-active' : ''}`}>사이즈</h4>
+        </div>
+        <div className='choice' onMouseOver={() => setTab(true)} onMouseLeave={e => setTab(false)}>
+          <h4 className={`${standard === 'size' ? '' : 'rec-active'}`}>{tabName[standard]}</h4>
           <div className='tabs' style={{display: `${tab? 'flex':'none'}`}} >
-            <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}><h6>Color</h6></span>
-            <span className='tab' onClick={() => {setStandard('style'); setTab(false)}}><h6>Style</h6></span>
-            <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}><h6>Category</h6></span>
+            <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}>
+              <h4 className={`${standard === 'color' ? 'rec-active':''}`}>색상</h4>
+            </span>
+            <span className='tab' onClick={() => {setStandard('style'); setTab(false)}}>
+              <h4 className={`${standard === 'style' ? 'rec-active':''}`}>스타일</h4>
+            </span>
+            <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}>
+              <h4 className={`${standard === 'category' ? 'rec-active':''}`}>카테고리</h4>
+            </span>
           </div>
         </div>
       </section>

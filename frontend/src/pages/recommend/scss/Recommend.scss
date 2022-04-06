@@ -35,12 +35,10 @@
         color: #56586C;
       }
 
-      &.rec-active {
-        h4 {
-          font-size: 1.75rem;
-          font-weight: bold;
-          color: black;
-        }
+      .rec-active {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: black;
       }
     }
 
@@ -49,11 +47,16 @@
 
       .tabs {
         display: flex;
+        flex-direction: column;
         justify-content: space-evenly;
         position: absolute;
-        left: 10%;
-        bottom: -50%;
+        top: 0%;
+        left: 15%;
+        // left: 10%;
+        // bottom: -50%;
         box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.35);
+        background-color: white;
+        z-index: 2;
 
         .tab {
           margin: 1rem;
@@ -78,7 +81,7 @@
     font-size: 2rem;
     letter-spacing: 1rem;
   }
-  h6 {
+  h4 {
     font-size: 1.25rem;
     letter-spacing: 0.25rem;
     margin: 0;

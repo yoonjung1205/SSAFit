@@ -48,13 +48,10 @@ const Search = () => {
     return new Promise(resolve => resolve([tempResult, tempClothes]))
   }
 
-  function goToDetail(key, newClothId=null){
+  function goToDetail(key, newClothId){
     setChoice(null)
     if (newClothId){
       history.push(`/item/${newClothId}`)
-    }
-    else if (clothes[key].length === 1){
-      history.push(`/item/${clothes[key][0].newClothId}`)
     }
     else {
       if (choice === key){
