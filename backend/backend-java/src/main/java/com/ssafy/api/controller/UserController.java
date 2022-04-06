@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -201,13 +203,46 @@ public class UserController {
 		userService.setUserPasswordByEmail(validateEmailReq.getEmail(),newpw);
 
 		// 변경된 비밀번호 이메일로 쏴주기
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(validateEmailReq.getEmail());
-		System.out.println("메일 전송!");
-		message.setSubject("[Ssafit] 새 비밀번호가 발급되었습니다.");
+		String mailTitle = "[Ssafit] 새 비밀번호가 발급되었습니다.";
+		String mailTo = validateEmailReq.getEmail();
+		String mailFrom  =  "ssafit.site@gmail.com";
 
-		message.setText("회원님의 새 비밀번호는 "+ newpw + " 입니다. 이용해주셔서 감사합니다.");
-		mailSender.send(message);
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("<html><body style='text-align: center;'>");
+		sb.append("<meta http-equiv='Content-Type' content='text/html; charset=euc-kr'>");
+		sb.append("<div style='display: inline-block; text-align: center; width : 40%; height: 100%; border: 4px solid blue; text-align: center;'>");
+		sb.append("<h1>[Ssafit] 비밀번호 발급</h1>");
+		sb.append("</div><br><br>");
+
+		sb.append("회원님의 새 비밀번호는 <br> [ " + newpw + " ] 입니다. <br><br>");
+		sb.append("<a href='https://ssafit.site/login'>");
+		sb.append("<img height='150' width='250' src='https://i.imgur.com/GmWY4hs.png' /> </a><br>");
+		sb.append("</a>");
+
+		sb.append("</body></html>");
+		String mailBody = sb.toString();
+
+		MimeMessage message = mailSender.createMimeMessage();
+		try {
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setSubject(mailTitle);
+			messageHelper.setTo(mailTo);
+			messageHelper.setFrom(mailFrom, "SSAFit");
+			messageHelper.setText(mailBody, true);
+			mailSender.send(message);
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+//		SimpleMailMessage message = new SimpleMailMessage();
+//		message.setTo(validateEmailReq.getEmail());
+//		System.out.println("메일 전송!");
+//		message.setSubject("[Ssafit] 새 비밀번호가 발급되었습니다.");
+//
+//		message.setText("회원님의 새 비밀번호는 "+ newpw + " 입니다. 이용해주셔서 감사합니다.");
+//		mailSender.send(message);
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
