@@ -14,9 +14,7 @@ export default function start2({ isLogin, history }) {
     <article id='start-2'>
       <section id='intro-header'>
         <img className='dash' src="img/dash.png" alt="dash" />
-        <h4>
-          SERVICE
-        </h4>
+        <h4>SERVICE</h4>
         <img className='dash' src="img/dash.png" alt="dash" />
         <h3 className='small-title'>
           나에게 맞는 옷을 찾아준다면<br />

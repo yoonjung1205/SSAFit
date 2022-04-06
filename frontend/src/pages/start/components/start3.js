@@ -13,15 +13,15 @@ export default function start3({ isLogin, history }) {
 
   return (
     <article id='start-3'>
-      <img className='dash' src="img/dash.png" alt="dash" />
-      <h4>
-        EXPLAIN
-      </h4>
-      <img className='dash' src="img/dash.png" alt="dash" />
-      <h3 className='small-title'>
-        고민하는 사람들에게<br />
-        "Fit"한 옷을 추천하는 SSAFit
-      </h3>
+      <section className='start3-header'>
+        <img className='dash' src="img/dash.png" alt="dash" />
+        <h4>EXPLAIN</h4>
+        <img className='dash' src="img/dash.png" alt="dash" />
+        <h3 className='small-title'>
+          고민하는 사람들에게<br />
+          "Fit"한 옷을 추천하는 SSAFit
+        </h3>
+      </section>
       <section className='explain-container'>
         <div className='explain-desc'>
           <p>
@@ -30,15 +30,15 @@ export default function start3({ isLogin, history }) {
             최적의 솔루션을 제공합니다.
           </p>
           <div className='explain-desc-button-box'>
-            <h3>
-              한 번 시작해볼까요?
-            </h3>
+            <h3>한 번 시작해볼까요?</h3>
             <button onClick={() => goPage('/main')}>
               <span>G&ensp;O</span>
             </button>
           </div>
         </div>
-        <img src={image4} alt="img" />
+        <div className='start3-img'>
+          <img src={image4} alt="img" />
+        </div>
       </section>
     </article>
   )
