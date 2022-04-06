@@ -4,12 +4,12 @@
   align-items: center;
   overflow: hidden;
   .ssafit-logo {
-    margin: 0 2rem;
+    margin: 0 0 0 2rem;
     height: 5vh;
     cursor: pointer;
   }
   .nav-menu {
-    margin: 0;
+    margin: 0 2rem 0 0;
     padding: 0;
     color: #777777;
     list-style: none;
@@ -17,12 +17,18 @@
     
     div {
       height: 5vh;
-      width: 8vw;
-      font-size: 1.2rem;
+      width: 8rem;
       cursor: pointer;
       color: #777777;
       position: relative;
+      &.active {
+        color: black;
+        P {
+          font-size: 1.28rem;
+        }
+      }
       p {
+        font-size: 1.2rem;
         margin: 0;
         padding: 0.5rem;
         position: absolute;
@@ -30,9 +36,6 @@
         top: 50%;
         transform: translate(-50%, -50%);
         transition: 0.5s;
-        &.active {
-          color: black;
-        }
         &:hover {
           color: black;
           font-size: 1.5rem;

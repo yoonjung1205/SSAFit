@@ -16,10 +16,10 @@
       width: 100%;
       height: 50vh;
       vertical-align: middle;
-      img {
-        width: 100%;
-        height: 50vh;
-      }
+      background: url('../images/top.gif') center;
+      // background: url(('../images/maintop.png'));
+      background-size: cover;
+
     }
     .text {
       position: absolute;
@@ -49,10 +49,14 @@
     margin: 5rem auto;
     .left {
       margin-right: 2rem;
+
     }
     .right {
       margin: auto 0;
       width: 65%;
+      h3 {
+        letter-spacing: 0.5rem;
+      }
       .content {
         margin: 1.5rem 0;
       }
@@ -70,6 +74,9 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+      h3 {
+        letter-spacing: 0.5rem;
+      }
       .content {
         margin: 1.5rem 0;
       }

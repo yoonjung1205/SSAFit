@@ -195,7 +195,7 @@ export default function Signup() {
             <p>다음</p>
           </button>
         </form>
-        <Link to="/login">Login</Link>
+        <Link to="/login">로그인</Link>
       </section>
     </article>
   )
