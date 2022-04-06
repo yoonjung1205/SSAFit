@@ -66,12 +66,7 @@ export default function Signup() {
       }
     }
     else if (target ==='password'){
-<<<<<<< HEAD
       const passValidator = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}/
-=======
-      // eslint-disable-next-line no-useless-escape
-      const passValidator = /[0-9a-zA-Z~!@#$%^&*()_+-=[\]{};\':",\\|.\/<>?]{8,16}/
->>>>>>> 5e5ab4b89524d618a41577628bb28b94d17fa6ee
       const result = passValidator.exec(credentials.password)
       console.log('pass', credentials.password, credentials.passwordConf)
       if (!credentials.password){
