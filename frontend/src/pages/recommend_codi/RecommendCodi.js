@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import like from './images/like.png'
 import dislike from './images/dislike.png'
+import back from './images/back.png'
 import ItemBox from './components/ItemBox'
 import NavigationBar from '../../components/NavigationBar'
 import Loading from '../../components/Loading'
@@ -134,6 +135,9 @@ export default function RecommendCodi({ user }) {
   const ButtonOnly = () => {
     return (
       <div className='button-box'>
+        <button className='back-btn only' onClick={() => history.goBack()}>
+          <img src={back} alt="back" /><span />
+        </button>
         {isLike ? 
         <button className='dislike-btn only' onClick={() => changeLike()}>
           <img src={dislike} alt="dislike" />별로에요<span />
@@ -143,6 +147,7 @@ export default function RecommendCodi({ user }) {
           <img src={like} alt="like" />맘에 들어요<span />
         </button>
         }
+        <button className='back-btn only no' />
       </div>
     )
   }

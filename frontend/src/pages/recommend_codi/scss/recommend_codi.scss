@@ -25,11 +25,8 @@
       
       .button-box {
         display: flex;
+        justify-content: space-between;
         margin: 2rem 0;
-        .only {
-          width: 40%;
-          margin: 0 auto;
-        }
       }
       
       button {
@@ -78,6 +75,16 @@
         background-color: #aaaaaa;
         span {
           background-color: #777777;
+        }
+      }
+      .back-btn {
+        width: 5%;
+        text-align: center;
+        img {
+          margin: 0 auto;
+        }
+        &.no {
+          visibility: hidden;
         }
       }
     }
