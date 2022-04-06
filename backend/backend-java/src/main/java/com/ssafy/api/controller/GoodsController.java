@@ -39,7 +39,14 @@ public class GoodsController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<MyLikeGoodsRes> myGoodsList(Pageable pageable, HttpServletRequest request) {
-        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        String token;
+        if(request.getAttribute("authorization") != null) {
+            token = request.getAttribute("authorization").toString();
+        }else {
+            token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        }
+
+
 //        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
         int userId = jwtTokenUtil.getUserId(token);
@@ -63,9 +70,12 @@ public class GoodsController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> likeGoods(@RequestBody GoodReq goodReq, HttpServletRequest request) {
-        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-//        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
-
+        String token;
+        if(request.getAttribute("authorization") != null) {
+            token = request.getAttribute("authorization").toString();
+        }else {
+            token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        }
         long userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
 
