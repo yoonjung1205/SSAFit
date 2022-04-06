@@ -37,7 +37,6 @@ public class CodiController {
     })
     public ResponseEntity<CodiListRes> myCodiList(HttpServletRequest request, Pageable pageable) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
         int userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
@@ -62,7 +61,7 @@ public class CodiController {
     })
     public ResponseEntity<? extends BaseResponseBody> likeCodi(@RequestBody @ApiParam(value="이메일 정보", required = true) CodiReq codiReq, HttpServletRequest request) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+//        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
         long userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
@@ -83,7 +82,7 @@ public class CodiController {
     })
     public ResponseEntity<? extends BaseResponseBody> unlikeCodi(@RequestBody @ApiParam(value="이메일 정보", required = true) CodiReq codiReq, HttpServletRequest request) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+//        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
         long userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);

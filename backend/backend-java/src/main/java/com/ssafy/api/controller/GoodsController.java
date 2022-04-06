@@ -40,7 +40,7 @@ public class GoodsController {
     })
     public ResponseEntity<MyLikeGoodsRes> myGoodsList(Pageable pageable, HttpServletRequest request) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+//        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
         int userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
@@ -64,7 +64,7 @@ public class GoodsController {
     })
     public ResponseEntity<? extends BaseResponseBody> likeGoods(@RequestBody GoodReq goodReq, HttpServletRequest request) {
         String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+//        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
 
         long userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
