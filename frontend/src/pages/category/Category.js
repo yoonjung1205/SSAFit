@@ -27,9 +27,13 @@ const Category = () => {
             <Col key={idx}>
               <div className='cate-card' onClick={() => history.push(`/item/${cloth.newClothId}`)} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
                 <Card.Img src={cloth.clothImg} alt='cloth' />
-                <p className='cate-card-text one-line'>{cloth.brand}</p>
-                <p className='cate-card-text two-line'>{cloth.clothName}</p>
-                <p className='cate-card-text one-line'>SIZE : {cloth.goodsSize}</p>
+                <div className='card-desc'>
+                  <div>
+                    <p className='cate-card-text one-line'>{cloth.brand}</p>
+                    <p className='cate-card-text two-line'>{cloth.clothName}</p>
+                  </div>
+                  <p className='cate-card-text one-line last'>SIZE : {cloth.goodsSize}</p>
+                </div>
               </div>
             </Col>
           ))}
