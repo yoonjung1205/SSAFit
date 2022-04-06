@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './scss/NavigationBar.scss'
 
 const NavigationBar = ({ boldPath }) => {
@@ -26,6 +26,12 @@ const NavigationBar = ({ boldPath }) => {
     }
   }
 
+  function logout() {
+    window.sessionStorage.clear()
+    window.localStorage.clear()
+    history.push('/')
+  }
+
 
   return (
     <>
@@ -45,20 +51,13 @@ const NavigationBar = ({ boldPath }) => {
       }
       <nav className='navbar'>
         <img src="https://i.ibb.co/tx6hcxR/ssafit-b.png" className='ssafit-logo' onClick={() => history.push('/')} alt='ssafit-logo' />
-        <ul className='nav-menu'>
-          <li>
-            <Link className={`link ${boldPath === "TPO" ? "active" : ""}`} to="/tpo">TPO</Link>
-          </li>
-          <li>
-            <Link className={`link ${boldPath === "RECOMMEND" ? "active" : ""}`} to="/recommend">RECOMMEND</Link>
-          </li>
-          <li>
-            <Link className={`link ${boldPath === "MYPAGE" ? "active" : ""}`} to="/mypage">MYPAGE</Link>
-          </li>
-          <li>
-            <div onClick={() => {setShowSearchBar(!showSearchBar)}} className={`link ${boldPath === "SEARCH" ? "active" : ""}`}>SEARCH</div>
-          </li>
-        </ul>
+        <div className='nav-menu'>
+          <div onClick={() => history.push('/tpo')} className={`${boldPath === "TPO" ? "active" : ""}`}><p>TPO</p></div>
+          <div onClick={() => history.push('/recommend')} className={`${boldPath === "RECOMMEND" ? "active" : ""}`}><p>RECOMMEND</p></div>
+          <div onClick={() => history.push('/mypage')} className={`${boldPath === "MYPAGE" ? "active" : ""}`}><p>MYPAGE</p></div>
+          <div onClick={() => logout()}><p>LOGOUT</p></div>
+          <div onClick={() => {setShowSearchBar(!showSearchBar)}} className={`${boldPath === "SEARCH" ? "active" : ""}`}><p>SEARCH</p></div>
+        </div>
       </nav>
     </>
   );

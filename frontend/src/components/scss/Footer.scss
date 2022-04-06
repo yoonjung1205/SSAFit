@@ -1,9 +1,9 @@
 footer {
   background-color: #56586C;
-  height: 30vh;
   display: flex;
   justify-content: space-between;
   padding: 2.5rem;
+  margin-top: 3rem;
   cursor: default;
   .left {
     display: flex;
@@ -33,7 +33,7 @@ footer {
     position: relative;
     h1 {
       position: absolute;
-      bottom: 1rem;
+      bottom: 0rem;
       right: 0rem;
       font-size: 3rem;
       letter-spacing: 1rem;
