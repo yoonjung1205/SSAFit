@@ -22,6 +22,11 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
   const [realFit, setRealFit] = useState([])
   const [loading, setLoading] = useState(true)
 
+  const goTop =  () => {
+    const view = document.getElementsByClassName('App')[0]
+    view.scrollTo({ top: 0, behavior: 'smooth'})
+  }
+
   useEffect(() => {
     const getCloth = async () => {
       await CustomAxios({
@@ -110,8 +115,7 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
         />
         <Recommedation brand={item.brand} newClothId={newClothId} />
         <Reviews newClothId={newClothId} />
-        <section className='detail-footer'>
-        </section>
+        <section onClick={() => goTop()} className='go-top'>top</section>
       </article>
       <Footer />
     </>

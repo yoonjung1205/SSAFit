@@ -156,6 +156,21 @@
     }
   }
 
+  .go-top {
+    user-select: none;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    padding: 1rem;
+    position: fixed;
+    right: 4.2vw;
+    bottom: 10vh;
+    transition: 0.7s;
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+
   h2 {
     display: inline-block;
     font-size: 2.5rem;

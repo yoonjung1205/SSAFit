@@ -37,6 +37,7 @@ const Recommedation = ({ brand, newClothId }) => {
     }
     getSimilarClothes()
     .then(getBrandClothes)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const comma = function(tar){

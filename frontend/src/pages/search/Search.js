@@ -75,6 +75,10 @@ const Search = () => {
     }
   }
 
+  const goTop =  () => {
+    const view = document.getElementsByClassName('App')[0]
+    view.scrollTo({ top: 0, behavior: 'smooth'})
+  }
 
   useEffect(() => {
     const app = document.getElementsByClassName('App')[0]
@@ -157,6 +161,7 @@ const Search = () => {
           </div>
         </section>
         {(!result.length && !Object.keys(clothes).length) ?  <Loading /> : <SearchResult /> }
+        <section onClick={() => goTop()} className='go-top'>top</section>
       </article>
       <Footer />
     </>
