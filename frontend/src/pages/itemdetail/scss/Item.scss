@@ -10,6 +10,13 @@
     .item-box {
       display: flex;
 
+      .image-box {
+        width: 500px;
+        height: 500px;
+        background-position: center;
+        background-size: cover;
+      }
+
       .item-info {
         display: flex;
         flex-direction: column;
