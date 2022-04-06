@@ -6,11 +6,18 @@ export const URL = 'https://ssafit.site'
 
 const CustomAxios = axios.create({
   baseURL: URL,
-  headers: {
-    'Authorization': session.getItem('access-token-jwt'),
-    'Refresh': session.getItem('refresh-token-jwt'),
-  }
 })
+
+CustomAxios.interceptors.request.use(
+  function CustomInterceptorRequest(config){
+    return {...config,
+      headers: {
+        'Authorization': session.getItem('access-token-jwt'),
+        'Refresh': session.getItem('refresh-token-jwt')
+      }
+    }
+  }
+)
 
 CustomAxios.interceptors.response.use(
   function CustomInterceptor(res){
