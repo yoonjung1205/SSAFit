@@ -49,19 +49,31 @@ export default function Signup() {
 
   const validator = function(target){
     if (target === 'email'){
-      /////////////// 이메일 중복검사 //////////////////
-      CustomAxios({
-        method: 'post',
-        url: '/api_be/auth/email/confirms',
-        data: {email: credentials.email}
-      })
-      .then(() => setValidData({...validData, email: 1}))
-      .catch(() => setValidData({...validData, email: -1}))
+      const emailValidator = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/
+      const result = emailValidator.exec(credentials.email)
+      if (result){
+        /////////////// 이메일 중복검사 //////////////////
+        CustomAxios({
+          method: 'post',
+          url: '/api_be/auth/email/confirms',
+          data: {email: credentials.email}
+        })
+        .then(() => setValidData({...validData, email: 1}))
+        .catch(() => setValidData({...validData, email: -1}))
+      }
+      else {
+        setValidData({...validData, email: -1})
+      }
     }
     else if (target ==='password'){
+<<<<<<< HEAD
+      const passValidator = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}/
+=======
       // eslint-disable-next-line no-useless-escape
       const passValidator = /[0-9a-zA-Z~!@#$%^&*()_+-=[\]{};\':",\\|.\/<>?]{8,16}/
+>>>>>>> 5e5ab4b89524d618a41577628bb28b94d17fa6ee
       const result = passValidator.exec(credentials.password)
+      console.log('pass', credentials.password, credentials.passwordConf)
       if (!credentials.password){
         setValidData({...validData, password: null})
       }
@@ -70,6 +82,10 @@ export default function Signup() {
       }
       else {
         setValidData({...validData, password: -1})
+      }
+      // side effect
+      if (validData.passwordConf && credentials.password !== credentials.passwordConf){
+        setValidData({...validData, passwordConf: -1})
       }
     }
     else if (target === 'passwordConf'){
@@ -117,7 +133,7 @@ export default function Signup() {
                     사용 가능한 이메일입니다!
                   </p>
                   <p className='helper-message-incorr' style={{display: validData.email === -1 ? 'block':'none'}}>
-                    사용중인 이메일입니다.
+                    사용 불가능한 이메일입니다.
                   </p>
                 </div>
               </div>
