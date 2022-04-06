@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
 
 		// Read the Authorization header, where the JWT Token should be
-        String header = request.getHeader(JwtTokenUtil.HEADER_STRING).replace("%20", " ");
+        String header = request.getHeader(JwtTokenUtil.HEADER_STRING);
         System.out.println(header);
 
 
@@ -61,6 +61,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             return;
         }
 
+        header = request.getHeader(JwtTokenUtil.HEADER_STRING).replace("%20", " ");
 
         try {
             // If header is present, try grab user principal from database and perform authorization
