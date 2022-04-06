@@ -70,7 +70,7 @@ export default function Login({ history }) {
         </section>
         <section className='other-act-container'>
           <Link to='/signup'>회원가입</Link>
-          <Link to=''>비밀번호 찾기</Link>
+          <Link to='/password'>비밀번호 찾기</Link>
         </section>
       </section>
     </article>
