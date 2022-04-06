@@ -20,6 +20,7 @@ import Edit from "./pages/edit/Edit";
 import EditPassword from "./pages/edit/EditPassword";
 import jwtDecode from "jwt-decode";
 import CustomAxios from './CustomAxios'
+import Password from "./pages/password/Password";
 
 function App() {
   console.log('나 재 랜더링되는 중')
@@ -93,7 +94,7 @@ function App() {
       })
       history.push('/main')
     }
-    else if (location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login'){
+    else if (location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login' && location.pathname !== '/password'){
       if (!Object.keys(user).length){
         if (!alert('로그인이 필요합니다.')){
           history.push('/login')
@@ -127,6 +128,8 @@ function App() {
         <Route path="/tpo" component={Tpo} exact/>
 
         <Route path="/recommend/:category" component={Category} exact />
+
+        <Route path="/password" component={Password} exact />
 
         <Route path="/recommend_codi/:tpo" exact >
           <RecommendCodi user={user} />
