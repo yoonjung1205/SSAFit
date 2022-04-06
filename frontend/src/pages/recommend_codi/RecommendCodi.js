@@ -155,9 +155,9 @@ export default function RecommendCodi({ user }) {
 
   return (
     <>
-    <NavigationBar boldPath="TPO" />
-    {loading ? <Loading /> :
     <article className='page'>
+      <NavigationBar boldPath="TPO" />
+      {loading ? <Loading /> :
       <article className='codi-container'>
         <section className='img-box'/>
         <section className='codi-body'>
@@ -178,8 +178,8 @@ export default function RecommendCodi({ user }) {
           { !parseInt(tpo) ? <ButtonsSet /> : <ButtonOnly /> }
         </section>
       </article>
-    </article>
     }
+    </article>
     </>
   )
 }

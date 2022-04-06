@@ -83,17 +83,17 @@ const Recommend = ({ recommend, setter, getter }) => {
         <div className='choice' onClick={() => setStandard('size')}>
           <h4 className={`${standard === 'size' ? 'rec-active' : ''}`}>사이즈</h4>
         </div>
-        <div className='choice' onMouseOver={() => setTab(true)} onMouseLeave={e => setTab(false)}>
+        <div className='choice' onClick={() => setTab(true)} onMouseLeave={e => setTab(false)}>
           <h4 className={`${standard === 'size' ? '' : 'rec-active'}`}>{tabName[standard]}</h4>
-          <div className='tabs' style={{display: `${tab? 'flex':'none'}`}} >
+          <div className={`tabs ${tab && 'show-tabs'}`} >
             <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}>
-              <h4 className={`${standard === 'color' ? 'rec-active':''}`}>색상</h4>
+              <h4 className={`${standard === 'color' ? 'rec-chosen':''}`}>색상</h4>
             </span>
             <span className='tab' onClick={() => {setStandard('style'); setTab(false)}}>
-              <h4 className={`${standard === 'style' ? 'rec-active':''}`}>스타일</h4>
+              <h4 className={`${standard === 'style' ? 'rec-chosen':''}`}>스타일</h4>
             </span>
             <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}>
-              <h4 className={`${standard === 'category' ? 'rec-active':''}`}>카테고리</h4>
+              <h4 className={`${standard === 'category' ? 'rec-chosen':''}`}>카테고리</h4>
             </span>
           </div>
         </div>

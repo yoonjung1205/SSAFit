@@ -22,7 +22,7 @@ const Main = () => {
         <section className='main-tpo'>
           <img className='left' src="https://i.ibb.co/Qvy9XQW/tpo.png" alt="tpo-image" />
           <div className='right'>
-            <h3>상황 맞춤 코디 추천(TPO)</h3>
+            <h3>상황 맞춤 코디 추천</h3>
             <p className='content'>Time, Place, Occasion에 맞는 코디를 추천해드립니다
               <br/>아이템의 키워드를 분석해 태그를 분류하고 라벨링하여
               <br/>최적의 추천을 제공합니다
@@ -34,7 +34,7 @@ const Main = () => {
         </section>
         <section className='main-recommend'>
           <div className='left'>
-            <h3>개인 맞춤 옷 추천(RECOMMEND)</h3>
+            <h3>개인 맞춤 옷 추천</h3>
             <p className='content'>유저 정보를 분석하여 신체 맞춤 옷을 추천해드립니다
               <br/>또한, 개인의 취향에 따라 색상, 스타일, 카테고리에
               <br/>맞는 옷을 추천해드립니다
