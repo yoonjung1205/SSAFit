@@ -68,26 +68,6 @@ const ReviewItem = ({ no, review, currentPage }) => {
     getComment()
   }, [review])
 
-  const ReviewComments = () => {
-    return (<>
-      <Col md={12} className='review-comments'>
-        {commentList.length ? 
-        commentList.map((v, i) => <Comment key={i} comment={v} setCommentList={setCommentList} commentList={commentList} />)
-        :
-        <><p className='no-comments'>댓글이 없습니다...(*￣０￣)ノ</p><hr /></>
-        }
-      </Col>
-      <Col md={12} className='write-comment'>
-        <div className='input-tag'>
-          <input value={inputText} placeholder='댓글을 입력하세요'
-            onChange={(e) => setInputText(e.target.value)} onKeyUp={checkEnter} />
-        </div>
-        <div className='button-tag'>
-          <button className='write-button' onClick={() => postComment()}><span /><p>작성하기</p></button>
-        </div>
-      </Col>
-    </>)
-  }
 
   // ∨∧
 
@@ -128,7 +108,25 @@ const ReviewItem = ({ no, review, currentPage }) => {
         <p onClick={() => setIsOpen(!isOpen)}>{isOpen ? "∧ 리뷰 접기" : "∨ 리뷰 펼치기"}</p>
       </Col>
 
-      {isOpen && <ReviewComments />}
+      {isOpen && 
+      <>
+        <Col md={12} className='review-comments'>
+          {commentList.length ? 
+          commentList.map((v, i) => <Comment key={i} comment={v} setCommentList={setCommentList} commentList={commentList} />)
+          :
+          <><p className='no-comments'>댓글이 없습니다...(*￣０￣)ノ</p><hr /></>
+          }
+        </Col>
+        <Col md={12} className='write-comment'>
+          <div className='input-tag'>
+            <input value={inputText} placeholder='댓글을 입력하세요'
+              onChange={(e) => {console.log('!!!!!!!!!!!!!!!!!!!!!!',e.target); setInputText(e.target.value)}} onKeyUp={(e) => checkEnter(e)} />
+          </div>
+          <div className='button-tag'>
+            <button className='write-button' onClick={() => postComment()}><span /><p>작성하기</p></button>
+          </div>
+        </Col>
+      </>}
     </Row>
   );
 };
