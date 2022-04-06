@@ -54,6 +54,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         System.out.println(header);
 
 
+        if(header != null) {
+            header = request.getHeader(JwtTokenUtil.HEADER_STRING).replace("%20", " ");
+        }
+
         // If header does not contain BEARER or is null delegate to Spring impl and exit
         if (header == null || !header.startsWith(JwtTokenUtil.TOKEN_PREFIX)) {
             System.out.println("1");
@@ -61,7 +65,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-        header = request.getHeader(JwtTokenUtil.HEADER_STRING).replace("%20", " ");
+
 
         try {
             // If header is present, try grab user principal from database and perform authorization
