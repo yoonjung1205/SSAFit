@@ -53,7 +53,7 @@ def sample_size_rec(model, clothes, users, user_info, user_id):
     userGender = get_user_gender(user_id)
     top_items = clothes.idx[np.argsort(-scores)]
     rec_clothes = []
-    re_cnt = 1
+    re_cnt = 0
     for i in top_items:
         clothGender = get_cloth_gender(clothes[clothes.idx==i].newClothId.iloc[0])
         if userGender==clothGender:
