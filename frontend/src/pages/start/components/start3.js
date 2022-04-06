@@ -26,7 +26,7 @@ export default function start3({ isLogin, history }) {
         <div className='explain-desc'>
           <p>
             사용자 맞춤 추천으로 구매전환율을 상승시킬 수 있습니다.
-            유저 로그와 리뷰 기반 머신러닝을 통해
+            유저 로그와 리뷰 기반 빅데이터 및 머신러닝을 통해
             최적의 솔루션을 제공합니다.
           </p>
           <div className='explain-desc-button-box'>
@@ -34,9 +34,7 @@ export default function start3({ isLogin, history }) {
               한 번 시작해볼까요?
             </h3>
             <button onClick={() => goPage('/main')}>
-              <span>
-                GO
-              </span>
+              <span>G&ensp;O</span>
             </button>
           </div>
         </div>

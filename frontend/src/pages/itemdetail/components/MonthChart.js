@@ -35,7 +35,8 @@ export default function MonthChart({ month, sum }) {
               min: 'auto',
               max: 'auto',
           }}
-          yFormat=" >-.2f"
+          // yFormat=" >-.2f"
+          yFormat=">-.0%"
           enableGridY={false}
           colors={{ scheme: 'paired' }}
           lineWidth={5}
