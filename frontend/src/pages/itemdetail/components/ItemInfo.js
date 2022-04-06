@@ -76,6 +76,7 @@ export default function ItemInfo({ item, user }) {
     if (Object.keys(item).length){
       getLikeInfo()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item])
 
 
@@ -96,7 +97,7 @@ export default function ItemInfo({ item, user }) {
             <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
             )}
           </h6>
-          <h6>Size : {item.goodsSize}</h6>
+          <h6 className='size'>SIZE : {item.goodsSize}</h6>
           <span className={`like-btn ${liked ? 'liked':''}`} onClick={() => like()}>
             <img src={heart} alt="like" />
           </span>

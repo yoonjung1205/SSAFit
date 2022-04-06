@@ -70,7 +70,7 @@ const Comment = ({ comment, commentList, setCommentList }) => {
         {isEdit ? 
         <div className='comment-edit'>
           <input value={inputText} onChange={(e) => setInputText(e.target.value)} onKeyUp={checkEnter} />
-          <button onClick={() => putComment()}><span /><p>수정</p></button>
+          <button onClick={() => putComment()}><span />수정</button>
         </div>
         :
         <div className='content'><p>{viewComment}</p></div>

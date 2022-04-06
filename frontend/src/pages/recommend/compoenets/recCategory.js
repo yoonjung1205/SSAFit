@@ -45,10 +45,10 @@ const recCategory = ({cate, clothes}) => {
             <img src={cloth.clothImg} alt='cloth' />
           </div>
           <div className='card-text'>
-            <p>{cloth.brand}</p>
-            <p>{cloth.clothName}</p>
-            <p>Price: {comma(String(cloth.clothPrice))} 원</p>
-            <p>Size: {cloth.goodsSize}</p>
+            <p className="one-line">{cloth.brand}</p>
+            <p className="two-line">{cloth.clothName}</p>
+            <p className="one-line">Price: {comma(String(cloth.clothPrice))} 원</p>
+            <p className="one-line">Size: {cloth.goodsSize}</p>
           </div>
         </div>
       ))}
