@@ -6,11 +6,10 @@ import '../scss/rate.scss'
 export default function Stars({ rate }) {
   return (
     <div id='rate-container'>
-      <span id='rate-view' style={{width: `${rate / 5 * 290}px`}}>
+      <span id='rate-view' style={{width: `${rate / 5 * 15}rem`}} title={`평점 ${rate}`}>
         <img className='star' src={star} alt="star" />
       </span>
       <img className='star' src={blank} alt="blank" />
-      <h4>{rate}</h4>
     </div>
   )
 }
