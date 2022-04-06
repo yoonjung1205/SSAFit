@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import GoogleLogin from './components/GoogleLogin'
 import KakaoLogin from './components/KakaoLogin'
 import {Link} from 'react-router-dom'

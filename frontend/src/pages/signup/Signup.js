@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import corr from './images/corr.png'
 import incorr from './images/incorr.png'
@@ -59,6 +59,7 @@ export default function Signup() {
       .catch(() => setValidData({...validData, email: -1}))
     }
     else if (target ==='password'){
+      // eslint-disable-next-line no-useless-escape
       const passValidator = /[0-9a-zA-Z~!@#$%^&*()_+-=[\]{};\':",\\|.\/<>?]{8,16}/
       const result = passValidator.exec(credentials.password)
       if (!credentials.password){
