@@ -32,7 +32,7 @@ export default function start2({ isLogin, history }) {
             서비스를 제공합니다
           </p>
           <p>
-            나의 체형에 맞는, 나의 취향에 딱! 맞는<br />
+            나의 신체에 맞는, 나의 취향에 딱! 맞는<br />
             옷과 코디를 추천해줍니다
           </p>
           <p>
@@ -44,7 +44,7 @@ export default function start2({ isLogin, history }) {
       <section id='service-container' className='flex-row'>
         <div className='service' id='link-1' onClick={() => goPage('/recommend')}>
           <div className='opac-blk' />
-          <h4>체형 맞춤 옷</h4>
+          <h4>신체 맞춤 옷</h4>
         </div>
         <div className='service' id='link-2' onClick={() => goPage('/tpo')}>
           <div className='opac-blk' />

@@ -100,6 +100,7 @@ const Search = () => {
     setLoading(false)
     setter()
     .then(res => {setResult(res[0]); setClothes(res[1]);})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
 
@@ -115,7 +116,6 @@ const Search = () => {
                   <div className='search-card' onClick={() => {goToDetail(key)}} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
                     <Card.Img src={clothes[key][0].clothImg} alt='cloth' />
                     <span className='search-card-text one-line' style={{fontSize: '1.25rem'}}>{clothes[key][0].brand}</span>
-                    {/* <p className='search-card-text one-line size'>Size : {clothes[key][0].goodsSize}</p> */}
                     <p className='search-card-text one-line'>{clothes[key][0].clothName}</p>
                     <p className='search-card-text one-line last'>{comma(String(clothes[key][0].clothPrice))}원</p>
                     <p>{key}</p>

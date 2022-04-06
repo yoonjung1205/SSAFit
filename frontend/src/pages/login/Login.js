@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import GoogleLogin from './components/GoogleLogin'
 import KakaoLogin from './components/KakaoLogin'
 import {Link} from 'react-router-dom'
@@ -70,7 +70,7 @@ export default function Login({ history }) {
         </section>
         <section className='other-act-container'>
           <Link to='/signup'>회원가입</Link>
-          <Link to=''>비밀번호 찾기</Link>
+          <Link to='/password'>비밀번호 찾기</Link>
         </section>
       </section>
     </article>
