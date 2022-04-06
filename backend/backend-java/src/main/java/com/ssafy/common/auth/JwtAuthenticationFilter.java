@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
 
 		// Read the Authorization header, where the JWT Token should be
-        String header = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        String header = request.getHeader(JwtTokenUtil.HEADER_STRING).replace("%20", " ");
         System.out.println(header);
 
 
@@ -85,7 +85,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         System.out.println("2");
         System.out.println(token);
         System.out.println(refreshToken);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+        token = token.replace("%20", " ").replace(JwtTokenUtil.TOKEN_PREFIX, "");
         System.out.println(token);
         // 요청 헤더에 Authorization 키값에 jwt 토큰이 포함된 경우에만, 토큰 검증 및 인증 처리 로직 실행.
         System.out.println(jwtTokenUtil.validateToken(token));
