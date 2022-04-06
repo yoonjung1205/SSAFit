@@ -50,9 +50,13 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
 
 		// Read the Authorization header, where the JWT Token should be
-        String header = request.getHeader(JwtTokenUtil.HEADER_STRING).replace("%20", " ");
+        String header = request.getHeader(JwtTokenUtil.HEADER_STRING);
         System.out.println(header);
 
+
+        if(header != null) {
+            header = request.getHeader(JwtTokenUtil.HEADER_STRING).replace("%20", " ");
+        }
 
         // If header does not contain BEARER or is null delegate to Spring impl and exit
         if (header == null || !header.startsWith(JwtTokenUtil.TOKEN_PREFIX)) {
@@ -60,6 +64,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
 
 
         try {
