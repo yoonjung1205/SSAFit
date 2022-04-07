@@ -62,14 +62,9 @@ const Recommend = ({ recommend, setter, getter }) => {
   }, [recommend, standard])
 
 
-
-  if (loading){
-    return (<Loading/>)
-  }
-
-  return (
+  return (<>
+    <NavigationBar boldPath='RECOMMEND' />
     <article className='recommend' onClick={() => {if (tab){setTab(false)}}}>
-      <NavigationBar boldPath='RECOMMEND' />
       <section className='rec-top'>
         <div className='rec-top-text'>
           <h3>Make sure your style</h3>
@@ -110,9 +105,9 @@ const Recommend = ({ recommend, setter, getter }) => {
         </>
         }
       </section>
-      <Footer />
     </article>
-  );
+    <Footer />
+  </>);
 };
 
 export default Recommend;
