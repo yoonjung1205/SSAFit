@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import './scss/NavigationBar.scss'
+import Swal from 'sweetalert2';
 
 const NavigationBar = ({ boldPath }) => {
   let history = useHistory()
@@ -18,7 +19,11 @@ const NavigationBar = ({ boldPath }) => {
     const text = inputText.trim()
     setInputText('')
     if (text.length === 0) {
-      alert('검색어를 입력하세요')
+      Swal.fire({
+        text: '검색어를 입력해주세요',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     } else {
       let path = '/search?word=' + text
       setShowSearchBar(false)

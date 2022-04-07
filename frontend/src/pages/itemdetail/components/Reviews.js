@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ReviewItem from './ReviewItem';
 import Loading from '../../../components/Loading';
 import '../scss/reviews.scss'
+import Swal from 'sweetalert2';
 
 
 const Review = ({ newClothId }) => {
@@ -54,9 +55,17 @@ const Review = ({ newClothId }) => {
   const changePage = num => {
     let newPage = currentPage + num
     if (newPage < 1) {
-      alert('첫번째 페이지 입니다.')
+      Swal.fire({
+        text: '첫번째 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     } else if (newPage > totalPage) {
-      alert('마지막 페이지 입니다.')
+      Swal.fire({
+        text: '마지막 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     } else {
       setCurrentPage(newPage)
     }
