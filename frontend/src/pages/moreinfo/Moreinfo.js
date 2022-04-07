@@ -4,7 +4,8 @@ import defaultImage from './images/default.png'
 import CustomAxios from '../../CustomAxios'
 import './scss/moreinfo.scss'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import editImage from './images/pencil.png'
+import editImage from './images/edit.png'
+import Swal from 'sweetalert2'
 
 export default function Moreinfo({ password, setPassword }) {
   const history = useHistory()
@@ -90,9 +91,6 @@ export default function Moreinfo({ password, setPassword }) {
     isValid()
     .then(() => {
       const userInfo = makeCredential()
-      for (const i of userInfo.entries()){
-        console.log(i)
-      }
 
       return CustomAxios({
         method: 'post',
@@ -102,19 +100,29 @@ export default function Moreinfo({ password, setPassword }) {
       })
     })
     .then(res => {
-      console.log(res)
-      if (!alert('가입이 완료되었습니다!')){
-        history.push('/main')
-        sessionStorage.removeItem('credentials')
-      }
+      Swal.fire({
+        text: '가입이 완료되었습니다!',
+        icon: 'success',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'green'
+      }).then(() => {history.push('/main'); sessionStorage.removeItem('credentials')})
     })
     .catch(err => {
-      console.log('hi', err)
       if (err[0]){
-        alert(`${err.join(', ')}를 확인해주세요!!`)
+        Swal.fire({
+          text: err.join(', ') + (['키', '몸무게'].indexOf(err[err.length-1]) !== -1 ? '를':'을') + ' 확인해주세요!',
+          icon: 'error',
+          confirmButtonText: '확인',
+          confirmButtonColor: 'red'
+        })
       }
       else {
-        return alert('잘못된 요청입니다.')
+        Swal.fire({
+          text: '잘못된 요청입니다!',
+          icon: 'error',
+          confirmButtonText: '확인',
+          confirmButtonColor: 'red'
+        })
       }
     })
   }
@@ -172,7 +180,7 @@ export default function Moreinfo({ password, setPassword }) {
             </div>
           </label>
           {/* 성별 */}
-          <label id='gender'>
+          <div id='gender'>
             성별
             <div className='input-box' id='gender-box'>
               <input type="radio" name="male" id="male" value='남성'
@@ -182,7 +190,7 @@ export default function Moreinfo({ password, setPassword }) {
               onInput={() => setCredentials({...credentials, gender: 0})} />
               <label className='gender-label' htmlFor="female">여성</label>
             </div>
-          </label>
+          </div>
           <button>
             <span/>
             <p>회원가입</p>

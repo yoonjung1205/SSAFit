@@ -6,6 +6,7 @@ import incorr from './images/incorr.png'
 import CustomAxios from '../../CustomAxios'
 import './scss/signup.scss'
 import { useHistory } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 
 
@@ -23,13 +24,21 @@ export default function Signup() {
   })
 
   const isValid = function(){
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
+      const errList = []
+      const errKor = {email: '이메일', password: '비밀번호', passwordConf: '비밀번호 확인'}
+
       for (const key in validData){
         if (validData[key] !== 1){
-          reject('입력 정보가 유효하지 않습니다')
+          errList.push(errKor[key])
         }
       }
-      resolve()
+      if (errList.length){
+        reject(errList)
+      }
+      else {
+        resolve()
+      }
     })
   } 
 
@@ -37,13 +46,23 @@ export default function Signup() {
     event.preventDefault()
     ////////////// 회원가입  /////////////////
     isValid()
-    .then(() => {console.log('불렀어?');window.sessionStorage.setItem('credentials', JSON.stringify(credentials))})
+    .then(() => window.sessionStorage.setItem('credentials', JSON.stringify(credentials)))
     .then(() => {
-      if (!alert('다음으로 이동합니다!')){
-        history.push('/moreinfo')
-      }
+      Swal.fire({
+        text: '다음으로 이동합니다!',
+        icon: "success",
+        confirmButtonText: '확인',
+        confirmButtonColor: 'green',
+      }).then(() => history.push('moreinfo'))
     })
-    .catch(err => {console.log(err);alert('입력정보를 확인하세요!!')})
+    .catch(err => {
+      Swal.fire({
+        text: err.join(', ') + (err[err.length-1] === '비밀번호' ? '를':'을') + ' 확인해주세요!',
+        icon: "error",
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      })
+    })
   }
 
 
@@ -66,7 +85,7 @@ export default function Signup() {
       }
     }
     else if (target ==='password'){
-      const passValidator = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}/
+      const passValidator = /^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#$%^&*])(?=.*[0-9!@#$%^&*]).{8,16}$/
       const result = passValidator.exec(credentials.password)
 
       if (!credentials.password){
