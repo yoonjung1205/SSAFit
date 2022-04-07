@@ -30,9 +30,29 @@
       align-items: center;
 
       #gender {
-        flex-direction: row;
+        width: 40%;
+        font-size: 1.25rem;
+        color: #777777;
+        margin: 0.25rem 0;
+        display: flex;
         justify-content: space-between;
         align-items: center;
+
+        #gender-box {
+          width: 175px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+  
+          .gender-label {
+            font-size: 1rem;
+            margin: 0 0.5rem;
+          }
+  
+          input {
+            margin: 0 0.5rem 0 1rem;
+          }
+        }
       }
 
       label {
@@ -43,21 +63,6 @@
         display: flex;
         flex-direction: column;
 
-        #gender-box {
-          width: 175px;
-          flex-direction: row;
-          justify-content: flex-end;
-          align-items: center;
-
-          .gender-label {
-            font-size: 1rem;
-            margin: 0 0.5rem;
-          }
-
-          input {
-            margin: 0 0.5rem 0 1rem;
-          }
-        }
 
         .input-box {
           position: relative;
@@ -96,6 +101,16 @@
         border-radius: 50%;
         background-image: url(../images/corr.png);
         background-size: cover;
+        position: relative;
+        box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+
+        .edit-image {
+          width: 30px;
+          aspect-ratio: 1/1;
+          position: absolute;
+          bottom: 0%;
+          right: -5%;
+        }
       }
 
       input[type="file"] {
@@ -177,5 +192,9 @@
   h6 {
     font-size: 1.25rem;
     letter-spacing: 1rem;
+  }
+
+  label {
+    cursor: pointer;
   }
 }

@@ -20,7 +20,6 @@ const Recommend = ({ recommend, setter, getter }) => {
     const session = window.sessionStorage
 
     if (standard === 'color'){
-      console.log('색깔?')
       if (!session.getItem('color-rec')){
         try {
           let res = await getter('color')
@@ -31,7 +30,6 @@ const Recommend = ({ recommend, setter, getter }) => {
       setter.color(JSON.parse(session.getItem('color-rec')))
     }
     if (standard === 'style'){
-      console.log('스타일?')
       if (!session.getItem('style-rec')){
         try {
           let res = await getter('style')
@@ -42,7 +40,6 @@ const Recommend = ({ recommend, setter, getter }) => {
       setter.style(JSON.parse(session.getItem('style-rec')))
     }
     if (standard === 'category'){
-      console.log('카테고리?')
       if (!session.getItem('category-rec')){
         try {
           let res = await getter('category')
@@ -65,9 +62,9 @@ const Recommend = ({ recommend, setter, getter }) => {
   }, [recommend, standard])
 
 
-  return (
-    <article className='recommend'>
-      <NavigationBar boldPath='RECOMMEND' />
+  return (<>
+    <NavigationBar boldPath='RECOMMEND' />
+    <article className='recommend' onClick={() => {if (tab){setTab(false)}}}>
       <section className='rec-top'>
         <div className='rec-top-text'>
           <h3>Make sure your style</h3>
@@ -75,13 +72,21 @@ const Recommend = ({ recommend, setter, getter }) => {
       </section>
       <br />
       <section className='rec-choice'>
-        <div className={`choice ${standard === 'size' ? 'rec-active' : ''}`} onClick={() => setStandard('size')}><h4>사이즈</h4></div>
-        <div className={`choice ${standard === 'size' ? '' : 'rec-active'}`} onMouseOver={() => setTab(true)} onMouseLeave={e => setTab(false)}>
-          <h4>{tabName[standard]}</h4>
-          <div className='tabs' style={{display: `${tab? 'flex':'none'}`}} >
-            <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}><h6>Color</h6></span>
-            <span className='tab' onClick={() => {setStandard('style'); setTab(false)}}><h6>Style</h6></span>
-            <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}><h6>Category</h6></span>
+        <div className='choice' onClick={() => setStandard('size')}>
+          <h4 className={`${standard === 'size' ? 'rec-active' : ''}`}>사이즈</h4>
+        </div>
+        <div className='choice' onClick={() => setTab(true)}>
+          <h4 className={`${standard === 'size' ? '' : 'rec-active'}`}>{tabName[standard]}</h4>
+          <div className={`tabs ${tab && 'show-tabs'}`} >
+            <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}>
+              <h4 className={`${standard === 'color' ? 'rec-chosen':''}`}>색상</h4>
+            </span>
+            <span className='tab' onClick={() => {setStandard('style'); setTab(false)}}>
+              <h4 className={`${standard === 'style' ? 'rec-chosen':''}`}>스타일</h4>
+            </span>
+            <span className='tab' onClick={() => {setStandard('category'); setTab(false)}}>
+              <h4 className={`${standard === 'category' ? 'rec-chosen':''}`}>카테고리</h4>
+            </span>
           </div>
         </div>
       </section>
@@ -100,9 +105,9 @@ const Recommend = ({ recommend, setter, getter }) => {
         </>
         }
       </section>
-      <Footer />
     </article>
-  );
+    <Footer />
+  </>);
 };
 
 export default Recommend;

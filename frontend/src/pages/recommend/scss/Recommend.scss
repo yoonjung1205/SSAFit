@@ -26,47 +26,73 @@
 
     .choice {
       width: 10rem;
-      padding: 1rem;
       display: flex;
       justify-content: center;
-
-      h4 {
-        cursor: pointer;
-        color: #56586C;
-      }
-
-      &.rec-active {
-        h4 {
-          font-size: 1.75rem;
-          font-weight: bold;
-          color: black;
-        }
-      }
-    }
-
-    .choice {
       position: relative;
 
       .tabs {
-        display: flex;
+        display: none;
+        flex-direction: column;
         justify-content: space-evenly;
         position: absolute;
-        left: 10%;
-        bottom: -50%;
+        height: 150px;
+        top: 0%;
+        left: 15%;
         box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.35);
+        background-color: white;
+        z-index: 1;
+        overflow: hidden;
+
+        @keyframes slide-tab {
+          0% {
+            opacity: 0.3;
+            // transform: scaleY(0);
+            height: 0;
+          }
+          100% {
+            opacity: 1;
+            // transform: scaleY(1);
+            height: 150px;
+          }
+        }
+
+        &.show-tabs {
+          display: flex;
+          transition: transform 1s ease-in-out;
+          animation: slide-tab 0.5s;
+        }
 
         .tab {
-          margin: 1rem;
+          // padding: 0.5rem 1rem;
           display: flex;
           justify-content: center;
           align-items: center;
           cursor: pointer;
 
           &:hover {
-            background-color: #4e505f;
-            color: white;
+            background-color: rgba(119, 119, 119, 0.75);
+            
+            // .rec-chosen {
+            //   color: black;
+            // }
+
+            h4 {
+              color: white;
+            }
           }
         }
+      }
+
+      .rec-active {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: black;
+      }
+
+      .rec-chosen {
+        color: black;
+        font-size: 1.5rem;
+        text-decoration:wavy;
       }
     }
   }
@@ -78,9 +104,12 @@
     font-size: 2rem;
     letter-spacing: 1rem;
   }
-  h6 {
+  h4 {
     font-size: 1.25rem;
     letter-spacing: 0.25rem;
     margin: 0;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: #56586C;
   }
 }

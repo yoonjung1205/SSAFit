@@ -9,11 +9,6 @@ export default function RealFit({ review }) {
   const [exist, setExist] = useState(false)
   const [direc, setDirec] = useState(true)
 
-  // const realfit = []
-  // for (let i = 0; i < review.length; i++){
-  //   realfit.push({imageUrl: review[i].reviewImg, desc: `${review[i].userHeight}/${review[i].userWeight} (${review[i].userSexMen ? '남':'여'})`})
-  // }
-  // console.log(realfit)
   const arr = () => {
     const temp = []
     if (review.length < 4){
@@ -29,12 +24,10 @@ export default function RealFit({ review }) {
 
     return temp
   }
-
-
+  
   const CarouselItems = function({ele}){
-    console.log(ele)
     return (
-    <div className={`carousel-card ${direc ? 'slide-left':'slide-right'}`}>
+      <div className={`carousel-card ${direc ? 'slide-left':'slide-right'}`}>
       <span className='carousel-image' style={{backgroundImage: `url(${ele.reviewImg})`}} />
       <p className='carousel-desc'>{`${ele.userHeight}/${ele.userWeight} (${ele.userSexMen ? '남':'여'})`}</p>
     </div>

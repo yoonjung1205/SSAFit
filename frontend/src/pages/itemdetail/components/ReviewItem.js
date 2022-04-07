@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import '../scss/reviews.scss'
 import Comment from './Comment';
+import Swal from 'sweetalert2';
 
 const ReviewItem = ({ no, review, currentPage }) => {
 
@@ -38,12 +39,15 @@ const ReviewItem = ({ no, review, currentPage }) => {
         withCredentials: true,
       })
       .then(res=> {
-        console.log('postComment:', res.data.goodsReviewList)
         setCommentList(res.data.goodsReviewList)
       })
-      .catch(err => console.log(err, typeof(err)))
     } else {
-      alert('댓글 내용이 없습니다')
+      Swal.fire({
+        text: '댓글 내용이 없습니다',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
+      })
     }
     setInputText('')
   }
@@ -58,15 +62,14 @@ const ReviewItem = ({ no, review, currentPage }) => {
       withCredentials: true,
     })
     .then(res => {
-      console.log('getComments:', res.data.goodsReviewList)
       setCommentList(res.data.goodsReviewList)
     })
-    .catch(err => console.log(err, typeof(err)))
   }
 
   useEffect(() => {
     getComment()
   }, [review])
+
 
   // ∨∧
 
@@ -96,7 +99,7 @@ const ReviewItem = ({ no, review, currentPage }) => {
         </div>
       </Col>
 
-      {!review.reviewStyle ? null : 
+      {!review.reviewStyle || 
       <Col md={isOpen ? 3 : 2} className='review-image' style={{textAlign: `${isOpen ? 'left' : 'right'}`}}>
         <img src={review.reviewImg} alt='review-img' />
       </Col>
@@ -119,14 +122,13 @@ const ReviewItem = ({ no, review, currentPage }) => {
         <Col md={12} className='write-comment'>
           <div className='input-tag'>
             <input value={inputText} placeholder='댓글을 입력하세요'
-              onChange={(e) => setInputText(e.target.value)} onKeyUp={checkEnter} />
+              onChange={(e) => setInputText(e.target.value)} onKeyUp={(e) => checkEnter(e)} />
           </div>
           <div className='button-tag'>
             <button className='write-button' onClick={() => postComment()}><span /><p>작성하기</p></button>
           </div>
         </Col>
-      </>
-      }
+      </>}
     </Row>
   );
 };

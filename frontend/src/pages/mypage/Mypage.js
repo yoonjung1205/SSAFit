@@ -27,7 +27,7 @@ const Mypage = ({ user }) => {
         <hr style={{margin: 0}}/>
         <section className='hanger'>
             <div className='menus'>
-              <div />
+              {/* <div /> */}
               <div className={`menu ${menu === 'recent' ? 'active' : ''}`} onClick={() => setMenu('recent')}>
                 <img src={menu === 'recent' ? colorHanger : whiteHanger} alt='hanger' />
                 <p>최근에 본 상품</p>
@@ -44,11 +44,11 @@ const Mypage = ({ user }) => {
                 <img src={menu === 'faq' ? colorHanger : whiteHanger} alt='hanger' />
                 <p>FAQ</p>
               </div>
-              <div />
+              {/* <div /> */}
             </div>
             <div className='content'>
               {menu === 'recent' && <Recent user={user} history={history} />}
-              {menu === 'likeCloth' && <LikeCloth user={user} history={history} />}
+              {menu === 'likeCloth' && <LikeCloth history={history} />}
               {menu === 'likeCodi' && <LikeCodi history={history} />}
               {menu === 'faq' && <Faq />}
             </div>

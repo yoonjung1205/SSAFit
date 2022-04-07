@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss'
 import Main from "./pages/main/Main";
@@ -20,9 +21,9 @@ import Edit from "./pages/edit/Edit";
 import EditPassword from "./pages/edit/EditPassword";
 import jwtDecode from "jwt-decode";
 import CustomAxios from './CustomAxios'
+import Password from "./pages/password/Password";
 
 function App() {
-  console.log('나 재 랜더링되는 중')
   const history = useHistory()
   const location = useLocation();
   const [user, setUser] = useState({})
@@ -30,7 +31,6 @@ function App() {
   const [color, setColor] = useState({})
   const [style, setStyle] = useState({})
   const [category, setCategory] = useState({})
-  const [password, setPassword] = useState('')
   
   const session = window.sessionStorage
 
@@ -46,7 +46,6 @@ function App() {
     })
   }
   catch {
-    console.log('사용자 인증 정보가 없습니다.')
     if (Object.keys(user).length){
       setUser({})
     }
@@ -59,14 +58,12 @@ function App() {
       url: `/api_da/recommend/${path}/${user.id}`,
     })
     .then(res => response = res.data)
-    .catch(err => console.log(err))
 
     return response
   }
   
   const getRecAll = async function(){
     if (!Object.keys(size).length){
-      console.log('사이즈?')
       if (!session.getItem('size-rec')){
         try {
           const res = await getRec('size')
@@ -85,7 +82,21 @@ function App() {
   })
 
   useEffect(() => {
-    if (location.pathname === '/main' && location.search){
+    const pathList = [
+      '', 'login', 'signup', 'moreinfo', 'search', 'main', 'tpo',
+      'recommend', 'password', 'recommend_codi', 'edit-mypage',
+      'edit-password', 'recommend', 'item', 'mypage', 'notfound'
+    ]
+    const anonymousPathList = [
+      '', 'login', 'signup', 'moreinfo', 'password', 'notfound'
+    ]
+    const path = location.pathname.split('/')[1]
+
+    if (pathList.indexOf(path) === -1){
+      history.push('/notfound')
+    }
+
+    else if (location.pathname === '/main' && location.search){
       const authorize = history.location.search.replace('?', '').split('&')
 
       authorize.forEach(token => {
@@ -94,11 +105,14 @@ function App() {
       })
       history.push('/main')
     }
-    else if (location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login'){
+    else if (anonymousPathList.indexOf(path) === -1){
       if (!Object.keys(user).length){
-        if (!alert('로그인이 필요합니다.')){
-          history.push('/login')
-        }
+        Swal.fire({
+          text: '로그인이 필요합니다.',
+          icon: 'warning',
+          confirmButtonText: '확인',
+          confirmButtonColor: 'orange'
+        }).then(() => history.push('/login'))
       }
     }
     else if (location.pathname === '/signup' || location.pathname === '/moreinfo' || location.pathname === '/login'){
@@ -127,12 +141,16 @@ function App() {
 
         <Route path="/tpo" component={Tpo} exact/>
 
-        <Route path="/recommend_codi/:tpo" component={RecommendCodi} exact />
-
         <Route path="/recommend/:category" component={Category} exact />
 
+        <Route path="/password" component={Password} exact />
+
+        <Route path="/recommend_codi/:tpo" exact >
+          <RecommendCodi user={user} />
+        </Route>
+
         <Route path="/edit-mypage" exact>
-          <Edit user={user} />
+          <Edit user={user} setSize={setSize} />
         </Route>
         
         <Route path="/edit-password" exact>
@@ -144,7 +162,7 @@ function App() {
         </Route>
 
         <Route path="/item/:id" exact>
-          <ItemDetail user={user} />
+          <ItemDetail user={user} setColor={setColor} setStyle={setStyle} setCategory={setCategory} />
         </Route>
 
         <Route path="/mypage" exact>

@@ -4,32 +4,50 @@
   align-items: center;
   overflow: hidden;
   .ssafit-logo {
-    margin: 0 2rem;
+    margin: 0 0 0 2rem;
     height: 5vh;
     cursor: pointer;
   }
   .nav-menu {
+    margin: 0 2rem 0 0;
+    padding: 0;
+    width: 40vw;
     color: #777777;
     list-style: none;
-    text-align: end;
-    li {
-      display: inline-block;
-      position: relative;
-      .link {
-        font-size: 1.2rem;
-        text-decoration: none;
-        margin-right: 5rem;
-        cursor: pointer;
-        color: #777777;
-        &.active {
-          font-weight: bold;
-          color: black;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    
+    div {
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #777777;
+      margin: 0 0.5rem;
+
+      &.active {
+        color: black;
+        p {
+          font-size: 1.5rem;
         }
-        &:hover {
-          color: black;
+      }
+
+      p {
+        font-size: 1.2rem;
+        margin: 0;
+        padding: 0.5rem;
+      }
+
+      &.inactive {
+        p {
+          &:hover {
+            color: black;
+            transform: scale(1.25);
+            transition: 0.5s;
+          }
         }
       }
     }
+
   }
 }
 
@@ -77,6 +95,7 @@
         padding: 0.6rem;
         height: 6vh;
         width: 6vh;
+        cursor: pointer;
       }
     }
   }

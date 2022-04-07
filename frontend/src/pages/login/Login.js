@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import GoogleLogin from './components/GoogleLogin'
 import KakaoLogin from './components/KakaoLogin'
 import {Link} from 'react-router-dom'
-import axios from 'axios'
+import CustomAxios from '../../CustomAxios'
 import { URL } from '../../CustomAxios'
 import './scss/login.scss'
-
+import Swal from 'sweetalert2';
 
 
 export default function Login({ history }) {
@@ -15,7 +15,7 @@ export default function Login({ history }) {
   })
 
   const signIn = function(){
-    axios({
+    CustomAxios({
       method: 'post',
       url: `${URL}/api_be/auth/login`,
       data: {
@@ -23,20 +23,21 @@ export default function Login({ history }) {
         password: credentials.password
       },
     })
-    .then(res => {
-      const session = window.sessionStorage
-
-      session.setItem('access-token-jwt', res.headers.authorization)
-      session.setItem('refresh-token-jwt', res.headers.refreshtoken)
-      
-      if (!alert('로그인 되었습니다!')){
-        history.push('/main')
-      }
+    .then(() => {
+      Swal.fire({
+        text: '로그인 되었습니다!',
+        icon: 'success',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'green'
+      }).then(() => history.push('/main'))
     })
-    .catch(err => {
-      console.log(credentials)
-      console.log(err)
-      alert('입력정보를 확인해주세요!!')
+    .catch(() => {
+      Swal.fire({
+        text: '입력정보를 확인해주세요!',
+        icon: 'error',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red'
+      })
     })
   }
 
@@ -75,7 +76,7 @@ export default function Login({ history }) {
         </section>
         <section className='other-act-container'>
           <Link to='/signup'>회원가입</Link>
-          <Link to=''>비밀번호 찾기</Link>
+          <Link to='/password'>비밀번호 찾기</Link>
         </section>
       </section>
     </article>

@@ -1,5 +1,6 @@
 .rec-category {
   padding: 2rem;
+  margin: 2rem 0;
   .rec-cate-text {
     display: flex;
     justify-content: space-between;
@@ -33,6 +34,18 @@
           color: white;
           p {
             margin: 0.5rem;
+            &.one-line {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            &.two-line {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+            }
           }
         }
       }

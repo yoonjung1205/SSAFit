@@ -7,8 +7,10 @@ import CustomAxios from "../../CustomAxios";
 import jwtDecode from "jwt-decode";
 import defaultImage from './images/default.png'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import editImage from './images/edit.png'
+import Swal from 'sweetalert2';
 
-const Edit = ({ user }) => {
+const Edit = ({ user, setSize }) => {
   const history = useHistory()
 
   const [credentials, setCredentials] = useState({...user})
@@ -26,8 +28,6 @@ const Edit = ({ user }) => {
 
   const makeCredential = () => {
     let userInfo = {...credentials, profileImage: profileImage}
-    // console.log('이전정보', credentials)
-    // console.log('변경정보', userInfo)
     const formdata = new FormData()
 
     for (const key in userInfo){
@@ -66,14 +66,10 @@ const Edit = ({ user }) => {
 
   const submit = e => {
     e.preventDefault()
-
+    
     isValid()
     .then(() => {
       const data = makeCredential()
-      console.log(data.entries)
-      for (const i of data.entries()){
-        console.log(i)
-      }
       CustomAxios({
         method: 'put',
         url: '/api_be/auth/user',
@@ -81,24 +77,29 @@ const Edit = ({ user }) => {
         data: data
       })
       .then(res => {
-        console.log('되긴함')
         const session = window.sessionStorage
         const accessToken = res.headers.authorization
         const refreshToken = res.headers.refreshtoken
         session.setItem('access-token-jwt', accessToken)
         session.setItem('refresh-token-jwt', refreshToken)
         session.setItem('userInfo', JSON.stringify(jwtDecode(accessToken)))
+        session.removeItem('size-rec')
+        setSize({})
       })
       .then(() => {
         history.push('/mypage')
       })
-      .catch(err => console.log(err))
     })
     .catch(err => {
       if (typeof(err) !== Object) {
         return alert(`${err.join(', ')}를 확인해주세요!`)
       }
-      alert('잘못된 요청입니다.')
+      Swal.fire({
+        text: '잘못된 요청입니다',
+        icon: 'error',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red'
+      })
     })
   }
 
@@ -110,9 +111,10 @@ const Edit = ({ user }) => {
           <form onSubmit={(e) => submit(e)}>
             {/* 프로필 사진 */}
             <label className="profile" htmlFor="profile"
-              style={{backgroundImage: `url(${credentials.profileImage.length ? credentials.profileImage:defaultImage})`}}>
+              style={{backgroundImage: `url(${credentials.profileImage ? credentials.profileImage:defaultImage})`}}>
               <input type="file" id="profile" accept="image/jpg, image/png, image/jpeg"
                 onChange={e => fileUpload(e)} />
+              <img className="edit-image" src={editImage} alt="" />
             </label>
             {/* 닉네임 */}
             <label className="input-form" htmlFor="nickname">

@@ -12,7 +12,7 @@ const NotFound = () => {
         <br/>
         <p>요청하신 페이지가 사라졌거나,<br/>잘못된 경로를 이용하셨어요 :)</p>
         <br/>
-        <button onClick={() => history.push('/main')} className='notfound-btn'><span>메인으로 돌아가기</span></button>
+        <button onClick={() => history.push('/')} className='notfound-btn'><span>시작페이지로 돌아가기</span></button>
       </section>
     </div>
   );

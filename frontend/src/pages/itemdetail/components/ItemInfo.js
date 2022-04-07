@@ -33,13 +33,11 @@ export default function ItemInfo({ item, user }) {
   const getLikeInfo = () => {
     CustomAxios({
       method: 'get',
-      url: `/api_be/goods/like?clothId=${item.clothId}&userId=${user.id}`,
+      url: `/api_be/goods/like?clothId=${item.newClothId}&userId=${user.id}`,
     })
     .then(res => {
-      console.log('getLikeInfo!!!', res.data)
       setLiked(res.data.like)
     })
-    .catch(err => {console.log(err); console.log(item.newClothId, user.id)})
   }
 
 
@@ -50,7 +48,6 @@ export default function ItemInfo({ item, user }) {
         url: '/api_be/goods/like',
         data: item
       })
-      .catch(err => console.log(err))
     }
 
     const likeDa = async() => {
@@ -64,7 +61,6 @@ export default function ItemInfo({ item, user }) {
           "num": num
         }
       })
-      .catch(err => console.log(err))
     }
 
     likeBe()
@@ -76,37 +72,38 @@ export default function ItemInfo({ item, user }) {
     if (Object.keys(item).length){
       getLikeInfo()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item])
-  
 
 
   return (
     <section className='detail-header'>
       <h3 className='item-category'>{item.largeCategoryName} &gt; {item.smallCategoryName}</h3>
       <div className='item-box'>
-        <div className='image-box'>
-          <img src={item.clothImg} alt="image" />
-          <span className={liked ? 'liked':''} onClick={() => like()}>
-            <img src={heart} alt="like" />
-          </span>
-        </div>
+        <div className='image-box' style={{backgroundImage: `url(${item.clothImg})`}} />
         <div className='item-info'>
           <h2 className='brand'>{item.brand}</h2>
           <h3 className='name'>{item.clothName}</h3>
-          <Rate rate={item.clothRate}/>
-          <h3 className='price'>{comma(String(item.clothPrice))}원</h3>
-          <h6 className='tags'>
-            {item.clothHashtags && item.clothHashtags[0] !== "[]" && item.clothHashtags.map((hashtag, idx) => 
-            <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
-            )}
-          </h6>
-          <h6>Size : {item.goodsSize}</h6>
-          <button onClick={() => goToShop()}>
-            <span/>
-            구매하러 가기
-          </button>
+          <div className='size'>👕추천 사이즈
+            <br/>🩳{item.goodsSize}
+          </div>
+          <div className='rate-price'>
+            <Rate rate={item.clothRate}/>
+            <h3 className='price'>{comma(String(item.clothPrice))}원</h3>
+          </div>
+          <div className='heart-buy'>
+            <span className={`like-btn ${liked ? 'liked':''}`} onClick={() => like()}>
+              <img src={heart} alt="like" />
+            </span>
+            <button onClick={() => goToShop()}><span/>구매하러 가기</button>
+          </div>
         </div>
       </div>
+      <h6 className='item-tags'>
+        {item.clothHashtags && item.clothHashtags[0] !== "[]" && item.clothHashtags.map((hashtag, idx) => 
+        <span key={idx} style={{marginRight: '0.5rem'}}>#{hashtag}</span>
+        )}
+      </h6>
     </section>
   )
 }
