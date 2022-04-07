@@ -58,13 +58,15 @@ const Review = ({ newClothId }) => {
       Swal.fire({
         text: '첫번째 페이지 입니다.',
         icon: 'warning',
-        confirmButtonText: '확인'
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
       })
     } else if (newPage > totalPage) {
       Swal.fire({
         text: '마지막 페이지 입니다.',
         icon: 'warning',
-        confirmButtonText: '확인'
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
       })
     } else {
       setCurrentPage(newPage)

@@ -48,7 +48,8 @@ export default function itembox({ items }) {
           title: '무신사로 이동합니다',
           text: '해당 옷의 데이터가 없습니다',
           icon: 'info',
-          confirmButtonText: '확인'
+          confirmButtonText: '확인',
+          confirmButtonColor: 'blue'
         }).then(() => window.open(`https://store.musinsa.com/app/goods/${clothId}`))
       }
     })

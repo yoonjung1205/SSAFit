@@ -27,14 +27,16 @@ export default function Login({ history }) {
       Swal.fire({
         text: '로그인 되었습니다!',
         icon: 'success',
-        confirmButtonText: '확인'
+        confirmButtonText: '확인',
+        confirmButtonColor: 'green'
       }).then(() => history.push('/main'))
     })
     .catch(() => {
       Swal.fire({
         text: '입력정보를 확인해주세요!',
         icon: 'error',
-        confirmButtonText: '확인'
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red'
       })
     })
   }

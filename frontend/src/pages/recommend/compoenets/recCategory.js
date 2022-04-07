@@ -27,8 +27,6 @@ const recCategory = ({cate, clothes}) => {
     return result
   }
 
-  const kor = {Outer: '아우터', Top: '상의', Pants: '바지', Onepiece: '원피스', Skirt: '스커트'}
-
   if (!clothes){
     return false
   }
@@ -37,7 +35,6 @@ const recCategory = ({cate, clothes}) => {
     <div className='rec-category'>
       <div className='rec-cate-text'>
         <h3>{cate}</h3>
-        {/* <h3>{kor[cate]}</h3> */}
         <p onClick={() => clickMore()}>더보기</p>
       </div>
       <div className='rec-cate-cloth'>

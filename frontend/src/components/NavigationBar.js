@@ -22,7 +22,8 @@ const NavigationBar = ({ boldPath }) => {
       Swal.fire({
         text: '검색어를 입력해주세요',
         icon: 'warning',
-        confirmButtonText: '확인'
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
       })
     } else {
       let path = '/search?word=' + text

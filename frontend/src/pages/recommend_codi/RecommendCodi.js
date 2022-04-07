@@ -59,7 +59,8 @@ export default function RecommendCodi({ user }) {
         title: 'TPO 선택 페이지로 돌아갑니다',
         text: '마지막 코디입니다',
         icon: 'warning',
-        confirmButtonText: '확인'
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
       }).then(() => history.push('/tpo'))
     }
   }
@@ -72,7 +73,8 @@ export default function RecommendCodi({ user }) {
         title: 'TPO 선택 페이지로 돌아갑니다',
         text: '마지막 코디입니다',
         icon: 'warning',
-        confirmButtonText: '확인'
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
       }).then(() => history.push('/tpo'))
     }
   }
