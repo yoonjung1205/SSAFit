@@ -97,7 +97,7 @@ const Edit = ({ user, setSize }) => {
       }
       Swal.fire({
         text: '잘못된 요청입니다',
-        icon: 'warning',
+        icon: 'error',
         confirmButtonText: '확인'
       })
     })

@@ -3,6 +3,7 @@ import './scss/password.scss'
 import CustomAxios from '../../CustomAxios';
 import { Link, useHistory } from 'react-router-dom';
 import Loading from '../../components/Loading'
+import Swal from 'sweetalert2';
 
 const Password = () => {
   let history = useHistory()
@@ -19,10 +20,18 @@ const Password = () => {
       setLoading(false)
       const { message } = data
       if (message === 'not') {
-        alert('가입한 이메일을 입력해주세요')
+        Swal.fire({
+          text: '가입한 이메일을 입력해주세요',
+          icon: 'warning',
+          confirmButtonText: '확인'
+        })
       } else {
-        alert('메일을 보냈습니다.\n비밀번호를 확인해주세요!')
-        history.push('/login')
+        Swal.fire({
+          title: '메일을 보냈습니다',
+          text: '비밀번호를 확인해주세요',
+          icon: 'success',
+          confirmButtonText: '확인'
+        }).then(() => history.push('/login'))
       }
     })
   }
@@ -33,7 +42,11 @@ const Password = () => {
       setLoading(true)
       requestEmail(email)
     } else {
-      alert('가입한 이메일을 입력해주세요')
+      Swal.fire({
+        text: '가입한 이메일을 입력해주세요',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     }
   }
 

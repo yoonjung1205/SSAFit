@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 import CustomAxios from '../../CustomAxios'
 import { URL } from '../../CustomAxios'
 import './scss/login.scss'
-
+import Swal from 'sweetalert2';
 
 
 export default function Login({ history }) {
@@ -24,14 +24,18 @@ export default function Login({ history }) {
       },
     })
     .then(() => {
-      if (!alert('로그인 되었습니다!')){
-        history.push('/main')
-      }
+      Swal.fire({
+        text: '로그인 되었습니다!',
+        icon: 'success',
+        confirmButtonText: '확인'
+      }).then(() => history.push('/main'))
     })
-    .catch(err => {
-      console.log(credentials)
-      console.log(err)
-      alert('입력정보를 확인해주세요!!')
+    .catch(() => {
+      Swal.fire({
+        text: '입력정보를 확인해주세요!',
+        icon: 'error',
+        confirmButtonText: '확인'
+      })
     })
   }
 

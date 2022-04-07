@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Loading from '../../../components/Loading'
 import loadImg from '../../../components/images/loading.gif'
 import { useHistory } from 'react-router-dom'
+import Swal from 'sweetalert2';
 
 export default function itembox({ items }) {
   if (items.length === 0){
@@ -43,9 +44,12 @@ export default function itembox({ items }) {
         history.push(`/item/${res.data}`)
       }
       else {
-        if (!alert('해당 옷의 데이터가 없습니다. 무신사로 이동합니다')){
-          window.open(`https://store.musinsa.com/app/goods/${clothId}`)
-        }
+        Swal.fire({
+          title: '무신사로 이동합니다',
+          text: '해당 옷의 데이터가 없습니다',
+          icon: 'info',
+          confirmButtonText: '확인'
+        }).then(() => window.open(`https://store.musinsa.com/app/goods/${clothId}`))
       }
     })
     .catch(err => console.log(err, typeof(err)))
