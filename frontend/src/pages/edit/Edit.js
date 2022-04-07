@@ -7,7 +7,7 @@ import CustomAxios from "../../CustomAxios";
 import jwtDecode from "jwt-decode";
 import defaultImage from './images/default.png'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import editImage from './images/pencil.png'
+import editImage from './images/edit.png'
 import Swal from 'sweetalert2';
 
 const Edit = ({ user, setSize }) => {

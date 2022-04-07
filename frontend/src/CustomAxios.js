@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const session = window.sessionStorage
 
@@ -34,7 +35,12 @@ CustomAxios.interceptors.response.use(
   function CustomInterceptorError(err){
     if (err.toJSON().status === 401){
       session.clear()
-      window.location.replace('/login')
+      Swal.fire({
+        text: '인증이 만료되었습니다. 다시 로그인해주세요!',
+        icon: 'error',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      }).then(() => window.location.replace('/login'))
     }
 
     return Promise.reject(err.toJSON());
