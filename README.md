@@ -1,4 +1,4 @@
-# 👔 여러분의 옷장을 책임질 ... *Ssafit* ( BigData Project)
+# 👔 여러분의 옷장을 책임질 ... *SSAFit* ( BigData Project)
 
 #### 빅데이터 기반  개인 맞춤 옷, 코디 추천 플랫폼
 
@@ -70,7 +70,7 @@
 
 - #### **▶ [마인드맵](https://www.mindmeister.com/map/2198880827?t=BbTDvqBLhA)**
 
-![mindmap](./README_assets/mindmap.PNG)
+![mindmap](./README.assets/mindmap.PNG)
 
 
 
@@ -82,9 +82,9 @@
 
 ##### 하지만, 옷의 사이즈가 맞지않거나 취향에 맞지 않아 반품을 하거나 중고거래를 이용하여 불필요한 소비가 빈번하게 발생하고 있습니다. 이러한 구매 패턴이 반복되어 소비자들은 온라인 의류 쇼핑에 대해 큰 불안감을 느끼고 있습니다.
 
-##### 소비자들의 의류 쇼핑에 대한 불안감을 극복할 수 있도록 저희는 빅데이터 및 머신러닝 기반의 개인 맞춤 의류 추천 웹 플랫폼 Ssafit을 개발하였습니다.
+##### 소비자들의 의류 쇼핑에 대한 불안감을 극복할 수 있도록 저희는 빅데이터 및 머신러닝 기반의 개인 맞춤 의류 추천 웹 플랫폼 SSAFit을 개발하였습니다.
 
-##### Ssafit을 이용하는 사용자들은 
+##### SSAFit을 이용하는 사용자들은 
 
 ##### 1. 개인의 키, 몸무게, 나이, 성별등의 개인정보로 개인 맞춤 의류를
 
@@ -293,7 +293,7 @@ https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.Truncate
 
 #### 소셜 로그인을 통해 간편하게 서비스 이용 가능
 
-> Google, Kakao 소셜 로그인을 이용하여, 간단한 신체정보 입력만으로 Ssafit을 이용할 수 있습니다.
+> Google, Kakao 소셜 로그인을 이용하여, 간단한 신체정보 입력만으로 SSAFit을 이용할 수 있습니다.
 >
 > 회원정보는 JWT Refresh Token, Access Token으로 관리되고 있습니다.
 
