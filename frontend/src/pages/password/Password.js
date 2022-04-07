@@ -23,14 +23,16 @@ const Password = () => {
         Swal.fire({
           text: '가입한 이메일을 입력해주세요',
           icon: 'warning',
-          confirmButtonText: '확인'
+          confirmButtonText: '확인',
+          confirmButtonColor: 'orange'
         })
       } else {
         Swal.fire({
           title: '메일을 보냈습니다',
           text: '비밀번호를 확인해주세요',
           icon: 'success',
-          confirmButtonText: '확인'
+          confirmButtonText: '확인',
+          confirmButtonColor: 'green'
         }).then(() => history.push('/login'))
       }
     })
@@ -45,7 +47,8 @@ const Password = () => {
       Swal.fire({
         text: '가입한 이메일을 입력해주세요',
         icon: 'warning',
-        confirmButtonText: '확인'
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
       })
     }
   }

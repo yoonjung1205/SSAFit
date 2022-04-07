@@ -114,7 +114,8 @@ function App() {
         Swal.fire({
           text: '로그인이 필요합니다.',
           icon: 'warning',
-          confirmButtonText: '확인'
+          confirmButtonText: '확인',
+          confirmButtonColor: 'orange'
         }).then(() => history.push('/login'))
       }
     }

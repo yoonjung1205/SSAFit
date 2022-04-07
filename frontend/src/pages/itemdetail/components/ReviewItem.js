@@ -47,7 +47,8 @@ const ReviewItem = ({ no, review, currentPage }) => {
       Swal.fire({
         text: '댓글 내용이 없습니다',
         icon: 'warning',
-        confirmButtonText: '확인'
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
       })
     }
     setInputText('')
