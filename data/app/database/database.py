@@ -425,3 +425,4 @@ def change_recent_item(userId, newClothId):
         users['recentItems'].append(newClothId)
         db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': users['recentItems']}})
     return
+
