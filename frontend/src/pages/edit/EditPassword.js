@@ -32,7 +32,7 @@ const EditPassword = ({ user }) => {
       if (err.toString().slice(-3, ) === '401') {
         Swal.fire({
           text: '비밀번호가 틀렸습니다',
-          icon: 'warning',
+          icon: 'error',
           confirmButtonText: '확인'
         })
       } else {

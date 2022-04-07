@@ -56,7 +56,8 @@ export default function RecommendCodi({ user }) {
       .then(setIdx(idx + 1))
     } else {
       Swal.fire({
-        text: '마지막 페이지 입니다',
+        title: 'TPO 선택 페이지로 돌아갑니다',
+        text: '마지막 코디입니다',
         icon: 'warning',
         confirmButtonText: '확인'
       }).then(() => history.push('/tpo'))
@@ -68,7 +69,8 @@ export default function RecommendCodi({ user }) {
       setIdx(idx + 1)
     } else {
       Swal.fire({
-        text: '마지막 페이지 입니다',
+        title: 'TPO 선택 페이지로 돌아갑니다',
+        text: '마지막 코디입니다',
         icon: 'warning',
         confirmButtonText: '확인'
       }).then(() => history.push('/tpo'))
