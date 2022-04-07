@@ -17,6 +17,7 @@ export default function RecommendCodi({ user }) {
   
   const [codies, setCodies] = useState([])
   const [idx, setIdx] = useState(0)
+  // const [exist, setExist] = useState(true)
   const [loading, setLoading] = useState(true)
   const [isLike, setIsLike] = useState(true)
 
@@ -110,19 +111,6 @@ export default function RecommendCodi({ user }) {
     }
   }, [codies])
 
-  useEffect(() => {
-    if (codies[idx]){
-      const imgBox = document.getElementsByClassName('img-box')[0]
-      imgBox.style.backgroundImage = `url(${codies[idx].imgSrc})`
-    }
-  }, [loading])
-
-  useEffect(() => {
-    if (codies[idx]){
-      const imgBox = document.getElementsByClassName('img-box')[0]
-      imgBox.style.backgroundImage = `url(${codies[idx].imgSrc})`
-    }
-  }, [idx])
 
   const ButtonsSet = () => {
     return (
@@ -165,38 +153,36 @@ export default function RecommendCodi({ user }) {
 
 
   return (
-    <>
     <article className='page'>
       <NavigationBar boldPath="TPO" />
       {loading ? <Loading /> :
       <article className='codi-container'>
-        <section className='img-box'/>
+        <section className='img-box' style={{backgroundImage: `url(${codies[idx].imgSrc})`}}/>
         <section className='codi-body'>
           <span className='codi-title'>
             {codies.length > 1 ? 
               <>
-                <p>
+                <span className='normal-text'>
                   <h1>{user.nickname}님, {tpoObject[tpo]}</h1>에<br />
                   맞는 코디를 추천해드릴게요
-                </p>
+                </span>
                 <div className='codi-refresh' onClick={() => onlyIdx()}>
                   <div className='icon' />
                   <div className='text'>다른 코디</div>
                 </div>
               </>
-             :
-              <p>
+            :
+              <span className='normal-text'>
                 <h1>{user.nickname}님,</h1><br/>
                 찜하신 코디를 보여드릴게요
-              </p>
+              </span>
             }
           </span>
-          <ItemBox items={codies[idx].clothes} />
+          <ItemBox items={codies[idx].clothes}/>
           { !parseInt(tpo) ? <ButtonsSet /> : <ButtonOnly /> }
         </section>
       </article>
     }
-    </article>
-    </>
+  </article>
   )
 }

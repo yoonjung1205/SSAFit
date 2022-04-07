@@ -36,6 +36,8 @@ CustomAxios.interceptors.response.use(
       session.clear()
       window.location.replace('/login')
     }
+
+    return Promise.reject(err.toJSON());
   }
 )
 

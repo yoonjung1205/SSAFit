@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import CustomAxios from '../../../CustomAxios'
-import React from 'react'
+import React, { useState } from 'react'
 import Loading from '../../../components/Loading'
+import loadImg from '../../../components/images/loading.gif'
 import { useHistory } from 'react-router-dom'
 
 export default function itembox({ items }) {
@@ -10,6 +11,8 @@ export default function itembox({ items }) {
   }
 
   let history = useHistory()
+
+  const [loading, setLoading] = useState(null)
 
   const comma = function(tar){
     let result = ''
@@ -24,18 +27,22 @@ export default function itembox({ items }) {
     return result
   }
 
-  const getNewClothId = async (clothId) => {
+  const getNewClothId = (clothId) => {
     const userId = JSON.parse(window.sessionStorage.getItem('userInfo')).id
-    
-    await CustomAxios({
+
+    CustomAxios({
       method: 'get',
       url: `/api_da/cloth/isSSAFIT/${clothId}?userId=${userId}`
     })
     .then(res => {
-      console.log(res)
+      setLoading(false)
+      return Promise.resolve(res)
+    })
+    .then(res => {
       if (res.data) {
         history.push(`/item/${res.data}`)
-      } else {
+      }
+      else {
         if (!alert('해당 옷의 데이터가 없습니다. 무신사로 이동합니다')){
           window.open(`https://store.musinsa.com/app/goods/${clothId}`)
         }
@@ -44,16 +51,20 @@ export default function itembox({ items }) {
     .catch(err => console.log(err, typeof(err)))
   }
 
-  const cards = items.map(item => {
+  const cards = items.map((item, idx) => {
     return (
-    <div className='item-card' key={item[0]} onClick={() => getNewClothId(item[0])}>
-      <img className='item-img' src={item[3]} alt={item[2]} />
-      <div className='item-content'>
-        <p>{item[1]}</p>
-        <p>{item[2]}</p>
-        <p>{comma(item[4]) + '원'}</p>
+      <div className='item-card' key={item[0]} onClick={() => {setLoading(idx); getNewClothId(item[0])}}>
+        <div className='item-img' style={{backgroundImage: `url(${item[3]})`}} alt={item[2]}>
+          <span className='load-img' style={{display: loading === idx ? 'flex':'none'}}>
+            <img src={loadImg} alt="load" />
+          </span>
+        </div>
+        <div className='item-content'>
+          <p>{item[1]}</p>
+          <p>{item[2]}</p>
+          <p>{comma(item[4]) + '원'}</p>
+        </div>
       </div>
-    </div>
     )}
   )
 
