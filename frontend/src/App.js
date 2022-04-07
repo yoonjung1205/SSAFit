@@ -85,7 +85,21 @@ function App() {
   })
 
   useEffect(() => {
-    if (location.pathname === '/main' && location.search){
+    const pathList = [
+      '', 'login', 'signup', 'moreinfo', 'search', 'main', 'tpo',
+      'recommend', 'password', 'recommend_codi', 'edit-mypage',
+      'edit-password', 'recommend', 'item', 'mypage', 'notfound'
+    ]
+    const anonymousPathList = [
+      '', 'login', 'signup', 'moreinfo', 'password', 'notfound'
+    ]
+    const path = location.pathname.split('/')[1]
+
+    if (pathList.indexOf(path) === -1){
+      history.push('/notfound')
+    }
+
+    else if (location.pathname === '/main' && location.search){
       const authorize = history.location.search.replace('?', '').split('&')
 
       authorize.forEach(token => {
@@ -94,7 +108,7 @@ function App() {
       })
       history.push('/main')
     }
-    else if (location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/moreinfo' && location.pathname !== '/login' && location.pathname !== '/password'){
+    else if (anonymousPathList.indexOf(path) === -1){
       if (!Object.keys(user).length){
         if (!alert('로그인이 필요합니다.')){
           history.push('/login')

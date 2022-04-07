@@ -71,7 +71,7 @@ const Recommend = ({ recommend, setter, getter }) => {
   }
 
   return (
-    <article className='recommend'>
+    <article className='recommend' onClick={() => {if (tab){setTab(false)}}}>
       <NavigationBar boldPath='RECOMMEND' />
       <section className='rec-top'>
         <div className='rec-top-text'>
@@ -83,7 +83,7 @@ const Recommend = ({ recommend, setter, getter }) => {
         <div className='choice' onClick={() => setStandard('size')}>
           <h4 className={`${standard === 'size' ? 'rec-active' : ''}`}>사이즈</h4>
         </div>
-        <div className='choice' onClick={() => setTab(true)} onMouseLeave={e => setTab(false)}>
+        <div className='choice' onClick={() => setTab(true)}>
           <h4 className={`${standard === 'size' ? '' : 'rec-active'}`}>{tabName[standard]}</h4>
           <div className={`tabs ${tab && 'show-tabs'}`} >
             <span className='tab' onClick={() => {setStandard('color'); setTab(false)}}>
