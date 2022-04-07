@@ -119,85 +119,17 @@
 
 ![](https://greeksharifa.github.io/public/img/Machine_Learning/2020-06-01-LightFM/01.JPG)
 
+
+
 각 User와 각 Item에 대한 모델의 예측 값은, 이 User와 Item의 **Representation** (잠재 벡터)의 내적이다.
-$$
-^
-r
-u
-i
-=
-s
-i
-g
-m
-o
-i
-d
-(
-q
-u
-⊙
-p
-i
-+
-b
-u
-+
-b
-i
-)
-$$
+
+![수식1](README.assets/수식1.JPG)
+
+
+
 최적화 목적함수는 parameter들이 주어졌을 때의 데이터에 대한 우도를 최대화 하는 것으로 설정된다.
-$$
-L
-(
-e
-U
-,
-e
-I
-,
-b
-U
-,
-b
-I
-)
-=
-∏
-(
-u
-,
-i
-)
-∈
-S
-+
- 
-^
-r
-u
-i
-×
-∏
-(
-u
-,
-i
-)
-∈
-S
-−
- 
-(
-1
-−
-^
-r
-u
-i
-)
-$$
+
+![수식2](README.assets/수식2.JPG)
 
 
 
@@ -408,7 +340,11 @@ uvicorn main:app --reload
 
 ##### 최종 발표 자료
 
-- 
+- PPT
+  - 
+
+- 홈페이지
+  - https://ssafit.site/
 
 
 
