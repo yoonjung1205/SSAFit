@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss'
 import Main from "./pages/main/Main";
@@ -110,9 +111,11 @@ function App() {
     }
     else if (anonymousPathList.indexOf(path) === -1){
       if (!Object.keys(user).length){
-        if (!alert('로그인이 필요합니다.')){
-          history.push('/login')
-        }
+        Swal.fire({
+          text: '로그인이 필요합니다.',
+          icon: 'warning',
+          confirmButtonText: '확인'
+        }).then(() => history.push('/login'))
       }
     }
     else if (location.pathname === '/signup' || location.pathname === '/moreinfo' || location.pathname === '/login'){

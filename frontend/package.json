@@ -22,6 +22,7 @@
     "react-router-dom": "5",
     "react-scripts": "5.0.0",
     "react-wordcloud": "^1.2.7",
+    "sweetalert2": "^11.4.8",
     "web-vitals": "^2.1.0"
   },
   "scripts": {

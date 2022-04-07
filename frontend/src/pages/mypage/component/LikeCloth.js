@@ -2,6 +2,7 @@ import '../scss/Cards.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import CustomAxios from '../../../CustomAxios';
+import Swal from 'sweetalert2';
 
 const LikeCloth = ({ history }) => {
   const [clothes, setClothes] = useState([])
@@ -25,9 +26,17 @@ const LikeCloth = ({ history }) => {
   const changePage = num => {
     let newPage = currentPage + num
     if (newPage < 1) {
-      alert('첫번째 페이지 입니다.')
+      Swal.fire({
+        text: '첫번째 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     } else if (newPage > totalPage) {
-      alert('마지막 페이지 입니다.')
+      Swal.fire({
+        text: '마지막 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     } else {
       setCurrentPage(newPage)
     }

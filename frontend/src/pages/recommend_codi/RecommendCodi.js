@@ -10,7 +10,7 @@ import Loading from '../../components/Loading'
 import './scss/recommend_codi.scss'
 import CustomAxios from '../../CustomAxios'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import refresh from './images/refresh.png'
+import Swal from 'sweetalert2';
 
 export default function RecommendCodi({ user }) {
   const history = useHistory()
@@ -53,11 +53,12 @@ export default function RecommendCodi({ user }) {
     if (idx < codies.length - 1){
       ClickBtn(like)
       .then(setIdx(idx + 1))
-    }
-    else {
-      if (!alert('마지막 페이지입니다')){
-        history.push('/tpo')
-      }
+    } else {
+      Swal.fire({
+        text: '마지막 페이지 입니다',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      }).then(() => history.push('/tpo'))
     }
   }
 
@@ -65,9 +66,11 @@ export default function RecommendCodi({ user }) {
     if (idx < codies.length -1) {
       setIdx(idx + 1)
     } else {
-      if (!alert('마지막 페이지입니다')) {
-        history.push('/tpo')
-      }
+      Swal.fire({
+        text: '마지막 페이지 입니다',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      }).then(() => history.push('/tpo'))
     }
   }
 

@@ -7,6 +7,7 @@ import incorr from './images/incorr.png'
 import { useState } from "react";
 import CustomAxios from "../../CustomAxios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Swal from 'sweetalert2';
 
 
 const EditPassword = ({ user }) => {
@@ -29,7 +30,11 @@ const EditPassword = ({ user }) => {
     })
     .catch(err => {
       if (err.toString().slice(-3, ) === '401') {
-        alert('비밀번호가 틀렸습니다')
+        Swal.fire({
+          text: '비밀번호가 틀렸습니다',
+          icon: 'warning',
+          confirmButtonText: '확인'
+        })
       } else {
         console.log(err, typeof(err))
       }
@@ -91,8 +96,11 @@ const EditPassword = ({ user }) => {
         data: {email: user.sub, password: credentials.password},
       })
       .then(() => {
-        alert('비밀번호가 변경되었습니다')
-        history.push('/mypage')
+        Swal.fire({
+          text: '비밀번호가 변경되었습니다',
+          icon: 'success',
+          confirmButtonText: '확인'
+        }).then(() => history.push('/mypage'))
       })
       .catch(err => {
         console.log(err, typeof(err))

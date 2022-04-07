@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import '../scss/reviews.scss'
 import Comment from './Comment';
+import Swal from 'sweetalert2';
 
 const ReviewItem = ({ no, review, currentPage }) => {
 
@@ -43,7 +44,11 @@ const ReviewItem = ({ no, review, currentPage }) => {
       })
       .catch(err => console.log(err, typeof(err)))
     } else {
-      alert('댓글 내용이 없습니다')
+      Swal.fire({
+        text: '댓글 내용이 없습니다',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     }
     setInputText('')
   }

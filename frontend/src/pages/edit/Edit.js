@@ -8,6 +8,7 @@ import jwtDecode from "jwt-decode";
 import defaultImage from './images/default.png'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import editImage from './images/pencil.png'
+import Swal from 'sweetalert2';
 
 const Edit = ({ user, setSize }) => {
   const history = useHistory()
@@ -94,7 +95,11 @@ const Edit = ({ user, setSize }) => {
       if (typeof(err) !== Object) {
         return alert(`${err.join(', ')}를 확인해주세요!`)
       }
-      alert('잘못된 요청입니다.')
+      Swal.fire({
+        text: '잘못된 요청입니다',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     })
   }
 
