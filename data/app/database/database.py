@@ -1,6 +1,4 @@
-import motor.motor_asyncio
 from pymongo import MongoClient
-import asyncio
 import numpy as np
 import pandas as pd
 
@@ -440,3 +438,9 @@ def change_recent_item(userId, newClothId):
         db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': users['recentItems']}})
     return
 
+def change_img():
+    a = "//image.msscdn.net/images/goods_img/20210127/1765993/1765993_2_500.jpg"
+    b = "//image.msscdn.net/images/goods_img/20210127/1765993/1765993_3_500.jpg"
+    clothes = db.cloth.find({'clothImg': a})
+    for cloth in clothes:
+        db.cloth.update_one({'clothImg': a}, {'$set': {'clothImg': b}})
