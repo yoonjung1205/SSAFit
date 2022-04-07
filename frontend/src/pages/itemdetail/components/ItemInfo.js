@@ -36,10 +36,8 @@ export default function ItemInfo({ item, user }) {
       url: `/api_be/goods/like?clothId=${item.newClothId}&userId=${user.id}`,
     })
     .then(res => {
-      console.log('getLikeInfo!!!', res.data)
       setLiked(res.data.like)
     })
-    .catch(err => {console.log(err); console.log(item.newClothId, user.id)})
   }
 
 
@@ -50,7 +48,6 @@ export default function ItemInfo({ item, user }) {
         url: '/api_be/goods/like',
         data: item
       })
-      .catch(err => console.log(err))
     }
 
     const likeDa = async() => {
@@ -64,7 +61,6 @@ export default function ItemInfo({ item, user }) {
           "num": num
         }
       })
-      .catch(err => console.log(err))
     }
 
     likeBe()

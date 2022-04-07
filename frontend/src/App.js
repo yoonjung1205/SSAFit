@@ -24,7 +24,6 @@ import CustomAxios from './CustomAxios'
 import Password from "./pages/password/Password";
 
 function App() {
-  console.log('나 재 랜더링되는 중')
   const history = useHistory()
   const location = useLocation();
   const [user, setUser] = useState({})
@@ -47,7 +46,6 @@ function App() {
     })
   }
   catch {
-    console.log('사용자 인증 정보가 없습니다.')
     if (Object.keys(user).length){
       setUser({})
     }
@@ -60,14 +58,12 @@ function App() {
       url: `/api_da/recommend/${path}/${user.id}`,
     })
     .then(res => response = res.data)
-    .catch(err => console.log(err))
 
     return response
   }
   
   const getRecAll = async function(){
     if (!Object.keys(size).length){
-      console.log('사이즈?')
       if (!session.getItem('size-rec')){
         try {
           const res = await getRec('size')

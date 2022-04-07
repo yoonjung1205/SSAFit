@@ -34,11 +34,9 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
         url: `/api_da/cloth/${newClothId}`,
       })
       .then(res => {
-        console.log('getCloth:', res.data)
         setItem(res.data)
         setLoading(false)
       })
-      .catch(err => console.log(err, typeof(err)))
     }
 
     const getRealFit = async () => {
@@ -47,10 +45,8 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
         url: `/api_da/cloth/reviews/${newClothId}/${user.id}`,
       })
       .then(res => {
-        console.log('getRealFit', res.data)
         setRealFit(res.data)
       })
-      .catch(err => console.log(err, typeof(err)))
     }
 
     const updateRecentItem = async () => {
@@ -59,10 +55,6 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
         url: `/api_da/user/changeRecentItem/${user.id}`,
         data: { "newClothId" : newClothId }
       })
-      .then(() => {
-        console.log('updateRecentItem!!')
-      })
-      .catch(err => console.log(err, typeof(err)))
     }
 
     const likeDa = async() => {
@@ -71,9 +63,6 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
         method: 'put',
         url: `/api_da/user/${user.id}`,
         data: { "newClothId": newClothId, "num": 1 }
-      })
-      .catch(err => {
-        console.log(err)
       })
     }
 

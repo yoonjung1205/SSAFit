@@ -69,12 +69,10 @@ const LikeCloth = ({ history }) => {
         url:`/api_be/goods/mylist?page=${currentPage}&size=${5}`,
       })
       .then(res => {
-        console.log('getLikeClothes:', res.data)
         setClothes(res.data.goodsList)
         setCurrentPage(res.data.pageNumber + 1)
         setTotalPage(Math.ceil(res.data.total/5))
       })
-      .catch(err => console.log(err))
     }
     getLikeClothes()
   }, [currentPage])

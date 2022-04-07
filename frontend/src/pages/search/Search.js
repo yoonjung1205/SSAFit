@@ -94,7 +94,7 @@ const Search = () => {
       url: `/api_be/goods/search?keyword=${word}`,
       withCredentials: true,
     })
-    .then(res => {console.log(res);setResult(res.data.goodsList);setClothes({});setPage(0)})
+    .then(res => {setResult(res.data.goodsList);setClothes({});setPage(0)})
     .then(() => {setPage(1);setLoading(false)})
   }, [word])
 

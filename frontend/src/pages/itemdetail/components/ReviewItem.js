@@ -39,10 +39,8 @@ const ReviewItem = ({ no, review, currentPage }) => {
         withCredentials: true,
       })
       .then(res=> {
-        console.log('postComment:', res.data.goodsReviewList)
         setCommentList(res.data.goodsReviewList)
       })
-      .catch(err => console.log(err, typeof(err)))
     } else {
       Swal.fire({
         text: '댓글 내용이 없습니다',
@@ -64,10 +62,8 @@ const ReviewItem = ({ no, review, currentPage }) => {
       withCredentials: true,
     })
     .then(res => {
-      console.log('getComments:', res.data.goodsReviewList)
       setCommentList(res.data.goodsReviewList)
     })
-    .catch(err => console.log(err, typeof(err)))
   }
 
   useEffect(() => {
@@ -126,7 +122,7 @@ const ReviewItem = ({ no, review, currentPage }) => {
         <Col md={12} className='write-comment'>
           <div className='input-tag'>
             <input value={inputText} placeholder='댓글을 입력하세요'
-              onChange={(e) => {console.log('!!!!!!!!!!!!!!!!!!!!!!',e.target); setInputText(e.target.value)}} onKeyUp={(e) => checkEnter(e)} />
+              onChange={(e) => setInputText(e.target.value)} onKeyUp={(e) => checkEnter(e)} />
           </div>
           <div className='button-tag'>
             <button className='write-button' onClick={() => postComment()}><span /><p>작성하기</p></button>

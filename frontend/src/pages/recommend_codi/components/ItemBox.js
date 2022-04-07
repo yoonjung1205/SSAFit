@@ -18,7 +18,6 @@ export default function itembox({ items }) {
   const comma = function(tar){
     let result = ''
     for (let i = tar.length - 1; i >= 0; i--){
-      // console.log('result!!!!', result)
       if (i !== tar.length - 1 && (tar.length - i - 1) % 3 === 0){
         result = ',' + result
       }
@@ -53,7 +52,6 @@ export default function itembox({ items }) {
         }).then(() => window.open(`https://store.musinsa.com/app/goods/${clothId}`))
       }
     })
-    .catch(err => console.log(err, typeof(err)))
   }
 
   const cards = items.map((item, idx) => {

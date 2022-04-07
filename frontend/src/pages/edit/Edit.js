@@ -89,7 +89,6 @@ const Edit = ({ user, setSize }) => {
       .then(() => {
         history.push('/mypage')
       })
-      .catch(err => console.log(err))
     })
     .catch(err => {
       if (typeof(err) !== Object) {

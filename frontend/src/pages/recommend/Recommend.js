@@ -20,7 +20,6 @@ const Recommend = ({ recommend, setter, getter }) => {
     const session = window.sessionStorage
 
     if (standard === 'color'){
-      console.log('색깔?')
       if (!session.getItem('color-rec')){
         try {
           let res = await getter('color')
@@ -31,7 +30,6 @@ const Recommend = ({ recommend, setter, getter }) => {
       setter.color(JSON.parse(session.getItem('color-rec')))
     }
     if (standard === 'style'){
-      console.log('스타일?')
       if (!session.getItem('style-rec')){
         try {
           let res = await getter('style')
@@ -42,7 +40,6 @@ const Recommend = ({ recommend, setter, getter }) => {
       setter.style(JSON.parse(session.getItem('style-rec')))
     }
     if (standard === 'category'){
-      console.log('카테고리?')
       if (!session.getItem('category-rec')){
         try {
           let res = await getter('category')
