@@ -96,6 +96,16 @@
         border-radius: 50%;
         background-image: url(../images/corr.png);
         background-size: cover;
+        position: relative;
+        box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+
+        .edit-image {
+          width: 30px;
+          aspect-ratio: 1/1;
+          position: absolute;
+          bottom: 0%;
+          right: 5%;
+        }
       }
 
       input[type="file"] {
@@ -177,5 +187,9 @@
   h6 {
     font-size: 1.25rem;
     letter-spacing: 1rem;
+  }
+
+  label {
+    cursor: pointer;
   }
 }

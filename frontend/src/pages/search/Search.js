@@ -81,8 +81,10 @@ const Search = () => {
   }
 
   useEffect(() => {
-    const app = document.getElementsByClassName('App')[0]
-    app.addEventListener('scroll', scrollHandler)
+    if (page * 15 < Object.keys(clothes).length){
+      const app = document.getElementsByClassName('App')[0]
+      app.addEventListener('scroll', scrollHandler)
+    }
   })
 
 

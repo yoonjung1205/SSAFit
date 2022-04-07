@@ -4,6 +4,7 @@ import defaultImage from './images/default.png'
 import CustomAxios from '../../CustomAxios'
 import './scss/moreinfo.scss'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import editImage from './images/pencil.png'
 
 export default function Moreinfo({ password, setPassword }) {
   const history = useHistory()
@@ -25,12 +26,17 @@ export default function Moreinfo({ password, setPassword }) {
   // url query에서 email, props에서 password
   useEffect(() => {
     if (history.location.search){
-      const q = history.location.search.replace('?', '').split('=')
-      window.sessionStorage.setItem('credentials', JSON.stringify({ [q[0]]: q[1]}))
+      if (!window.sessionStorage.getItem('credentials')){
+        const q = history.location.search.replace('?', '').split('=')
+        window.sessionStorage.setItem('credentials', JSON.stringify({ [q[0]]: q[1]}))
+      }
+      const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
+      setFirstCredentials(temp)
+      history.push('/moreinfo')
     }
-    const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
-    setFirstCredentials(temp)
-    history.push('/moreinfo')
+    else {
+      history.push('/login')
+    }
   }, [])
 
  
@@ -113,10 +119,9 @@ export default function Moreinfo({ password, setPassword }) {
         <form onSubmit={event => submit(event)}>
           {/* 프로필사진 */}
           <label id='file-input' style={{backgroundImage: `url(${credentials.imageUrl})`}}>
-            <div className='input-box'>
-              <input type="file" name="profile" id="profile" accept='image/*'
-              onChange={event => fileUpload(event)} />
-            </div>
+            <input type="file" name="profile" id="profile" accept='image/*'
+            onChange={event => fileUpload(event)} />
+            <img className='edit-image' src={editImage} alt="" />
           </label>
           {/* 닉네임 */}
           <label>
@@ -172,7 +177,7 @@ export default function Moreinfo({ password, setPassword }) {
             <p>회원가입</p>
           </button>
         </form>
-        <Link to="/login">Login</Link>
+        <Link to="/login">로그인</Link>
       </section>
     </article>
   )

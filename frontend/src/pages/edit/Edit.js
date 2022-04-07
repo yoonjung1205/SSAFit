@@ -7,6 +7,7 @@ import CustomAxios from "../../CustomAxios";
 import jwtDecode from "jwt-decode";
 import defaultImage from './images/default.png'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import editImage from './images/pencil.png'
 
 const Edit = ({ user, setSize }) => {
   const history = useHistory()
@@ -108,6 +109,7 @@ const Edit = ({ user, setSize }) => {
               style={{backgroundImage: `url(${credentials.profileImage ? credentials.profileImage:defaultImage})`}}>
               <input type="file" id="profile" accept="image/jpg, image/png, image/jpeg"
                 onChange={e => fileUpload(e)} />
+              <img className="edit-image" src={editImage} alt="" />
             </label>
             {/* 닉네임 */}
             <label className="input-form" htmlFor="nickname">
