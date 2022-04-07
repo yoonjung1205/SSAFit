@@ -68,7 +68,7 @@ export default function Signup() {
     else if (target ==='password'){
       const passValidator = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}/
       const result = passValidator.exec(credentials.password)
-      console.log('pass', credentials.password, credentials.passwordConf)
+
       if (!credentials.password){
         setValidData({...validData, password: null})
       }
@@ -82,6 +82,10 @@ export default function Signup() {
       if (validData.passwordConf && credentials.password !== credentials.passwordConf){
         setValidData({...validData, passwordConf: -1})
       }
+      else if (validData.passwordConf && credentials.password === credentials.passwordConf){
+        setValidData({...validData, passwordConf: 1})
+      }
+
     }
     else if (target === 'passwordConf'){
       if (!credentials.passwordConf){

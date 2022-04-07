@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import './scss/password.scss'
 import CustomAxios from '../../CustomAxios';
 import { Link, useHistory } from 'react-router-dom';
+import Loading from '../../components/Loading'
 
 const Password = () => {
   let history = useHistory()
   const [inputEmail, setInputEmail] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const requestEmail = v => {
     CustomAxios({
@@ -14,6 +16,7 @@ const Password = () => {
       data: { email: v }
     })
     .then(({ data }) => {
+      setLoading(false)
       const { message } = data
       if (message === 'not') {
         alert('가입한 이메일을 입력해주세요')
@@ -27,12 +30,16 @@ const Password = () => {
   const newPassword = () => {
     const email = inputEmail.trim()
     if (email) {
+      setLoading(true)
       requestEmail(email)
     } else {
       alert('가입한 이메일을 입력해주세요')
     }
   }
 
+  if (loading){
+    return <Loading />
+  }
 
   return (
     <article className='password-container'>

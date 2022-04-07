@@ -26,16 +26,16 @@ export default function Moreinfo({ password, setPassword }) {
   // url query에서 email, props에서 password
   useEffect(() => {
     if (history.location.search){
-      if (!window.sessionStorage.getItem('credentials')){
-        const q = history.location.search.replace('?', '').split('=')
-        window.sessionStorage.setItem('credentials', JSON.stringify({ [q[0]]: q[1]}))
-      }
-      const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
-      setFirstCredentials(temp)
+      const q = history.location.search.replace('?', '').split('=')
+      window.sessionStorage.setItem('credentials', JSON.stringify({ [q[0]]: q[1]}))
       history.push('/moreinfo')
     }
-    else {
+    else if (!window.sessionStorage.getItem('credentials')){
       history.push('/login')
+    }
+    else {
+      const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
+      setFirstCredentials(temp)
     }
   }, [])
 
@@ -86,6 +86,10 @@ export default function Moreinfo({ password, setPassword }) {
     isValid()
     .then(() => {
       const userInfo = makeCredential()
+      for (const i of userInfo.entries()){
+        console.log(i)
+      }
+
       return CustomAxios({
         method: 'post',
         url: '/api_be/auth/signup',
@@ -93,18 +97,21 @@ export default function Moreinfo({ password, setPassword }) {
         data: userInfo
       })
     })
-    .then(() => {
+    .then(res => {
+      console.log(res)
       if (!alert('가입이 완료되었습니다!')){
         history.push('/main')
+        sessionStorage.removeItem('credentials')
       }
     })
     .catch(err => {
-      console.log(err)
-      if (typeof(err) !== Array){
-        console.log('여기걸림?')
+      console.log('hi', err)
+      if (err[0]){
+        alert(`${err.join(', ')}를 확인해주세요!!`)
+      }
+      else {
         return alert('잘못된 요청입니다.')
       }
-      alert(`${err.join(', ')}를 확인해주세요!!`)
     })
   }
 
