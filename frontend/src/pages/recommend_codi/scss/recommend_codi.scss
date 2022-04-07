@@ -112,6 +112,11 @@
           width: 40%;
         }
       }
+      .like-btn {
+        &.only {
+          width: 40%;
+        }
+      }
       .back-btn {
         width: 5%;
         text-align: center;
