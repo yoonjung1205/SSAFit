@@ -114,7 +114,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                 if(user != null) {
                         // response에 accesstoken 추가.
                         // response에 accesstoken 추가.
-                        String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),1800000);
+                        String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),18000000);
                         response.setHeader("authorization", accessToken);
                         request.setAttribute("authorization", accessToken);
 
@@ -153,7 +153,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                     System.out.println(test.stream().toArray().toString());
 
                     // response에 accesstoken 추가.
-                    String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),1800000);
+                    String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),18000000);
 
                     response.setHeader("authorization", accessToken);
                     request.setAttribute("authorization", accessToken);
