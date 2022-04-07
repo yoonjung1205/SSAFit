@@ -13,10 +13,10 @@
 - **빅데이터 추천, 웹 크롤링 , FastAPI 서버 개발** 
 - 🍒 Github : https://github.com/jaho901
 
-##### 정윤정 ( Jeong Yun Jeong )
+##### 정윤정 ( Yoon Jeong Jeong )
 
 - **빅데이터 추천, 웹 크롤링 , FastAPI 서버 개발** 
-- 🍓 Github : 
+- 🍓 Github : https://github.com/yoonjung1205
 
 ##### 이혜진 ( Hye Jin Lee )
 
@@ -26,12 +26,12 @@
 ##### 임경훈 ( Kyung Hun Lim )
 
 - **프론트 엔드 React 개발** 
-- 🍈 Github : 
+- 🍈 Github : https://github.com/KyounghoonLim
 
 ##### 김영기 ( Yeong Ki Kim )
 
 - **서비스 아키텍쳐 설계 및 구현, 백엔드 개발** 
-- 🍐 Github : 
+- 🍐 Github : https://github.com/yeongki0944
 
 ##### 김창민 ( Chang Min Kim )
 
@@ -71,6 +71,10 @@
 - ##### 🎬 프로젝트 시연영상
 
   - 
+
+![mindmap](./README_assets/mindmap.PNG)
+
+
 
 
 
