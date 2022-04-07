@@ -1,4 +1,3 @@
-from urllib import response
 from fastapi import APIRouter
 from ..database.database import *
 from pydantic import BaseModel
