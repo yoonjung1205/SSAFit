@@ -25,6 +25,14 @@ export default function Moreinfo({ password, setPassword }) {
 
   // url query에서 email, props에서 password
   useEffect(() => {
+    const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
+    if (!Object.keys(firstCredentials).length && temp){
+      setFirstCredentials(temp)
+    }
+  })
+
+
+  useEffect(() => {
     if (history.location.search){
       const q = history.location.search.replace('?', '').split('=')
       window.sessionStorage.setItem('credentials', JSON.stringify({ [q[0]]: q[1]}))
@@ -32,10 +40,6 @@ export default function Moreinfo({ password, setPassword }) {
     }
     else if (!window.sessionStorage.getItem('credentials')){
       history.push('/login')
-    }
-    else {
-      const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
-      setFirstCredentials(temp)
     }
   }, [])
 
