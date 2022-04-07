@@ -88,4 +88,5 @@ public class UserOnepiece {
     @Field
     private Number colorOthers = 0;
 
+
 }
