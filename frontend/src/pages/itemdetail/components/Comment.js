@@ -17,7 +17,6 @@ const Comment = ({ comment, commentList, setCommentList }) => {
 
   const putComment = () => {
     const email = JSON.parse(window.sessionStorage.getItem('userInfo')).sub
-    console.log('change:', inputText)
     CustomAxios({
       method: 'put',
       url: `/api_be/goods/houses/comments/${comment.id}`,
@@ -35,7 +34,6 @@ const Comment = ({ comment, commentList, setCommentList }) => {
       setViewComment(inputText)
       setIsEdit(false)
     })
-    .catch(err => console.log(err, typeof(err)))
   }
 
   const delComment = () => {
@@ -48,10 +46,8 @@ const Comment = ({ comment, commentList, setCommentList }) => {
       withCredentials: true,
     })
     .then((res) => {
-      console.log('성공?', res.data.message)
       setCommentList(commentList.filter(v => v.id !== comment.id))
     })
-    .catch(err => console.log(err, typeof(err)))
   }
 
   useEffect(() => {
@@ -63,16 +59,18 @@ const Comment = ({ comment, commentList, setCommentList }) => {
   return (
     <>
       <div className='comment'>
-        <div className='nickname'><p className='nick-p'>{comment.user.nickname}</p></div>
+        <div className='nickname'>
+          <img src={comment.user.profileImageUrl ? comment.user.profileImageUrl : 'https://i.ibb.co/17HCkM1/default.png'} alt='Img' />
+          <p className='nick-p'>{comment.user.nickname}</p>
+        </div>
         {isEdit ? 
         <div className='comment-edit'>
           <input value={inputText} onChange={(e) => setInputText(e.target.value)} onKeyUp={checkEnter} />
-          <button onClick={() => putComment()}><span /><p>수정</p></button>
+          <button onClick={() => putComment()}><span />수정</button>
         </div>
         :
         <div className='content'><p>{viewComment}</p></div>
         }
-        {/* 댓글의 userId가 필요함 -> 지금 userId와 같은지 비교하기 위해 -> style display none*/}
         {comment.user.email === JSON.parse(window.sessionStorage.getItem('userInfo')).sub &&
         <>
           <div className='edit-btn' onClick={() => setIsEdit(!isEdit)} />

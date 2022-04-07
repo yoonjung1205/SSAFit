@@ -54,12 +54,17 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         System.out.println(header);
 
 
+        if(header != null) {
+            header = request.getHeader(JwtTokenUtil.HEADER_STRING).replace("%20", " ");
+        }
+
         // If header does not contain BEARER or is null delegate to Spring impl and exit
         if (header == null || !header.startsWith(JwtTokenUtil.TOKEN_PREFIX)) {
             System.out.println("1");
             filterChain.doFilter(request, response);
             return;
         }
+
 
 
         try {
@@ -85,7 +90,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         System.out.println("2");
         System.out.println(token);
         System.out.println(refreshToken);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+        token = token.replace("%20", " ").replace(JwtTokenUtil.TOKEN_PREFIX, "");
         System.out.println(token);
         // 요청 헤더에 Authorization 키값에 jwt 토큰이 포함된 경우에만, 토큰 검증 및 인증 처리 로직 실행.
         System.out.println(jwtTokenUtil.validateToken(token));
@@ -108,8 +113,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             		User user = userService.getUserByEmail(userId);
                 if(user != null) {
                         // response에 accesstoken 추가.
-                        String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),1800000);
+                        // response에 accesstoken 추가.
+                        String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),18000000);
                         response.setHeader("authorization", accessToken);
+                        request.setAttribute("authorization", accessToken);
 
                         // 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
                 		SsafitUserDetails userDetails = new SsafitUserDetails(user);
@@ -146,9 +153,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                     System.out.println(test.stream().toArray().toString());
 
                     // response에 accesstoken 추가.
-                    String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),1800000);
-                    response.setHeader("authorization", accessToken);
+                    String accessToken = JwtTokenUtil.TOKEN_PREFIX+JwtTokenUtil.getToken(user.getEmail(),user.getNickname(),user.getRole(),user.getId(),user.getProfileImageUrl(),user.getHeight(),user.getWeight(),user.getGender().ordinal(),18000000);
 
+                    response.setHeader("authorization", accessToken);
+                    request.setAttribute("authorization", accessToken);
                     UsernamePasswordAuthenticationToken jwtAuthentication = new UsernamePasswordAuthenticationToken(user.getNickname(),null,userDetails.getAuthorities());
 //                		jwtAuthentication.setDetails(userDetails);
                     System.out.println("9");

@@ -1,26 +1,31 @@
 import '../scss/Cards.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import { likeCodies } from '../data';
 import CustomAxios from '../../../CustomAxios';
+import Swal from 'sweetalert2';
 
-const LikeCodi = () => {
+const LikeCodi = ({ history }) => {
   const [codies, setCodies] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
-  const fillLike = 'https://i.ibb.co/RDV7jPR/heart-free-icon-font.png'
-  const lineLike = 'https://i.ibb.co/Nr77tWK/heart-free-icon-font-1.png'
 
-  function chnageLike(item) {
-    setCodies([...codies], item.like = !item.like)
-  }
 
   const changePage = num => {
     let newPage = currentPage + num
     if (newPage < 1) {
-      alert('첫번째 페이지 입니다.')
+      Swal.fire({
+        text: '첫번째 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
+      })
     } else if (newPage > totalPage) {
-      alert('마지막 페이지 입니다.')
+      Swal.fire({
+        text: '마지막 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
+      })
     } else {
       setCurrentPage(newPage)
     }
@@ -45,39 +50,35 @@ const LikeCodi = () => {
   }
 
   useEffect(() => {
-    setCodies(likeCodies)
     const getLikeCodies = async () => {
       await CustomAxios({
         method: 'get',
-        url:`/api_be/codi/mylist?page=${1}&size=${5}`,
+        url:`/api_be/codi/mylist?page=${currentPage}&size=${5}`,
       })
       .then(res => {
-        console.log('getLikeCodies:', res)
         setCodies(res.data.codiList)
+        setCurrentPage(res.data.pageNumber + 1)
+        setTotalPage(Math.ceil(res.data.total/5))
       })
-      .catch(err => console.log(err))
     }
-    // getLikeCodies()
-  }, [])
+    getLikeCodies()
+  }, [currentPage])
 
-  return (
-    <>
+  const Likes = () => {
+    return (<>
       <Row md={5} className='g-5 mypage-codi'>
         {codies.map((codi, idx) => {
           return(
             <Col key={idx} style={{margin: '0'}}>
-              <div className='codi-card' onClick={() => console.log('go to codi detail')} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
-                <Card.Img src={codi.codiImage} alt='like-codi' />
-                <p className='text one-line'>{codi.tpo}</p>
-                <p className='text two-line'>{codi.codiTitle}</p>
-                <p className='text one-line'>{codi.hashtags}</p>
-                <div onClick={() => chnageLike(codi)} className='card-heart'>
-                  {codi.like ? 
-                  <img src={fillLike} alt='heart' />
-                  :
-                  <img src={lineLike} alt='heart' />
-                  }
-                </div>
+              <div className='codi-card' onClick={() => history.push(`/recommend_codi/${codi.codi_ID}`)} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
+                <Card.Img src={codi.codiImg} alt='like-codi' />
+                <p className='text one-line'>TPO : {codi.tpo}</p>
+                <p className='text two-line'>Description:  {codi.codiTitle}</p>
+                {codi.hashtags[0] !== "[]" && 
+                <p className='text one-line'>
+                  {codi.hashtags.map(hashtag => `#${hashtag} `)}
+                </p>
+                }
               </div>
             </Col>
           )}
@@ -97,8 +98,15 @@ const LikeCodi = () => {
           <div onClick={() => {changePage(1)}}><p>&gt;</p></div>
         </div>
       </div>
-    </>
-  );
+    </>)
+  }
+
+  return (<>
+  {codies.length > 0 ?
+  <Likes />
+  :
+  <div className='no-cards'>찜한 코디가 없습니다...(*￣０￣)ノ</div>}
+  </>);
 };
 
 export default LikeCodi;

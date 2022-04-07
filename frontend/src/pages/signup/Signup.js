@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import corr from './images/corr.png'
 import incorr from './images/incorr.png'
 import CustomAxios from '../../CustomAxios'
 import './scss/signup.scss'
 import { useHistory } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 
 
@@ -23,13 +24,21 @@ export default function Signup() {
   })
 
   const isValid = function(){
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
+      const errList = []
+      const errKor = {email: '이메일', password: '비밀번호', passwordConf: '비밀번호 확인'}
+
       for (const key in validData){
         if (validData[key] !== 1){
-          reject('입력 정보가 유효하지 않습니다')
+          errList.push(errKor[key])
         }
       }
-      resolve()
+      if (errList.length){
+        reject(errList)
+      }
+      else {
+        resolve()
+      }
     })
   } 
 
@@ -37,30 +46,48 @@ export default function Signup() {
     event.preventDefault()
     ////////////// 회원가입  /////////////////
     isValid()
-    .then(() => {console.log('불렀어?');window.sessionStorage.setItem('credentials', JSON.stringify(credentials))})
+    .then(() => window.sessionStorage.setItem('credentials', JSON.stringify(credentials)))
     .then(() => {
-      if (!alert('다음으로 이동합니다!')){
-        history.push('/moreinfo')
-      }
+      Swal.fire({
+        text: '다음으로 이동합니다!',
+        icon: "success",
+        confirmButtonText: '확인',
+        confirmButtonColor: 'green',
+      }).then(() => history.push('moreinfo'))
     })
-    .catch(err => {console.log(err);alert('입력정보를 확인하세요!!')})
+    .catch(err => {
+      Swal.fire({
+        text: err.join(', ') + (err[err.length-1] === '비밀번호' ? '를':'을') + ' 확인해주세요!',
+        icon: "error",
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      })
+    })
   }
 
 
   const validator = function(target){
     if (target === 'email'){
-      /////////////// 이메일 중복검사 //////////////////
-      CustomAxios({
-        method: 'post',
-        url: '/api_be/auth/email/confirms',
-        data: {email: credentials.email}
-      })
-      .then(() => setValidData({...validData, email: 1}))
-      .catch(() => setValidData({...validData, email: -1}))
+      const emailValidator = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/
+      const result = emailValidator.exec(credentials.email)
+      if (result){
+        /////////////// 이메일 중복검사 //////////////////
+        CustomAxios({
+          method: 'post',
+          url: '/api_be/auth/email/confirms',
+          data: {email: credentials.email}
+        })
+        .then(() => setValidData({...validData, email: 1}))
+        .catch(() => setValidData({...validData, email: -1}))
+      }
+      else {
+        setValidData({...validData, email: -1})
+      }
     }
     else if (target ==='password'){
-      const passValidator = /[0-9a-zA-Z~!@#$%^&*()_+-=[\]{};\':",\\|.\/<>?]{8,16}/
+      const passValidator = /^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#$%^&*])(?=.*[0-9!@#$%^&*]).{8,16}$/
       const result = passValidator.exec(credentials.password)
+
       if (!credentials.password){
         setValidData({...validData, password: null})
       }
@@ -70,6 +97,14 @@ export default function Signup() {
       else {
         setValidData({...validData, password: -1})
       }
+      // side effect
+      if (validData.passwordConf && credentials.password !== credentials.passwordConf){
+        setValidData({...validData, passwordConf: -1})
+      }
+      else if (validData.passwordConf && credentials.password === credentials.passwordConf){
+        setValidData({...validData, passwordConf: 1})
+      }
+
     }
     else if (target === 'passwordConf'){
       if (!credentials.passwordConf){
@@ -116,7 +151,7 @@ export default function Signup() {
                     사용 가능한 이메일입니다!
                   </p>
                   <p className='helper-message-incorr' style={{display: validData.email === -1 ? 'block':'none'}}>
-                    사용중인 이메일입니다.
+                    사용 불가능한 이메일입니다.
                   </p>
                 </div>
               </div>
@@ -183,7 +218,7 @@ export default function Signup() {
             <p>다음</p>
           </button>
         </form>
-        <Link to="/login">Login</Link>
+        <Link to="/login">로그인</Link>
       </section>
     </article>
   )

@@ -1,15 +1,13 @@
 import '../scss/Cards.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import { likeClothes } from '../data';
 import CustomAxios from '../../../CustomAxios';
+import Swal from 'sweetalert2';
 
-const LikeCloth = ({ user, history }) => {
+const LikeCloth = ({ history }) => {
   const [clothes, setClothes] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
-  const fillLike = 'https://i.ibb.co/RDV7jPR/heart-free-icon-font.png'
-  const lineLike = 'https://i.ibb.co/Nr77tWK/heart-free-icon-font-1.png'
 
   const comma = function(tar){
     let result = ''
@@ -24,45 +22,23 @@ const LikeCloth = ({ user, history }) => {
     return result
   }
 
-  const chnageLike = (item) => {
-    
-    const likeBe = async() => {
-      await CustomAxios({
-        method: 'post',
-        url: '/api_be/goods/like',
-        data: item
-      })
-      .catch(err => console.log(err))
-    }
-
-    const likeDa = async() => {
-      // 1은 긍정 2는 부정이면...좋아요 누를때 1보내고 취소 누를때 2?
-      const num = item.like ? 2 : 1
-      await CustomAxios({
-        method: 'put',
-        url: `/api_da/user/${user.id}`,
-        data: {
-          "newClothId": item.newClothId,
-          "num": num
-        }
-      })
-      .catch(err => console.log(err))
-    }
-
-    likeBe()
-    .then(likeDa())
-    .then(() => {
-      console.log('change like status')
-      setClothes([...clothes], item.like = !item.like)
-    })
-  }
 
   const changePage = num => {
     let newPage = currentPage + num
     if (newPage < 1) {
-      alert('첫번째 페이지 입니다.')
+      Swal.fire({
+        text: '첫번째 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
+      })
     } else if (newPage > totalPage) {
-      alert('마지막 페이지 입니다.')
+      Swal.fire({
+        text: '마지막 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
+      })
     } else {
       setCurrentPage(newPage)
     }
@@ -87,23 +63,22 @@ const LikeCloth = ({ user, history }) => {
   }
 
   useEffect(() => {
-    setClothes(likeClothes)
     const getLikeClothes = async () => {
       await CustomAxios({
         method: 'get',
-        url:`/api_be/goods/mylist?page=${1}&size=${5}`,
+        url:`/api_be/goods/mylist?page=${currentPage}&size=${5}`,
       })
       .then(res => {
-        console.log('getLikeClothes:', res)
         setClothes(res.data.goodsList)
+        setCurrentPage(res.data.pageNumber + 1)
+        setTotalPage(Math.ceil(res.data.total/5))
       })
-      .catch(err => console.log(err))
     }
-    // getLikeClothes()
-  }, [])
+    getLikeClothes()
+  }, [currentPage])
 
-  return (
-    <>
+  const Likes = () => {
+    return (<>
       <Row md={5} className='g-5 mypage-like'>
         {clothes.map((cloth, idx) => (
           <Col key={idx} style={{margin: '0'}}>
@@ -112,13 +87,6 @@ const LikeCloth = ({ user, history }) => {
               <p className='text one-line'>{cloth.brand}</p>
               <p className='text two-line'>{cloth.clothName}</p>
               <p className='text one-line price'>{comma(String(cloth.clothPrice))}원</p>
-              <div onClick={() => chnageLike(cloth)} className='card-heart'>
-                {cloth.like ? 
-                <img src={fillLike} alt='heart' />
-                :
-                <img src={lineLike} alt='heart' />
-                }
-              </div>
             </div>
           </Col>
         ))}
@@ -137,8 +105,16 @@ const LikeCloth = ({ user, history }) => {
           <div onClick={() => {changePage(1)}}><p>&gt;</p></div>
         </div>
       </div>
-    </>
-  );
+    </>)
+  }
+
+  return (<>
+    {clothes.length > 0 ? 
+    <Likes />
+    :
+    <div className='no-cards'>찜한 옷이 없습니다...(*￣０￣)ノ</div>
+    }
+  </>);
 };
 
 export default LikeCloth;

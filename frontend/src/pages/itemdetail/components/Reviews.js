@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ReviewItem from './ReviewItem';
 import Loading from '../../../components/Loading';
 import '../scss/reviews.scss'
+import Swal from 'sweetalert2';
 
 
 const Review = ({ newClothId }) => {
@@ -18,13 +19,11 @@ const Review = ({ newClothId }) => {
       url: `/api_da/cloth/reviews/${newClothId}?page=${currentPage}&size=5`
     })
     .then(res => {
-      console.log('getReview:', res.data)
       setReviews(res.data.items)
       setCurrentPage(res.data.page)
       setTotalPage(Math.ceil(res.data.total/5))
     })
     .then(() => setLoading(false))
-    .catch(err => console.log(err, typeof(err)))
   }
 
   const makeNumList = () => {
@@ -54,9 +53,19 @@ const Review = ({ newClothId }) => {
   const changePage = num => {
     let newPage = currentPage + num
     if (newPage < 1) {
-      alert('첫번째 페이지 입니다.')
+      Swal.fire({
+        text: '첫번째 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
+      })
     } else if (newPage > totalPage) {
-      alert('마지막 페이지 입니다.')
+      Swal.fire({
+        text: '마지막 페이지 입니다.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange'
+      })
     } else {
       setCurrentPage(newPage)
     }
@@ -78,6 +87,7 @@ const Review = ({ newClothId }) => {
               {makeNumList().map((num, idx) => (
                 <div className={currentPage === num ? 'active': ''} key={idx} 
                   onClick={() => setCurrentPage(num)}
+                  style={{width: `${totalPage > 4 ? '15%' : `${75/totalPage}%`}`}}
                 >
                   <p>{num}</p>
                 </div>
@@ -88,7 +98,7 @@ const Review = ({ newClothId }) => {
         </>
       )
     }
-    return <p style={{textAlign: 'center', marginTop: '2rem'}}>리뷰가 없어요...(*￣０￣)ノ</p>
+    return <p style={{textAlign: 'center', margin: '10rem', fontSize: '1.5rem'}}>리뷰가 없어요...(*￣０￣)ノ</p>
   }
 
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import '../scss/Cards.scss'
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
@@ -23,32 +24,34 @@ const Recent = ({ user, history }) => {
     const getRecent = async () => {
       await CustomAxios({
         method: 'get',
-        url: `/api_da/user/${user.id}/recentItems`
+        url: `/api_da/user/recentItems/${user.id}`
       })
       .then(res => {
-        console.log('getRecent:', res.data)
         setClothes(res.data)
       })
-      .catch(err => console.log(err))
     }
     getRecent()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return (
-    <Row md={5} className='g-5 mypage-recent'>
-      {clothes.map((cloth, idx) => (
-        <Col key={idx} style={{margin: '0'}}>
-          <div className='cloth-card' onClick={() => history.push(`/item/${cloth.newClothId}`)} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
-            <Card.Img src={cloth.clothImg} alt='recent-cloth' />
-            <p className='text one-line'>{cloth.brand}</p>
-            <p className='text two-line'>{cloth.clothName}</p>
-            <p className='text one-line price'>{comma(String(cloth.clothPrice))}원</p>
-          </div>
-        </Col>
-      ))}
-    </Row>
-  );
+
+  if (clothes.length > 0) {
+    return (
+      <Row md={5} className='g-5 mypage-recent'>
+        {clothes.map((cloth, idx) => (
+          <Col key={idx} style={{margin: '0'}}>
+            <div className='cloth-card' onClick={() => history.push(`/item/${cloth.newClothId}`)} style={{padding: '0.7rem', border: 'none', boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.25'}}>
+              <Card.Img src={cloth.clothImg} alt='recent-cloth' />
+              <p className='text one-line'>{cloth.brand}</p>
+              <p className='text two-line'>{cloth.clothName}</p>
+              <p className='text one-line price'>{comma(String(cloth.clothPrice))}원</p>
+            </div>
+          </Col>
+        ))}
+      </Row>
+    );
+  } else {
+    return (<div className='no-cards'>최근에 본 상품이 없습니다...(*￣０￣)ノ</div>)
+  }
 };
 
 export default Recent;

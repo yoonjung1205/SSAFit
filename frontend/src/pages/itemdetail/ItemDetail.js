@@ -13,12 +13,19 @@ import dash from './images/dash.png'
 import './scss/Item.scss'
 import Recommedation from './components/Recommedation';
 import Reviews from './components/Reviews';
+import Loading from '../../components/Loading'
 
-export default function ItemDetail({ user }) {
+export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
 
   const newClothId = useLocation().pathname.replace('/item/', '')
   const [item, setItem] = useState({})
   const [realFit, setRealFit] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const goTop =  () => {
+    const view = document.getElementsByClassName('App')[0]
+    view.scrollTo({ top: 0, behavior: 'smooth'})
+  }
 
   useEffect(() => {
     const getCloth = async () => {
@@ -27,10 +34,9 @@ export default function ItemDetail({ user }) {
         url: `/api_da/cloth/${newClothId}`,
       })
       .then(res => {
-        console.log('getCloth:', res.data)
         setItem(res.data)
+        setLoading(false)
       })
-      .catch(err => console.log(err, typeof(err)))
     }
 
     const getRealFit = async () => {
@@ -39,29 +45,42 @@ export default function ItemDetail({ user }) {
         url: `/api_da/cloth/reviews/${newClothId}/${user.id}`,
       })
       .then(res => {
-        console.log('getRealFit', res.data)
         setRealFit(res.data)
       })
-      .catch(err => console.log(err, typeof(err)))
     }
 
     const updateRecentItem = async () => {
       await CustomAxios({
         method: 'put',
-        url: `/api_da/user/${user.id}/changeRecentItem`,
+        url: `/api_da/user/changeRecentItem/${user.id}`,
         data: { "newClothId" : newClothId }
       })
-      .then(() => {
-        console.log('updateRecentItem!!')
+    }
+
+    const likeDa = async() => {
+      // 1은 긍정 2는 부정이면...좋아요 누를때 1보내고 취소 누를때 2?
+      await CustomAxios({
+        method: 'put',
+        url: `/api_da/user/${user.id}`,
+        data: { "newClothId": newClothId, "num": 1 }
       })
-      .catch(err => console.log(err, typeof(err)))
     }
 
     getCloth()
     .then(getRealFit())
     .then(updateRecentItem())
+    .then(likeDa())
+    .then(() => {
+      const session = window.sessionStorage
+      setColor({}); session.removeItem('color-rec');
+      setStyle({}); session.removeItem('style-rec');
+      setCategory({}); session.removeItem('category-rec');
+    })
   }, [newClothId])
 
+  if (loading){
+    return <Loading />
+  }
 
   return (
     <>
@@ -84,8 +103,7 @@ export default function ItemDetail({ user }) {
         />
         <Recommedation brand={item.brand} newClothId={newClothId} />
         <Reviews newClothId={newClothId} />
-        <section className='detail-footer'>
-        </section>
+        <section onClick={() => goTop()} className='go-top'>top</section>
       </article>
       <Footer />
     </>

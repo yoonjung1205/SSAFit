@@ -1,16 +1,20 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import '../scss/start2.scss'
-import { Link } from 'react-router-dom'
 import ourService from '../images/our_service_img.png'
 
-export default function start2() {
+export default function start2({ isLogin, history }) {
+  const goPage = (path) => {
+    if (isLogin) {
+      history.push(path)
+    }
+  }
+
   return (
     <article id='start-2'>
       <section id='intro-header'>
         <img className='dash' src="img/dash.png" alt="dash" />
-        <h4>
-          SERVICE
-        </h4>
+        <h4>SERVICE</h4>
         <img className='dash' src="img/dash.png" alt="dash" />
         <h3 className='small-title'>
           나에게 맞는 옷을 찾아준다면<br />
@@ -26,7 +30,7 @@ export default function start2() {
             서비스를 제공합니다
           </p>
           <p>
-            나의 체형에 맞는, 나의 취향에 딱! 맞는<br />
+            나의 신체에 맞는, 나의 취향에 딱! 맞는<br />
             옷과 코디를 추천해줍니다
           </p>
           <p>
@@ -36,15 +40,15 @@ export default function start2() {
         </div>
       </section>
       <section id='service-container' className='flex-row'>
-        <div className='service' id='link-1'>
+        <div className='service' id='link-1' onClick={() => goPage('/recommend')}>
           <div className='opac-blk' />
-          <h4>체형 맞춤 옷</h4>
+          <h4>신체 맞춤 옷</h4>
         </div>
-        <div className='service' id='link-2'>
+        <div className='service' id='link-2' onClick={() => goPage('/tpo')}>
           <div className='opac-blk' />
           <h4>상황 맞춤 코디</h4>
         </div>
-        <div className='service' id='link-3'>
+        <div className='service' id='link-3' onClick={() => goPage('recommend')}>
           <div className='opac-blk' />
           <h4>취향 맞춤 옷</h4>
         </div>

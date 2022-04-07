@@ -1,9 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import defaultImage from './images/default.png'
 import CustomAxios from '../../CustomAxios'
 import './scss/moreinfo.scss'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import editImage from './images/edit.png'
+import Swal from 'sweetalert2'
 
 export default function Moreinfo({ password, setPassword }) {
   const history = useHistory()
@@ -24,13 +27,22 @@ export default function Moreinfo({ password, setPassword }) {
 
   // url query에서 email, props에서 password
   useEffect(() => {
+    const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
+    if (!Object.keys(firstCredentials).length && temp){
+      setFirstCredentials(temp)
+    }
+  })
+
+
+  useEffect(() => {
     if (history.location.search){
       const q = history.location.search.replace('?', '').split('=')
       window.sessionStorage.setItem('credentials', JSON.stringify({ [q[0]]: q[1]}))
+      history.push('/moreinfo')
     }
-    const temp = JSON.parse(window.sessionStorage.getItem('credentials'))
-    setFirstCredentials(temp)
-    history.push('/moreinfo')
+    else if (!window.sessionStorage.getItem('credentials')){
+      history.push('/login')
+    }
   }, [])
 
  
@@ -80,9 +92,6 @@ export default function Moreinfo({ password, setPassword }) {
     isValid()
     .then(() => {
       const userInfo = makeCredential()
-      for (const a of userInfo){
-        console.log(a)
-      }
 
       return CustomAxios({
         method: 'post',
@@ -92,22 +101,30 @@ export default function Moreinfo({ password, setPassword }) {
       })
     })
     .then(res => {
-      const session = window.sessionStorage
-      session.removeItem('credentials')
-      if (!alert('가입이 완료되었습니다!')){
-        session.setItem('access-token-jwt', res.headers.authorization)
-        session.setItem('refresh-token-jwt', res.headers.refreshtoken)
-
-        history.push('/main')
-      }
+      Swal.fire({
+        text: '가입이 완료되었습니다!',
+        icon: 'success',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'green'
+      }).then(() => {history.push('/main'); sessionStorage.removeItem('credentials')})
     })
     .catch(err => {
-      console.log(err)
-      if (typeof(err) !== Array){
-        console.log('여기걸림?')
-        return alert('잘못된 요청입니다.')
+      if (err[0]){
+        Swal.fire({
+          text: err.join(', ') + (['키', '몸무게'].indexOf(err[err.length-1]) !== -1 ? '를':'을') + ' 확인해주세요!',
+          icon: 'error',
+          confirmButtonText: '확인',
+          confirmButtonColor: 'red'
+        })
       }
-      alert(`${err.join(', ')}를 확인해주세요!!`)
+      else {
+        Swal.fire({
+          text: '잘못된 요청입니다!',
+          icon: 'error',
+          confirmButtonText: '확인',
+          confirmButtonColor: 'red'
+        })
+      }
     })
   }
 
@@ -122,10 +139,9 @@ export default function Moreinfo({ password, setPassword }) {
         <form onSubmit={event => submit(event)}>
           {/* 프로필사진 */}
           <label id='file-input' style={{backgroundImage: `url(${credentials.imageUrl})`}}>
-            <div className='input-box'>
-              <input type="file" name="profile" id="profile" accept='image/*'
-              onChange={event => fileUpload(event)} />
-            </div>
+            <input type="file" name="profile" id="profile" accept='image/*'
+            onChange={event => fileUpload(event)} />
+            <img className='edit-image' src={editImage} alt="" />
           </label>
           {/* 닉네임 */}
           <label>
@@ -165,7 +181,7 @@ export default function Moreinfo({ password, setPassword }) {
             </div>
           </label>
           {/* 성별 */}
-          <label id='gender'>
+          <div id='gender'>
             성별
             <div className='input-box' id='gender-box'>
               <input type="radio" name="male" id="male" value='남성'
@@ -175,13 +191,13 @@ export default function Moreinfo({ password, setPassword }) {
               onInput={() => setCredentials({...credentials, gender: 0})} />
               <label className='gender-label' htmlFor="female">여성</label>
             </div>
-          </label>
+          </div>
           <button>
             <span/>
             <p>회원가입</p>
           </button>
         </form>
-        <Link to="/login">Login</Link>
+        <Link to="/login">로그인</Link>
       </section>
     </article>
   )

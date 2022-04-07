@@ -4,11 +4,6 @@ import '../scss/MyInfo.scss'
 const MyInfo = ({ user }) => {
   let history = useHistory()
 
-  const logout = () => {
-    window.sessionStorage.clear()
-    window.localStorage.clear()
-    history.push('/')
-  }
 
   return (
     <article className='myinfo'>
@@ -40,8 +35,7 @@ const MyInfo = ({ user }) => {
           <p>{user.weight} kg</p>
         </div>
         <div className='myinfo-btn-div'>
-          <button className='edit' onClick={() => history.push('/edit-mypage')}>편집</button>
-          <button className='logout' onClick={() => logout()}>로그아웃</button>
+          <button className='edit' onClick={() => history.push('/edit-mypage')}>내 정보 수정</button>
         </div>
       </section>
     </article>

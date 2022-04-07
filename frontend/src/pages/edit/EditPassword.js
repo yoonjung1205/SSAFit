@@ -7,6 +7,7 @@ import incorr from './images/incorr.png'
 import { useState } from "react";
 import CustomAxios from "../../CustomAxios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Swal from 'sweetalert2';
 
 
 const EditPassword = ({ user }) => {
@@ -24,15 +25,20 @@ const EditPassword = ({ user }) => {
       data: {email: user.sub, password: currentPassword},
     })
     .then(() => {
-      // 맞으면 setChecked(true)
-      setCheckedCurrent(true)
+      Swal.fire({
+        text: '비밀번호가 일치합니다',
+        icon: 'success',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'green'
+      }).then(() => setCheckedCurrent(true))
     })
-    .catch(err => {
-      if (err.toString().slice(-3, ) === '401') {
-        alert('비밀번호가 틀렸습니다')
-      } else {
-        console.log(err, typeof(err))
-      }
+    .catch(() => {
+      Swal.fire({
+        text: '비밀번호가 틀렸습니다',
+        icon: 'error',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red'
+      })
     })
   }
 
@@ -91,11 +97,12 @@ const EditPassword = ({ user }) => {
         data: {email: user.sub, password: credentials.password},
       })
       .then(() => {
-        alert('비밀번호가 변경되었습니다')
-        history.push('/mypage')
-      })
-      .catch(err => {
-        console.log(err, typeof(err))
+        Swal.fire({
+          text: '비밀번호가 변경되었습니다',
+          icon: 'success',
+          confirmButtonText: '확인',
+          confirmButtonColor: 'green'
+        }).then(() => history.push('/mypage'))
       })
     })
     .catch(err => {
@@ -115,7 +122,7 @@ const EditPassword = ({ user }) => {
             <label className="input-form" htmlFor="current">
               <div className="label-text">현재 비밀번호</div>
               <div className="current-box">
-                <input className="input-box" type="password" id="current" value={currentPassword}
+                <input className={`input-box ${checkedCurrent && 'color-box'}`} type="password" id="current" value={currentPassword}
                   placeholder="변경 전 비밀번호를 입력하세요" autoFocus disabled={checkedCurrent}
                   onChange={(e) => setCurrentPassword(e.target.value)} />
                 <button><span /><p>확인</p></button>

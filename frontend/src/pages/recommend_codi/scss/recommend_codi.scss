@@ -24,19 +24,52 @@
       padding-left: 3rem;
 
       .codi-title {
-        font-size: 2rem;
-        letter-spacing: 1rem;
-        margin-bottom: 2rem;
+        position: relative;
+
+        .normal-text {
+          font-size: 2rem;
+          letter-spacing: 1rem;
+          margin-bottom: 2rem;
+        }
+
+        .codi-refresh {
+          cursor: pointer;
+          position: absolute;
+          right: 7.5rem;
+          bottom: 1.5rem;
+          @keyframes rotate_refresh {
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+          &:hover {
+            .icon {
+              animation: rotate_refresh 2s linear infinite;
+            }
+          }
+          .icon {
+            transition: 1s;
+            background: url('../images/refresh.png') center;
+            background-size: cover;
+            width: 2rem;
+            aspect-ratio: 1/1;
+            margin: 0 auto;
+          }
+          .text {
+            font-size: 1.3rem;
+          }
+        }
       }
       
       .button-box {
         display: flex;
+        justify-content: space-between;
         margin: 2rem 0;
       }
       
       button {
-        padding: 1.5rem 2rem;
-        width: 40%;
+        padding: 1.2rem 2rem;
+        width: 480%;
         text-align: center;
         background-color: #56586C;
         color: white;
@@ -50,9 +83,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        font-size: 1.2rem;
 
         img {
-          width: 18px;
+          width: 1.2rem;
           aspect-ratio: 1/1;
           margin-right: 2rem;
         }
@@ -78,16 +112,28 @@
 
       .dislike-btn {
         background-color: #aaaaaa;
-
         span {
           background-color: #777777;
         }
+        &.only {
+          width: 40%;
+        }
       }
-    }
-
-    p {
-      font-size: 1.25rem;
-      letter-spacing: 0.5rem;
+      .like-btn {
+        &.only {
+          width: 40%;
+        }
+      }
+      .back-btn {
+        width: 5%;
+        text-align: center;
+        img {
+          margin: 0 auto;
+        }
+        &.no {
+          visibility: hidden;
+        }
+      }
     }
     
     h1 {
@@ -140,6 +186,25 @@
         .item-img {
           width: 100%;
           aspect-ratio: 1/1.1;
+          background-position: center;
+          background-size: cover;
+          position: relative;
+
+          .load-img {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            justify-content: center;
+            align-items: center;
+
+            img {
+              width: 30px;
+              aspect-ratio: 1/1;
+            }
+          }
         }
 
         p {
