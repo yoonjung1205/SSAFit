@@ -10,6 +10,7 @@ import Loading from '../../components/Loading'
 import './scss/recommend_codi.scss'
 import CustomAxios from '../../CustomAxios'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import refresh from './images/refresh.png'
 
 export default function RecommendCodi({ user }) {
   const history = useHistory()
@@ -55,6 +56,16 @@ export default function RecommendCodi({ user }) {
     }
     else {
       if (!alert('마지막 페이지입니다')){
+        history.push('/tpo')
+      }
+    }
+  }
+
+  const onlyIdx = () => {
+    if (idx < codies.length -1) {
+      setIdx(idx + 1)
+    } else {
+      if (!alert('마지막 페이지입니다')) {
         history.push('/tpo')
       }
     }
@@ -163,10 +174,16 @@ export default function RecommendCodi({ user }) {
         <section className='codi-body'>
           <span className='codi-title'>
             {codies.length > 1 ? 
-              <p>
-                <h1>{user.nickname}님, {tpoObject[tpo]}</h1>에<br />
-                맞는 코디를 추천해드릴게요
-              </p>
+              <>
+                <p>
+                  <h1>{user.nickname}님, {tpoObject[tpo]}</h1>에<br />
+                  맞는 코디를 추천해드릴게요
+                </p>
+                <div className='codi-refresh' onClick={() => onlyIdx()}>
+                  <div className='icon' />
+                  <div className='text'>다른 코디</div>
+                </div>
+              </>
              :
               <p>
                 <h1>{user.nickname}님,</h1><br/>

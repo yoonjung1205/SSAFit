@@ -56,7 +56,7 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
     const updateRecentItem = async () => {
       await CustomAxios({
         method: 'put',
-        url: `/api_da/user/${user.id}/changeRecentItem`,
+        url: `/api_da/user/changeRecentItem/${user.id}`,
         data: { "newClothId" : newClothId }
       })
       .then(() => {
@@ -70,12 +70,11 @@ export default function ItemDetail({ user, setColor, setStyle, setCategory }) {
       await CustomAxios({
         method: 'put',
         url: `/api_da/user/${user.id}`,
-        data: {
-          "newClothId": item.newClothId,
-          "num": 1
-        }
+        data: { "newClothId": newClothId, "num": 1 }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+      })
     }
 
     getCloth()

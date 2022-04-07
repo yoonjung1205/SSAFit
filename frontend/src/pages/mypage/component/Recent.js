@@ -24,7 +24,7 @@ const Recent = ({ user, history }) => {
     const getRecent = async () => {
       await CustomAxios({
         method: 'get',
-        url: `/api_da/user/${user.id}/recentItems`
+        url: `/api_da/user/recentItems/${user.id}`
       })
       .then(res => {
         console.log('getRecent:', res.data)
