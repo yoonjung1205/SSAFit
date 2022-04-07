@@ -27,10 +27,8 @@ const Recent = ({ user, history }) => {
         url: `/api_da/user/recentItems/${user.id}`
       })
       .then(res => {
-        console.log('getRecent:', res.data)
         setClothes(res.data)
       })
-      .catch(err => console.log(err))
     }
     getRecent()
   }, [])

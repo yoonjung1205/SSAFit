@@ -17,7 +17,6 @@ const Comment = ({ comment, commentList, setCommentList }) => {
 
   const putComment = () => {
     const email = JSON.parse(window.sessionStorage.getItem('userInfo')).sub
-    console.log('change:', inputText)
     CustomAxios({
       method: 'put',
       url: `/api_be/goods/houses/comments/${comment.id}`,
@@ -35,7 +34,6 @@ const Comment = ({ comment, commentList, setCommentList }) => {
       setViewComment(inputText)
       setIsEdit(false)
     })
-    .catch(err => console.log(err, typeof(err)))
   }
 
   const delComment = () => {
@@ -48,10 +46,8 @@ const Comment = ({ comment, commentList, setCommentList }) => {
       withCredentials: true,
     })
     .then((res) => {
-      console.log('성공?', res.data.message)
       setCommentList(commentList.filter(v => v.id !== comment.id))
     })
-    .catch(err => console.log(err, typeof(err)))
   }
 
   useEffect(() => {

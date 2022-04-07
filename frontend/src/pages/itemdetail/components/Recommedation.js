@@ -20,9 +20,7 @@ const Recommedation = ({ brand, newClothId }) => {
       })
       .then(res => {
         setSimilarClothes(res.data)
-        console.log('getSimilarClothes', res.data)
       })
-      .catch(err => console.log(err, typeof(err)))
     }
     const getBrandClothes = async () => {
       await CustomAxios({
@@ -31,9 +29,7 @@ const Recommedation = ({ brand, newClothId }) => {
       })
       .then(res => {
         setBrandClothes(res.data)
-        console.log('getBrandClothes', res.data)
       })
-      .catch(err => console.log(err, typeof(err)))
     }
     getSimilarClothes()
     .then(getBrandClothes)

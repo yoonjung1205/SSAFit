@@ -56,12 +56,10 @@ const LikeCodi = ({ history }) => {
         url:`/api_be/codi/mylist?page=${currentPage}&size=${5}`,
       })
       .then(res => {
-        console.log('getLikeCodies:', res.data)
         setCodies(res.data.codiList)
         setCurrentPage(res.data.pageNumber + 1)
         setTotalPage(Math.ceil(res.data.total/5))
       })
-      .catch(err => console.log(err))
     }
     getLikeCodies()
   }, [currentPage])

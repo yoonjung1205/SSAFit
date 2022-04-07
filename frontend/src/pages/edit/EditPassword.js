@@ -104,9 +104,6 @@ const EditPassword = ({ user }) => {
           confirmButtonColor: 'green'
         }).then(() => history.push('/mypage'))
       })
-      .catch(err => {
-        console.log(err, typeof(err))
-      })
     })
     .catch(err => {
       alert(err)

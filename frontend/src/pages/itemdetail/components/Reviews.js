@@ -19,13 +19,11 @@ const Review = ({ newClothId }) => {
       url: `/api_da/cloth/reviews/${newClothId}?page=${currentPage}&size=5`
     })
     .then(res => {
-      console.log('getReview:', res.data)
       setReviews(res.data.items)
       setCurrentPage(res.data.page)
       setTotalPage(Math.ceil(res.data.total/5))
     })
     .then(() => setLoading(false))
-    .catch(err => console.log(err, typeof(err)))
   }
 
   const makeNumList = () => {

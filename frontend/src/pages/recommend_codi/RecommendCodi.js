@@ -41,13 +41,6 @@ export default function RecommendCodi({ user }) {
       url: `/api_be/codi/${bool ? 'like': 'unlike'}`,
       data
     })
-    .then(res => {
-      console.log(`click codi ${bool ? 'like' : 'unlike'}:`, res)
-    })
-    .catch(err => {
-      console.log('request data:', data)
-      console.log(err)
-    })
   }
 
   const nextIdx = function(like){
@@ -103,10 +96,8 @@ export default function RecommendCodi({ user }) {
   useEffect(() => {
     if (!codies.length) {
       if (!parseInt(tpo)) {
-        console.log('codiSet')
         getCodiSet()
       } else {
-        console.log('codiOnly')
         getCodi()
       }
     }
