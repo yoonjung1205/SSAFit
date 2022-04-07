@@ -2,12 +2,7 @@ from dataclasses import asdict
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-# from app.database.conn import db
-# from app.common.config import conf
-# from app.routes import data, recommend
 from app.routes import recommend, cloth, codi, user
-import motor.motor_asyncio
-from bson import ObjectId
 from fastapi_pagination import add_pagination
 
 origins = ["http://ssafit.site",
@@ -17,15 +12,8 @@ origins = ["http://ssafit.site",
     "http://localhost:3000",]
 
 def create_app():
-    """
-    앱 함수 실행
-    :return:
-    """
-    # c = conf()
     app = FastAPI()
-    # 데이터 베이스 이니셜라이즈
-    # conf_dict = asdict(c)
-    # db.init_app(app, **conf_dict)
+
     # 미들웨어 정의
     app.add_middleware(
         CORSMiddleware,

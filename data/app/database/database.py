@@ -1,6 +1,4 @@
-import motor.motor_asyncio
 from pymongo import MongoClient
-import asyncio
 import numpy as np
 import pandas as pd
 
@@ -57,7 +55,7 @@ def get_color_user_info(userId, largecategory):
         if col=='colorWhite':
             color_list.append([col, user[col]])
             color_exist = True
-        elif color_exist and col!='colorOthers':
+        elif color_exist and col!='colorOthers' and 'color' in col:
             color_list.append([col, user[col]])
         elif col=='colorOthers':
             color_list.append([col, user[col]])
@@ -67,8 +65,8 @@ def get_color_user_info(userId, largecategory):
     for i in range(0, 3):
         color_li.append(color_list[i][0])
     exist = False
-    for i in np.arange(0.1, 1, 0.1):
-        for one_user in db.user.aggregate([{'$match': {'largecategory': user['largecategory'], color_li[0]: {"$gte": user[color_li[0]]-i, "$lte": user[color_li[0]]+i},color_li[1]: {"$gte": user[color_li[1]]-i, "$lte": user[color_li[1]]+i},color_li[2]: {"$gte": user[color_li[2]]-i, "$lte": user[color_li[2]]+i}}},{'$sample': {'size':1}}]):
+    for i in np.arange(0.1, 1.1, 0.1):
+        for one_user in db.user.aggregate([{'$match': {'largecategory': user['largecategory'], color_li[0]: {"$gte": user[color_li[0]]-i, "$lte": user[color_li[0]]+i},color_li[1]: {"$gte": user[color_li[1]]-i, "$lte": user[color_li[1]]+i},color_li[2]: {"$gte": user[color_li[2]]-i, "$lte": user[color_li[2]]+i}}}]):
             users.add(one_user['userId'])
             if len(users) == 3:
                 exist = True
@@ -98,7 +96,7 @@ def get_category_user_info(userId, largecategory):
     if largecategory == 1:
         category_list = []
         for idx, cat in enumerate(user):
-            if 14<=idx<=22:
+            if 'smallCategory' in cat:
                 category_list.append([cat, user[cat]])
         category_list = sorted(category_list, key=lambda x: x[1], reverse=True)
         category_li = []
@@ -107,7 +105,7 @@ def get_category_user_info(userId, largecategory):
     elif largecategory == 2:
         category_list = []
         for idx, cat in enumerate(user):
-            if 14<=idx<=24:
+            if 'smallCategory' in cat:
                 category_list.append([cat, user[cat]])
         category_list = sorted(category_list, key=lambda x: x[1], reverse=True)
         category_li = []
@@ -116,7 +114,7 @@ def get_category_user_info(userId, largecategory):
     elif largecategory == 3:
         category_list = []
         for idx, cat in enumerate(user):
-            if 14<=idx<=21:
+            if 'smallCategory' in cat:
                 category_list.append([cat, user[cat]])
         category_list = sorted(category_list, key=lambda x: x[1], reverse=True)
         category_li = []
@@ -153,11 +151,31 @@ def get_user_gender(userId):
     user = db.user_ssafit.find_one({'userId': int(userId)})
     return user['userMale']
 
+def get_cloth_gender(newClothId):
+    user = db.cloth.find_one({'newClothId': int(newClothId)})
+    return user['clothMale']
+
+def get_user_height_weight(userId):
+    user = db.user_ssafit.find_one({'userId': int(userId)})
+    result = [user['userHeight'], user['userWeight']]
+    return result
+
+def get_cloth_height_weight(newClothId):
+    cloth = db.cloth.find_one({'newClothId': int(newClothId)})
+    result = [cloth['userHeight'], cloth['userWeight']]
+    return result
+
 def get_codi(codiTPO):
     codis = []
     for codi in db.codi.aggregate([{'$project': {"_id": 0}}, {'$match':{f'{codiTPO}': int(1)}},{'$sample': {'size':20}}]):
         codis.append(codi)
     return codis
+
+
+def get_codi_detail(codiId):
+    codi = db.codi.find_one({'codiId': int(codiId)}, {'_id': 0})
+    return codi
+
 
 def get_reviews(newClothId):
     reviews = []
@@ -389,13 +407,14 @@ def change_user_info(userId, newClothId, num):
 def get_recent_items(userId):
     user = db.user_ssafit.find_one({'userId':int(userId), 'largecategory': 1}, {'_id': 0})
     try:
-        result = user['recentItems']
         clothes = []
+        result = user['recentItems']
         for cloth_id in result:
-            clothes.append(db.cloth.find_one({'newClothId': cloth_id}, {'_id': 0}))
+            cloth = db.cloth.find_one({'newClothId': cloth_id}, {'_id': 0})
+            clothes.append(cloth_helper(cloth))
         return clothes
     except:
-        return '최근 본 상품이 없습니다.'
+        return []
 
 
 def change_recent_item(userId, newClothId):
@@ -418,3 +437,10 @@ def change_recent_item(userId, newClothId):
         users['recentItems'].append(newClothId)
         db.user_ssafit.update_one({'userId': int(userId), 'largecategory': 1}, {'$set': {'recentItems': users['recentItems']}})
     return
+
+def change_img():
+    a = "//image.msscdn.net/images/goods_img/20210127/1765993/1765993_2_500.jpg"
+    b = "//image.msscdn.net/images/goods_img/20210127/1765993/1765993_3_500.jpg"
+    clothes = db.cloth.find({'clothImg': a})
+    for cloth in clothes:
+        db.cloth.update_one({'clothImg': a}, {'$set': {'clothImg': b}})
