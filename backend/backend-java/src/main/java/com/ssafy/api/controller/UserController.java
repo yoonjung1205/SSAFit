@@ -334,6 +334,6 @@ public class UserController {
 		if(bCryptPasswordEncoder.matches(password, user.getPassword())) {
 			return ResponseEntity.ok(UserLoginPostRes.ofs(200, "Success"));
 		}
-		return ResponseEntity.status(401).body(UserLoginPostRes.of(400, "Invalid Password", null));
+		return ResponseEntity.status(400).body(UserLoginPostRes.of(400, "Invalid Password", null));
 	}
 }
