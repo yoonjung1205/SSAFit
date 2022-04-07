@@ -36,9 +36,12 @@ public class CodiController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<CodiListRes> myCodiList(HttpServletRequest request, Pageable pageable) {
-        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
-
+        String token;
+        if(request.getAttribute("authorization") != null) {
+            token = request.getAttribute("authorization").toString();
+        }else {
+            token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        }
         int userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
 
@@ -61,9 +64,12 @@ public class CodiController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> likeCodi(@RequestBody @ApiParam(value="이메일 정보", required = true) CodiReq codiReq, HttpServletRequest request) {
-        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
-
+        String token;
+        if(request.getAttribute("authorization") != null) {
+            token = request.getAttribute("authorization").toString();
+        }else {
+            token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        }
         long userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
 
@@ -82,9 +88,12 @@ public class CodiController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> unlikeCodi(@RequestBody @ApiParam(value="이메일 정보", required = true) CodiReq codiReq, HttpServletRequest request) {
-        String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-        token = token.replace(JwtTokenUtil.TOKEN_PREFIX, "");
-
+        String token;
+        if(request.getAttribute("authorization") != null) {
+            token = request.getAttribute("authorization").toString();
+        }else {
+            token = request.getHeader(JwtTokenUtil.HEADER_STRING);
+        }
         long userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
 

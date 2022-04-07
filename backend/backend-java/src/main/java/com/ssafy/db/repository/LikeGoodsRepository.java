@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface LikeGoodsRepository  extends JpaRepository<LikeGoods, Long> {
     @Query(value = "select GOODS_ID from LikeGoods where USER_ID = :USERID",nativeQuery = true)
-    List<Integer> findGoodsIDByUserId(int USERID);
+    List<Long> findGoodsIDByUserId(int USERID);
 
     @Query(value =  "SELECT EXISTS(SELECT * FROM LikeGoods WHERE GOODS_ID = :goodsId AND USER_ID = :userId)", nativeQuery = true)
     int existsByGoodsIDAndUserID(long goodsId,long userId);

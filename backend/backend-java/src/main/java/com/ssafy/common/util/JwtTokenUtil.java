@@ -51,11 +51,13 @@ public class JwtTokenUtil {
 
     // 토큰에서 회원 정보 추출
     public String getUserEmail(String token) {
+//        token = token.replace("%20", " ").replace(JwtTokenUtil.TOKEN_PREFIX, "");
         return Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     // 토큰에서 회원 정보 추출
     public int getUserId(String token) {
+        token = token.replace("%20", " ").replace(JwtTokenUtil.TOKEN_PREFIX, "");
         return (int) Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token).getBody().get("id");
     }
 
