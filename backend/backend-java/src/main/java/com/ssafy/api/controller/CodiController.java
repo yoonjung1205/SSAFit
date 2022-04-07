@@ -97,7 +97,7 @@ public class CodiController {
         long userId = jwtTokenUtil.getUserId(token);
         System.out.println("userId : " + userId);
 
-        codiService.likeCodi(userId, codiReq);
+        codiService.unlikeCodi(userId, codiReq);
 
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));

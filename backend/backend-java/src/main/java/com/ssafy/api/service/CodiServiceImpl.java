@@ -96,10 +96,17 @@ public class CodiServiceImpl implements CodiService {
         LikeCodi likeCodi = new LikeCodi();
         likeCodi.setUserCodi(userCodi);
 
+        UnlikeCodi unlikeCodi = new UnlikeCodi();
+        unlikeCodi.setUserCodi(userCodi);
+
         if(likeCodiRepository.existsByCodiIDAndUserID(codiReq.getCodiId(),userId) == 1){
             likeCodiRepository.delete(likeCodi);
         }else{
             likeCodiRepository.saveAndFlush(likeCodi);
+
+            if(unLikeCodiRepository.existsByCodiIDAndUserID(codiReq.getCodiId(),userId) == 1) {
+                unLikeCodiRepository.delete(unlikeCodi);
+            }
         }
 
     }
@@ -133,10 +140,16 @@ public class CodiServiceImpl implements CodiService {
         UnlikeCodi unlikeCodi = new UnlikeCodi();
         unlikeCodi.setUserCodi(userCodi);
 
-        if(likeCodiRepository.existsByCodiIDAndUserID(codiReq.getCodiId(),userId) == 1){
+        LikeCodi likeCodi = new LikeCodi();
+        likeCodi.setUserCodi(userCodi);
+
+        if(unLikeCodiRepository.existsByCodiIDAndUserID(codiReq.getCodiId(),userId) == 1){
             unLikeCodiRepository.delete(unlikeCodi);
         }else{
             unLikeCodiRepository.saveAndFlush(unlikeCodi);
+            if(likeCodiRepository.existsByCodiIDAndUserID(codiReq.getCodiId(),userId) == 1) {
+                likeCodiRepository.delete(likeCodi);
+            }
         }
 
 
