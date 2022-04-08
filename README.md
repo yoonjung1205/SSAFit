@@ -341,7 +341,7 @@ uvicorn main:app --reload
 ##### 최종 발표 자료
 
 - PPT
-  - 
+  - [최종 발표 PPT](https://docs.google.com/presentation/d/1vaThCDV7jUc5sO8EXBCUkJlnMyKyAfBfJDADosxIj0c/edit#slide=id.p27)
 
 - 홈페이지
   - https://ssafit.site/
