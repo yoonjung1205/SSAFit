@@ -45,7 +45,7 @@ export default function Login({ history }) {
     <article className='login-container'>
       <section className='img-box'>
         <Link to="/">
-          <img className='logo' src="img/logo_w.png" alt="logoImage" />
+          <img className='logo' src="img/logo_w.png" alt="SSAFit" />
         </Link>
       </section>
       <section className='login-body'>
